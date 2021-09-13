@@ -5,7 +5,7 @@ class Book(models.Model):
         return f"{self.title} by {self.author}"
     title = models.CharField(max_length=200)
     author = models.CharField(max_length=200)
-    aquired_date = models.DateTimeField('date aquired')
+    aquired_date = models.DateTimeField('date aquired', auto_now_add=True)
 
 class Loan(models.Model):
     book = models.ForeignKey(Book, on_delete=models.CASCADE)
