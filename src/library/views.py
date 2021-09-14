@@ -1,9 +1,12 @@
 from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponse
 from .models import Book
+from django.contrib.auth.decorators import login_required, permission_required
 
+@login_required
+@permission_required('library.show_books', raise_exception=True)
 def index(request):
-    book_list = Book.objects.order_by('author')[:5]
+    book_list = Book.objects.all()[:5]
     context = {'book_list': book_list}
     return render(request, 'library/books.html', context)
 
