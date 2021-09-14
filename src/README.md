@@ -2,7 +2,20 @@
 
 * Install python and pip
 * Install and configure database (examples with mysql)
+	+ Create user e.g. ilmo
+	+ Create database `CREATE DATABASE ilmo;`
+	+ Grant privileges `GRANT ALL PRIVILEGES ON `%ilmo%` .  * TO 'ilmo'@'%';` to also allow creation of test database.
 * Install dependencies `sudo apt-get install python3-dev default-libmysqlclient-dev build-essential`
+* Create `src/.env` and fill
+```
+
+SECRET_KEY = '<your-secret>'
+DEBUG=True
+DATABASE_NAME=ilmo
+DATABASE_USER=ilmo
+DATABASE_PASSWORD=<your_db_password>
+DATABASE_HOST=127.0.0.1
+```
 
 # Acknowledgment
 
