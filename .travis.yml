@@ -6,9 +6,6 @@ python:
 
 services: mysql
 
-script:
-    - cd src/
-
 env:
   global:
     - DJANGO_SETTINGS_MODULE="ILMO.settings"
@@ -20,6 +17,7 @@ env:
 
 #commands to install dependencies
 install:
+  - working-directory: ./src
   - pip install -q Django==$DJANGO
   - pip install -q -r ´requirements.txt
 
@@ -29,4 +27,5 @@ before_script:
 
 #command to run the test suite
 script:
+  - working-directory: ./src
   - python manage.py test
