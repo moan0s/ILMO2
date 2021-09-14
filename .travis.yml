@@ -19,12 +19,13 @@ env:
 install:
   - cd src
   - pip install -q Django==$DJANGO
-  - pip install -q -r ´requirements.txt
+  - pip install -q -r requirements.txt
 
 before_script:
   - mysql -e 'create database travis_ci_db;'
   - python manage.py makemigrations && python manage.py migrate
 
-#command to run the test suite
+#command to run the test suite and report coverage
 script:
-  - python manage.py test
+  - coverage run --source='.' manage.py test
+  - codecov 
