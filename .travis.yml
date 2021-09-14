@@ -13,7 +13,7 @@ env:
     - PIP_USE_MIRRORS=true
     - BUILD_ON_TRAVIS=true
   matrix:
-    - DJANGO=1.7 DB=mysql
+    - DJANGO=3.2 DB=mysql
 
 #commands to install dependencies
 install:
