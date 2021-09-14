@@ -6,6 +6,9 @@ python:
 
 services: mysql
 
+script:
+    - cd src/
+
 env:
   global:
     - DJANGO_SETTINGS_MODULE="ILMO.settings"
@@ -18,7 +21,7 @@ env:
 #commands to install dependencies
 install:
   - pip install -q Django==$DJANGO
-  - pip install -q -r requirements.txt
+  - pip install -q -r ´requirements.txt
 
 before_script:
   - mysql -e 'create database travis_ci_db;'
