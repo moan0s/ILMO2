@@ -17,7 +17,7 @@ env:
 
 #commands to install dependencies
 install:
-  - working-directory: ./src
+  - cd src
   - pip install -q Django==$DJANGO
   - pip install -q -r ´requirements.txt
 
@@ -27,5 +27,5 @@ before_script:
 
 #command to run the test suite
 script:
-  - working-directory: ./src
+  - cd ./src
   - python manage.py test
