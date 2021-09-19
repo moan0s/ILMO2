@@ -2,7 +2,7 @@ from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponse
 from .models import Book
 from django.contrib.auth.decorators import login_required, permission_required
-
+from django.views import generic
 
 from .models import Book, Author, BookInstance, Genre
 
@@ -27,16 +27,14 @@ def index(request):
 
     return render(request, 'library/index.html', context=context)
 
-@login_required
-@permission_required('library.show_books', raise_exception=True)
-def book_list(request):
-    book_list = Book.objects.all()[:5]
-    context = {'book_list': book_list}
-    return render(request, 'library/books.html', context)
+class BookListView(generic.ListView):
+    model = Book
+    template_name = 'library/books.html'
+    paginate_by = 10
 
-def book_detail(request, pk):
-    book = get_object_or_404(Book, pk=pk)
-    return render(request, 'library/book.html', {'book': book})
+class BookDetailView(generic.DetailView):
+    model = Book
+    template_name = 'library/book.html'
 
 def loans_of_book(request, pk):
     response = "You're looking at the loans of book %s."
@@ -45,8 +43,7 @@ def loans_of_book(request, pk):
 def lend_book(request, pk):
     return HttpResponse("You're lending book %s." % pk)
 
-@login_required
-@permission_required('library.show_books', raise_exception=True)
-def author_detail(request, pk):
-    author = get_object_or_404(Author, pk=pk)
-    return render(request, 'library/author.html', {'author': author})
+class AuthorDetailView(generic.DetailView):
+    model = Author
+    template_name = 'library/author.html'
+    paginate_by = 10

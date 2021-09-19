@@ -15,7 +15,7 @@ class Book(models.Model):
         return f"{self.title} by {self.author}"
     def get_absolute_url(self):
         """Returns the url to access a detail record for this book."""
-        return reverse('library:book_detail', args=[str(self.id)])
+        return reverse('library:book-detail', args=[str(self.id)])
     title = models.CharField(max_length=200)
     author = models.ForeignKey('Author', on_delete=models.SET_NULL, null=True)
     genre = models.ManyToManyField(Genre, help_text='Select a genre for this book')
@@ -70,4 +70,4 @@ class Author(models.Model):
 
     def get_absolute_url(self):
         """Returns the url to access a detail record for this book."""
-        return reverse('library:author_detail', args=[str(self.id)])
+        return reverse('library:author-detail', args=[str(self.id)])
