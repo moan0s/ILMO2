@@ -33,7 +33,21 @@ class BookInstance(models.Model):
 
     book = models.ForeignKey('Book', on_delete=models.RESTRICT, null=True)
     label = models.CharField(max_length=20)
-    available = models.BooleanField(default=True)
+
+    LOAN_STATUS = (
+        ('m', 'Maintenance'),
+        ('o', 'On loan'),
+        ('a', 'Available'),
+        ('r', 'Reserved'),
+    )
+
+    status = models.CharField(
+        max_length=1,
+        choices=LOAN_STATUS,
+        blank=True,
+        default='m',
+        help_text='Book availability',
+    )
 
 class Loan(models.Model):
     book = models.ForeignKey(BookInstance, on_delete=models.RESTRICT)
