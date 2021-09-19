@@ -54,3 +54,6 @@ class Author(models.Model):
         """String for representing the Model object."""
         return f'{self.last_name}, {self.first_name}'
 
+    def get_absolute_url(self):
+        """Returns the url to access a detail record for this book."""
+        return reverse('library:author_detail', args=[str(self.id)])

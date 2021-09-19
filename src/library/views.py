@@ -44,3 +44,9 @@ def loans_of_book(request, pk):
 
 def lend_book(request, pk):
     return HttpResponse("You're lending book %s." % pk)
+
+@login_required
+@permission_required('library.show_books', raise_exception=True)
+def author_detail(request, pk):
+    author = get_object_or_404(Author, pk=pk)
+    return render(request, 'library/author.html', {'author': author})

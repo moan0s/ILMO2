@@ -1,0 +1,9 @@
+{% extends "library/base_generic.html" %}
+
+{% block content %}
+  <h1>Title: {{ author }}</h1>
+
+  <p><strong>Author:</strong> <a href="{{ book.author.get_absolute_url }}">{{ book.author }}</a></p>
+  <p><strong>Date of birth:</strong> {{ author.date_of_birth  }}</p>
+  
+{% endblock %}
