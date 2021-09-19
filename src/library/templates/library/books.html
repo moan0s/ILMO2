@@ -1,11 +1,16 @@
-{% if book_list %}
-    <ul>
-    {% for book in book_list %}
-    <li><b><a href="{{ book.get_absolute_url }}">{{ book.title }}</a></b><br>
-	    by {{ book.author }}
-    </li>
-    {% endfor %}
-    </ul>
-{% else %}
-    <p>No books are available.</p>
-{% endif %}
+{% extends "library/base_generic.html" %}
+
+{% block content %}
+	{% if book_list %}
+		<ul>
+		{% for book in book_list %}
+		<li><b><a href="{{ book.get_absolute_url }}">{{ book.title }}</a></b><br>
+			by {{ book.author }}
+		</li>
+		{% endfor %}
+		</ul>
+	{% else %}
+		<p>No books are available.</p>
+	{% endif %}
+
+{% endblock %}
