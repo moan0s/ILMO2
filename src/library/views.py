@@ -34,14 +34,13 @@ def book_list(request):
     context = {'book_list': book_list}
     return render(request, 'library/books.html', context)
 
-
-def book_detail(request, book_id):
-    book = get_object_or_404(Book, pk=book_id)
+def book_detail(request, pk):
+    book = get_object_or_404(Book, pk=pk)
     return render(request, 'library/book.html', {'book': book})
 
-def loans_of_book(request, book_id):
+def loans_of_book(request, pk):
     response = "You're looking at the loans of book %s."
-    return HttpResponse(response % book_id)
+    return HttpResponse(response % pk)
 
-def lend_book(request, book_id):
-    return HttpResponse("You're lending book %s." % book_id)
+def lend_book(request, pk):
+    return HttpResponse("You're lending book %s." % pk)
