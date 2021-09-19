@@ -86,7 +86,18 @@ if os.getenv('BUILD_ON_TRAVIS', None):
             'HOST': '127.0.0.1',
         }
     }
+elif (config('TEST_WITH_SQLITE')):
+    print("Test with SQLITE")
+    SECRET_KEY = config("SECRET_KEY")
+    DEBUG = config("DEBUG")
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3', 
+            'NAME': config("DATABASE_NAME"),
+            }
+        }
 else:
+    print("Using MYSQL backend")
     SECRET_KEY = config("SECRET_KEY")
     DEBUG = config("DEBUG")
     DATABASES = {

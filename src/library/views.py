@@ -3,9 +3,35 @@ from django.http import HttpResponse
 from .models import Book
 from django.contrib.auth.decorators import login_required, permission_required
 
+
+from .models import Book, Author, BookInstance, Genre
+
+def index(request):
+    """View function for home page of site."""
+
+    # Generate counts of some of the main objects
+    num_books = Book.objects.count()
+    num_instances = BookInstance.objects.all().count()
+
+    # Available books (available=True)
+    num_instances_available = BookInstance.objects.filter(available=True).count()
+
+    # The 'all()' is implied by default.
+    num_authors = Author.objects.count()
+
+    context = {
+        'num_books': num_books,
+        'num_instances': num_instances,
+        'num_instances_available': num_instances_available,
+        'num_authors': num_authors,
+    }
+
+    # Render the HTML template index.html with the data in the context variable
+    return render(request, 'library/index.html', context=context)
+
 @login_required
 @permission_required('library.show_books', raise_exception=True)
-def index(request):
+def book_list(request):
     book_list = Book.objects.all()[:5]
     context = {'book_list': book_list}
     return render(request, 'library/books.html', context)
