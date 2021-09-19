@@ -13,10 +13,9 @@ def index(request):
     num_books = Book.objects.count()
     num_instances = BookInstance.objects.all().count()
 
-    # Available books (available=True)
+    # Available books
     num_instances_available = BookInstance.objects.filter(available=True).count()
 
-    # The 'all()' is implied by default.
     num_authors = Author.objects.count()
 
     context = {
@@ -26,7 +25,6 @@ def index(request):
         'num_authors': num_authors,
     }
 
-    # Render the HTML template index.html with the data in the context variable
     return render(request, 'library/index.html', context=context)
 
 @login_required
@@ -47,4 +45,3 @@ def loans_of_book(request, book_id):
 
 def lend_book(request, book_id):
     return HttpResponse("You're lending book %s." % book_id)
-

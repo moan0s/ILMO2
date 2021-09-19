@@ -6,7 +6,7 @@ urlpatterns = [
     # ex: /
     path('', views.index, name='index'),
     # ex: /books/
-    path('books/', views.index, name='index'),
+    path('books/', views.book_list, name='books'),
     # ex: /library/books/5/
     path('books/<int:book_id>/', views.book_detail, name='book_detail'),
     # ex: /library/books/5/loans/

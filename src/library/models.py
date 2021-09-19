@@ -1,4 +1,5 @@
 from django.db import models
+from django.urls import reverse
 
 
 class Genre(models.Model):
@@ -12,6 +13,9 @@ class Genre(models.Model):
 class Book(models.Model):
     def __str__(self):
         return f"{self.title} by {self.author}"
+    def get_absolute_url(self):
+        """Returns the url to access a detail record for this book."""
+        return reverse('library:book_detail', args=[str(self.id)])
     title = models.CharField(max_length=200)
     author = models.ForeignKey('Author', on_delete=models.SET_NULL, null=True)
     genre = models.ManyToManyField(Genre, help_text='Select a genre for this book')
@@ -22,6 +26,11 @@ class BookInstance(models.Model):
     """Represents a copy of a book that is physically in the library"""
     def __str__(self):
         return f"[{self.label}] {self.book.title} by {self.book.author}"
+
+    def get_absolute_url(self):
+        """Returns the url to access a particular instance of the model."""
+        return reverse('model-detail-view', args=[str(self.id)])
+
     book = models.ForeignKey('Book', on_delete=models.RESTRICT, null=True)
     label = models.CharField(max_length=20)
     available = models.BooleanField(default=True)
