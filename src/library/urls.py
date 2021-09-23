@@ -1,4 +1,4 @@
-from django.urls import path
+from django.urls import path, include
 
 from . import views
 app_name = "library"
@@ -16,4 +16,8 @@ urlpatterns = [
 
     # ex: /library/author/5/
     path('author/<int:pk>/', views.AuthorDetailView.as_view(), name='author-detail'),
+]
+
+urlpatterns += [
+    path('accounts/', include('django.contrib.auth.urls')),
 ]
