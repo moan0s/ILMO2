@@ -14,7 +14,7 @@ def index(request):
     num_instances = BookInstance.objects.all().count()
 
     # Available books
-    num_instances_available = BookInstance.objects.filter(available=True).count()
+    num_instances_available = BookInstance.objects.filter(status = "a").count()
 
     num_authors = Author.objects.count()
 
@@ -30,7 +30,7 @@ def index(request):
 class BookListView(generic.ListView):
     model = Book
     template_name = 'library/books.html'
-    paginate_by = 10
+    paginate_by = 2
 
 class BookDetailView(generic.DetailView):
     model = Book
