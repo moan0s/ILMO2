@@ -1,6 +1,7 @@
 from django.test import TestCase
 
 from library.models import *
+from datetime import timedelta
 
 class AuthorModelTest(TestCase):
     
@@ -83,6 +84,16 @@ class BookInstanceModelTest(TestCase):
                 isbn="1234567890123")
         BookInstance.objects.create(book = b, label = "T 1 a")
         
+        u = User.objects.create_user('foo', password='bar')
+        BookInstance.objects.create(book = b,
+        label = "T 1 b",
+        borrower = u,
+        due_back = date.today() - timedelta(days=1))
+        BookInstance.objects.create(book = b,
+        label = "T 1 c",
+        borrower = u,
+        due_back = date.today() + timedelta(days=1))
+        
 
     def test_str(self):
         bookInstance = BookInstance.objects.get(id=1)
@@ -92,3 +103,9 @@ class BookInstanceModelTest(TestCase):
     def test_default(self):
         bookInstance = BookInstance.objects.get(id=1)
         self.assertEquals(bookInstance.status, "m")
+    
+    def test_due_date(self):
+        bookInstanceB = BookInstance.objects.get(id=2)
+        self.assertEquals(True, bookInstanceB.is_overdue)
+        bookInstanceC = BookInstance.objects.get(id=3)
+        self.assertEquals(False, bookInstanceC.is_overdue)
