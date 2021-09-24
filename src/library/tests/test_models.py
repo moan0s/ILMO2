@@ -7,8 +7,10 @@ class AuthorModelTest(TestCase):
     
     @classmethod
     def setUpTestData(cls):
-        Author.objects.create(first_name="Jane", last_name="Doe")
-        Author.objects.create(first_name="Jane", last_name="Günter")
+        a1 = Author.objects.create(first_name="Jane", last_name="Doe")
+        a2 = Author.objects.create(first_name="Jane", last_name="Günter")
+        a1.save()
+        a2.save()
 
     def test_object_name_is_last_name_comma_first_name(self):
         author = Author.objects.get(id=1)
@@ -62,20 +64,22 @@ class GenreModelTest(TestCase):
 
     @classmethod
     def setUpTestData(ctl):
-        Genre.objects.create(name="Science Fiction")
-        Book.objects.create(title="How to Test genres",
+        g1 = Genre.objects.create(name="Science Fiction")
+        b1 = Book.objects.create(title="How to Test genres",
                 author=Author.objects.create(first_name="Jane", last_name="Doe"),
                 summary="Book to test genres",
                 isbn="1234567890124")
+        g1.save()
+        b1.save()
 
     def test_str(self):
-        genre = Genre.objects.get(id=1)
+        genre = Genre.objects.all()[0]
         string_representation = str(genre)
         self.assertEquals(string_representation, f"Science Fiction")
 
     def add_genre_to_book(self):
-        book = Book.objects.get(id=1)
-        genre = Genre.objects.get(id=1)
+        book = Book.objects.all()[0]
+        genre = Genre.objects.all()[0]
         book.genre.set(genre)
         string_representation = str(book.genre)
         self.assertEquals(string_representation, f"Science Fiction")
