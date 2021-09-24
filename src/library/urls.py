@@ -19,5 +19,10 @@ urlpatterns = [
 ]
 
 urlpatterns += [
+    # ex: /library/mybooks/
+    path('mybooks/', views.LoanedBooksByUserListView.as_view(), name='my-books'),
+]
+
+urlpatterns += [
     path('accounts/', include('django.contrib.auth.urls')),
 ]
