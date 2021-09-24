@@ -35,10 +35,7 @@ class MyBooksView(TestCase):
 
     def test_logged_in_uses_correct_template(self):
         login = self.client.login(username='testuser1', password='12345')
-        print(login)
         response = self.client.get(reverse('library:my-books'))
-        print("Dada")
-        print(response)
         # Check our user is logged in
         self.assertEqual(str(response.context['user']), 'testuser1')
         # Check that we got a response "success"
