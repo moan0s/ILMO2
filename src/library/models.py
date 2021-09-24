@@ -1,6 +1,7 @@
 from django.db import models
 from django.urls import reverse
 from django.contrib.auth.models import User
+import uuid
 from datetime import date
 
 
@@ -22,7 +23,7 @@ class Book(models.Model):
     author = models.ForeignKey('Author', on_delete=models.SET_NULL, null=True)
     genre = models.ManyToManyField(Genre, help_text='Select a genre for this book')
     summary = models.TextField(max_length=1000, help_text='Enter a brief description of the book')
-    isbn = models.CharField('ISBN', max_length=13, default=0, help_text='ISBN number (13 Characters)')
+    isbn = models.CharField('ISBN', max_length=13, unique=True, help_text='ISBN number (13 Characters)')
 
 class BookInstance(models.Model):
     """Represents a copy of a book that is physically in the library"""
@@ -38,12 +39,12 @@ class BookInstance(models.Model):
         if self.due_back and date.today() > self.due_back:
             return True
         return False
-
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, help_text='Unique ID for this particular book across whole library')
     book = models.ForeignKey('Book', on_delete=models.RESTRICT, null=True)
-    label = models.CharField(max_length=20)
+    label = models.CharField(max_length=20, unique=True)
+    imprint = models.CharField(max_length=200, null=True, blank=True)
     due_back = models.DateField(null=True, blank=True)
     borrower = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
-
 
     LOAN_STATUS = (
         ('m', 'Maintenance'),
