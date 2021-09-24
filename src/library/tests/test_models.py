@@ -88,13 +88,14 @@ class BookModelTest(TestCase):
 
     @classmethod
     def setUpTestData(cls):
-        Book.objects.create(title="How to Test",
+        b = Book.objects.create(title="How to Test",
                 author=Author.objects.create(first_name="Jane", last_name="Doe"),
                 summary="How to write better tests than you do",
                 isbn="1234567890123")
+        b.save()
 
     def test_str(self):
-        book = Book.objects.get(id=1)
+        book = Book.objects.get.all()[0]
         string_representation = str(book)
         self.assertEquals(string_representation, f"How to Test by {book.author}")
 
