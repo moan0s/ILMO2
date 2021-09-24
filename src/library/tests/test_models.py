@@ -138,7 +138,7 @@ class BookInstanceModelTest(TestCase):
         self.assertEquals(bookInstance.status, "m")
     
     def test_due_date(self):
-        bookInstanceB = BookInstance.objects.all()[1]
+        bookInstanceB = BookInstance.objects.filter(label="T 1 b")[0]
         self.assertEquals(True, bookInstanceB.is_overdue)
-        bookInstanceC = BookInstance.objects.all()[2]
+        bookInstanceC = BookInstance.objects.filter(label="T 1 c")[0]
         self.assertEquals(False, bookInstanceC.is_overdue)
