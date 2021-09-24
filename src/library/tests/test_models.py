@@ -129,7 +129,7 @@ class BookInstanceModelTest(TestCase):
         bookInstanceC.save()
 
     def test_str(self):
-        bookInstance = BookInstance.objects.all()[0]
+        bookInstance = BookInstance.objects.filter(label="T 1 a")[0]
         string_representation = str(bookInstance)
         self.assertEquals(string_representation, f"[T 1 a] {bookInstance.book.title} by {bookInstance.book.author}")
 
