@@ -99,7 +99,7 @@ class BookModelTest(TestCase):
         b.save()
 
     def test_str(self):
-        book = Book.objects.get.all()[0]
+        book = Book.objects.all()[0]
         string_representation = str(book)
         self.assertEquals(string_representation, f"How to Test by {book.author}")
 
