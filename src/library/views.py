@@ -110,3 +110,21 @@ def renew_book_librarian(request, pk):
     }
 
     return render(request, 'library/book_renew_librarian.html', context)
+
+from django.views.generic.edit import CreateView, UpdateView, DeleteView
+from django.urls import reverse_lazy
+
+class AuthorCreate(PermissionRequiredMixin, CreateView):
+    permission_required = "library.can_modify_author"
+    model = Author
+    fields = ['first_name', 'last_name', 'date_of_birth', 'date_of_death']
+
+class AuthorUpdate(PermissionRequiredMixin, UpdateView):
+    permission_required = "library.can_modify_author"
+    model = Author
+    fields = ['first_name', 'last_name', 'date_of_birth', 'date_of_death']
+
+class AuthorDelete(PermissionRequiredMixin, DeleteView):
+    permission_required = "library.can_modify_author"
+    model = Author
+    success_url = reverse_lazy('library:authors')

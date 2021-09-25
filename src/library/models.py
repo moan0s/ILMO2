@@ -75,6 +75,7 @@ class Author(models.Model):
 
     class Meta:
         ordering = ['last_name', 'first_name']
+        permissions = (("can_modify_author", "Can add, update or delete an author"),)
 
     def __str__(self):
         """String for representing the Model object."""
