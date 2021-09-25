@@ -48,6 +48,11 @@ def loans_of_book(request, pk):
 def lend_book(request, pk):
     return HttpResponse("You're lending book %s." % pk)
 
+class AuthorListView(generic.ListView):
+    model = Author
+    template_name = 'library/authors.html'
+    paginate_by = 10
+
 class AuthorDetailView(generic.DetailView):
     model = Author
     template_name = 'library/author.html'

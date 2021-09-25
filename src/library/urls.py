@@ -30,5 +30,13 @@ urlpatterns += [
 ]
 
 urlpatterns += [
+    # ex: /library/authors/
+    path('authors/', views.AuthorListView.as_view(), name='authors'),
+    path('author/create/', views.AuthorCreate.as_view(), name='author-create'),
+    path('author/<int:pk>/update/', views.AuthorUpdate.as_view(), name='author-update'),
+    path('author/<int:pk>/delete/', views.AuthorDelete.as_view(), name='author-delete'),
+]
+
+urlpatterns += [
     path('accounts/', include('django.contrib.auth.urls')),
 ]
