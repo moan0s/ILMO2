@@ -24,15 +24,12 @@ class Book(models.Model):
     genre = models.ManyToManyField(Genre, help_text='Select a genre for this book')
     summary = models.TextField(max_length=1000, help_text='Enter a brief description of the book')
     isbn = models.CharField('ISBN', max_length=13, unique=True, help_text='ISBN number (13 Characters)')
+    language = models.ForeignKey('Language', on_delete=models.SET_NULL, null=True)
 
 class BookInstance(models.Model):
     """Represents a copy of a book that is physically in the library"""
     def __str__(self):
         return f"[{self.label}] {self.book.title} by {self.book.author}"
-
-    def get_absolute_url(self):
-        """Returns the url to access a particular instance of the model."""
-        return reverse('model-detail-view', args=[str(self.id)])
 
     @property
     def is_overdue(self):
@@ -61,6 +58,10 @@ class BookInstance(models.Model):
         help_text='Book availability',
     )
 
+    class Meta:
+        permissions = (("can_mark_returned", "Set book as returned"),
+                       ("can_see_borrowed", "See all borrowed books"))
+
 class Loan(models.Model):
     book = models.ForeignKey(BookInstance, on_delete=models.RESTRICT)
     lent_on = models.DateTimeField('date lent')
@@ -75,6 +76,7 @@ class Author(models.Model):
 
     class Meta:
         ordering = ['last_name', 'first_name']
+        permissions = (("can_modify_author", "Can add, update or delete an author"),)
 
     def __str__(self):
         """String for representing the Model object."""
@@ -83,3 +85,12 @@ class Author(models.Model):
     def get_absolute_url(self):
         """Returns the url to access a detail record for this book."""
         return reverse('library:author-detail', args=[str(self.id)])
+    
+class Language(models.Model):
+    """Model representing a Language (e.g. English, French, Japanese, etc.)"""
+    name = models.CharField(max_length=200,
+                            help_text="Enter the book's natural language (e.g. English, French, Japanese etc.)")
+
+    def __str__(self):
+        """String for representing the Model object (in Admin site etc.)"""
+        return self.name
