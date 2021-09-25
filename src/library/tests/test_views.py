@@ -209,3 +209,44 @@ class AllLoandBooksView(TestCase):
             else:
                 self.assertTrue(last_date <= book.due_back)
                 last_date = book.due_back
+
+class AuthorViewTest(TestCase):
+
+    @classmethod
+    def setUpTestData(cls):
+        cls.test_author1 = Author.objects.create(first_name="Jane", last_name="Doe")
+        cls.test_author1.save()
+        cls.test_author2 = Author.objects.create(first_name="Jim", last_name="Butch")
+        cls.test_author2.save()
+        cls.test_book = Book.objects.create(title="How to Test views",
+                author=cls.test_author1,
+                summary="Book to test views",
+                isbn="1234567890124")
+        cls.test_book.save()
+
+    def test_use_of_correct_template(self):
+        response = self.client.get(self.test_author1.get_absolute_url())
+        # Check that we got a response "success"
+        self.assertEqual(response.status_code, 200)
+
+        # Check we used correct template
+        self.assertTemplateUsed(response, 'library/author.html')
+
+    def test_book_list(self):
+        response = self.client.get(self.test_author1.get_absolute_url())
+
+        # Check that we got a response "success"
+        self.assertEqual(response.status_code, 200)
+
+        # Check that a book by this author is displayed
+        self.assertContains(response, "How to Test views")
+        self.assertNotContains(response, "No books by this author.")
+
+        response = self.client.get(self.test_author2.get_absolute_url())
+
+        # Check that we got a response "success"
+        self.assertEqual(response.status_code, 200)
+
+        # Check that a author without books is correctly displayed
+        self.assertNotContains(response, "How to Test views")
+        self.assertContains(response, "No books by this author.")
