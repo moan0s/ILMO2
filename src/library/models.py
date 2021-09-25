@@ -30,10 +30,6 @@ class BookInstance(models.Model):
     def __str__(self):
         return f"[{self.label}] {self.book.title} by {self.book.author}"
 
-    def get_absolute_url(self):
-        """Returns the url to access a particular instance of the model."""
-        return reverse('model-detail-view', args=[str(self.id)])
-
     @property
     def is_overdue(self):
         if self.due_back and date.today() > self.due_back:
