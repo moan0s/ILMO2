@@ -17,7 +17,7 @@
         <ul class="sidebar-nav">
           <li><a href="{% url 'library:index' %}">Home</a></li>
           <li><a href="{% url 'library:books' %}">All books</a></li>
-          <li><a href="">All authors</a></li>
+          <li><a href="{% url 'library:authors' %}">All authors</a></li>
 		  {% if perms.library.can_see_borrowed %}
 				<li><a href="{% url 'library:loaned-books' %}">All loans</a></li>
 	      {% endif %}
