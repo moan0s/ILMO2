@@ -5,11 +5,16 @@
   <p><strong>Date of birth:</strong> {{ author.date_of_birth  }}</p>
   
   <div style="margin-left:20px;margin-top:20px">
-    <h4>Books by this author</h4>
+	{% if author.book_set.all %}
+		<h4>Books by this author</h4>
 
-    {% for book in author.book_set.all %}
-      <hr>
-	  <p><strong>{{ book.title }}</strong> </p>
-    {% endfor %}
+		{% for book in author.book_set.all %}
+		  <hr>
+		  <p><strong><a href="{{ book.get_absolute_url }}">{{ book.title }}</a></strong> </p>
+		{% endfor %}
+		
+	{% else %}
+		<p>No books by this author.</p>
+	{% endif %}
   </div>
 {% endblock %}
