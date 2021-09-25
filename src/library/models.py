@@ -61,6 +61,10 @@ class BookInstance(models.Model):
         help_text='Book availability',
     )
 
+    class Meta:
+        permissions = (("can_mark_returned", "Set book as returned"),
+                       ("can_see_borrowed", "See all borrowed books"))
+
 class Loan(models.Model):
     book = models.ForeignKey(BookInstance, on_delete=models.RESTRICT)
     lent_on = models.DateTimeField('date lent')
