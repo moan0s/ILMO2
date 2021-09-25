@@ -13,50 +13,50 @@ class AuthorModelTest(TestCase):
         a2.save()
 
     def test_object_name_is_last_name_comma_first_name(self):
-        author = Author.objects.get(id=1)
+        author = Author.objects.all()[0]
         expected_object_name = '{0}, {1}'.format(author.last_name, author.first_name)
         self.assertEquals(str(author), expected_object_name)
 
     def test_special_character(self):
-        author = Author.objects.get(id=2)
+        author = Author.objects.all()[1]
         self.assertEquals(author.last_name, "Günter")
 
     def test_date_birth_optional(self):
-        author = Author.objects.get(id=1)
+        author = Author.objects.all()[0]
         plank_property = author._meta.get_field('date_of_birth').blank
         self.assertEquals(plank_property, True)
 
     def test_date_death_optional(self):
-        author = Author.objects.get(id=1)
+        author = Author.objects.all()[0]
         plank_property = author._meta.get_field('date_of_death').blank
         self.assertEquals(plank_property, True)
 
     def test_ordering(self):
-        author = Author.objects.get(id=1)
+        author = Author.objects.all()[0]
         ordering = author._meta.ordering
         self.assertEquals(ordering, ['last_name', 'first_name'] )
     def test_first_name_label(self):
-        author = Author.objects.get(id=1)
+        author = Author.objects.all()[0]
         field_label = author._meta.get_field('first_name').verbose_name
         self.assertEqual(field_label, 'first name')
 
     def test_date_of_death_label(self):
-        author = Author.objects.get(id=1)
+        author = Author.objects.all()[0]
         field_label = author._meta.get_field('date_of_death').verbose_name
         self.assertEqual(field_label, 'Died')
 
     def test_first_name_max_length(self):
-        author = Author.objects.get(id=1)
+        author = Author.objects.all()[0]
         max_length = author._meta.get_field('first_name').max_length
         self.assertEqual(max_length, 100)
 
     def test_object_name_is_last_name_comma_first_name(self):
-        author = Author.objects.get(id=1)
+        author = Author.objects.all()[0]
         expected_object_name = f'{author.last_name}, {author.first_name}'
         self.assertEqual(str(author), expected_object_name)
 
     def test_get_absolute_url(self):
-        author = Author.objects.get(id=1)
+        author = Author.objects.all()[0]
         # This will also fail if the urlconf is not defined.
         self.assertEqual(author.get_absolute_url(), '/library/author/1/')
 
