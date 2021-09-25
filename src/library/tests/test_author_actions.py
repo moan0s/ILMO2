@@ -41,3 +41,13 @@ class AuthorTests(TestCase):
 
         # Check we used correct template
         self.assertTemplateUsed(response, 'library/author_form.html')
+
+    def test_author_creation(self):
+        login = self.client.login(username='testuser2', password='12345')
+        num_authors = Author.objects.count()
+        response = self.client.post(reverse('library:author-create'),
+            {'first_name': 'Author',
+            'last_name': 'Test'})
+
+        # Check that there is a correct redirect to the detail page of the author
+        self.assertRedirects(response, f'/library/author/{num_authors+1}/')
