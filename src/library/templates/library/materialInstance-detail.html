@@ -7,6 +7,13 @@
     </p>
     {% if materialinstance.status != 'a' %}
         <p><strong>Due to be returned:</strong> {{ materialinstance.due_back }}</p>
-      {% endif %}
+        {% if perms.library.can_see_borrowed %}
+            <p><strong> Borrowed by: </strong>
+                <a href="{{ bookinstance.borrower.get_absolute_url }}"> {{ bookinstance.borrower}} </a></p>
+        {% endif %}
+        {% if perms.library.can_mark_returned %}
+            <p><a href="{% url 'library:renew-material-librarian' materialinstance.id %}">Renew</a></p>
+        {% endif %}
+    {% endif %}
       <p class="text-muted"><strong>Id:</strong> {{ materialinstance.id }}</p>
 {% endblock %}

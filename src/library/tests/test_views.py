@@ -369,6 +369,73 @@ class BookInstancesDetailViewTest(TestCase):
         self.assertContains(response, "Renew")
 
 
+class MaterialInstancesDetailViewTest(TestCase):
+    def setUp(self):
+        # Create a user
+        test_user1 = User.objects.create_user(username='testuser1', password='1X<ISRUkw+tuK')
+        test_user2 = User.objects.create_user(username='testuser2', password='2HJ1vRV0Z&3iD')
+
+        test_user1.save()
+        test_user2.save()
+
+        # Give test_user1 permission to see borrower books.
+        permission_see= Permission.objects.get(name="See all borrowed material&borrower")
+        test_user1.user_permissions.add(permission_see)
+        test_user1.save()
+
+        # Give test_user2 permission to renew books.
+        permission_return = Permission.objects.get(name='Set book as returned')
+        test_user2.user_permissions.add(permission_return)
+        test_user2.save()
+
+        # Create a material
+        test_material = Material.objects.create(name = "Lab coat")
+        test_material.save()
+
+        # Create a MaterialInstance object for test_user1
+        return_date = datetime.date.today() + datetime.timedelta(days=5)
+        self.test_materialinstance1 = MaterialInstance.objects.create(
+            material=test_material,
+            due_back=return_date,
+            borrower=test_user1,
+            status = 'o',
+            label = "1",
+        )
+
+        # Create a BookInstance object for test_user2
+        return_date = datetime.date.today() + datetime.timedelta(days=5)
+        self.test_materialinstance2 = MaterialInstance.objects.create(
+            material=test_material,
+            due_back=return_date,
+            borrower=test_user2,
+            status='o',
+            label = "2",
+        )
+
+    def test_logged_in_with_permission_see_borrower(self):
+        login = self.client.login(username='testuser1', password='1X<ISRUkw+tuK')
+        response = self.client.get(reverse('library:materialInstance-detail', kwargs={'pk': self.test_materialinstance2.pk}))
+        # Check that site access is permitted
+        self.assertEqual(response.status_code, 200)
+        # Check our user is logged in
+        self.assertEqual(str(response.context['user']), 'testuser1')
+
+        #Check that view contains borrower
+        self.assertContains(response, "Borrowed by:")
+        self.assertNotContains(response, "Renew")
+
+    def test_logged_in_with_permission_to_renew(self):
+        login = self.client.login(username='testuser2', password='2HJ1vRV0Z&3iD')
+        response = self.client.get(reverse('library:materialInstance-detail', kwargs={'pk': self.test_materialinstance2.pk}))
+
+        # Check that user has permission to access site
+        self.assertEqual(response.status_code, 200)
+        # Check our user is logged in
+        self.assertEqual(str(response.context['user']), 'testuser2')
+        # Check that view doesn't contain borrower (user 2 does not have this permission)
+        self.assertNotContains(response, "Borrowed by:")
+        self.assertContains(response, "Renew")
+
 class RenewBookInstancesViewTest(TestCase):
     def setUp(self):
         # Create a user
