@@ -1,3 +1,5 @@
+# SQLite database
+src/ilmo2
 *tmp
 # Byte-compiled / optimized / DLL files
 __pycache__/
