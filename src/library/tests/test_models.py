@@ -56,9 +56,9 @@ class AuthorModelTest(TestCase):
         self.assertEqual(str(author), expected_object_name)
 
     def test_get_absolute_url(self):
-        author = Author.objects.get(id=1)
+        author = Author.objects.all()[0]
         # This will also fail if the urlconf is not defined.
-        self.assertEqual(author.get_absolute_url(), '/library/author/1/')
+        self.assertEqual(author.get_absolute_url(), f'/library/author/{author.id}/')
 
 class GenreModelTest(TestCase):
 
