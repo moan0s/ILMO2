@@ -143,6 +143,11 @@ class BookInstanceModelTest(TestCase):
         bookInstanceC = BookInstance.objects.filter(label="T 1 c")[0]
         self.assertEquals(False, bookInstanceC.is_overdue)
 
+    def test_get_absolute_url(self):
+        bookInstanceB = BookInstance.objects.filter(label="T 1 b")[0]
+        self.assertEquals(bookInstanceB.get_absolute_url(),
+                          f"/library/bookInstance/{bookInstanceB.id}/")
+
 
 class MaterialModelTest(TestCase):
 
@@ -203,3 +208,8 @@ class MaterialInstanceModelTest(TestCase):
         self.assertEquals(True, materialInstance2.is_overdue)
         materialInstance3 = MaterialInstance.objects.filter(label="LC 3")[0]
         self.assertEquals(False, materialInstance3.is_overdue)
+
+    def test_get_absolute_url(self):
+        materialInstanceB = MaterialInstance.objects.filter(label="LC 3")[0]
+        self.assertEquals(materialInstanceB.get_absolute_url(),
+                          f"/library/materialInstance/{materialInstanceB.id}/")

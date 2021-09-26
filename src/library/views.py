@@ -7,7 +7,7 @@ from django.urls import reverse
 import datetime
 
 from .forms import RenewBookForm
-from .models import Book, Author, BookInstance, Genre, Material
+from .models import Book, Author, BookInstance, Genre, Material, MaterialInstance
 
 def index(request):
     """View function for home page of site."""
@@ -136,3 +136,11 @@ class MaterialListView(generic.ListView):
 class MaterialDetailView(generic.DetailView):
     model = Material
     template_name = 'library/material.html'
+
+class BookInstanceDetailView(generic.DetailView):
+    model = BookInstance
+    template_name = 'library/bookInstance-detail.html'
+
+class MaterialInstanceDetailView(generic.DetailView):
+    model = MaterialInstance
+    template_name = 'library/materialInstance-detail.html'

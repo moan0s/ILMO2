@@ -1,3 +1,4 @@
+from django.conf.urls import url
 from django.urls import path, include
 
 from . import views
@@ -13,6 +14,8 @@ urlpatterns = [
     path('books/<int:pk>/loans/', views.loans_of_book),
     # ex: /library/books/5/lend/
     path('books/<int:pk>/lend/', views.lend_book),
+    # ex: /library/bookInstance/a6c3b3ae-b254-4480-8573-95868068a9c3/
+    url(r'^bookInstance/(?P<pk>[0-9A-Fa-f-]+)/$', views.BookInstanceDetailView.as_view(), name='bookInstance-detail'),
 
     # ex: /library/author/5/
     path('author/<int:pk>/', views.AuthorDetailView.as_view(), name='author-detail'),
@@ -23,6 +26,8 @@ urlpatterns += [
     path('materials/', views.MaterialListView.as_view(), name='materials'),
     # ex: /library/material/5/
     path('material/<int:pk>', views.MaterialDetailView.as_view(), name='material-detail'),
+    # ex: /library/materialInstance/a6c3b3ae-b254-4480-8573-95868068a9c3/
+    url(r'^materialInstance/(?P<pk>[0-9A-Fa-f-]+)/$', views.MaterialInstanceDetailView.as_view(), name='materialInstance-detail'),
 ]
 
 urlpatterns += [

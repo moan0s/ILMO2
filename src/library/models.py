@@ -27,6 +27,10 @@ class MaterialInstance(models.Model):
         def __str__(self):
             return f"[{self.label}] {self.material.name}"
 
+        def get_absolute_url(self):
+            """Returns the url to access a detail record for this materialInstance."""
+            return reverse('library:materialInstance-detail', args=[str(self.id)])
+
         @property
         def is_overdue(self):
             if self.due_back and date.today() > self.due_back:
@@ -65,6 +69,7 @@ class Book(models.Model):
     def get_absolute_url(self):
         """Returns the url to access a detail record for this book."""
         return reverse('library:book-detail', args=[str(self.id)])
+
     title = models.CharField(max_length=200)
     author = models.ForeignKey('Author', on_delete=models.SET_NULL, null=True)
     genre = models.ManyToManyField(Genre, help_text='Select a genre for this book')
@@ -76,6 +81,10 @@ class BookInstance(models.Model):
     """Represents a copy of a book that is physically in the library"""
     def __str__(self):
         return f"[{self.label}] {self.book.title} by {self.book.author}"
+
+    def get_absolute_url(self):
+        """Returns the url to access a detail record for this bookInstance."""
+        return reverse('library:bookInstance-detail', args=[str(self.id)])
 
     @property
     def is_overdue(self):

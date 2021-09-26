@@ -1,0 +1,12 @@
+{% extends "library/base_generic.html" %}
+
+{% block content %}
+  <h1>Material: {{ materialinstance }}</h1>
+    <p class="{% if materialinstance.status == 'a' %}text-success{% elif materialinstance.status == 'm' %}text-danger{% else %}text-warning{% endif %}">
+        {{ materialinstance.get_status_display }}
+    </p>
+    {% if materialinstance.status != 'a' %}
+        <p><strong>Due to be returned:</strong> {{ materialinstance.due_back }}</p>
+      {% endif %}
+      <p class="text-muted"><strong>Id:</strong> {{ materialinstance.id }}</p>
+{% endblock %}

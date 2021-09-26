@@ -7,8 +7,7 @@
     <h4>Items</h4>
 
     {% for item in material.materialinstance_set.all %}
-      <hr>
-	  <p><strong>{{ item.label }}</strong> </p>
+      <hr><p><strong><a href="{{  item.get_absolute_url }}">{{ item.label }}</a></strong> </p>
       <p class="{% if item.status == 'a' %}text-success{% elif item.status == 'm' %}text-danger{% else %}text-warning{% endif %}">
         {{ item.get_status_display }}
       </p>
