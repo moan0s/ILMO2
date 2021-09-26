@@ -25,7 +25,7 @@ class MaterialInstance(models.Model):
         """Represents a instance of a material that is physically in the library"""
 
         def __str__(self):
-            return f"[{self.label}] {self.book.title} by {self.book.author}"
+            return f"[{self.label}] {self.material.name}"
 
         @property
         def is_overdue(self):
@@ -131,7 +131,7 @@ class Author(models.Model):
     def get_absolute_url(self):
         """Returns the url to access a detail record for this book."""
         return reverse('library:author-detail', args=[str(self.id)])
-    
+
 class Language(models.Model):
     """Model representing a Language (e.g. English, French, Japanese, etc.)"""
     name = models.CharField(max_length=200,
