@@ -108,11 +108,6 @@ class BookInstance(models.Model):
         permissions = (("can_mark_returned", "Set book as returned"),
                        ("can_see_borrowed", "See all borrowed books"))
 
-class Loan(models.Model):
-    book = models.ForeignKey(BookInstance, on_delete=models.RESTRICT)
-    lent_on = models.DateTimeField('date lent')
-    returned_on = models.DateTimeField('date returned')
-
 class Author(models.Model):
     """Model representing an author."""
     first_name = models.CharField(max_length=100)

@@ -39,10 +39,11 @@ class BookDetailView(generic.DetailView):
     model = Book
     template_name = 'library/book.html'
 
+#TODO
 def loans_of_book(request, pk):
     response = "You're looking at the loans of book %s."
     return HttpResponse(response % pk)
-
+#TODO
 def lend_book(request, pk):
     return HttpResponse("You're lending book %s." % pk)
 

@@ -1,9 +1,8 @@
 from django.contrib import admin
-from .models import Book, Material, Loan, BookInstance, MaterialInstance, Genre, Author
+from .models import Book, Material, BookInstance, MaterialInstance, Genre, Author
 
 admin.site.register(Book)
 admin.site.register(Material)
-admin.site.register(Loan)
 admin.site.register(Genre)
 admin.site.register(Author)
 
