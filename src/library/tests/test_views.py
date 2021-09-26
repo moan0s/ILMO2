@@ -292,6 +292,82 @@ class AuthorListViewTest(TestCase):
         self.assertTrue(response.context['is_paginated'] == True)
         self.assertEqual(len(response.context['author_list']), 3)
 
+class BookInstancesDetailViewTest(TestCase):
+    def setUp(self):
+        # Create a user
+        test_user1 = User.objects.create_user(username='testuser1', password='1X<ISRUkw+tuK')
+        test_user2 = User.objects.create_user(username='testuser2', password='2HJ1vRV0Z&3iD')
+
+        test_user1.save()
+        test_user2.save()
+
+        # Give test_user1 permission to see borrower books.
+        permission_see= Permission.objects.get(name="See all borrowed material&borrower")
+        test_user1.user_permissions.add(permission_see)
+        test_user1.save()
+
+        # Give test_user2 permission to renew books.
+        permission_return = Permission.objects.get(name='Set book as returned')
+        test_user2.user_permissions.add(permission_return)
+        test_user2.save()
+
+        # Create a book
+        test_author = Author.objects.create(first_name='John', last_name='Smith')
+        test_language = Language.objects.create(name='English')
+        test_book = Book.objects.create(
+            title='Book Title',
+            summary='My book summary',
+            isbn='ABCDEFG',
+            author=test_author,
+            language=test_language,
+        )
+        test_book.save()
+
+        # Create a BookInstance object for test_user1
+        return_date = datetime.date.today() + datetime.timedelta(days=5)
+        self.test_bookinstance1 = BookInstance.objects.create(
+            book=test_book,
+            imprint='Unlikely Imprint, 2016',
+            due_back=return_date,
+            borrower=test_user1,
+            status='o',
+            label = "1",
+        )
+
+        # Create a BookInstance object for test_user2
+        return_date = datetime.date.today() + datetime.timedelta(days=5)
+        self.test_bookinstance2 = BookInstance.objects.create(
+            book=test_book,
+            imprint='Unlikely Imprint, 2016',
+            due_back=return_date,
+            borrower=test_user2,
+            status='o',
+            label = "2",
+        )
+
+    def test_logged_in_with_permission_see_borrower(self):
+        login = self.client.login(username='testuser1', password='1X<ISRUkw+tuK')
+        response = self.client.get(reverse('library:bookInstance-detail', kwargs={'pk': self.test_bookinstance2.pk}))
+        # Check that site access is permitted
+        self.assertEqual(response.status_code, 200)
+        # Check our user is logged in
+        self.assertEqual(str(response.context['user']), 'testuser1')
+
+        #Check that view contains borrower
+        self.assertContains(response, "Borrowed by:")
+
+    def test_logged_in_with_permission_to_renew(self):
+        login = self.client.login(username='testuser2', password='2HJ1vRV0Z&3iD')
+        response = self.client.get(reverse('library:bookInstance-detail', kwargs={'pk': self.test_bookinstance2.pk}))
+
+        # Check that user has permission to access site
+        self.assertEqual(response.status_code, 200)
+        # Check our user is logged in
+        self.assertEqual(str(response.context['user']), 'testuser2')
+        # Check that view doesn't contain borrower (user 2 does not have this permission)
+        self.assertNotContains(response, "Borrowed by:")
+        self.assertContains(response, "Renew")
+
 
 class RenewBookInstancesViewTest(TestCase):
     def setUp(self):

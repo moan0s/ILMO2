@@ -61,7 +61,7 @@ class MaterialInstance(models.Model):
 
         class Meta:
             permissions = (("can_mark_returned", "Set material as returned"),
-                           ("can_see_borrowed", "See all borrowed material"))
+                           ("can_see_borrowed", "See all borrowed material&borrower"))
 
 class Book(models.Model):
     def __str__(self):
