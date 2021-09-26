@@ -13,6 +13,52 @@ class Genre(models.Model):
         """String for representing the Model object."""
         return self.name
 
+class Material(models.Model):
+    def __str__(self):
+        return f"{self.name}"
+    def get_absolute_url(self):
+        """Returns the url to access a detail record for this book."""
+        return reverse('library:material-detail', args=[str(self.id)])
+    name = models.CharField(max_length=200)
+
+class MaterialInstance(models.Model):
+        """Represents a instance of a material that is physically in the library"""
+
+        def __str__(self):
+            return f"[{self.label}] {self.book.title} by {self.book.author}"
+
+        @property
+        def is_overdue(self):
+            if self.due_back and date.today() > self.due_back:
+                return True
+            return False
+
+        id = models.UUIDField(primary_key=True, default=uuid.uuid4,
+                              help_text='Unique ID for this particular book across whole library')
+        material = models.ForeignKey('Material', on_delete=models.RESTRICT, null=True)
+        label = models.CharField(max_length=20, unique=True)
+        due_back = models.DateField(null=True, blank=True)
+        borrower = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
+
+        LOAN_STATUS = (
+            ('m', 'Maintenance'),
+            ('o', 'On loan'),
+            ('a', 'Available'),
+            ('r', 'Reserved'),
+        )
+
+        status = models.CharField(
+            max_length=1,
+            choices=LOAN_STATUS,
+            blank=True,
+            default='m',
+            help_text='Material availability',
+        )
+
+        class Meta:
+            permissions = (("can_mark_returned", "Set material as returned"),
+                           ("can_see_borrowed", "See all borrowed material"))
+
 class Book(models.Model):
     def __str__(self):
         return f"{self.title} by {self.author}"
