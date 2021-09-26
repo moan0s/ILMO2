@@ -19,6 +19,13 @@ urlpatterns = [
 ]
 
 urlpatterns += [
+    # ex: /material/
+    path('materials/', views.MaterialListView.as_view(), name='materials'),
+    # ex: /library/material/5/
+    path('material/<int:pk>', views.MaterialDetailView.as_view(), name='material-detail'),
+]
+
+urlpatterns += [
     # ex: /library/mybooks/
     path('mybooks/', views.LoanedBooksByUserListView.as_view(), name='my-books'),
      # ex: /library/loaned-books/

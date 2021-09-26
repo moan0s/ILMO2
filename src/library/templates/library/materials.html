@@ -1,0 +1,15 @@
+{% extends "library/base_generic.html" %}
+
+{% block content %}
+	{% if material_list %}
+		<ul>
+		{% for material in material_list %}
+		<li><b><a href="{{ material.get_absolute_url }}">{{ material.name }}</a></b>
+		</li>
+		{% endfor %}
+		</ul>
+	{% else %}
+		<p>No materials are available.</p>
+	{% endif %}
+
+{% endblock %}

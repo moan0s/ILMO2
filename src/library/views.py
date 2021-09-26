@@ -1,7 +1,5 @@
 from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponse, HttpResponseRedirect
-from .models import Book
-from django.contrib.auth.decorators import login_required, permission_required
 from django.views import generic
 from django.contrib.auth.mixins import PermissionRequiredMixin, LoginRequiredMixin
 from django.contrib.auth.decorators import login_required, permission_required
@@ -9,7 +7,7 @@ from django.urls import reverse
 import datetime
 
 from .forms import RenewBookForm
-from .models import Book, Author, BookInstance, Genre
+from .models import Book, Author, BookInstance, Genre, Material
 
 def index(request):
     """View function for home page of site."""
@@ -128,3 +126,12 @@ class AuthorDelete(PermissionRequiredMixin, DeleteView):
     permission_required = "library.can_modify_author"
     model = Author
     success_url = reverse_lazy('library:authors')
+
+class MaterialListView(generic.ListView):
+    model = Material
+    template_name = 'library/materials.html'
+    paginate_by =10
+
+class MaterialDetailView(generic.DetailView):
+    model = Material
+    template_name = 'library/material.html'

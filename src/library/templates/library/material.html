@@ -1,0 +1,21 @@
+{% extends "library/base_generic.html" %}
+
+{% block content %}
+  <h1>Material: {{ book.title }}</h1>
+
+  <div style="margin-left:20px;margin-top:20px">
+    <h4>Items</h4>
+
+    {% for item in material.materialinstance_set.all %}
+      <hr>
+	  <p><strong>{{ item.label }}</strong> </p>
+      <p class="{% if item.status == 'a' %}text-success{% elif item.status == 'm' %}text-danger{% else %}text-warning{% endif %}">
+        {{ item.get_status_display }}
+      </p>
+      {% if item.status != 'a' %}
+        <p><strong>Due to be returned:</strong> {{ item.due_back }}</p>
+      {% endif %}
+      <p class="text-muted"><strong>Id:</strong> {{ item.id }}</p>
+    {% endfor %}
+  </div>
+{% endblock %}
