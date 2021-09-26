@@ -164,7 +164,7 @@ class MaterialModelTest(TestCase):
     def test_get_absolute_url(self):
         material = Material.objects.all()[0]
         # This will also fail if the urlconf is not defined.
-        self.assertEqual(material.get_absolute_url(), f'/library/material/{material.id}/')
+        self.assertEqual(material.get_absolute_url(), f'/library/material/{material.id}')
 
 
 class MaterialInstanceModelTest(TestCase):
