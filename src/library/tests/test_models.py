@@ -142,3 +142,64 @@ class BookInstanceModelTest(TestCase):
         self.assertEquals(True, bookInstanceB.is_overdue)
         bookInstanceC = BookInstance.objects.filter(label="T 1 c")[0]
         self.assertEquals(False, bookInstanceC.is_overdue)
+
+
+class MaterialModelTest(TestCase):
+
+    @classmethod
+    def setUpTestData(cls):
+        a1 = Material.objects.create(name="Lab Coat")
+        a1.save()
+
+    def test_name_max_length(self):
+        material = Material.objects.all()[0]
+        max_length = material._meta.get_field('name').max_length
+        self.assertEqual(max_length, 200)
+
+    def test_material_str_representation(self):
+        material = Material.objects.all()[0]
+        expected_object_name = f'{material.name}'
+        self.assertEqual(str(material), expected_object_name)
+
+    def test_get_absolute_url(self):
+        material = Material.objects.all()[0]
+        # This will also fail if the urlconf is not defined.
+        self.assertEqual(material.get_absolute_url(), f'/library/material/{material.id}/')
+
+
+class MaterialInstanceModelTest(TestCase):
+
+    @classmethod
+    def setUpTestData(cls):
+        m = Material.objects.create(name="Lab Coat")
+        materialInstanceA = MaterialInstance.objects.create(material=m, label="LC 1")
+        m.save()
+        materialInstanceA.save()
+
+        u = User.objects.create_user('foo', password='bar')
+        materialInstanceB = MaterialInstance.objects.create(material=m,
+                                                    label="LC 2",
+                                                    borrower=u,
+                                                    due_back=date.today() - timedelta(days=1))
+
+        materialInstanceC = MaterialInstance.objects.create(material=m,
+                                                    label="LC 3",
+                                                    borrower=u,
+                                                    due_back=date.today() + timedelta(days=1))
+        materialInstanceB.save()
+        materialInstanceC.save()
+
+    def test_str(self):
+        materialInstance = MaterialInstance.objects.filter(label="LC 1")[0]
+        string_representation = str(materialInstance)
+        self.assertEquals(string_representation, f"[LC 1] {materialInstance.material.name}")
+
+    def test_default(self):
+        materialInstance = MaterialInstance.objects.all()[0]
+        self.assertEquals(materialInstance.status, "m")
+
+    def test_due_date(self):
+        materialInstance2 = MaterialInstance.objects.filter(label="LC 2")[0]
+        self.assertEquals(True, materialInstance2.is_overdue)
+        materialInstance3 = MaterialInstance.objects.filter(label="LC 3")[0]
+        self.assertEquals(False, materialInstance3.is_overdue)
