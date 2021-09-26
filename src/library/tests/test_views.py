@@ -385,3 +385,71 @@ class RenewBookInstancesViewTest(TestCase):
 
         # Check we used correct template
         self.assertTemplateUsed(response, 'library/book_renew_librarian.html')
+
+
+class IndexViewTest(TestCase):
+    def setUp(self):
+        # Create a user
+        test_user1 = User.objects.create_user(username='testuser1', password='1X<ISRUkw+tuK')
+        test_user2 = User.objects.create_user(username='testuser2', password='2HJ1vRV0Z&3iD')
+
+        test_user1.save()
+        test_user2.save()
+
+        # Create a book
+        test_author = Author.objects.create(first_name='John', last_name='Smith')
+        test_author = Author.objects.create(first_name='Jim', last_name='Knopf')
+        test_book = Book.objects.create(
+            title='Book Title',
+            summary='My book summary',
+            isbn='ABCDEFG',
+            author=test_author,
+        )
+        
+        # Create a BookInstance object for test_user1
+        return_date = datetime.date.today() + datetime.timedelta(days=5)
+        self.test_bookinstance1 = BookInstance.objects.create(
+            book=test_book,
+            imprint='Unlikely Imprint, 2016',
+            status='a',
+            label = "0",
+        )
+
+        # Create a BookInstance object for test_user1
+        return_date = datetime.date.today() + datetime.timedelta(days=5)
+        self.test_bookinstance1 = BookInstance.objects.create(
+            book=test_book,
+            imprint='Unlikely Imprint, 2016',
+            due_back=return_date,
+            borrower=test_user1,
+            status='o',
+            label = "1",
+        )
+
+        # Create a BookInstance object for test_user2
+        return_date = datetime.date.today() + datetime.timedelta(days=5)
+        self.test_bookinstance2 = BookInstance.objects.create(
+            book=test_book,
+            imprint='Unlikely Imprint, 2016',
+            due_back=return_date,
+            borrower=test_user2,
+            status='o',
+            label = "2",
+        )
+
+    def test_uses_correct_template(self):
+        response = self.client.get(reverse('library:index'))
+        self.assertEqual(response.status_code, 200)
+
+        # Check we used correct template
+        self.assertTemplateUsed(response, 'library/index.html')
+
+        response = self.client.get('/library/')
+        self.assertEqual(response.status_code, 200)
+
+        # Check we used correct template
+        self.assertTemplateUsed(response, 'library/index.html')
+
+    def test_index_redirect(self):
+        response = self.client.get('/')
+        self.assertRedirects(response, '/library/', status_code=301)
