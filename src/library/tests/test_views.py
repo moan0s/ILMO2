@@ -453,3 +453,13 @@ class IndexViewTest(TestCase):
     def test_index_redirect(self):
         response = self.client.get('/')
         self.assertRedirects(response, '/library/', status_code=301)
+
+    def test_index_content(self):
+        response = self.client.get(reverse('library:index'))
+
+        self.assertEqual(response.status_code, 200)
+        # Check that statistics numbers match
+        self.assertEqual(response.context['num_books'], 1)
+        self.assertEqual(response.context['num_instances'], 3)
+        self.assertEqual(response.context['num_instances_available'], 1)
+        self.assertEqual(response.context['num_authors'], 2)
