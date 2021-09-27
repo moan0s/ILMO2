@@ -6,7 +6,7 @@ from django.contrib.auth.decorators import login_required, permission_required
 from django.urls import reverse
 import datetime
 
-from .forms import RenewBookForm
+from .forms import RenewBookForm, RenewMaterialForm
 from .models import Book, Author, BookInstance, Genre, Material, MaterialInstance
 
 def index(request):
@@ -129,7 +129,8 @@ def renew_material_librarian(request, pk):
             material_instance.save()
 
             # redirect to a new URL:
-            return HttpResponseRedirect(reverse('library:loaned-material') )
+            #TODO: Implement all loan view
+            return HttpResponseRedirect(reverse('library:index'))
 
     # If this is a GET (or any other method) create the default form.
     else:
