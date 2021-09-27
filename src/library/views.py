@@ -121,7 +121,6 @@ def renew_material_librarian(request, pk):
 
         # Create a form instance and populate it with data from the request (binding):
         form = RenewMaterialForm(request.POST)
-
         # Check if the form is valid:
         if form.is_valid():
             # process the data in form.cleaned_data as required (here we just write it to the model due_back field)
