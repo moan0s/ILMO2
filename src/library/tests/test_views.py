@@ -440,15 +440,20 @@ class RenewBookInstancesViewTest(TestCase):
     def setUp(self):
         # Create a user
         test_user1 = User.objects.create_user(username='testuser1', password='1X<ISRUkw+tuK')
-        test_user2 = User.objects.create_user(username='testuser2', password='2HJ1vRV0Z&3iD')
-
         test_user1.save()
-        test_user2.save()
-
-        # Give test_user2 permission to renew books.
+        test_user2 = User.objects.create_user(username='testuser2', password='2HJ1vRV0Z&3iD')
+        # Give test_user2 permission to renew materials.
         permission = Permission.objects.get(name='Set book as returned')
         test_user2.user_permissions.add(permission)
         test_user2.save()
+
+        test_user3 = User.objects.create_user(username='testuser3', password='12345678')
+        # Give test_user3 permission to renew materials and see.
+        permission_return = Permission.objects.get(name='Set book as returned')
+        permission_see= Permission.objects.get(name="See all borrowed material&borrower")
+        test_user3.user_permissions.add(permission_return)
+        test_user3.user_permissions.add(permission_see)
+        test_user3.save()
 
         # Create a book
         test_author = Author.objects.create(first_name='John', last_name='Smith')
@@ -529,20 +534,53 @@ class RenewBookInstancesViewTest(TestCase):
         # Check we used correct template
         self.assertTemplateUsed(response, 'library/book_renew_librarian.html')
 
+    def test_valid_renew(self):
+        login = self.client.login(username='testuser2', password='2HJ1vRV0Z&3iD')
+        print(login)
+        response = self.client.post(reverse('library:renew-book-librarian',
+                                           kwargs={'pk': self.test_bookinstance1.pk}),
+                                    {'renewal_date': datetime.date.today()+datetime.timedelta(days=20)}
+        )
+        # Successful request should redirect
+        self.assertRedirects(response, '/library/')
+
+    def test_invalid_renew(self):
+        login = self.client.login(username='testuser2', password='2HJ1vRV0Z&3iD')
+        response = self.client.post(reverse('library:renew-book-librarian',
+                                            kwargs={'pk': self.test_bookinstance1.pk}),
+                                    {'renewal_date': datetime.date.today() - datetime.timedelta(days=3)},
+        )
+        # Check our user is logged in
+        self.assertEqual(str(response.context['user']), 'testuser2')
+
+        # Unsuccessful request should not redirect, but show the form again
+        self.assertEqual(response.status_code, 200)
+
+        # Check we used correct template
+        self.assertTemplateUsed(response, 'library/book_renew_librarian.html')
+
+        # Check response shows error message
+        self.assertContains(response, "Invalid date - renewal in past")
+
 
 class RenewMaterialInstancesViewTest(TestCase):
     def setUp(self):
         # Create a user
         test_user1 = User.objects.create_user(username='testuser1', password='1X<ISRUkw+tuK')
-        test_user2 = User.objects.create_user(username='testuser2', password='2HJ1vRV0Z&3iD')
-
         test_user1.save()
-        test_user2.save()
-
+        test_user2 = User.objects.create_user(username='testuser2', password='2HJ1vRV0Z&3iD')
         # Give test_user2 permission to renew materials.
         permission = Permission.objects.get(name='Set material as returned')
         test_user2.user_permissions.add(permission)
         test_user2.save()
+
+        test_user3 = User.objects.create_user(username='testuser3', password='12345678')
+        # Give test_user3 permission to renew materials and see.
+        permission_return = Permission.objects.get(name='Set material as returned')
+        permission_see= Permission.objects.get(name="See all borrowed material&borrower")
+        test_user3.user_permissions.add(permission_return)
+        test_user3.user_permissions.add(permission_see)
+        test_user3.save()
 
         # Create a material
         test_material = Material.objects.create(

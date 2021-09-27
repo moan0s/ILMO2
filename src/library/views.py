@@ -96,7 +96,11 @@ def renew_book_librarian(request, pk):
             book_instance.save()
 
             # redirect to a new URL:
-            return HttpResponseRedirect(reverse('library:loaned-books') )
+            if request.user.has_perm('library.can_see_borrowed'):
+                return HttpResponseRedirect(reverse('library:loaned-books'))
+            else:
+                return HttpResponseRedirect(reverse('library:index'))
+
 
     # If this is a GET (or any other method) create the default form.
     else:
