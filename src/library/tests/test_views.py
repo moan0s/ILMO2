@@ -536,7 +536,6 @@ class RenewBookInstancesViewTest(TestCase):
 
     def test_valid_renew(self):
         login = self.client.login(username='testuser2', password='2HJ1vRV0Z&3iD')
-        print(login)
         response = self.client.post(reverse('library:renew-book-librarian',
                                            kwargs={'pk': self.test_bookinstance1.pk}),
                                     {'renewal_date': datetime.date.today()+datetime.timedelta(days=20)}
