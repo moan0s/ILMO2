@@ -3,6 +3,7 @@ from django.urls import reverse
 from django.contrib.auth.models import User
 import uuid
 from datetime import date
+from django.utils.translation import ugettext_lazy as _
 
 
 class Genre(models.Model):
@@ -144,3 +145,23 @@ class Language(models.Model):
     def __str__(self):
         """String for representing the Model object (in Admin site etc.)"""
         return self.name
+
+WEEKDAYS = [
+  (1, _("Monday")),
+  (2, _("Tuesday")),
+  (3, _("Wednesday")),
+  (4, _("Thursday")),
+  (5, _("Friday")),
+  (6, _("Saturday")),
+  (7, _("Sunday")),
+]
+
+class OpeningHours(models.Model):
+
+    weekday = models.IntegerField(choices=WEEKDAYS)
+    from_hour = models.TimeField()
+    to_hour = models.TimeField()
+
+    class Meta:
+        ordering = ('weekday', 'from_hour')
+        unique_together = ('weekday', 'from_hour', 'to_hour')

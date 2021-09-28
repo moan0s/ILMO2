@@ -6,8 +6,8 @@ from django.contrib.auth.decorators import login_required, permission_required
 from django.urls import reverse
 import datetime
 
-from .forms import RenewBookForm
-from .models import Book, Author, BookInstance, Genre, Material, MaterialInstance
+from .forms import RenewBookForm, RenewMaterialForm
+from .models import Book, Author, BookInstance, Genre, Material, MaterialInstance, OpeningHours
 
 def index(request):
     """View function for home page of site."""
@@ -178,3 +178,11 @@ class BookInstanceDetailView(generic.DetailView):
 class MaterialInstanceDetailView(generic.DetailView):
     model = MaterialInstance
     template_name = 'library/materialInstance-detail.html'
+
+class OpeningHoursCreateView(CreateView):
+    model = OpeningHours
+    fields = ['weekday', 'to_hour', 'from_hour']
+
+class OpeningHoursListView(generic.ListView):
+    model = OpeningHours
+    template_name = 'library/openinghours.html'
