@@ -95,8 +95,11 @@ def renew_book_librarian(request, pk):
             book_instance.due_back = form.cleaned_data['renewal_date']
             book_instance.save()
 
-            # redirect to a new URL:
-            return HttpResponseRedirect(reverse('library:loaned-books') )
+            if request.user.has_perm('library.can_see_borrowed'):
+                # redirect to a new URL:
+                return HttpResponseRedirect(reverse('library:loaned-book') )
+            else:
+                return HttpResponseRedirect(reverse('library:index'))
 
     # If this is a GET (or any other method) create the default form.
     else:
@@ -128,8 +131,11 @@ def renew_material_librarian(request, pk):
             material_instance.due_back = form.cleaned_data['renewal_date']
             material_instance.save()
 
-            # redirect to a new URL:
-            return HttpResponseRedirect(reverse('library:loaned-material') )
+            if request.user.has_perm('library.can_see_borrowed'):
+                # redirect to a new URL:
+                return HttpResponseRedirect(reverse('library:loaned-material') )
+            else:
+                return HttpResponseRedirect(reverse('library:index'))
 
     # If this is a GET (or any other method) create the default form.
     else:
