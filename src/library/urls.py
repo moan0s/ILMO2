@@ -52,5 +52,12 @@ urlpatterns += [
 ]
 
 urlpatterns += [
+    # ex: /library/openinghour/create
+    path('openinghour/create', views.OpeningHoursCreateView.as_view(), name='create-openinghour'),
+    # ex: /library/openinghours/
+    path('openinghours/', views.OpeningHoursListView.as_view(), name='openinghours'),
+]
+
+urlpatterns += [
     path('accounts/', include('django.contrib.auth.urls')),
 ]

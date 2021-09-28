@@ -7,7 +7,7 @@ from django.urls import reverse
 import datetime
 
 from .forms import RenewBookForm, RenewMaterialForm
-from .models import Book, Author, BookInstance, Genre, Material, MaterialInstance
+from .models import Book, Author, BookInstance, Genre, Material, MaterialInstance, OpeningHours
 
 def index(request):
     """View function for home page of site."""
@@ -101,7 +101,6 @@ def renew_book_librarian(request, pk):
             else:
                 return HttpResponseRedirect(reverse('library:index'))
 
-
     # If this is a GET (or any other method) create the default form.
     else:
         proposed_renewal_date = datetime.date.today() + datetime.timedelta(weeks=3)
@@ -131,9 +130,11 @@ def renew_material_librarian(request, pk):
             material_instance.due_back = form.cleaned_data['renewal_date']
             material_instance.save()
 
-            # redirect to a new URL:
-            #TODO: Implement all loan view
-            return HttpResponseRedirect(reverse('library:index'))
+            if request.user.has_perm('library.can_see_borrowed'):
+                # redirect to a new URL:
+                return HttpResponseRedirect(reverse('library:loaned-material') )
+            else:
+                return HttpResponseRedirect(reverse('library:index'))
 
     # If this is a GET (or any other method) create the default form.
     else:
@@ -182,3 +183,11 @@ class BookInstanceDetailView(generic.DetailView):
 class MaterialInstanceDetailView(generic.DetailView):
     model = MaterialInstance
     template_name = 'library/materialInstance-detail.html'
+
+class OpeningHoursCreateView(CreateView):
+    model = OpeningHours
+    fields = ['weekday', 'to_hour', 'from_hour']
+
+class OpeningHoursListView(generic.ListView):
+    model = OpeningHours
+    template_name = 'library/openinghours.html'

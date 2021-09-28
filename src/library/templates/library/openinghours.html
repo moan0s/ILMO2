@@ -1,0 +1,17 @@
+{% extends "library/base_generic.html" %}
+
+{% block content %}
+	{% if openinghours_list %}
+        <table>
+            <th>Weekday</th><th>Open from</th><th>Open until</th>
+            {% for openinghour in openinghours_list %}
+            <tr>
+                <td>{{ openinghour.get_weekday_display }}</td><td>{{ openinghour.to_hour }}</td><td>{{ openinghour.from_hour }}</td>
+            </tr>
+            {% endfor %}
+        </tabel>
+	{% else %}
+		<p>No opening hours are available.</p>
+	{% endif %}
+
+{% endblock %}
