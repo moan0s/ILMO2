@@ -161,7 +161,9 @@ class OpeningHours(models.Model):
     weekday = models.IntegerField(choices=WEEKDAYS)
     from_hour = models.TimeField()
     to_hour = models.TimeField()
+    comment = models.CharField(max_length=200, blank=True)
 
     class Meta:
         ordering = ('weekday', 'from_hour')
         unique_together = ('weekday', 'from_hour', 'to_hour')
+        permissions = (('change_opening_hours', 'Can change opening hours'),)
