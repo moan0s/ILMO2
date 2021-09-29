@@ -3,13 +3,16 @@
 {% block content %}
 	{% if openinghours_list %}
         <table>
-            <th>Weekday</th><th>Open from</th><th>Open until</th>
+            <th>Weekday</th><th>Open from</th><th>Open until</th><th>Comment</th>
             {% for openinghour in openinghours_list %}
             <tr>
-                <td>{{ openinghour.get_weekday_display }}</td><td>{{ openinghour.to_hour }}</td><td>{{ openinghour.from_hour }}</td>
+                <td>{{ openinghour.get_weekday_display }}</td>
+                <td>{{ openinghour.to_hour }}</td>
+                <td>{{ openinghour.from_hour }}</td>
+                <td>{{ openinghour.comment }}</td>
             </tr>
             {% endfor %}
-        </tabel>
+        </table>
 	{% else %}
 		<p>No opening hours are available.</p>
 	{% endif %}

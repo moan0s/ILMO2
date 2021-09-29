@@ -186,8 +186,13 @@ class MaterialInstanceDetailView(generic.DetailView):
 
 class OpeningHoursCreateView(CreateView):
     model = OpeningHours
-    fields = ['weekday', 'to_hour', 'from_hour']
+    fields = ['weekday', 'from_hour', 'to_hour', 'comment']
 
 class OpeningHoursListView(generic.ListView):
     model = OpeningHours
     template_name = 'library/openinghours.html'
+
+class OpeningHourDeleteView(PermissionRequiredMixin, DeleteView):
+    permission_required = "library.change_opening_hours"
+    model = OpeningHours
+    success_url = reverse_lazy('library:openinghours')
