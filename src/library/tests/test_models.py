@@ -1,7 +1,7 @@
 from django.test import TestCase
 
 from library.models import *
-from datetime import timedelta
+from datetime import timedelta, time
 
 class AuthorModelTest(TestCase):
     
@@ -213,3 +213,14 @@ class MaterialInstanceModelTest(TestCase):
         materialInstanceB = MaterialInstance.objects.filter(label="LC 3")[0]
         self.assertEquals(materialInstanceB.get_absolute_url(),
                           f"/library/materialInstance/{materialInstanceB.id}/")
+
+class OpeningHourModelTest(TestCase):
+    @classmethod
+    def setUpTestData(cls):
+        cls.oh1 = OpeningHours.objects.create(weekday=1,
+                                        from_hour=time(hour=12,minute=30),
+                                        to_hour=time(hour=13,minute=30),)
+        cls.oh1.save()
+
+    def test_string_representation(self):
+        self.assertEquals("Monday 12:30-13:30", str(self.oh1))

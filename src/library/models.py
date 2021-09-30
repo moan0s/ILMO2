@@ -167,3 +167,6 @@ class OpeningHours(models.Model):
         ordering = ('weekday', 'from_hour')
         unique_together = ('weekday', 'from_hour', 'to_hour')
         permissions = (('change_opening_hours', 'Can change opening hours'),)
+
+    def __str__(self):
+        return f"{self.get_weekday_display()} {self.from_hour:%H:%M}-{self.to_hour:%H:%M}"
