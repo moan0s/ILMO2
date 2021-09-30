@@ -53,7 +53,7 @@ urlpatterns += [
 
 urlpatterns += [
     # ex: /library/openinghour/create
-    path('openinghour/create', views.OpeningHoursCreateView.as_view(), name='create-openinghour'),
+    path('openinghour/create', views.OpeningHoursCreateView.as_view(), name='openinghour-create'),
     # ex: /library/<int:pk>/delete
     path('openinghour/<int:pk>/delete', views.OpeningHourDeleteView.as_view(), name='openinghour-delete'),
     # ex: /library/openinghours/
