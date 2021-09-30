@@ -3,13 +3,22 @@
 {% block content %}
 	{% if openinghours_list %}
         <table>
-            <th>Weekday</th><th>Open from</th><th>Open until</th><th>Comment</th>
+            <th>Weekday</th>
+            <th>Open from</th>
+            <th>Open until</th>
+            <th>Comment</th>
+            {% if perms.library.change_opening_hours %}
+                <th>Delete</th>
+            {% endif %}
             {% for openinghour in openinghours_list %}
             <tr>
                 <td>{{ openinghour.get_weekday_display }}</td>
                 <td>{{ openinghour.to_hour }}</td>
                 <td>{{ openinghour.from_hour }}</td>
                 <td>{{ openinghour.comment }}</td>
+                {% if perms.library.change_opening_hours %}
+                    <td><a href="{% url "library:openinghour-delete" openinghour.id %} "> Delete</a></td>
+                {% endif %}
             </tr>
             {% endfor %}
         </table>

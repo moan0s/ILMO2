@@ -195,4 +195,5 @@ class OpeningHoursListView(generic.ListView):
 class OpeningHourDeleteView(PermissionRequiredMixin, DeleteView):
     permission_required = "library.change_opening_hours"
     model = OpeningHours
+    template_name = "library/openinghour_confirm_delete.html"
     success_url = reverse_lazy('library:openinghours')
