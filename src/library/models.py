@@ -22,48 +22,6 @@ class Material(models.Model):
         return reverse('library:material-detail', args=[str(self.id)])
     name = models.CharField(max_length=200)
 
-class MaterialInstance(models.Model):
-        """Represents a instance of a material that is physically in the library"""
-
-        def __str__(self):
-            return f"[{self.label}] {self.material.name}"
-
-        def get_absolute_url(self):
-            """Returns the url to access a detail record for this materialInstance."""
-            return reverse('library:materialInstance-detail', args=[str(self.id)])
-
-        @property
-        def is_overdue(self):
-            if self.due_back and date.today() > self.due_back:
-                return True
-            return False
-
-        id = models.UUIDField(primary_key=True, default=uuid.uuid4,
-                              help_text='Unique ID for this particular book across whole library')
-        material = models.ForeignKey('Material', on_delete=models.RESTRICT, null=True)
-        label = models.CharField(max_length=20, unique=True)
-        due_back = models.DateField(null=True, blank=True)
-        borrower = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
-
-        LOAN_STATUS = (
-            ('m', 'Maintenance'),
-            ('o', 'On loan'),
-            ('a', 'Available'),
-            ('r', 'Reserved'),
-        )
-
-        status = models.CharField(
-            max_length=1,
-            choices=LOAN_STATUS,
-            blank=True,
-            default='m',
-            help_text='Material availability',
-        )
-
-        class Meta:
-            permissions = (("can_mark_returned", "Set material as returned"),
-                           ("can_see_borrowed", "See all borrowed material&borrower"))
-
 class Book(models.Model):
     def __str__(self):
         return f"{self.title} by {self.author}"
@@ -78,26 +36,12 @@ class Book(models.Model):
     isbn = models.CharField('ISBN', max_length=13, unique=True, help_text='ISBN number (13 Characters)')
     language = models.ForeignKey('Language', on_delete=models.SET_NULL, null=True)
 
-class BookInstance(models.Model):
-    """Represents a copy of a book that is physically in the library"""
-    def __str__(self):
-        return f"[{self.label}] {self.book.title} by {self.book.author}"
 
-    def get_absolute_url(self):
-        """Returns the url to access a detail record for this bookInstance."""
-        return reverse('library:bookInstance-detail', args=[str(self.id)])
+class Item(models.Model):
+    """Represents an item that is physically in the library"""
 
-    @property
-    def is_overdue(self):
-        if self.due_back and date.today() > self.due_back:
-            return True
-        return False
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4, help_text='Unique ID for this particular book across whole library')
-    book = models.ForeignKey('Book', on_delete=models.RESTRICT, null=True)
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, help_text='Unique ID for this particular item across whole library')
     label = models.CharField(max_length=20, unique=True)
-    imprint = models.CharField(max_length=200, null=True, blank=True)
-    due_back = models.DateField(null=True, blank=True)
-    borrower = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
 
     LOAN_STATUS = (
         ('m', 'Maintenance'),
@@ -111,12 +55,37 @@ class BookInstance(models.Model):
         choices=LOAN_STATUS,
         blank=True,
         default='m',
-        help_text='Book availability',
+        help_text='Item availability',
     )
 
     class Meta:
-        permissions = (("can_mark_returned", "Set book as returned"),
-                       ("can_see_borrowed", "See all borrowed books"))
+        permissions = (("can_mark_returned", "Set item as returned"),
+                       ("can_see_borrowed", "See all borrowed items"))
+
+
+class BookInstance(Item):
+    """Represents a copy of a book that is physically in the library"""
+    def __str__(self):
+        return f"[{self.label}] {self.book.title} by {self.book.author}"
+
+    def get_absolute_url(self):
+        """Returns the url to access a detail record for this bookInstance."""
+        return reverse('library:bookInstance-detail', args=[str(self.id)])
+
+    book = models.ForeignKey('Book', on_delete=models.RESTRICT, null=True)
+    imprint = models.CharField(max_length=200, null=True, blank=True)
+
+class MaterialInstance(Item):
+    """Represents a instance of a material that is physically in the library"""
+
+    def __str__(self):
+        return f"[{self.label}] {self.material.name}"
+
+    def get_absolute_url(self):
+        """Returns the url to access a detail record for this materialInstance."""
+        return reverse('library:materialInstance-detail', args=[str(self.id)])
+
+    material = models.ForeignKey('Material', on_delete=models.RESTRICT, null=True)
 
 class Author(models.Model):
     """Model representing an author."""
@@ -145,6 +114,12 @@ class Language(models.Model):
     def __str__(self):
         """String for representing the Model object (in Admin site etc.)"""
         return self.name
+
+class Loan(models.Model):
+    borrower = models.ForeignKey(User, on_delete=models.PROTECT)
+    item = models.ForeignKey(Item, on_delete=models.PROTECT)
+    lent_on = models.DateField()
+    returned_on = models.DateField(null=True, blank=True)
 
 WEEKDAYS = [
   (1, _("Monday")),
