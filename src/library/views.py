@@ -7,7 +7,7 @@ from django.urls import reverse
 import datetime
 
 from .forms import RenewBookForm, RenewMaterialForm
-from .models import Book, Author, BookInstance, Genre, Material, MaterialInstance, OpeningHours
+from .models import Book, Author, BookInstance, Loan, Material, MaterialInstance, OpeningHours
 
 def index(request):
     """View function for home page of site."""
@@ -183,6 +183,11 @@ class BookInstanceDetailView(generic.DetailView):
 class MaterialInstanceDetailView(generic.DetailView):
     model = MaterialInstance
     template_name = 'library/materialInstance-detail.html'
+
+class LoanDetailView(generic.DetailView):
+    model = Loan
+    template_name = 'library/loan-detail.html'
+
 
 class OpeningHoursCreateView(CreateView):
     model = OpeningHours

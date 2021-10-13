@@ -84,10 +84,6 @@ class GenreModelTest(TestCase):
         string_representation = str(book.genre)
         self.assertEquals(string_representation, f"Science Fiction")
 
-
-
-
-
 class BookModelTest(TestCase):
 
     @classmethod
@@ -192,6 +188,42 @@ class MaterialInstanceModelTest(TestCase):
         materialInstanceB = MaterialInstance.objects.filter(label="LC 3")[0]
         self.assertEquals(materialInstanceB.get_absolute_url(),
                           f"/library/materialInstance/{materialInstanceB.id}/")
+
+
+class LoanModelTest(TestCase):
+
+    @classmethod
+    def setUpTestData(cls):
+        b = Book.objects.create(title="How to Test",
+                                author=Author.objects.create(first_name="Jane", last_name="Doe"),
+                                summary="How to write better tests than you do",
+                                isbn="1234567890123")
+        cls.bookInstanceA = BookInstance.objects.create(book=b, label="T 1 a")
+        b.save()
+        cls.bookInstanceA.save()
+
+        u = User.objects.create_user('foo', password='bar')
+        u.save()
+
+        loan = Loan.objects.create(borrower=u,
+                                   item=cls.bookInstanceA,
+                                   lent_on=date.today(),
+                                   due_back=date.today()+timedelta(days=30))
+        loan.save()
+
+    def test_str(self):
+        loan = Loan.objects.filter(item=self.bookInstanceA)[0]
+        string_representation = str(loan)
+        self.assertEquals(string_representation, f"{loan.item} borrowed by {loan.borrower}")
+
+    def test_default(self):
+        bookInstance = Loan.objects.all()[0]
+        self.assertTrue(bookInstance.returned_on is None)
+
+    def test_get_absolute_url(self):
+        loan = Loan.objects.filter(item=self.bookInstanceA)[0]
+        self.assertEquals(loan.get_absolute_url(),
+                          f"/library/loan/{loan.id}/")
 
 class OpeningHourModelTest(TestCase):
     @classmethod

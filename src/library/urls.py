@@ -51,6 +51,11 @@ urlpatterns += [
     path('author/<int:pk>/delete/', views.AuthorDelete.as_view(), name='author-delete'),
 ]
 
+#URL patterns for loan
+urlpatterns += [
+    path('loan/<int:pk>/', views.LoanDetailView.as_view(), name='loan-detail'),
+]
+
 urlpatterns += [
     # ex: /library/openinghour/create
     path('openinghour/create', views.OpeningHoursCreateView.as_view(), name='openinghour-create'),

@@ -1,0 +1,19 @@
+{% extends "library/base_generic.html" %}
+
+{% block content %}
+  <h1>Loan: {{ loan }}</h1>
+    <p class="{% if not(loan.is_overdue) %}text-success{% else %}text-warning{% endif %}">
+        {{ loan.due_back }}
+    </p>
+    {% if loan.returned %}
+        <p><strong>Due to be returned:</strong> {{ loan.due_back }}</p>
+        {% if perms.library.can_see_borrowed %}
+            <p><strong> Borrowed by: </strong>
+                <a href="{{ loan.borrower.get_absolute_url }}"> {{ loan.borrower}} </a></p>
+        {% endif %}
+        {% if perms.library.can_mark_returned %}
+            <p><a href="{% url 'library:renew-book-librarian' loan.item.id %}">Renew</a></p>
+        {% endif %}
+    {% endif %}
+  <p class="text-muted"><strong>Id:</strong> {{ loan.id }}</p>
+{% endblock %}

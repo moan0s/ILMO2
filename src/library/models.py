@@ -119,7 +119,26 @@ class Loan(models.Model):
     borrower = models.ForeignKey(User, on_delete=models.PROTECT)
     item = models.ForeignKey(Item, on_delete=models.PROTECT)
     lent_on = models.DateField()
+    due_back = models.DateField()
     returned_on = models.DateField(null=True, blank=True)
+
+    def __str__(self):
+        """String representation."""
+        return f"{self.item} borrowed by {self.borrower}"
+
+    def get_absolute_url(self):
+        """Returns the url to access a detail record for this loan."""
+        return reverse('library:loan-detail', args=[str(self.id)])
+
+    @property
+    def is_overdue(self):
+        if self.due_back and date.today() > self.due_back:
+            return True
+        return False
+
+    @property
+    def returned(self):
+        return self.returned_on
 
 WEEKDAYS = [
   (1, _("Monday")),
