@@ -117,14 +117,10 @@ class BookInstanceModelTest(TestCase):
         
         u = User.objects.create_user('foo', password='bar')
         bookInstanceB = BookInstance.objects.create(book = b,
-            label = "T 1 b",
-            borrower = u,
-            due_back = date.today() - timedelta(days=1))
+            label = "T 1 b",)
 
         bookInstanceC = BookInstance.objects.create(book = b,
-            label = "T 1 c",
-            borrower = u,
-            due_back = date.today() + timedelta(days=1))
+            label = "T 1 c",)
         bookInstanceB.save()
         bookInstanceC.save()
 
@@ -136,12 +132,6 @@ class BookInstanceModelTest(TestCase):
     def test_default(self):
         bookInstance = BookInstance.objects.all()[0]
         self.assertEquals(bookInstance.status, "m")
-    
-    def test_due_date(self):
-        bookInstanceB = BookInstance.objects.filter(label="T 1 b")[0]
-        self.assertEquals(True, bookInstanceB.is_overdue)
-        bookInstanceC = BookInstance.objects.filter(label="T 1 c")[0]
-        self.assertEquals(False, bookInstanceC.is_overdue)
 
     def test_get_absolute_url(self):
         bookInstanceB = BookInstance.objects.filter(label="T 1 b")[0]
@@ -181,16 +171,11 @@ class MaterialInstanceModelTest(TestCase):
         m.save()
         materialInstanceA.save()
 
-        u = User.objects.create_user('foo', password='bar')
         materialInstanceB = MaterialInstance.objects.create(material=m,
-                                                    label="LC 2",
-                                                    borrower=u,
-                                                    due_back=date.today() - timedelta(days=1))
+                                                    label="LC 2",)
 
         materialInstanceC = MaterialInstance.objects.create(material=m,
-                                                    label="LC 3",
-                                                    borrower=u,
-                                                    due_back=date.today() + timedelta(days=1))
+                                                    label="LC 3",)
         materialInstanceB.save()
         materialInstanceC.save()
 
@@ -202,12 +187,6 @@ class MaterialInstanceModelTest(TestCase):
     def test_default(self):
         materialInstance = MaterialInstance.objects.all()[0]
         self.assertEquals(materialInstance.status, "m")
-
-    def test_due_date(self):
-        materialInstance2 = MaterialInstance.objects.filter(label="LC 2")[0]
-        self.assertEquals(True, materialInstance2.is_overdue)
-        materialInstance3 = MaterialInstance.objects.filter(label="LC 3")[0]
-        self.assertEquals(False, materialInstance3.is_overdue)
 
     def test_get_absolute_url(self):
         materialInstanceB = MaterialInstance.objects.filter(label="LC 3")[0]
