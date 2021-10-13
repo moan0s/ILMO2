@@ -7,7 +7,7 @@ from django.utils.translation import ugettext_lazy as _
 from library.models import OpeningHours
 from django.urls import reverse
 
-class RenewBookForm(forms.Form):
+class RenewItemForm(forms.Form):
     renewal_date = forms.DateField(help_text="Enter a date between now and 4 weeks (default 3).")
 
     def clean_renewal_date(self):
@@ -23,9 +23,6 @@ class RenewBookForm(forms.Form):
 
         # Remember to always return the cleaned data.
         return data
-
-class RenewMaterialForm(RenewBookForm):
-    pass
 
 
 class OpeningHoursModelForm(ModelForm):

@@ -6,8 +6,8 @@ from django.contrib.auth.decorators import login_required, permission_required
 from django.urls import reverse
 import datetime
 
-from .forms import RenewBookForm, RenewMaterialForm
-from .models import Book, Author, BookInstance, Loan, Material, MaterialInstance, OpeningHours
+from .forms import RenewItemForm
+from .models import Book, Author, BookInstance, Loan, Material, MaterialInstance, OpeningHours, Item
 
 def index(request):
     """View function for home page of site."""
@@ -64,7 +64,9 @@ class LoanedBooksByUserListView(LoginRequiredMixin,generic.ListView):
     paginate_by = 10
 
     def get_queryset(self):
-        return BookInstance.objects.filter(borrower=self.request.user).filter(status__exact='o').order_by('due_back')
+        loans_by_user = Loan.objects.filter(borrower=self.request.user)
+        item_ids = [loan.id for loan in loans_by_user if not(loan.returned)]
+        return BookInstance.objects.filter(id__in=item_ids)
 
 class LoanedBooksAllListView(PermissionRequiredMixin,generic.ListView):
     """Generic class-based view listing books on loan"""
@@ -74,79 +76,43 @@ class LoanedBooksAllListView(PermissionRequiredMixin,generic.ListView):
     paginate_by = 10
 
     def get_queryset(self):
-        return BookInstance.objects.filter(status__exact='o').order_by('due_back')
+        return BookInstance.objects.filter(status__exact='o')
 
 
 @login_required
 @permission_required('library.can_mark_returned', raise_exception=True)
-def renew_book_librarian(request, pk):
-    """View function for renewing a specific BookInstance by librarian."""
-    book_instance = get_object_or_404(BookInstance, pk=pk)
+def renew_item_librarian(request, pk):
+    """View function for renewing a specific item by librarian."""
+    item = get_object_or_404(Item, pk=pk)
 
     # If this is a POST request then process the Form data
     if request.method == 'POST':
 
         # Create a form instance and populate it with data from the request (binding):
-        form = RenewBookForm(request.POST)
-
+        form = RenewItemForm(request.POST)
         # Check if the form is valid:
         if form.is_valid():
             # process the data in form.cleaned_data as required (here we just write it to the model due_back field)
-            book_instance.due_back = form.cleaned_data['renewal_date']
-            book_instance.save()
-
-            # redirect to a new URL:
-            if request.user.has_perm('library.can_see_borrowed'):
-                return HttpResponseRedirect(reverse('library:loaned-books'))
-            else:
-                return HttpResponseRedirect(reverse('library:index'))
-
-    # If this is a GET (or any other method) create the default form.
-    else:
-        proposed_renewal_date = datetime.date.today() + datetime.timedelta(weeks=3)
-        form = RenewBookForm(initial={'renewal_date': proposed_renewal_date})
-
-    context = {
-        'form': form,
-        'book_instance': book_instance,
-    }
-
-    return render(request, 'library/book_renew_librarian.html', context)
-
-@login_required
-@permission_required('library.can_mark_returned', raise_exception=True)
-def renew_material_librarian(request, pk):
-    """View function for renewing a specific MaterialInstance by librarian."""
-    material_instance = get_object_or_404(MaterialInstance, pk=pk)
-
-    # If this is a POST request then process the Form data
-    if request.method == 'POST':
-
-        # Create a form instance and populate it with data from the request (binding):
-        form = RenewMaterialForm(request.POST)
-        # Check if the form is valid:
-        if form.is_valid():
-            # process the data in form.cleaned_data as required (here we just write it to the model due_back field)
-            material_instance.due_back = form.cleaned_data['renewal_date']
-            material_instance.save()
+            item.due_back = form.cleaned_data['renewal_date']
+            item.save()
 
             if request.user.has_perm('library.can_see_borrowed'):
                 # redirect to a new URL:
-                return HttpResponseRedirect(reverse('library:loaned-material') )
+                return HttpResponseRedirect(reverse('library:index') ) #TOD: Redirect this to a loan overview
             else:
                 return HttpResponseRedirect(reverse('library:index'))
 
     # If this is a GET (or any other method) create the default form.
     else:
         proposed_renewal_date = datetime.date.today() + datetime.timedelta(weeks=3)
-        form = RenewBookForm(initial={'renewal_date': proposed_renewal_date})
+        form = RenewItemForm(initial={'renewal_date': proposed_renewal_date})
 
     context = {
         'form': form,
-        'book_instance': material_instance,
+        'item': item,
     }
 
-    return render(request, 'library/material_renew_librarian.html', context)
+    return render(request, 'library/item_renew_librarian.html', context)
 
 
 from django.views.generic.edit import CreateView, UpdateView, DeleteView

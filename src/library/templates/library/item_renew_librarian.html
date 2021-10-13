@@ -1,0 +1,15 @@
+{% extends "library/base_generic.html" %}
+
+{% block content %}
+  <h1>Renew: {{ item }}</h1>
+  <p><strong>Borrower:</strong> {{ item.borrower }}</p>
+  <p{% if item.is_overdue %} class="text-danger"{% endif %}><strong>Due date:</strong> {{ item.due_back }}</p>
+
+  <form action="" method="post">
+    {% csrf_token %}
+    <table>
+    {{ form.as_table }}
+    </table>
+    <input type="submit" value="Submit">
+  </form>
+{% endblock %}
