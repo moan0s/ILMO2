@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Book, Material, BookInstance, MaterialInstance, Genre, Author
+from .models import Book, Material, BookInstance, MaterialInstance, Genre, Author, Loan
 
 admin.site.register(Book)
 admin.site.register(Material)
@@ -31,5 +31,19 @@ class MaterialInstanceAdmin(admin.ModelAdmin):
         }),
         ('Availability', {
             'fields': ('status',)
+        }),
+    )
+
+@admin.register(Loan)
+class LoanAdmin(admin.ModelAdmin):
+    list_display = ('item', 'lent_on', 'due_back')
+    #list_filter = ('returned','is_overdue')
+
+    fieldsets = (
+        (None, {
+            'fields': ('item','borrower')
+        }),
+        ('Timeline', {
+            'fields': ('lent_on', 'due_back', 'returned_on')
         }),
     )

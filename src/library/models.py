@@ -62,6 +62,8 @@ class Item(models.Model):
         permissions = (("can_mark_returned", "Set item as returned"),
                        ("can_see_borrowed", "See all borrowed items"))
 
+    def __str__(self):
+        return str(self.label)
 
 class BookInstance(Item):
     """Represents a copy of a book that is physically in the library"""
