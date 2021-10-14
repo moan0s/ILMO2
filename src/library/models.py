@@ -4,6 +4,7 @@ from django.contrib.auth.models import User
 import uuid
 from datetime import date
 from django.utils.translation import ugettext_lazy as _
+from django.utils import timezone
 
 
 class Genre(models.Model):
@@ -14,17 +15,22 @@ class Genre(models.Model):
         """String for representing the Model object."""
         return self.name
 
+
 class Material(models.Model):
     def __str__(self):
         return f"{self.name}"
+
     def get_absolute_url(self):
         """Returns the url to access a detail record for this book."""
         return reverse('library:material-detail', args=[str(self.id)])
+
     name = models.CharField(max_length=200)
+
 
 class Book(models.Model):
     def __str__(self):
         return f"{self.title} by {self.author}"
+
     def get_absolute_url(self):
         """Returns the url to access a detail record for this book."""
         return reverse('library:book-detail', args=[str(self.id)])
@@ -40,7 +46,8 @@ class Book(models.Model):
 class Item(models.Model):
     """Represents an item that is physically in the library"""
 
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4, help_text='Unique ID for this particular item across whole library')
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4,
+                          help_text='Unique ID for this particular item across whole library')
     label = models.CharField(max_length=20, unique=True)
 
     LOAN_STATUS = (
@@ -65,8 +72,62 @@ class Item(models.Model):
     def __str__(self):
         return str(self.label)
 
+    def borrow(self,
+               borrower: User,
+               due_back=timezone.now() + timezone.timedelta(days=28)):
+        """
+        Borrows the item by marking it as on loan and creating a loan
+
+        Parameters
+        ----------
+        borrower:User The user that borrows the item
+        due_back:datetime When the item has to be returned, default is one month later
+
+        Returns
+        -------
+        None
+        """
+        l = Loan.objects.create(
+            item=self,
+            lent_on=timezone.now(),
+            due_back=due_back,
+            borrower=borrower,
+        )
+        l.save()
+        # Set status to on loan
+        self.status = "o"
+
+    def return_item(self,
+                    return_date=timezone.now()) -> bool:
+        """
+        Sets the item as available and mark the loan as returned
+
+        The st
+        Parameters
+        ----------
+        return_date:datetime=timezone.now()
+            Defaults to now, but it is possible to use a custom return date (e.g. to avoid late fees when returned over weekend)
+
+        Returns
+        -------
+        bool True if successful, else false
+        """
+        try:
+            unreturned_loan_of_item = Loan.objects.filter(item=self,
+                                                           returned_on=None)[0]
+            print(unreturned_loan_of_item)
+        except KeyError:
+            return False
+        unreturned_loan_of_item.returned_on = return_date
+        unreturned_loan_of_item.save()
+        # Set status to available
+        self.status = "a"
+        return True
+
+
 class BookInstance(Item):
     """Represents a copy of a book that is physically in the library"""
+
     def __str__(self):
         return f"[{self.label}] {self.book.title} by {self.book.author}"
 
@@ -76,6 +137,7 @@ class BookInstance(Item):
 
     book = models.ForeignKey('Book', on_delete=models.RESTRICT, null=True)
     imprint = models.CharField(max_length=200, null=True, blank=True)
+
 
 class MaterialInstance(Item):
     """Represents a instance of a material that is physically in the library"""
@@ -88,6 +150,7 @@ class MaterialInstance(Item):
         return reverse('library:materialInstance-detail', args=[str(self.id)])
 
     material = models.ForeignKey('Material', on_delete=models.RESTRICT, null=True)
+
 
 class Author(models.Model):
     """Model representing an author."""
@@ -108,6 +171,7 @@ class Author(models.Model):
         """Returns the url to access a detail record for this book."""
         return reverse('library:author-detail', args=[str(self.id)])
 
+
 class Language(models.Model):
     """Model representing a Language (e.g. English, French, Japanese, etc.)"""
     name = models.CharField(max_length=200,
@@ -116,6 +180,7 @@ class Language(models.Model):
     def __str__(self):
         """String for representing the Model object (in Admin site etc.)"""
         return self.name
+
 
 class Loan(models.Model):
     borrower = models.ForeignKey(User, on_delete=models.PROTECT)
@@ -140,20 +205,24 @@ class Loan(models.Model):
 
     @property
     def returned(self):
-        return self.returned_on
+        if self.returned_on:
+            return True
+        else:
+            return False
+
 
 WEEKDAYS = [
-  (1, _("Monday")),
-  (2, _("Tuesday")),
-  (3, _("Wednesday")),
-  (4, _("Thursday")),
-  (5, _("Friday")),
-  (6, _("Saturday")),
-  (7, _("Sunday")),
+    (1, _("Monday")),
+    (2, _("Tuesday")),
+    (3, _("Wednesday")),
+    (4, _("Thursday")),
+    (5, _("Friday")),
+    (6, _("Saturday")),
+    (7, _("Sunday")),
 ]
 
-class OpeningHours(models.Model):
 
+class OpeningHours(models.Model):
     weekday = models.IntegerField(choices=WEEKDAYS)
     from_hour = models.TimeField()
     to_hour = models.TimeField()

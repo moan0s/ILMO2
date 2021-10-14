@@ -2,6 +2,7 @@ from django.test import TestCase
 
 from library.models import *
 from datetime import timedelta, time
+from django.utils import timezone
 
 class AuthorModelTest(TestCase):
     
@@ -189,6 +190,48 @@ class MaterialInstanceModelTest(TestCase):
         self.assertEquals(materialInstanceB.get_absolute_url(),
                           f"/library/materialInstance/{materialInstanceB.id}/")
 
+class ItemTest(TestCase):
+    @classmethod
+    def setUpTestData(cls):
+        b = Book.objects.create(title="How to Test",
+                                author=Author.objects.create(first_name="Jane", last_name="Doe"),
+                                summary="How to write better tests than you do",
+                                isbn="1234567890123")
+        cls.bookInstanceA = BookInstance.objects.create(book=b, label="T 1 a")
+        cls.u = User.objects.create_user('foo', password='bar')
+        cls.u.save()
+    def test_borrow(self):
+        self.bookInstanceA.borrow(self.u)
+        self.assertEquals(self.bookInstanceA.status,"o")
+        loans_of_book = Loan.objects.filter(item=self.bookInstanceA)
+        self.assertEquals(len(loans_of_book), 1)
+        loan = loans_of_book[0]
+        self.assertFalse(loan.returned)
+        self.assertFalse(loan.is_overdue)
+        self.assertEquals(loan.borrower, self.u)
+
+        # Test default return
+        self.assertEquals(loan.due_back, (timezone.now()+timedelta(days=28)).date())
+
+    def test_return(self):
+        self.bookInstanceA.borrow(self.u)
+        self.assertEquals(self.bookInstanceA.status, "o")
+        loans_of_book = Loan.objects.filter(item=self.bookInstanceA)
+        self.assertEquals(len(loans_of_book), 1)
+        loan = loans_of_book[0]
+        self.assertFalse(loan.returned)
+        self.assertFalse(loan.is_overdue)
+        self.assertEquals(loan.borrower, self.u)
+
+        # Return item and check expected state
+        self.assertTrue(self.bookInstanceA.return_item())
+        # Reload the loan
+        loans_of_book = Loan.objects.filter(item=self.bookInstanceA)
+        self.assertEquals(len(loans_of_book), 1)
+        loan = loans_of_book[0]
+        self.assertTrue(loan.returned)
+        self.assertFalse(loan.is_overdue)
+        self.assertEquals(self.bookInstanceA.status, "a")
 
 class LoanModelTest(TestCase):
 

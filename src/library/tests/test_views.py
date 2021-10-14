@@ -29,6 +29,7 @@ class MyLoandBooksView(TestCase):
                 label=f'A {book_copy}',
                 status=status,
             )
+            b.borrow(the_borrower)
             b.save()
             l = Loan.objects.create(
                 item = b,
@@ -609,6 +610,9 @@ class RenewMaterialInstancesViewTest(TestCase):
         self.assertContains(response, "Invalid date - renewal in past")
 
 
+"""
+Test the view of the index page
+"""
 class IndexViewTest(TestCase):
     def setUp(self):
         # Create a user
@@ -655,6 +659,7 @@ class IndexViewTest(TestCase):
             label = "2",
         )
 
+    # Test if the correct template is used for the library index
     def test_uses_correct_template(self):
         response = self.client.get(reverse('library:index'))
         self.assertEqual(response.status_code, 200)
@@ -668,6 +673,7 @@ class IndexViewTest(TestCase):
         # Check we used correct template
         self.assertTemplateUsed(response, 'library/index.html')
 
+    # Test that the site root redirects to the library index
     def test_index_redirect(self):
         response = self.client.get('/')
         self.assertRedirects(response, '/library/', status_code=301)
