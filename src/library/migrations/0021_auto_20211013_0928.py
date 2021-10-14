@@ -11,13 +11,15 @@ def switch_to_item(apps, schema_editor):
     OldBookInstance = apps.get_model('library', 'OldBookInstance')
     NewBookInstance = apps.get_model('library', 'NewBookInstance')
     for bookInstance in OldBookInstance.objects.all():
-        new_book_instance = NewBookInstance.objects.create(label=bookInstance.label)
+        new_book_instance = NewBookInstance.objects.create(label=bookInstance.label,
+                                                           book=bookInstance.book)
         bookInstance.delete()
 
     OldMaterialInstance = apps.get_model('library', 'OldMaterialInstance')
     NewMaterialInstance = apps.get_model('library', 'NewMaterialInstance')
     for materialInstance in OldMaterialInstance.objects.all():
-        new_material_instance = NewMaterialInstance.objects.create(label=materialInstance.label)
+        new_material_instance = NewMaterialInstance.objects.create(label=materialInstance.label,
+                                                                   material=materialInstance.material)
         materialInstance.delete()
 
 def switch_to_noitem(apps, schema_editor):
@@ -25,13 +27,15 @@ def switch_to_noitem(apps, schema_editor):
     OldBookInstance = apps.get_model('library', 'OldBookInstance')
     NewBookInstance = apps.get_model('blog', 'NewBookInstance')
     for bookInstance in NewBookInstance.objects.all():
-        old_book_instance = OldBookInstance.objects.create(label=bookInstance.label)
+        old_book_instance = OldBookInstance.objects.create(label=bookInstance.label,
+                                                           book=bookInstance.book)
         bookInstance.delete()
 
     OldMaterialInstance = apps.get_model('library', 'OldMaterialInstance')
     NewMaterialInstance = apps.get_model('blog', 'NewMaterialInstance')
     for materialInstance in NewMaterialInstance.objects.all():
-        old_material_instance = OldMaterialInstance.objects.create(label=materialInstance.label)
+        old_material_instance = OldMaterialInstance.objects.create(label=materialInstance.label,
+                                                                   material=materialInstance.material)
         materialInstance.delete()
 
 class Migration(migrations.Migration):
