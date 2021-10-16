@@ -3,3 +3,21 @@
     padding: 0;
     list-style: none;
 }
+
+table {
+        border : none;
+        border-collapse: collapse;
+}
+
+td {
+        border: 2px solid black;
+        border-collapse: collapse;
+        padding: 5px;
+}
+
+th {
+        border: 3px solid black;
+        border-collapse: collapse;
+        padding: 8px;
+        background-color: #ECECEC;
+}
