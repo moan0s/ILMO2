@@ -7,7 +7,9 @@ import datetime
 from django.contrib.auth.models import Permission
 import uuid
 
-class MyLoandBooksView(TestCase):
+
+# Tests the view of library/my-loans/
+class MyLoansView(TestCase):
 
     @classmethod
     def setUpTestData(cls):
@@ -29,33 +31,26 @@ class MyLoandBooksView(TestCase):
                 label=f'A {book_copy}',
                 status=status,
             )
-            b.borrow(the_borrower)
-            b.save()
-            l = Loan.objects.create(
-                item = b,
-                lent_on = timezone.now(),
-                due_back=return_date,
-                borrower=the_borrower,
-            )
 
     def test_redirect_if_not_logged_in(self):
-        response = self.client.get(reverse('library:my-books'))
-        self.assertRedirects(response, '/accounts/login/?next=/library/mybooks/')
+        response = self.client.get(reverse('library:my-loans'))
+        self.assertRedirects(response, '/accounts/login/?next=/library/my-loans/')
 
     def test_logged_in_uses_correct_template(self):
         login = self.client.login(username='testuser1', password='12345')
-        response = self.client.get(reverse('library:my-books'))
+        response = self.client.get(reverse('library:my-loans'))
         # Check our user is logged in
         self.assertEqual(str(response.context['user']), 'testuser1')
         # Check that we got a response "success"
         self.assertEqual(response.status_code, 200)
 
         # Check we used correct template
-        self.assertTemplateUsed(response, 'library/bookinstance_list_borrowed_user.html')
+        self.assertTemplateUsed(response, 'library/list_loans_user.html')
 
-    def test_only_borrowed_books_in_list(self):
+    # Tests if the borrowed items of the user are really shown, only shown when on loan and not anymore books
+    def test_content(self):
         login = self.client.login(username='testuser1', password='12345')
-        response = self.client.get(reverse('library:my-books'))
+        response = self.client.get(reverse('library:my-loans'))
 
         # Check our user is logged in
         self.assertEqual(str(response.context['user']), 'testuser1')
@@ -69,22 +64,22 @@ class MyLoandBooksView(TestCase):
         # Now change all books to be on loan
         books = BookInstance.objects.all()[:10]
 
+        borrower = User.objects.get(username="testuser1")
         for book in books:
-            book.status = 'o'
-            book.save()
+            book.borrow(borrower=borrower)
 
         # Check that now we have borrowed books in the list
-        response = self.client.get(reverse('library:my-books'))
+        response = self.client.get(reverse('library:my-loans'))
         # Check our user is logged in
         self.assertEqual(str(response.context['user']), 'testuser1')
         # Check that we got a response "success"
         self.assertEqual(response.status_code, 200)
 
         self.assertTrue('bookinstance_list' in response.context)
-
+        #Check that all books are in context
+        self.assertEqual(len(response.context['bookinstance_list']), 10)
         # Confirm all books belong to testuser1 and are on loan
         for bookitem in response.context['bookinstance_list']:
-            self.assertEqual(response.context['user'], bookitem.borrower)
             self.assertEqual(bookitem.status, 'o')
 
 class LoanDetailView(TestCase):

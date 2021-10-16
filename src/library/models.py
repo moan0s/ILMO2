@@ -96,6 +96,7 @@ class Item(models.Model):
         l.save()
         # Set status to on loan
         self.status = "o"
+        self.save()
 
     def return_item(self,
                     return_date=timezone.now()) -> bool:
@@ -115,13 +116,13 @@ class Item(models.Model):
         try:
             unreturned_loan_of_item = Loan.objects.filter(item=self,
                                                            returned_on=None)[0]
-            print(unreturned_loan_of_item)
-        except KeyError:
+        except IndexError:
             return False
         unreturned_loan_of_item.returned_on = return_date
         unreturned_loan_of_item.save()
         # Set status to available
         self.status = "a"
+        self.save()
         return True
 
 

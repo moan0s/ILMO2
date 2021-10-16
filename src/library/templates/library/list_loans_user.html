@@ -1,0 +1,35 @@
+{% extends "library/base_generic.html" %}
+
+{% block content %}
+    <h1>Borrowed books</h1>
+
+    {% if bookinstance_list %}
+    <ul>
+
+      {% for bookinst in bookinstance_list %}
+      <li class="{% if bookinst.is_overdue %}text-danger{% endif %}">
+        <a href="{{  bookinst.get_absolute_url }}">{{bookinst}}</a>
+      </li>
+      {% endfor %}
+    </ul>
+
+    {% else %}
+      <p>There are no books borrowed.</p>
+    {% endif %}
+
+    <h1>Borrowed material</h1>
+
+    {% if materialinstance_list %}
+    <ul>
+
+      {% for materialinst in materialinstance_list %}
+      <li class="{% if materialinst.is_overdue %}text-danger{% endif %}">
+        <a href="{{  materialinst.get_absolute_url }}">{{materialinst}}</a>
+      </li>
+      {% endfor %}
+    </ul>
+
+    {% else %}
+      <p>There are no materials borrowed.</p>
+    {% endif %}
+{% endblock %}

@@ -57,10 +57,25 @@ class AuthorDetailView(generic.DetailView):
     template_name = 'library/author.html'
     paginate_by = 10
 
+@login_required()
+def list_loans_of_user(request):
+    """View function for home page of site."""
+    loans_by_user = Loan.objects.filter(borrower=request.user)
+    unreturned_loans_by_user = [loan for loan in loans_by_user if not (loan.returned)]
+    bookinstance_list = BookInstance.objects.filter(loan__in=unreturned_loans_by_user)
+    print(bookinstance_list)
+    materialinstance_list = MaterialInstance.objects.filter(loan__in=unreturned_loans_by_user)
+    context = {
+        'bookinstance_list': bookinstance_list,
+        'materialinstance_list': materialinstance_list,
+    }
+
+    return render(request, 'library/list_loans_user.html', context=context)
+
 class LoanedBooksByUserListView(LoginRequiredMixin,generic.ListView):
     """Generic class-based view listing books on loan to current user."""
     model = BookInstance
-    template_name ='library/bookinstance_list_borrowed_user.html'
+    template_name = 'library/list_loans_user.html'
     paginate_by = 10
 
     def get_queryset(self):
