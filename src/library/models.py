@@ -191,7 +191,7 @@ class Loan(models.Model):
 
     def __str__(self):
         """String representation."""
-        return f"{self.item} borrowed by {self.borrower}"
+        return f"{self.item} borrowed until {self.due_back}"
 
     def get_absolute_url(self):
         """Returns the url to access a detail record for this loan."""
@@ -210,6 +210,8 @@ class Loan(models.Model):
         else:
             return False
 
+    class Meta:
+        permissions =(('can_see_borrower', 'Can see who borrowed an item'),)
 
 WEEKDAYS = [
     (1, _("Monday")),

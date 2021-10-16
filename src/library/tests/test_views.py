@@ -87,6 +87,79 @@ class MyLoandBooksView(TestCase):
             self.assertEqual(response.context['user'], bookitem.borrower)
             self.assertEqual(bookitem.status, 'o')
 
+class LoanDetailView(TestCase):
+
+    @classmethod
+    def setUpTestData(cls):
+        test_author = Author.objects.create(first_name="Jane", last_name="Doe")
+        test_book = Book.objects.create(title="How to Test genres",
+                author=Author.objects.create(first_name="Jane", last_name="Doe"),
+                summary="Book to test genres",
+                isbn="1234567890124")
+        # User to borrow the book
+        test_user1 = User.objects.create_user(username='testuser1', password='12345')
+        # User without permission to see borrower
+        test_user2 = User.objects.create_user(username='testuser2', password='12345')
+        # User with permission to see borrower
+        test_user3 = User.objects.create_user(username='testuser3', password='12345')
+        permission = Permission.objects.get(name='Can see who borrowed an item')
+        test_user3.user_permissions.add(permission)
+
+        b = BookInstance.objects.create(
+            book=test_book,
+            label=f'A 1 a',
+            status="a",
+        )
+        b.borrow(test_user1)
+        b.save()
+        cls.loan1 = Loan.objects.filter(item=b)[0]
+
+    def test_uses_correct_template(self):
+        login = self.client.login(username='testuser1', password='12345')
+        response = self.client.get(reverse('library:loan-detail', kwargs={'pk': self.loan1.pk}))
+        # Check our user is logged in
+        self.assertEqual(str(response.context['user']), 'testuser1')
+        # Check that we got a response "success"
+        self.assertEqual(response.status_code, 200)
+
+        # Check we used correct template
+        self.assertTemplateUsed(response, 'library/loan-detail.html')
+
+    def test_info_without_login(self):
+        response = self.client.get(reverse('library:loan-detail', kwargs={'pk': self.loan1.pk}))
+        # Check that we got a response "success" and use correct template
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'library/loan-detail.html')
+
+        # Check that general loan info but not information on borrower is shown
+        self.assertContains(response, f"{self.loan1.pk}")
+        self.assertContains(response, str(self.loan1.item.label))
+        self.assertNotContains(response, str(self.loan1.borrower))
+
+    def test_info_with_login_no_permission(self):
+        login = self.client.login(username='testuser2', password='12345')
+        response = self.client.get(reverse('library:loan-detail', kwargs={'pk': self.loan1.pk}))
+        # Check that we got a response "success" and use correct template
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'library/loan-detail.html')
+
+        # Check that general loan info but not information on borrower is shown
+        self.assertContains(response, f"{self.loan1.pk}")
+        self.assertContains(response, str(self.loan1.item.label))
+        self.assertNotContains(response, str(self.loan1.borrower))
+
+    def test_info_with_see_permission(self):
+        login = self.client.login(username='testuser3', password='12345')
+        response = self.client.get(reverse('library:loan-detail', kwargs={'pk': self.loan1.pk}))
+        # Check that we got a response "success" and use correct template
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'library/loan-detail.html')
+
+        # Check that general loan info but not information on borrower is shown
+        self.assertContains(response, f"{self.loan1.pk}")
+        self.assertContains(response, str(self.loan1.item.label))
+        self.assertContains(response, str(self.loan1.borrower))
+
 class AllLoandBooksView(TestCase):
 
     @classmethod
