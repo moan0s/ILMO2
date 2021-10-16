@@ -182,28 +182,28 @@ class AllLoandBooksView(TestCase):
             )
 
     def test_redirect_if_not_logged_in(self):
-        response = self.client.get(reverse('library:loaned-books'))
-        self.assertRedirects(response, '/accounts/login/?next=/library/loaned-books/')
+        response = self.client.get(reverse('library:loaned-items'))
+        self.assertRedirects(response, '/accounts/login/?next=/library/loaned-items/')
 
     def test_forbidden_if_logged_in_but_not_correct_permission(self):
         login = self.client.login(username='testuser1', password='12345')
-        response = self.client.get(reverse('library:loaned-books'))
+        response = self.client.get(reverse('library:loaned-items'))
         self.assertEqual(response.status_code, 403)
 
     def test_logged_in_uses_correct_template(self):
         login = self.client.login(username='testuser2', password='12345')
-        response = self.client.get(reverse('library:loaned-books'))
+        response = self.client.get(reverse('library:loaned-items'))
         # Check our user is logged in
         self.assertEqual(str(response.context['user']), 'testuser2')
         # Check that we got a response "success"
         self.assertEqual(response.status_code, 200)
 
         # Check we used correct template
-        self.assertTemplateUsed(response, 'library/bookinstance_list_borrowed_all.html')
+        self.assertTemplateUsed(response, 'library/list_loans_all.html')
 
     def test_only_borrowed_books_in_list(self):
         login = self.client.login(username='testuser2', password='12345')
-        response = self.client.get(reverse('library:loaned-books'))
+        response = self.client.get(reverse('library:loaned-items'))
 
         # Check our user is logged in
         self.assertEqual(str(response.context['user']), 'testuser2')
@@ -222,7 +222,7 @@ class AllLoandBooksView(TestCase):
             book.save()
 
         # Check that now we have borrowed books in the list
-        response = self.client.get(reverse('library:loaned-books'))
+        response = self.client.get(reverse('library:loaned-items'))
         # Check our user is logged in
         self.assertEqual(str(response.context['user']), 'testuser2')
         # Check that we got a response "success"

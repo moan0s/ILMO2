@@ -63,7 +63,6 @@ def list_loans_of_user(request):
     loans_by_user = Loan.objects.filter(borrower=request.user)
     unreturned_loans_by_user = [loan for loan in loans_by_user if not (loan.returned)]
     bookinstance_list = BookInstance.objects.filter(loan__in=unreturned_loans_by_user)
-    print(bookinstance_list)
     materialinstance_list = MaterialInstance.objects.filter(loan__in=unreturned_loans_by_user)
     context = {
         'bookinstance_list': bookinstance_list,
@@ -72,27 +71,20 @@ def list_loans_of_user(request):
 
     return render(request, 'library/list_loans_user.html', context=context)
 
-class LoanedBooksByUserListView(LoginRequiredMixin,generic.ListView):
-    """Generic class-based view listing books on loan to current user."""
-    model = BookInstance
-    template_name = 'library/list_loans_user.html'
-    paginate_by = 10
+@login_required()
+@permission_required('library.can_see_borrowed', raise_exception=True)
+def list_loans_unreturned(request):
+    """View all unreturned items"""
+    loans = Loan.objects.all()
+    unreturned_loans = [loan for loan in loans if not (loan.returned)]
+    bookinstance_list = BookInstance.objects.filter(loan__in=unreturned_loans)
+    materialinstance_list = MaterialInstance.objects.filter(loan__in=unreturned_loans)
+    context = {
+        'bookinstance_list': bookinstance_list,
+        'materialinstance_list': materialinstance_list,
+    }
 
-    def get_queryset(self):
-        loans_by_user = Loan.objects.filter(borrower=self.request.user)
-        item_ids = [loan.id for loan in loans_by_user if not(loan.returned)]
-        return BookInstance.objects.filter(id__in=item_ids)
-
-class LoanedBooksAllListView(PermissionRequiredMixin,generic.ListView):
-    """Generic class-based view listing books on loan"""
-    permission_required = 'library.can_see_borrowed'
-    model = BookInstance
-    template_name ='library/bookinstance_list_borrowed_all.html'
-    paginate_by = 10
-
-    def get_queryset(self):
-        return BookInstance.objects.filter(status__exact='o')
-
+    return render(request, 'library/list_loans_all.html', context=context)
 
 @login_required
 @permission_required('library.can_mark_returned', raise_exception=True)

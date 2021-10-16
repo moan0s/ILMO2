@@ -7,7 +7,7 @@
             <li><a href="{% url 'library:authors' %}">All authors</a></li>
             <li><a href="{% url 'library:openinghours' %}">Opening hours</a></li>
 		  {% if perms.library.can_see_borrowed %}
-				<li><a href="{% url 'library:loaned-books' %}">All loans</a></li>
+				<li><a href="{% url 'library:loaned-items' %}">All loans</a></li>
 	      {% endif %}
 
 		  {% if user.is_authenticated %}
