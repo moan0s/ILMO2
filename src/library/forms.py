@@ -26,7 +26,6 @@ class RenewItemForm(forms.Form):
 
 
 class OpeningHoursModelForm(ModelForm):
-    to_hour = forms.DateField(widget=forms.DateInput(attrs={'class': 'timepicker'}))
     class Meta:
         model = OpeningHours
         fields = ['weekday', 'from_hour', 'to_hour']
@@ -41,6 +40,3 @@ class OpeningHoursModelForm(ModelForm):
             raise ValidationError(_('Library must be open before closing 😉'))
 
         return data
-
-    def get_success_url(self):
-        return reverse('library:openinghours')
