@@ -162,9 +162,13 @@ class LoanDetailView(generic.DetailView):
     template_name = 'library/loan-detail.html'
 
 
-class OpeningHoursCreateView(CreateView):
+class OpeningHoursCreateView(PermissionRequiredMixin, CreateView):
+    permission_required = "library.change_opening_hours"
     model = OpeningHours
     fields = ['weekday', 'from_hour', 'to_hour', 'comment']
+
+    def get_success_url(self):
+        return reverse('library:openinghours')
 
 class OpeningHoursListView(generic.ListView):
     model = OpeningHours

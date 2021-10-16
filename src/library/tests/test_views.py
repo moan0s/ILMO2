@@ -755,3 +755,30 @@ class IndexViewTest(TestCase):
         self.assertEqual(response.context['num_instances'], 3)
         self.assertEqual(response.context['num_instances_available'], 1)
         self.assertEqual(response.context['num_authors'], 2)
+
+class OpeningHoursCreateViewTest(TestCase):
+    """Tests the create view for opening hours"""
+    def setUp(self):
+        # Normal user
+        test_user1 = User.objects.create_user(username='testuser1', password='12345')
+        # User with permission to create opening hours
+        test_user2 = User.objects.create_user(username='testuser2', password='12345')
+        create_permission = Permission.objects.get(codename='change_opening_hours')
+        test_user2.user_permissions.add(create_permission)
+        test_user1.save()
+        test_user2.save()
+
+    def test_without_login(self):
+        response = self.client.get(reverse('library:openinghour-create'))
+        self.assertRedirects(response, '/accounts/login/?next=/library/openinghour/create')
+
+    def test_with_login(self):
+        login = self.client.login(username='testuser1', password='12345')
+        response = self.client.get(reverse('library:openinghour-create'))
+        self.assertEqual(response.status_code, 403)
+
+    def test_with_permission(self):
+        login = self.client.login(username='testuser2', password='12345')
+        response = self.client.get(reverse('library:openinghour-create'))
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, "library/openinghours_form.html")
