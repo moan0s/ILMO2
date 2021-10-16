@@ -1,6 +1,6 @@
 .idea/*
 # SQLite database
-src/ilmo2
+*.sq3
 *tmp
 # Byte-compiled / optimized / DLL files
 __pycache__/
