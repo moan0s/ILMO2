@@ -201,27 +201,27 @@ class ItemTest(TestCase):
         cls.u = User.objects.create_user('foo', password='bar')
         cls.u.save()
     def test_borrow(self):
-        self.bookInstanceA.borrow(self.u)
+        self.bookInstanceA.borrow(Member.objects.get(user=self.u))
         self.assertEquals(self.bookInstanceA.status,"o")
         loans_of_book = Loan.objects.filter(item=self.bookInstanceA)
         self.assertEquals(len(loans_of_book), 1)
         loan = loans_of_book[0]
         self.assertFalse(loan.returned)
         self.assertFalse(loan.is_overdue)
-        self.assertEquals(loan.borrower, self.u)
+        self.assertEquals(loan.borrower, Member.objects.get(user=self.u))
 
         # Test default return
         self.assertEquals(loan.due_back, (timezone.now()+timedelta(days=28)).date())
 
     def test_return(self):
-        self.bookInstanceA.borrow(self.u)
+        self.bookInstanceA.borrow(Member.objects.get(user=self.u))
         self.assertEquals(self.bookInstanceA.status, "o")
         loans_of_book = Loan.objects.filter(item=self.bookInstanceA)
         self.assertEquals(len(loans_of_book), 1)
         loan = loans_of_book[0]
         self.assertFalse(loan.returned)
         self.assertFalse(loan.is_overdue)
-        self.assertEquals(loan.borrower, self.u)
+        self.assertEquals(loan.borrower, Member.objects.get(user=self.u))
 
         # Return item and check expected state
         self.assertTrue(self.bookInstanceA.return_item())
@@ -248,7 +248,7 @@ class LoanModelTest(TestCase):
         u = User.objects.create_user('foo', password='bar')
         u.save()
 
-        loan = Loan.objects.create(borrower=u,
+        loan = Loan.objects.create(borrower=Member.objects.get(user=u),
                                    item=cls.bookInstanceA,
                                    lent_on=date.today(),
                                    due_back=date.today()+timedelta(days=30))
@@ -278,3 +278,9 @@ class OpeningHourModelTest(TestCase):
 
     def test_string_representation(self):
         self.assertEquals("Monday 12:30-13:30", str(self.oh1))
+
+class MemberModelTest(TestCase):
+    def test_auto_creation_of_member(self):
+        u = User.objects.create_user('foo', password='bar')
+        u.save()
+        self.assertEquals(len(Member.objects.filter(user=u)), 1)

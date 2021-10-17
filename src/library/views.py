@@ -7,7 +7,7 @@ from django.urls import reverse
 import datetime
 
 from .forms import RenewItemForm
-from .models import Book, Author, BookInstance, Loan, Material, MaterialInstance, OpeningHours, Item
+from .models import Book, Author, BookInstance, Loan, Material, MaterialInstance, OpeningHours, Item, Member
 
 def index(request):
     """View function for home page of site."""
@@ -60,7 +60,7 @@ class AuthorDetailView(generic.DetailView):
 @login_required()
 def list_loans_of_user(request):
     """View function for home page of site."""
-    loans_by_user = Loan.objects.filter(borrower=request.user)
+    loans_by_user = Loan.objects.filter(borrower = Member.objects.get(user=request.user))
     unreturned_loans_by_user = [loan for loan in loans_by_user if not (loan.returned)]
     bookinstance_list = BookInstance.objects.filter(loan__in=unreturned_loans_by_user)
     materialinstance_list = MaterialInstance.objects.filter(loan__in=unreturned_loans_by_user)

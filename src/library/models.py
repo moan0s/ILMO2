@@ -5,6 +5,8 @@ import uuid
 from datetime import date
 from django.utils.translation import ugettext_lazy as _
 from django.utils import timezone
+from django.db.models.signals import post_save
+from django.dispatch import receiver
 
 
 class Genre(models.Model):
@@ -42,6 +44,45 @@ class Book(models.Model):
     isbn = models.CharField('ISBN', max_length=13, unique=True, help_text='ISBN number (13 Characters)')
     language = models.ForeignKey('Language', on_delete=models.SET_NULL, null=True)
 
+class Author(models.Model):
+    """Model representing an author."""
+    first_name = models.CharField(max_length=100)
+    last_name = models.CharField(max_length=100)
+    date_of_birth = models.DateField(null=True, blank=True)
+    date_of_death = models.DateField('Died', null=True, blank=True)
+
+    class Meta:
+        ordering = ['last_name', 'first_name']
+        permissions = (("can_modify_author", "Can add, update or delete an author"),)
+
+    def __str__(self):
+        """String for representing the Model object."""
+        return f'{self.last_name}, {self.first_name}'
+
+    def get_absolute_url(self):
+        """Returns the url to access a detail record for this book."""
+        return reverse('library:author-detail', args=[str(self.id)])
+
+
+class Language(models.Model):
+    """Model representing a Language (e.g. English, French, Japanese, etc.)"""
+    name = models.CharField(max_length=200,
+                            help_text="Enter a natural languages name (e.g. English, French, Japanese etc.)",
+                            unique=True)
+
+    def __str__(self):
+        """String for representing the Model object (in Admin site etc.)"""
+        return self.name
+
+class Member(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    preferred_language = models.ForeignKey(Language, on_delete=models.PROTECT, null=True)
+    UID = models.CharField(max_length=50, blank=True, help_text=_("The UID of a NFC chip (e.g. in a student id)"))
+
+    @receiver(post_save, sender=User)
+    def add_member(sender, instance, created, raw, using, **kwargs):
+        if len(Member.objects.filter(user=instance)) != 1:
+            Member.objects.create(user=instance)
 
 class Item(models.Model):
     """Represents an item that is physically in the library"""
@@ -73,7 +114,7 @@ class Item(models.Model):
         return str(self.label)
 
     def borrow(self,
-               borrower: User,
+               borrower: Member,
                due_back=timezone.now() + timezone.timedelta(days=28)):
         """
         Borrows the item by marking it as on loan and creating a loan
@@ -152,39 +193,8 @@ class MaterialInstance(Item):
 
     material = models.ForeignKey('Material', on_delete=models.RESTRICT, null=True)
 
-
-class Author(models.Model):
-    """Model representing an author."""
-    first_name = models.CharField(max_length=100)
-    last_name = models.CharField(max_length=100)
-    date_of_birth = models.DateField(null=True, blank=True)
-    date_of_death = models.DateField('Died', null=True, blank=True)
-
-    class Meta:
-        ordering = ['last_name', 'first_name']
-        permissions = (("can_modify_author", "Can add, update or delete an author"),)
-
-    def __str__(self):
-        """String for representing the Model object."""
-        return f'{self.last_name}, {self.first_name}'
-
-    def get_absolute_url(self):
-        """Returns the url to access a detail record for this book."""
-        return reverse('library:author-detail', args=[str(self.id)])
-
-
-class Language(models.Model):
-    """Model representing a Language (e.g. English, French, Japanese, etc.)"""
-    name = models.CharField(max_length=200,
-                            help_text="Enter the book's natural language (e.g. English, French, Japanese etc.)")
-
-    def __str__(self):
-        """String for representing the Model object (in Admin site etc.)"""
-        return self.name
-
-
 class Loan(models.Model):
-    borrower = models.ForeignKey(User, on_delete=models.PROTECT)
+    borrower = models.ForeignKey(Member, on_delete=models.PROTECT)
     item = models.ForeignKey(Item, on_delete=models.PROTECT)
     lent_on = models.DateField()
     due_back = models.DateField()

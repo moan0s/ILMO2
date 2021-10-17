@@ -64,7 +64,7 @@ class MyLoansView(TestCase):
         # Now change all books to be on loan
         books = BookInstance.objects.all()[:10]
 
-        borrower = User.objects.get(username="testuser1")
+        borrower = Member.objects.get(user=User.objects.get(username="testuser1"))
         for book in books:
             book.borrow(borrower=borrower)
 
@@ -105,7 +105,7 @@ class LoanDetailView(TestCase):
             label=f'A 1 a',
             status="a",
         )
-        b.borrow(test_user1)
+        b.borrow(Member.objects.get(user=test_user1))
         b.save()
         cls.loan1 = Loan.objects.filter(item=b)[0]
 
