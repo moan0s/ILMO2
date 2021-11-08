@@ -1,5 +1,5 @@
 import datetime
-
+from django.core import mail
 from django.contrib.auth.models import User
 from django.test import TestCase
 from datetime import date, timedelta
@@ -66,8 +66,13 @@ class MailTest(TestCase):
     def test_gen_messages(self):
         reminder = MailReminder()
         messages = reminder._gen_messages()
-        for message in messages:
-            print(message.to)
-            print(message.body)
         self.assertEquals(len(messages), 2)
         self.assertEquals(['test_user_1@example.com'], messages[0].to)
+        self.assertIn("[T 1 c]", messages[1].body)
+
+    def test_send(self):
+        reminder = MailReminder()
+        reminder.send()
+        self.assertEqual(len(mail.outbox), 2)
+        self.assertEqual(mail.outbox[0].subject, 'Your unreturned loans')
+        self.assertEqual(['test_user_1@example.com'], mail.outbox[0].to)

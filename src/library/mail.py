@@ -57,12 +57,13 @@ class MailReminder():
 
     def send(self):
         messages = self._gen_messages()
+        for message in messages:
+            message.send()
 
     def _gen_messages(self):
         # Probably inefficient collection of information to send reminders
         messages = []
         member_with_unreturned_loans = set([loan.borrower for loan in Loan.objects.all() if not loan.returned])
-        print(member_with_unreturned_loans)
 
         loans_by_user = {}
         for member in member_with_unreturned_loans:
