@@ -34,10 +34,7 @@ class MailReminder():
         one_other = False
         loan_text = ""
         for loan in unreturned_loans_by_user:
-            try:
-                last_reminder = LoanReminder.objects.filter(loan=loan).latest("sent_on").sent_on
-            except LoanReminder.DoesNotExist:
-                last_reminder = loan.lent_on
+            last_reminder = loan.last_reminder
             days_since_last_reminder = datetime.now().date() - last_reminder
             if days_since_last_reminder >= timedelta(days=self.reminder_interval):
                 one_due = True

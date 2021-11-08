@@ -227,6 +227,13 @@ class Loan(models.Model):
         else:
             return False
 
+    @property
+    def last_reminder(self):
+        try:
+            return LoanReminder.objects.filter(loan=self).latest("sent_on").sent_on
+        except LoanReminder.DoesNotExist:
+            return self.lent_on
+
     class Meta:
         permissions = (('can_see_borrower', 'Can see who borrowed an item'),)
 
