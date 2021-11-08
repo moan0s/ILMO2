@@ -9,6 +9,7 @@ import datetime
 from .forms import RenewItemForm
 from .models import Book, Author, BookInstance, Loan, Material, MaterialInstance, OpeningHours, Item, Member
 
+
 def index(request):
     """View function for home page of site."""
 
@@ -17,7 +18,7 @@ def index(request):
     num_instances = BookInstance.objects.all().count()
 
     # Available books
-    num_instances_available = BookInstance.objects.filter(status = "a").count()
+    num_instances_available = BookInstance.objects.filter(status="a").count()
 
     num_authors = Author.objects.count()
 
@@ -27,40 +28,52 @@ def index(request):
         'num_instances_available': num_instances_available,
         'num_authors': num_authors,
     }
+    if request.user.is_staff:
+        from .mail import MailReminder
+        mail_reminder = MailReminder()
+        mail_reminder.send()
 
     return render(request, 'library/index.html', context=context)
+
 
 class BookListView(generic.ListView):
     model = Book
     template_name = 'library/books.html'
-    paginate_by =10
+    paginate_by = 10
+
 
 class BookDetailView(generic.DetailView):
     model = Book
     template_name = 'library/book.html'
 
-#TODO
+
+# TODO
 def loans_of_book(request, pk):
     response = "You're looking at the loans of book %s."
     return HttpResponse(response % pk)
-#TODO
+
+
+# TODO
 def lend_book(request, pk):
     return HttpResponse("You're lending book %s." % pk)
+
 
 class AuthorListView(generic.ListView):
     model = Author
     template_name = 'library/authors.html'
     paginate_by = 10
 
+
 class AuthorDetailView(generic.DetailView):
     model = Author
     template_name = 'library/author.html'
     paginate_by = 10
 
+
 @login_required()
 def list_loans_of_user(request):
     """View function for home page of site."""
-    loans_by_user = Loan.objects.filter(borrower = Member.objects.get(user=request.user))
+    loans_by_user = Loan.objects.filter(borrower=Member.objects.get(user=request.user))
     unreturned_loans_by_user = [loan for loan in loans_by_user if not (loan.returned)]
     bookinstance_list = BookInstance.objects.filter(loan__in=unreturned_loans_by_user)
     materialinstance_list = MaterialInstance.objects.filter(loan__in=unreturned_loans_by_user)
@@ -70,6 +83,7 @@ def list_loans_of_user(request):
     }
 
     return render(request, 'library/list_loans_user.html', context=context)
+
 
 @login_required()
 @permission_required('library.can_see_borrowed', raise_exception=True)
@@ -85,6 +99,7 @@ def list_loans_unreturned(request):
     }
 
     return render(request, 'library/list_loans_all.html', context=context)
+
 
 @login_required
 @permission_required('library.can_mark_returned', raise_exception=True)
@@ -105,7 +120,7 @@ def renew_item_librarian(request, pk):
 
             if request.user.has_perm('library.can_see_borrowed'):
                 # redirect to a new URL:
-                return HttpResponseRedirect(reverse('library:index') ) #TOD: Redirect this to a loan overview
+                return HttpResponseRedirect(reverse('library:index'))  # TOD: Redirect this to a loan overview
             else:
                 return HttpResponseRedirect(reverse('library:index'))
 
@@ -125,37 +140,45 @@ def renew_item_librarian(request, pk):
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.urls import reverse_lazy
 
+
 class AuthorCreate(PermissionRequiredMixin, CreateView):
     permission_required = "library.can_modify_author"
     model = Author
     fields = ['first_name', 'last_name', 'date_of_birth', 'date_of_death']
+
 
 class AuthorUpdate(PermissionRequiredMixin, UpdateView):
     permission_required = "library.can_modify_author"
     model = Author
     fields = ['first_name', 'last_name', 'date_of_birth', 'date_of_death']
 
+
 class AuthorDelete(PermissionRequiredMixin, DeleteView):
     permission_required = "library.can_modify_author"
     model = Author
     success_url = reverse_lazy('library:authors')
 
+
 class MaterialListView(generic.ListView):
     model = Material
     template_name = 'library/materials.html'
-    paginate_by =10
+    paginate_by = 10
+
 
 class MaterialDetailView(generic.DetailView):
     model = Material
     template_name = 'library/material.html'
 
+
 class BookInstanceDetailView(generic.DetailView):
     model = BookInstance
     template_name = 'library/bookInstance-detail.html'
 
+
 class MaterialInstanceDetailView(generic.DetailView):
     model = MaterialInstance
     template_name = 'library/materialInstance-detail.html'
+
 
 class LoanDetailView(generic.DetailView):
     model = Loan
@@ -170,9 +193,11 @@ class OpeningHoursCreateView(PermissionRequiredMixin, CreateView):
     def get_success_url(self):
         return reverse('library:openinghours')
 
+
 class OpeningHoursListView(generic.ListView):
     model = OpeningHours
     template_name = 'library/openinghours.html'
+
 
 class OpeningHourDeleteView(PermissionRequiredMixin, DeleteView):
     permission_required = "library.change_opening_hours"

@@ -1,0 +1,73 @@
+import datetime
+
+from django.contrib.auth.models import User
+from django.test import TestCase
+from datetime import date, timedelta
+
+from library.models import Loan, Book, Member, Author, BookInstance
+from library.mail import MailReminder
+
+
+class MailTest(TestCase):
+
+    @classmethod
+    def setUpTestData(cls):
+        b = Book.objects.create(title="How to Test",
+                                author=Author.objects.create(first_name="Jane", last_name="Doe"),
+                                summary="How to write better tests than you do",
+                                isbn="1234567890123")
+        cls.bookInstanceA = BookInstance.objects.create(book=b, label="T 1 a")
+        cls.bookInstanceB = BookInstance.objects.create(book=b, label="T 1 b")
+        cls.bookInstanceC = BookInstance.objects.create(book=b, label="T 1 c")
+        cls.bookInstanceD = BookInstance.objects.create(book=b, label="T 1 d")
+
+        cls.u = User.objects.create_user('foo', password='bar',
+                                         first_name="user",
+                                         last_name="1",
+                                         email="test_user_1@example.com")
+        cls.u2 = User.objects.create_user('foo2',
+                                          password='bar2',
+                                          first_name="user",
+                                          last_name="2",
+                                          email="test_user_2@example.com")  # One loan
+        cls.u3 = User.objects.create_user('foo3',
+                                          password='bar3',
+                                          first_name="user",
+                                          last_name="3",
+                                          email="test_user_3@example.com")  # No loans
+        cls.u4 = User.objects.create_user('foo4',
+                                          password='bar4',
+                                          first_name="user",
+                                          last_name="4")  # No email
+        cls.bookInstanceA.borrow(Member.objects.get(user=cls.u),
+                                 due_back=date.today(),
+                                 lent_on=date.today()-timedelta(days=99))
+        cls.bookInstanceB.borrow(Member.objects.get(user=cls.u),
+                                 due_back=date.today(),
+                                 lent_on=date.today()-timedelta(days=99))
+        cls.bookInstanceC.borrow(Member.objects.get(user=cls.u2),
+                                 due_back=date.today(),
+                                 lent_on=date.today()-timedelta(days=99))
+        cls.bookInstanceD.borrow(Member.objects.get(user=cls.u2),
+                                 due_back=date.today(),
+                                 lent_on=date.today()-timedelta(days=99))
+
+    def test_email_text_from_loan(self):
+        loanA = Loan.objects.get(item=self.bookInstanceA)
+        loan_text = MailReminder._email_text_from_loan(loanA)
+        self.assertEquals(f"[T 1 a] is due back on {date.today().strftime('%-d.%m.%Y')}", loan_text)
+
+    def test_gen_loan_text(self):
+        reminder = MailReminder()
+        loan_text = reminder._gen_loan_text(Member.objects.get(user=self.u))
+        self.assertIn("[T 1 a]", loan_text)
+        self.assertIn("[T 1 b]", loan_text)
+
+    def test_gen_messages(self):
+        reminder = MailReminder()
+        messages = reminder._gen_messages()
+        for message in messages:
+            print(message.to)
+            print(message.body)
+        self.assertEquals(len(messages), 2)
+        self.assertEquals(['test_user_1@example.com'], messages[0].to)

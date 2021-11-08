@@ -44,6 +44,7 @@ class Book(models.Model):
     isbn = models.CharField('ISBN', max_length=13, unique=True, help_text='ISBN number (13 Characters)')
     language = models.ForeignKey('Language', on_delete=models.SET_NULL, null=True)
 
+
 class Author(models.Model):
     """Model representing an author."""
     first_name = models.CharField(max_length=100)
@@ -74,6 +75,7 @@ class Language(models.Model):
         """String for representing the Model object (in Admin site etc.)"""
         return self.name
 
+
 class Member(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     preferred_language = models.ForeignKey(Language, on_delete=models.PROTECT, null=True)
@@ -83,6 +85,7 @@ class Member(models.Model):
     def add_member(sender, instance, created, raw, using, **kwargs):
         if len(Member.objects.filter(user=instance)) != 1:
             Member.objects.create(user=instance)
+
 
 class Item(models.Model):
     """Represents an item that is physically in the library"""
@@ -111,7 +114,7 @@ class Item(models.Model):
                        ("can_see_borrowed", "See all borrowed items"))
 
     def __str__(self):
-        return str(self.label)
+        return str(f"[{self.label}]")
 
     def borrow(self,
                borrower: Member,
@@ -132,7 +135,7 @@ class Item(models.Model):
         """
         l = Loan.objects.create(
             item=self,
-            lent_on=timezone.now(),
+            lent_on=lent_on,
             due_back=due_back,
             borrower=borrower,
         )
@@ -158,7 +161,7 @@ class Item(models.Model):
         """
         try:
             unreturned_loan_of_item = Loan.objects.filter(item=self,
-                                                           returned_on=None)[0]
+                                                          returned_on=None)[0]
         except IndexError:
             return False
         unreturned_loan_of_item.returned_on = return_date
@@ -195,6 +198,7 @@ class MaterialInstance(Item):
 
     material = models.ForeignKey('Material', on_delete=models.RESTRICT, null=True)
 
+
 class Loan(models.Model):
     borrower = models.ForeignKey(Member, on_delete=models.PROTECT)
     item = models.ForeignKey(Item, on_delete=models.PROTECT)
@@ -224,7 +228,8 @@ class Loan(models.Model):
             return False
 
     class Meta:
-        permissions =(('can_see_borrower', 'Can see who borrowed an item'),)
+        permissions = (('can_see_borrower', 'Can see who borrowed an item'),)
+
 
 WEEKDAYS = [
     (1, _("Monday")),
@@ -250,3 +255,8 @@ class OpeningHours(models.Model):
 
     def __str__(self):
         return f"{self.get_weekday_display()} {self.from_hour:%H:%M}-{self.to_hour:%H:%M}"
+
+
+class LoanReminder(models.Model):
+    loan = models.ForeignKey(Loan, on_delete=models.PROTECT)
+    sent_on = models.DateField()
