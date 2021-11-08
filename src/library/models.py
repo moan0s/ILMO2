@@ -215,6 +215,9 @@ class Loan(models.Model):
         """Returns the url to access a detail record for this loan."""
         return reverse('library:loan-detail', args=[str(self.id)])
 
+    def remind(self):
+        LoanReminder.objects.create(loan=self, sent_on=timezone.now().date())
+
     @property
     def is_overdue(self):
         if self.due_back and date.today() > self.due_back:
@@ -241,7 +244,6 @@ class Loan(models.Model):
         reminder_interval = 28
         days_since_last_reminder = datetime.now().date() - self.last_reminder
         return days_since_last_reminder >= timedelta(days=reminder_interval)
-
 
     class Meta:
         permissions = (('can_see_borrower', 'Can see who borrowed an item'),)

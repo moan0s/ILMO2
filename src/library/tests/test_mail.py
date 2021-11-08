@@ -4,6 +4,7 @@ from django.contrib.auth.models import User
 from django.test import TestCase
 from datetime import date, timedelta
 from django.urls import reverse
+from django.utils import timezone
 
 from library.models import Loan, Book, Member, Author, BookInstance
 from library.mail import MailReminder
@@ -77,6 +78,7 @@ class MailTest(TestCase):
         self.assertEqual(len(mail.outbox), 2)
         self.assertEqual(mail.outbox[0].subject, 'Your unreturned loans')
         self.assertEqual(['test_user_1@example.com'], mail.outbox[0].to)
+        self.assertEqual(Loan.objects.get(item=self.bookInstanceA).last_reminder, timezone.now().date())
 
     def test_index_send(self):
         test_user1 = User.objects.create_user(username='testuser1', password='12345')

@@ -37,6 +37,8 @@ class MailReminder():
             for loan in unreturned_loans_by_user:
                 if loan.due_back:
                     due_loan_texts.append(MailReminder._email_text_from_loan(loan))
+                    # Log that user was reminded on this loan
+                    loan.remind()
                 else:
                     one_other = True
                     other_loan_texts.append(MailReminder._email_text_from_loan(loan))
