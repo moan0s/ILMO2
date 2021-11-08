@@ -3,6 +3,7 @@ from django.core import mail
 from django.contrib.auth.models import User
 from django.test import TestCase
 from datetime import date, timedelta
+from django.urls import reverse
 
 from library.models import Loan, Book, Member, Author, BookInstance
 from library.mail import MailReminder
@@ -76,3 +77,17 @@ class MailTest(TestCase):
         self.assertEqual(len(mail.outbox), 2)
         self.assertEqual(mail.outbox[0].subject, 'Your unreturned loans')
         self.assertEqual(['test_user_1@example.com'], mail.outbox[0].to)
+
+    def test_index_send(self):
+        test_user1 = User.objects.create_user(username='testuser1', password='12345')
+        test_user2 = User.objects.create_user(username='testuser2', password='12345', is_staff=True)
+
+        # Test with user that has no admin permissions
+        login = self.client.login(username='testuser1', password='12345')
+        response = self.client.get(reverse('library:index'))
+        self.assertEqual(len(mail.outbox), 0)
+
+        # Test with user that has no admin permissions
+        login = self.client.login(username='testuser2', password='12345')
+        response = self.client.get(reverse('library:index'))
+        self.assertEqual(len(mail.outbox), 2)
