@@ -115,7 +115,8 @@ class Item(models.Model):
 
     def borrow(self,
                borrower: Member,
-               due_back=timezone.now() + timezone.timedelta(days=28)):
+               due_back=timezone.now() + timezone.timedelta(days=28),
+               lent_on=timezone.now()):
         """
         Borrows the item by marking it as on loan and creating a loan
 
@@ -123,6 +124,7 @@ class Item(models.Model):
         ----------
         borrower:User The user that borrows the item
         due_back:datetime When the item has to be returned, default is one month later
+        lent_on:datetime When the item was lent. Parameter most useful for testing
 
         Returns
         -------
