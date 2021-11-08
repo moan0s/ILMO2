@@ -6,7 +6,6 @@ from django.core import mail
 
 
 class MailReminder():
-    reminder_interval = 28
 
     def _email_text_from_loan(loan):
 
@@ -28,26 +27,24 @@ class MailReminder():
             loan_text:str A email text for the users loans or empty to indicate no reminders that are necessary
         """
         unreturned_loans_by_user = [loan for loan in Loan.objects.filter(borrower=member) if not loan.returned]
+        loans_by_user_reminder_needed = [loan for loan in Loan.objects.filter(borrower=member) if (not loan.returned and loan.reminder_due)]
         due_loan_texts = []
         other_loan_texts = []
         one_due = False
         one_other = False
         loan_text = ""
-        for loan in unreturned_loans_by_user:
-            last_reminder = loan.last_reminder
-            days_since_last_reminder = datetime.now().date() - last_reminder
-            if days_since_last_reminder >= timedelta(days=self.reminder_interval):
-                one_due = True
-                due_loan_texts.append(MailReminder._email_text_from_loan(loan))
-            else:
-                one_other = True
-                other_loan_texts.append(MailReminder._email_text_from_loan(loan))
-        if one_due:
-            loan_text = _("Your loans that are past their due date" + ":\n\r")
+        if len(loans_by_user_reminder_needed) > 0:
+            for loan in unreturned_loans_by_user:
+                if loan.due_back:
+                    due_loan_texts.append(MailReminder._email_text_from_loan(loan))
+                else:
+                    one_other = True
+                    other_loan_texts.append(MailReminder._email_text_from_loan(loan))
+                loan_text = _("Your loans that are past their due date" + ":\n\r")
             for text in due_loan_texts:
                 loan_text = loan_text + text + "\n\r"
             if one_other:
-                loan_text = _("Your other loans" + ":\n\r")
+                loan_text = _("Loans that will become due" + ":\n\r")
                 for text in other_loan_texts:
                     loan_text = loan_text + text + "\n\r"
         return loan_text

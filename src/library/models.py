@@ -7,6 +7,7 @@ from django.utils.translation import ugettext_lazy as _
 from django.utils import timezone
 from django.db.models.signals import post_save
 from django.dispatch import receiver
+from datetime import datetime, timedelta
 
 
 class Genre(models.Model):
@@ -233,6 +234,14 @@ class Loan(models.Model):
             return LoanReminder.objects.filter(loan=self).latest("sent_on").sent_on
         except LoanReminder.DoesNotExist:
             return self.lent_on
+
+    @property
+    def reminder_due(self):
+        """True if a reminder is due, else false."""
+        reminder_interval = 28
+        days_since_last_reminder = datetime.now().date() - self.last_reminder
+        return days_since_last_reminder >= timedelta(days=reminder_interval)
+
 
     class Meta:
         permissions = (('can_see_borrower', 'Can see who borrowed an item'),)
