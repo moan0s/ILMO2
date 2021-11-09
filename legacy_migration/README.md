@@ -12,7 +12,22 @@ Preferably download/convert them to JSON files, one file per table.
 
 # Run migration script
 
+The migration script needs the Django settings e.g. for database access.
+
+```shell
+cd legacy_migration
+../src/manage.py shell < migrate_legacy.py
+```
+
 # Verify
 
 Verify that the imported data is correct. Be aware that passwords for the user have been randomly generated
 and all users need to reset their password.
+
+# Limitations
+
+The migration tool does not
+
+* equip user with privileges (admins)
+* migrate opening hours
+* create languages -> must be created beforehand
