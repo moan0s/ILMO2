@@ -105,8 +105,6 @@ def get_author(name: str):
             Author.objects.create(last_name=last_name)
 
 
-
-
 def get_label_end(index):
     label_end = ""
     if int(index / 26) > 0:
@@ -150,13 +148,27 @@ for book_label in books:
                                     status="a",
                                     label=label)
 
-material = dict()
+materials = dict()
 for old_material_instance in old_materialinstance_list:
     label_stem = get_stem(old_material_instance['material_ID'])
     try:
-        material[label_stem]["number"] += 1
+        materials[label_stem]["number"] += 1
     except KeyError:
         # print(f"Creating new material: {label_stem}")
-        material[label_stem] = {"title": old_material_instance["name"],
-                                "number": 1}
-print(f"Derived {len(material)} materials")
+        materials[label_stem] = {"title": old_material_instance["name"],
+                                 "number": 1}
+print(f"Derived {len(materials)} materials")
+
+for material_label in materials:
+    print(f"Material label: {material_label}")
+    material_dict = materials[material_label]
+    print(f"Material dict {material_dict}")
+    material = Material.objects.create(name=material_dict["title"])
+    for i in range(0, material_dict["number"]):
+        print(i)
+        label_end = get_label_end(i)
+        label = f"{material_label} {label_end}"
+        print(label)
+        MaterialInstance.objects.create(material=material,
+                                        status="a",
+                                        label=label)
