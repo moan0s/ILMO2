@@ -27,8 +27,7 @@ for legacy_user in user_list:
     user = User.objects.create(first_name=legacy_user["forename"],
                                last_name=legacy_user["surname"],
                                email=legacy_user["email"],
-                               username=legacy_user["user_ID"],
-                               password="Dada")
+                               username=legacy_user["user_ID"])
     member = Member.objects.get(user=user)
     language = legacy_user['language']
     if language == "":
