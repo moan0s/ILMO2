@@ -2,6 +2,10 @@
     margin-top: 20px;
 }
 
+.col-sm-2{
+    padding-left: 0px;
+}
+
 table {
         border : none;
         border-collapse: collapse;
