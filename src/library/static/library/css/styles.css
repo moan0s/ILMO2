@@ -35,7 +35,6 @@ h1 {
 .header {
     overflow: hidden;
     background-color: #4ba3cd;
-    padding: 20px 10px;
 }
 
 .header a, .sidebar-nav a {
@@ -78,6 +77,11 @@ h1 {
     }
 }
 
+.logo{
+}
+.logo img{
+    height: 120px;
+}
 .sidebar-nav {
     z-index: 1;
     top: 20px;
