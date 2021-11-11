@@ -15,8 +15,8 @@ Preferably download/convert them to JSON files, one file per table.
 The migration script needs the Django settings e.g. for database access.
 
 ```shell
-cd legacy_migration
-../src/manage.py shell < migrate_legacy.py
+cd src
+python manage.py shell < ../legacy_migration/migrate_legacy.py
 ```
 
 # Verify

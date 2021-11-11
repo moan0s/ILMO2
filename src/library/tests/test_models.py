@@ -4,8 +4,9 @@ from library.models import *
 from datetime import timedelta, time
 from django.utils import timezone
 
+
 class AuthorModelTest(TestCase):
-    
+
     @classmethod
     def setUpTestData(cls):
         a1 = Author.objects.create(first_name="Jane", last_name="Doe")
@@ -35,7 +36,8 @@ class AuthorModelTest(TestCase):
     def test_ordering(self):
         author = Author.objects.all()[0]
         ordering = author._meta.ordering
-        self.assertEquals(ordering, ['last_name', 'first_name'] )
+        self.assertEquals(ordering, ['last_name', 'first_name'])
+
     def test_first_name_label(self):
         author = Author.objects.all()[0]
         field_label = author._meta.get_field('first_name').verbose_name
@@ -61,15 +63,16 @@ class AuthorModelTest(TestCase):
         # This will also fail if the urlconf is not defined.
         self.assertEqual(author.get_absolute_url(), f'/library/author/{author.id}/')
 
+
 class GenreModelTest(TestCase):
 
     @classmethod
     def setUpTestData(ctl):
         g1 = Genre.objects.create(name="Science Fiction")
         b1 = Book.objects.create(title="How to Test genres",
-                author=Author.objects.create(first_name="Jane", last_name="Doe"),
-                summary="Book to test genres",
-                isbn="1234567890124")
+                                 author=Author.objects.create(first_name="Jane", last_name="Doe"),
+                                 summary="Book to test genres",
+                                 isbn="1234567890124")
         g1.save()
         b1.save()
 
@@ -85,14 +88,15 @@ class GenreModelTest(TestCase):
         string_representation = str(book.genre)
         self.assertEquals(string_representation, f"Science Fiction")
 
+
 class BookModelTest(TestCase):
 
     @classmethod
     def setUpTestData(cls):
         b = Book.objects.create(title="How to Test",
-                author=Author.objects.create(first_name="Jane", last_name="Doe"),
-                summary="How to write better tests than you do",
-                isbn="1234567890123")
+                                author=Author.objects.create(first_name="Jane", last_name="Doe"),
+                                summary="How to write better tests than you do",
+                                isbn="1234567890123")
         b.save()
 
     def test_str(self):
@@ -100,24 +104,25 @@ class BookModelTest(TestCase):
         string_representation = str(book)
         self.assertEquals(string_representation, f"How to Test by {book.author}")
 
+
 class BookInstanceModelTest(TestCase):
 
     @classmethod
     def setUpTestData(cls):
         b = Book.objects.create(title="How to Test",
-                author=Author.objects.create(first_name="Jane", last_name="Doe"),
-                summary="How to write better tests than you do",
-                isbn="1234567890123")
-        bookInstanceA = BookInstance.objects.create(book = b, label = "T 1 a")
+                                author=Author.objects.create(first_name="Jane", last_name="Doe"),
+                                summary="How to write better tests than you do",
+                                isbn="1234567890123")
+        bookInstanceA = BookInstance.objects.create(book=b, label="T 1 a")
         b.save()
         bookInstanceA.save()
-        
-        u = User.objects.create_user('foo', password='bar')
-        bookInstanceB = BookInstance.objects.create(book = b,
-            label = "T 1 b",)
 
-        bookInstanceC = BookInstance.objects.create(book = b,
-            label = "T 1 c",)
+        u = User.objects.create_user('foo', password='bar')
+        bookInstanceB = BookInstance.objects.create(book=b,
+                                                    label="T 1 b", )
+
+        bookInstanceC = BookInstance.objects.create(book=b,
+                                                    label="T 1 c", )
         bookInstanceB.save()
         bookInstanceC.save()
 
@@ -169,10 +174,10 @@ class MaterialInstanceModelTest(TestCase):
         materialInstanceA.save()
 
         materialInstanceB = MaterialInstance.objects.create(material=m,
-                                                    label="LC 2",)
+                                                            label="LC 2", )
 
         materialInstanceC = MaterialInstance.objects.create(material=m,
-                                                    label="LC 3",)
+                                                            label="LC 3", )
         materialInstanceB.save()
         materialInstanceC.save()
 
@@ -190,6 +195,7 @@ class MaterialInstanceModelTest(TestCase):
         self.assertEquals(materialInstanceB.get_absolute_url(),
                           f"/library/materialInstance/{materialInstanceB.id}/")
 
+
 class ItemTest(TestCase):
     @classmethod
     def setUpTestData(cls):
@@ -200,9 +206,10 @@ class ItemTest(TestCase):
         cls.bookInstanceA = BookInstance.objects.create(book=b, label="T 1 a")
         cls.u = User.objects.create_user('foo', password='bar')
         cls.u.save()
+
     def test_borrow(self):
         self.bookInstanceA.borrow(Member.objects.get(user=self.u))
-        self.assertEquals(self.bookInstanceA.status,"o")
+        self.assertEquals(self.bookInstanceA.status, "o")
         loans_of_book = Loan.objects.filter(item=self.bookInstanceA)
         self.assertEquals(len(loans_of_book), 1)
         loan = loans_of_book[0]
@@ -211,7 +218,7 @@ class ItemTest(TestCase):
         self.assertEquals(loan.borrower, Member.objects.get(user=self.u))
 
         # Test default return
-        self.assertEquals(loan.due_back, (timezone.now()+timedelta(days=28)).date())
+        self.assertEquals(loan.due_back, (timezone.now() + timedelta(days=28)).date())
 
     def test_return(self):
         self.bookInstanceA.borrow(Member.objects.get(user=self.u))
@@ -233,6 +240,7 @@ class ItemTest(TestCase):
         self.assertFalse(loan.is_overdue)
         self.assertEquals(self.bookInstanceA.status, "a")
 
+
 class LoanModelTest(TestCase):
 
     @classmethod
@@ -251,7 +259,7 @@ class LoanModelTest(TestCase):
         loan = Loan.objects.create(borrower=Member.objects.get(user=u),
                                    item=cls.bookInstanceA,
                                    lent_on=date.today(),
-                                   due_back=date.today()+timedelta(days=30))
+                                   due_back=date.today() + timedelta(days=30))
         loan.save()
 
     def test_str(self):
@@ -268,16 +276,18 @@ class LoanModelTest(TestCase):
         self.assertEquals(loan.get_absolute_url(),
                           f"/library/loan/{loan.id}/")
 
+
 class OpeningHourModelTest(TestCase):
     @classmethod
     def setUpTestData(cls):
         cls.oh1 = OpeningHours.objects.create(weekday=1,
-                                        from_hour=time(hour=12,minute=30),
-                                        to_hour=time(hour=13,minute=30),)
+                                              from_hour=time(hour=12, minute=30),
+                                              to_hour=time(hour=13, minute=30), )
         cls.oh1.save()
 
     def test_string_representation(self):
         self.assertEquals("Monday 12:30-13:30", str(self.oh1))
+
 
 class MemberModelTest(TestCase):
     def test_auto_creation_of_member(self):
