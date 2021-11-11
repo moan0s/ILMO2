@@ -1,7 +1,8 @@
-from library.models import Book, BookInstance, Material, MaterialInstance, Member, Language, Author
+from library.models import Book, BookInstance, Material, MaterialInstance, Member, Language, Author, Loan, LoanReminder
 from django.contrib.auth.models import User
 import string
 import json
+from datetime import datetime
 
 with open('../legacy_migration/user.json') as json_file:
     data = json.load(json_file)
@@ -133,17 +134,14 @@ def test_label_end():
 test_label_end()
 
 for book_label in books:
-    print(f"Book label: {book_label}")
     book_dict = books[book_label]
     print(f"Book dict {book_dict}")
     author = get_author(book_dict["author"])
     book = Book.objects.create(title=book_dict["title"],
                                author=author)
     for i in range(0, book_dict["number"]):
-        print(i)
         label_end = get_label_end(i)
         label = f"{book_label} {label_end}"
-        print(label)
         BookInstance.objects.create(book=book,
                                     status="a",
                                     label=label)
@@ -160,15 +158,43 @@ for old_material_instance in old_materialinstance_list:
 print(f"Derived {len(materials)} materials")
 
 for material_label in materials:
-    print(f"Material label: {material_label}")
     material_dict = materials[material_label]
     print(f"Material dict {material_dict}")
     material = Material.objects.create(name=material_dict["title"])
     for i in range(0, material_dict["number"]):
-        print(i)
-        label_end = get_label_end(i)
+        label_end = i+1
         label = f"{material_label} {label_end}"
-        print(label)
         MaterialInstance.objects.create(material=material,
                                         status="a",
                                         label=label)
+unhandled_loans = []
+for legacy_loan in old_loan_list:
+    print(f"Loan {legacy_loan}")
+    try:
+        if legacy_loan["type"] == "book":
+            try:
+                item = BookInstance.objects.get(label=legacy_loan["ID"])
+            except BookInstance.DoesNotExist:
+                item = BookInstance.objects.get(label=legacy_loan["ID"]+" a")
+        else:
+            try:
+                item = MaterialInstance.objects.get(label=legacy_loan["ID"])
+            except MaterialInstance.DoesNotExist:
+                item = BookInstance.objects.get(label=legacy_loan["ID"]+" a")
+
+        user = User.objects.get(username=legacy_loan["user_ID"])
+        member = Member.objects.get(user=user)
+        item.borrow(member, lent_on=legacy_loan["pickup_date"])
+        return_date = legacy_loan["return_date"]
+        if return_date != "0000-00-00":
+            return_date_as_dt = datetime.strptime(return_date, "%Y-%m-%d").date()
+            loan.return_date = return_date_as_dt
+        last_reminder = legacy_loan["last_reminder"]
+        if last_reminder != "0000-00-00":
+            loan = Loan.objects.filter(item=item).latest("lent_on")
+            last_reminder_as_datetime = datetime.strptime(last_reminder, "%Y-%m-%d").date()
+            LoanReminder.objects.create(loan=loan, sent_on=last_reminder_as_datetime)
+    except Exception:
+        unhandled_loans.append(legacy_loan)
+    continue
+print(f"Could not handle the following loans {unhandled_loans}")
