@@ -1,7 +1,5 @@
 .sidebar-nav {
     margin-top: 20px;
-    padding: 0;
-    list-style: none;
 }
 
 table {
@@ -73,4 +71,42 @@ h1 {
   .header-right {
     float: none;
   }
+}
+
+.sidebar-nav {
+  z-index: 1;
+  top: 20px;
+  left: 10px;
+  background-color: #4ba3cd;
+  overflow-x: hidden;
+  padding: 8px 0;
+}
+
+.sidebar-nav a  {
+  padding: 6px 8px 6px 16px;
+  text-decoration: none;
+  font-size: 25px;
+  color: black;
+  display: block;
+}
+
+.sidebar-nav a:hover {
+  background-color: #4090b6;
+}
+
+.main {
+  margin-left: 160px; /* Same as the width of the sidenav */
+  font-size: 28px; /* Increased text to enable scrolling */
+  padding: 0px 10px;
+}
+
+@media screen and (max-height: 450px) {
+  .sidebar-nav {padding-top: 15px;}
+  .sidebar-nav a {font-size: 18px;}
+}
+
+.sidebar-nav li {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
 }
