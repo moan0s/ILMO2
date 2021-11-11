@@ -10,6 +10,9 @@
   <link rel="stylesheet" href="{% static 'library/css/styles.css' %}">
 </head>
 <body>
+    {% block header %}
+        {% include "library/header.html" %}
+    {% endblock %}
   <div class="container-fluid">
     <div class="row">
       <div class="col-sm-2">
