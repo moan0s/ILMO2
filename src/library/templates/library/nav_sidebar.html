@@ -1,26 +1,25 @@
 {% block sidebar %}
     <div class="sidebar-nav">
         <ul class="sidebar-nav-top">
+            <li><i class="fas fa-user"></i> {{ user.get_username }}</li>
             <li><a href="{% url 'library:index' %}">Home</a></li>
             <li><a href="{% url 'library:books' %}">All books</a></li>
             <li><a href="{% url 'library:materials' %}">All materials</a></li>
             <li><a href="{% url 'library:authors' %}">All authors</a></li>
             <li><a href="{% url 'library:openinghours' %}">Opening hours</a></li>
-		  {% if perms.library.can_see_borrowed %}
-				<li><a href="{% url 'library:loaned-items' %}">All loans</a></li>
-	      {% endif %}
+            {% if perms.library.can_see_borrowed %}
+                <li><a href="{% url 'library:loaned-items' %}">All loans</a></li>
+            {% endif %}
 
-		  {% if user.is_authenticated %}
-
-			 <li><a href="{% url 'library:my-loans' %}">My Loans</a></li>
-			 <li>User: {{ user.get_username }}</li>
-			 <li><a href="{% url 'logout'%}?next={{request.path}}">Logout</a></li>
-		  {% else %}
-			 <li><a href="{% url 'login'%}?next={{request.path}}">Login</a></li>
-	      {% endif %}
+            {% if user.is_authenticated %}
+                <li><a href="{% url 'library:my-loans' %}">My Loans</a></li>
+                <li><a href="{% url 'logout' %}?next={{ request.path }}"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+            {% else %}
+                <li><a href="{% url 'login' %}?next={{ request.path }}"><i class="fas fa-sign-in-alt"></i> Login</a></li>
+            {% endif %}
         </ul>
         <div class="sidebar-nav-footer">
-        <a href="{% url 'admin:index' %}">Admin</a>
+            <a href="{% url 'admin:index' %}">Admin</a>
         </div>
     </div>
 {% endblock %}

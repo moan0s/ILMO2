@@ -3,3 +3,4 @@ python-decouple
 mysqlclient
 coverage
 codecov
+fontawesomefree
