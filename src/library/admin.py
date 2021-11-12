@@ -11,6 +11,7 @@ admin.site.register(Language)
 
 @admin.register(BookInstance)
 class BookInstanceAdmin(admin.ModelAdmin):
+    search_fields = ['label']
     list_display = ('label', 'book', 'status')
     list_filter = ('status',)
 
@@ -25,6 +26,7 @@ class BookInstanceAdmin(admin.ModelAdmin):
 
 @admin.register(MaterialInstance)
 class MaterialInstanceAdmin(admin.ModelAdmin):
+    search_fields = ['label']
     list_display = ('label', 'material', 'status')
     list_filter = ('status',)
 
@@ -39,6 +41,7 @@ class MaterialInstanceAdmin(admin.ModelAdmin):
 
 @admin.register(Loan)
 class LoanAdmin(admin.ModelAdmin):
+    search_fields = ['item__label']
     list_display = ('item', 'lent_on', 'due_back')
     #list_filter = ('returned','is_overdue')
 
