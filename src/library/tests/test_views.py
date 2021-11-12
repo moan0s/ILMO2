@@ -98,8 +98,9 @@ class LoanDetailView(TestCase):
         test_user2 = User.objects.create_user(username='testuser2', password='12345')
         # User with permission to see borrower
         test_user3 = User.objects.create_user(username='testuser3', password='12345')
-        permission = Permission.objects.get(name='Can see who borrowed an item')
-        test_user3.user_permissions.add(permission)
+        permission_see = Permission.objects.get(codename="can_see_borrowed")
+        test_user3.user_permissions.add(permission_see)
+        test_user3.save()
 
         b = BookInstance.objects.create(
             book=test_book,
@@ -151,7 +152,7 @@ class LoanDetailView(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'library/loan-detail.html')
 
-        # Check that general loan info but not information on borrower is shown
+        # Check that general loan info and information on borrower is shown
         self.assertContains(response, f"{self.loan1.pk}")
         self.assertContains(response, str(self.loan1.item.label))
         self.assertContains(response, str(self.loan1.borrower))
@@ -168,7 +169,7 @@ class AllLoanView(TestCase):
                                         isbn="1234567890124")
         cls.test_user1 = User.objects.create_user(username='testuser1', password='12345')
         cls.test_user2 = User.objects.create_user(username='testuser2', password='12345')
-        permission = Permission.objects.get(name="See all borrowed items")
+        permission = Permission.objects.get(name__iexact="See all borrowed items")
         cls.test_user2.user_permissions.add(permission)
         cls.test_user2.save()
         # Create 30 BookInstance objects
@@ -804,3 +805,32 @@ class OpeningHoursCreateViewTest(TestCase):
         response = self.client.get(reverse('library:openinghour-create'))
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, "library/openinghours_form.html")
+
+
+class BorrowProcedureTest(TestCase):
+    @classmethod
+    def setUpTestData(cls):
+        test_book = Book.objects.create(title="How to Test genres",
+                                        author=Author.objects.create(first_name="Jane", last_name="Doe"),
+                                        summary="Book to test genres",
+                                        isbn="1234567890124")
+        cls.test_user1 = User.objects.create_user(username='testuser1', password='12345')
+        cls.test_user2 = User.objects.create_user(username='testuser2', password='12345')
+        permission = Permission.objects.get(name__iexact="Can add a loan for all user")
+        cls.test_user2.user_permissions.add(permission)
+        cls.test_user2.save()
+        cls.test_booklinstance1 = BookInstance.objects.create(
+            book=test_book,
+            label=f'A1 a',
+            status="a",
+        )
+
+    def test_item_borrow_unauthorized(self):
+        login = self.client.login(username='testuser1', password='12345')
+        response = self.client.get(reverse('library:bookInstance-borrow', kwargs={'pk': self.test_booklinstance1.pk}))
+        self.assertEqual(response.status_code, 403)
+
+    def test_item_borrow_authorized(self):
+        login = self.client.login(username='testuser2', password='12345')
+        response = self.client.get(reverse('library:bookInstance-borrow', kwargs={'pk': self.test_booklinstance1.pk}))
+        self.assertEqual(response.status_code, 200)

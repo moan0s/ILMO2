@@ -260,7 +260,7 @@ class Loan(models.Model):
         return days_since_last_reminder >= timedelta(days=reminder_interval)
 
     class Meta:
-        permissions = (('can_see_borrower', 'Can see who borrowed an item'),)
+        permissions = (('can_add_loan', 'Can add a loan for all user'),)
 
 
 WEEKDAYS = [

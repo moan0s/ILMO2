@@ -10,7 +10,7 @@
     {% else %}
         <p><strong>Due to be returned:</strong> {{ loan.due_back }}</p>
     {% endif %}
-    {% if perms.library.can_see_borrower %}
+    {% if perms.library.can_see_borrowed %}
         <p><strong> Borrowed by: </strong>
             <a href="{{ loan.borrower.get_absolute_url }}"> {{ loan.borrower}} </a></p>
     {% endif %}
