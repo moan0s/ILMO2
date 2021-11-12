@@ -3,6 +3,7 @@ from django.test import TestCase
 from library.models import *
 from datetime import timedelta, time
 from django.utils import timezone
+from django.utils.translation import ugettext_lazy as _
 
 
 class AuthorModelTest(TestCase):
@@ -255,12 +256,8 @@ class LoanModelTest(TestCase):
 
         u = User.objects.create_user('foo', password='bar')
         u.save()
-
-        loan = Loan.objects.create(borrower=Member.objects.get(user=u),
-                                   item=cls.bookInstanceA,
-                                   lent_on=date.today(),
-                                   due_back=date.today() + timedelta(days=30))
-        loan.save()
+        cls.m1 = Member.objects.get(user=u)
+        cls.bookInstanceA.borrow(cls.m1)
 
     def test_str(self):
         loan = Loan.objects.filter(item=self.bookInstanceA)[0]
@@ -275,6 +272,19 @@ class LoanModelTest(TestCase):
         loan = Loan.objects.filter(item=self.bookInstanceA)[0]
         self.assertEquals(loan.get_absolute_url(),
                           f"/library/loan/{loan.id}/")
+
+    def test_status(self):
+        self.assertEquals("o", self.bookInstanceA.status)
+        self.bookInstanceA.return_item()
+        self.assertEquals("a", self.bookInstanceA.status)
+
+    def test_borrower(self):
+        self.bookInstanceA.borrow(self.m1)
+        self.assertEquals(self.m1, self.bookInstanceA.borrower)
+        self.bookInstanceA.return_item()
+        self.assertEquals("a", self.bookInstanceA.status)
+        self.assertEquals(_("Not borrowed"), self.bookInstanceA.borrower)
+
 
 
 class OpeningHourModelTest(TestCase):

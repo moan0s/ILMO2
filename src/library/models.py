@@ -172,6 +172,20 @@ class Item(models.Model):
         self.save()
         return True
 
+    """ Returns the current borrower or 'Not borrowed'"""
+    @property
+    def borrower(self):
+        try:
+            last_loan = Loan.objects.filter(item=self).latest("lent_on")
+            if last_loan.returned:
+                raise Loan.DoesNotExist
+            else:
+                return last_loan.borrower
+        except Loan.DoesNotExist:
+            # Translators: Is shown instead of a person that borrowed the item
+            return _("Not borrowed")
+
+
 
 class BookInstance(Item):
     """Represents a copy of a book that is physically in the library"""
