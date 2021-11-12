@@ -357,7 +357,7 @@ class BookInstancesDetailViewTest(TestCase):
         self.test_bookinstance1 = BookInstance.objects.create(
             book=test_book,
             imprint='Unlikely Imprint, 2016',
-            status='o',
+            status='a',
             label="1",
         )
 
@@ -365,9 +365,11 @@ class BookInstancesDetailViewTest(TestCase):
         self.test_bookinstance2 = BookInstance.objects.create(
             book=test_book,
             imprint='Unlikely Imprint, 2016',
-            status='o',
+            status='a',
             label="2",
         )
+        self.test_bookinstance1.borrow(Member.objects.get(user=test_user1))
+        self.test_bookinstance2.borrow(Member.objects.get(user=test_user1))
 
     def test_logged_in_with_permission_see_borrower(self):
         login = self.client.login(username='testuser1', password='1X<ISRUkw+tuK')
@@ -379,6 +381,7 @@ class BookInstancesDetailViewTest(TestCase):
 
         # Check that view contains borrower
         self.assertContains(response, "Borrowed by:")
+        self.assertContains(response, "testuser1")
 
     def test_logged_in_with_permission_to_renew(self):
         login = self.client.login(username='testuser2', password='2HJ1vRV0Z&3iD')
