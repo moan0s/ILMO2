@@ -827,10 +827,10 @@ class BorrowProcedureTest(TestCase):
 
     def test_item_borrow_unauthorized(self):
         login = self.client.login(username='testuser1', password='12345')
-        response = self.client.get(reverse('library:bookInstance-borrow', kwargs={'pk': self.test_booklinstance1.pk}))
+        response = self.client.get(reverse('library:item-borrow', kwargs={'pk': self.test_booklinstance1.pk}))
         self.assertEqual(response.status_code, 403)
 
     def test_item_borrow_authorized(self):
         login = self.client.login(username='testuser2', password='12345')
-        response = self.client.get(reverse('library:bookInstance-borrow', kwargs={'pk': self.test_booklinstance1.pk}))
+        response = self.client.get(reverse('library:item-borrow', kwargs={'pk': self.test_booklinstance1.pk}))
         self.assertEqual(response.status_code, 200)
