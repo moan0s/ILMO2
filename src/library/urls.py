@@ -36,9 +36,9 @@ urlpatterns += [
 ]
 urlpatterns += [
     # ex: /library/item/a6c3b3ae-b254-4480-8573-95868068a9c3/borrow/
-    path('books/<uuid:pk>/borrow/', views.borrow_item, name='bookInstance-borrow'),
-    # ex: /library/books/a6c3b3ae-b254-4480-8573-95868068a9c3/borrow/user/5
-    path('books/<uuid:ik>/borrow/user/<int:uk>', views.borrow_user, name='user-borrow'),
+    path('item/<uuid:pk>/borrow/', views.borrow_item, name='item-borrow'),
+    # ex: /library/item/a6c3b3ae-b254-4480-8573-95868068a9c3/borrow/user/5
+    path('item/<uuid:ik>/borrow/user/<int:uk>', views.borrow_user, name='user-borrow'),
     ]
 
 urlpatterns += [

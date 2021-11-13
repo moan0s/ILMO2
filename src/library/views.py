@@ -11,6 +11,7 @@ from .forms import RenewItemForm, UserSearchForm
 from .models import Book, Author, BookInstance, Loan, Material, MaterialInstance, OpeningHours, Item, Member
 from django.contrib.auth.models import User
 
+
 def index(request):
     """View function for home page of site."""
 
@@ -80,17 +81,19 @@ def borrow_item(request, pk):
 
     return render(request, 'library/borrow-user-search.html', context=context)
 
+
 @login_required()
 @permission_required("library.can_add_loan", raise_exception=True)
 def borrow_user(request, ik, uk):
-    context = {}
+    print(ik, uk)
     item = get_object_or_404(Item, pk=ik)
-    user = get_object_or_404(Item, pk=uk)
+    user = get_object_or_404(User, pk=uk)
 
-    item.borrow(user)
-    loan = Loan.objects.filter(item= item).latest()
+    item.borrow(borrower=Member.objects.get(user=user))
+    loan = Loan.objects.filter(item=item).latest("lent_on")
     context = {"loan": loan}
     return render(request, 'library/loan-detail.html', context=context)
+
 
 class AuthorListView(generic.ListView):
     model = Author
