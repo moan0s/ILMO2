@@ -77,11 +77,13 @@ h1 {
     }
 }
 
-.logo{
+.logo {
 }
-.logo img{
+
+.logo img {
     height: 120px;
 }
+
 .sidebar-nav {
     z-index: 1;
     top: 20px;
@@ -91,7 +93,7 @@ h1 {
     padding: 8px 0;
 }
 
-.sidebar-nav-top{
+.sidebar-nav-top {
     padding-left: 0px;
     float: left;
 }
@@ -136,16 +138,26 @@ h1 {
     background-color: #4ba3cd;
 }
 
-.link-button a:link, .link-button a:visited  {
-  background-color: #4ba3cd;
-  color: white;
-  padding: 14px 25px;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
+form, .link-button a:link, .link-button a:visited {
+    background-color: #4ba3cd;
+    color: white;
+    padding: 14px 25px;
+    text-align: center;
+    text-decoration: none;
+    display: block;
+    margin: 10px;
     border-radius: 4px;
 }
 
-.link-button a:hover, a:active {
-  background-color: #4090b6;
+.link-button a:hover, .link-button a:active {
+    background-color: #4090b6;
+}
+
+#delete-button, #delete-button a {
+    margin: 10px;
+    background-color: #a3380a;
+    border-radius: 4px;
+}
+#delete-button:hover, #delete-button a:hover, #delete-button a:active {
+    background-color: #8f2f06;
 }

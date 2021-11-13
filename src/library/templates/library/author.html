@@ -1,20 +1,22 @@
 {% extends "library/base_generic.html" %}
 
 {% block content %}
-  <h1>Author: {{ author }}</h1>
-  <p><strong>Date of birth:</strong> {{ author.date_of_birth  }}</p>
-  
-  <div style="margin-left:20px;margin-top:20px">
-	{% if author.book_set.all %}
-		<h4>Books by this author</h4>
+    <h1>Author: {{ author }}</h1>
+    <p><strong>Date of birth:</strong> {{ author.date_of_birth }}</p>
 
-		{% for book in author.book_set.all %}
-		  <hr>
-		  <p><strong><a href="{{ book.get_absolute_url }}">{{ book.title }}</a></strong> </p>
-		{% endfor %}
-		
-	{% else %}
-		<p>No books by this author.</p>
-	{% endif %}
-  </div>
+    <div style="margin-left:20px;margin-top:20px">
+        {% if author.book_set.all %}
+            <h4>Books by this author</h4>
+
+            {% for book in author.book_set.all %}
+                <hr>
+                <p><strong><a href="{{ book.get_absolute_url }}">{{ book.title }}</a></strong></p>
+            {% endfor %}
+
+        {% else %}
+            <p>No books by this author.</p>
+        {% endif %}
+    </div>
+    <div class="link-button"><a href="{% url "library:author-update" author.id %}">Change Author</a></div>
+    <div class="link-button" id="delete-button"><a href="{% url "library:author-delete" author.id %}">Delete Author</a></div>
 {% endblock %}
