@@ -772,10 +772,10 @@ class IndexViewTest(TestCase):
 
         self.assertEqual(response.status_code, 200)
         # Check that statistics numbers match
-        self.assertEqual(response.context['num_books'], 1)
-        self.assertEqual(response.context['num_instances'], 3)
-        self.assertEqual(response.context['num_instances_available'], 1)
-        self.assertEqual(response.context['num_authors'], 2)
+        self.assertEqual(response.context['books'], 1)
+        self.assertEqual(response.context['book_instances'], 3)
+        self.assertEqual(response.context['book_instances_available'], 1)
+        self.assertEqual(response.context['authors'], 2)
 
 
 class OpeningHoursCreateViewTest(TestCase):
