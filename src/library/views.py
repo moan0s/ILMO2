@@ -56,7 +56,7 @@ def loans_of_book(request, pk):
 
 @login_required()
 @permission_required("library.can_add_loan", raise_exception=True)
-def borrow_book(request, pk):
+def borrow_item(request, pk):
     context = {}
     errors = ""
     item = get_object_or_404(Item, pk=pk)
@@ -67,7 +67,6 @@ def borrow_book(request, pk):
         # Create a form instance and populate it with data from the request (binding):
         form = UserSearchForm(request.POST)
         # Check if the form is valid:
-        errors = ""
         first_name = form.data['first_name']
         last_name = form.data['last_name']
         queryset = User.objects.filter(Q(last_name__iexact=last_name) | Q(first_name__iexact=first_name))
@@ -81,6 +80,17 @@ def borrow_book(request, pk):
 
     return render(request, 'library/borrow-user-search.html', context=context)
 
+@login_required()
+@permission_required("library.can_add_loan", raise_exception=True)
+def borrow_user(request, ik, uk):
+    context = {}
+    item = get_object_or_404(Item, pk=ik)
+    user = get_object_or_404(Item, pk=uk)
+
+    item.borrow(user)
+    loan = Loan.objects.filter(item= item).latest()
+    context = {"loan": loan}
+    return render(request, 'library/loan-detail.html', context=context)
 
 class AuthorListView(generic.ListView):
     model = Author
