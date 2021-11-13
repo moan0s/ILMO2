@@ -135,3 +135,17 @@ h1 {
     border: 2px solid #4090b6;
     background-color: #4ba3cd;
 }
+
+.link-button a:link, .link-button a:visited  {
+  background-color: #4ba3cd;
+  color: white;
+  padding: 14px 25px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+    border-radius: 4px;
+}
+
+.link-button a:hover, a:active {
+  background-color: #4090b6;
+}

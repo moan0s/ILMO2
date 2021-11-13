@@ -3,6 +3,8 @@ from django.urls import path, include
 
 from . import views
 app_name = "library"
+
+""" BOOK """
 urlpatterns = [
     # ex: /
     path('', views.index, name='index'),
@@ -19,6 +21,7 @@ urlpatterns = [
     path('author/<int:pk>/', views.AuthorDetailView.as_view(), name='author-detail'),
 ]
 
+""" MATERIAL """
 urlpatterns += [
     # ex: /material/
     path('materials/', views.MaterialListView.as_view(), name='materials'),
@@ -28,12 +31,15 @@ urlpatterns += [
     url(r'^materialInstance/(?P<pk>[0-9A-Fa-f-]+)/$', views.MaterialInstanceDetailView.as_view(), name='materialInstance-detail'),
 ]
 
+""" LOANS """
 urlpatterns += [
     # ex: /library/my-loans/
     path('my-loans/', views.list_loans_of_user, name='my-loans'),
      # ex: /library/loaned-books/
     path('loaned-items/', views.list_loans_unreturned, name='loaned-items'),
 ]
+
+""" BORROW """
 urlpatterns += [
     # ex: /library/item/a6c3b3ae-b254-4480-8573-95868068a9c3/borrow/
     path('item/<uuid:pk>/borrow/', views.borrow_item, name='item-borrow'),
@@ -41,10 +47,12 @@ urlpatterns += [
     path('item/<uuid:ik>/borrow/user/<int:uk>', views.borrow_user, name='user-borrow'),
     ]
 
+""" ITEM """
 urlpatterns += [
     path('item/<uuid:pk>/renew/', views.renew_item_librarian, name='renew-item-librarian'),
 ]
 
+""" AUTHOR """
 urlpatterns += [
     # ex: /library/authors/
     path('authors/', views.AuthorListView.as_view(), name='authors'),
@@ -59,6 +67,7 @@ urlpatterns += [
     path('loan/<int:pk>/', views.LoanDetailView.as_view(), name='loan-detail'),
 ]
 
+""" OPENING HOUR """
 urlpatterns += [
     # ex: /library/openinghour/create
     path('openinghour/create', views.OpeningHoursCreateView.as_view(), name='openinghour-create'),
@@ -68,6 +77,7 @@ urlpatterns += [
     path('openinghours/', views.OpeningHoursListView.as_view(), name='openinghours'),
 ]
 
+""" ACCOUNTS """
 urlpatterns += [
     path('accounts/', include('django.contrib.auth.urls')),
 ]

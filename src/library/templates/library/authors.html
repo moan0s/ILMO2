@@ -1,15 +1,19 @@
 {% extends "library/base_generic.html" %}
 
 {% block content %}
-	{% if author_list %}
-		<ul>
-		{% for author in author_list %}
-		<li><b><a href="{{ author.get_absolute_url }}">{{ author }}</a></b><br>
-		</li>
-		{% endfor %}
-		</ul>
-	{% else %}
-		<p>No authors are known to this library.</p>
-	{% endif %}
+    <p>
+        {% if author_list %}
+            <ul>
+                {% for author in author_list %}
+                    <li><b><a href="{{ author.get_absolute_url }}">{{ author }}</a></b><br>
+                    </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p>No authors are known to this library.</p>
+        {% endif %}
+    </p>
+
+    <div class="link-button"><a href="{% url "library:author-create" %}">Add Author</a></div>
 
 {% endblock %}
