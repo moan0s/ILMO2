@@ -18,5 +18,5 @@
         {% endif %}
     </div>
     <div class="link-button"><a href="{% url "library:author-update" author.id %}">Change Author</a></div>
-    <div class="link-button" id="delete-button"><a href="{% url "library:author-delete" author.id %}">Delete Author</a></div>
+    <div class="link-button delete-button"><a href="{% url "library:author-delete" author.id %}">Delete Author</a></div>
 {% endblock %}

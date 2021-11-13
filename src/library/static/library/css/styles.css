@@ -138,7 +138,7 @@ h1 {
     background-color: #4ba3cd;
 }
 
-form, .link-button a:link, .link-button a:visited {
+.link-button a:link, .link-button a:visited {
     background-color: #4ba3cd;
     color: white;
     padding: 14px 25px;
@@ -153,11 +153,15 @@ form, .link-button a:link, .link-button a:visited {
     background-color: #4090b6;
 }
 
-#delete-button, #delete-button a {
+.delete-button, .delete-button a, .delete-button a:visited {
+    border: none;
     margin: 10px;
     background-color: #a3380a;
     border-radius: 4px;
 }
-#delete-button:hover, #delete-button a:hover, #delete-button a:active {
+.delete-button:hover, .delete-button a:hover, .delete-button a:active {
     background-color: #8f2f06;
+}
+.delete-button {
+    display: block;
 }
