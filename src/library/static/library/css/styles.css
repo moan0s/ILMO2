@@ -91,6 +91,8 @@ h1 {
     background-color: #4ba3cd;
     overflow-x: hidden;
     padding: 8px 0;
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
 }
 
 .sidebar-nav-top {
@@ -159,9 +161,11 @@ h1 {
     background-color: #a3380a;
     border-radius: 4px;
 }
+
 .delete-button:hover, .delete-button a:hover, .delete-button a:active {
     background-color: #8f2f06;
 }
+
 .delete-button {
     display: block;
 }
