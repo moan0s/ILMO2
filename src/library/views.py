@@ -4,11 +4,12 @@ from django.views import generic
 from django.contrib.auth.mixins import PermissionRequiredMixin, LoginRequiredMixin
 from django.contrib.auth.decorators import login_required, permission_required
 from django.urls import reverse
+from django.db.models import Q
 import datetime
 
-from .forms import RenewItemForm
+from .forms import RenewItemForm, UserSearchForm
 from .models import Book, Author, BookInstance, Loan, Material, MaterialInstance, OpeningHours, Item, Member
-
+from django.contrib.auth.models import User
 
 def index(request):
     """View function for home page of site."""
@@ -53,9 +54,32 @@ def loans_of_book(request, pk):
     return HttpResponse(response % pk)
 
 
-# TODO
-def lend_book(request, pk):
-    return HttpResponse("You're lending book %s." % pk)
+@login_required()
+@permission_required("library.can_add_loan", raise_exception=True)
+def borrow_book(request, pk):
+    context = {}
+    errors = ""
+    item = get_object_or_404(Item, pk=pk)
+
+    # If this is a POST request then process the Form data
+    if request.method == 'POST':
+
+        # Create a form instance and populate it with data from the request (binding):
+        form = UserSearchForm(request.POST)
+        # Check if the form is valid:
+        errors = ""
+        first_name = form.data['first_name']
+        last_name = form.data['last_name']
+        queryset = User.objects.filter(Q(last_name__iexact=last_name) | Q(first_name__iexact=first_name))
+        context['users'] = queryset
+    # If this is a GET (or any other method) create the default form.
+    else:
+        form = UserSearchForm()
+
+    context['form'] = form
+    context['item'] = item
+
+    return render(request, 'library/borrow-user-search.html', context=context)
 
 
 class AuthorListView(generic.ListView):

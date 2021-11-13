@@ -12,8 +12,8 @@ urlpatterns = [
     path('book/<int:pk>', views.BookDetailView.as_view(), name='book-detail'),
     # ex: /library/books/5/loans/
     path('books/<int:pk>/loans/', views.loans_of_book),
-    # ex: /library/books/5/lend/
-    path('books/<int:pk>/lend/', views.lend_book),
+    # ex: /library/books/5/borrow/
+    path('books/<uuid:pk>/borrow/', views.borrow_book, name='bookInstance-borrow'),
     # ex: /library/bookInstance/a6c3b3ae-b254-4480-8573-95868068a9c3/
     url(r'^bookInstance/(?P<pk>[0-9A-Fa-f-]+)/$', views.BookInstanceDetailView.as_view(), name='bookInstance-detail'),
 

@@ -6,6 +6,7 @@ from django.core.exceptions import ValidationError
 from django.utils.translation import ugettext_lazy as _
 from library.models import OpeningHours
 from django.urls import reverse
+from django.contrib.auth.models import User
 
 class RenewItemForm(forms.Form):
     renewal_date = forms.DateField(help_text="Enter a date between now and 4 weeks (default 3).")
@@ -40,3 +41,10 @@ class OpeningHoursModelForm(ModelForm):
             raise ValidationError(_('Library must be open before closing 😉'))
 
         return data
+
+class UserSearchForm(ModelForm):
+    class Meta:
+        model = User
+        fields = ['first_name', 'last_name']
+    use_required_attribute = False
+

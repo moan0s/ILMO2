@@ -1,0 +1,23 @@
+{% extends "library/base_generic.html" %}
+
+{% block content %}
+    <h1>Item: {{ item }}</h1>
+    <!---
+    <form action="" method="POST">
+        <input name="name" type="text" placeholder="Search user">
+        <input type="submit" class="btn" value="Search">
+    </form>
+    <p class="text-muted"><strong>Id:</strong> {{ item.id }}</p>
+    --->
+    <form action="" method="post">
+        {% csrf_token %}
+        {{ errors }}
+        <table>
+            {{form.as_table}}
+        </table>
+        <input type="submit" value="search">
+    </form>
+    {%  for user in users %}
+        {{ user }}
+    {% endfor %}
+{% endblock %}
