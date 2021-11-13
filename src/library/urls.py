@@ -37,6 +37,8 @@ urlpatterns += [
     path('my-loans/', views.list_loans_of_user, name='my-loans'),
      # ex: /library/loaned-books/
     path('loaned-items/', views.list_loans_unreturned, name='loaned-items'),
+    # ex: /library/loan/1/
+    path('loan/<int:pk>/', views.LoanDetailView.as_view(), name='loan-detail'),
 ]
 
 """ BORROW """
@@ -60,11 +62,6 @@ urlpatterns += [
     path('author/create/', views.AuthorCreate.as_view(), name='author-create'),
     path('author/<int:pk>/update/', views.AuthorUpdate.as_view(), name='author-update'),
     path('author/<int:pk>/delete/', views.AuthorDelete.as_view(), name='author-delete'),
-]
-
-#URL patterns for loan
-urlpatterns += [
-    path('loan/<int:pk>/', views.LoanDetailView.as_view(), name='loan-detail'),
 ]
 
 """ OPENING HOUR """
