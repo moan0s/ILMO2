@@ -79,3 +79,9 @@ urlpatterns += [
 urlpatterns += [
     path('accounts/', include('django.contrib.auth.urls')),
 ]
+
+""" ACCOUNTS """
+urlpatterns += [
+    # ex: /library/metrics
+    path('metrics/', views.metrics, name="metrics"),
+]
