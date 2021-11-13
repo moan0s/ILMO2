@@ -182,7 +182,7 @@ def item_search(request):
 
         # Check if the form is valid:
         q = request.POST['q']
-        queryset = Item.objects.get(Q(label__iexact=q))
+        queryset = Item.objects.filter(Q(label__iexact=q))
         context['items'] = queryset
 
     return render(request, 'library/item-search.html', context=context)
