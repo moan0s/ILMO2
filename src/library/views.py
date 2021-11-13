@@ -5,37 +5,81 @@ from django.contrib.auth.mixins import PermissionRequiredMixin, LoginRequiredMix
 from django.contrib.auth.decorators import login_required, permission_required
 from django.urls import reverse
 from django.db.models import Q
+from django.http import JsonResponse
 import datetime
+from django.utils import timezone
 
 from .forms import RenewItemForm, UserSearchForm
-from .models import Book, Author, BookInstance, Loan, Material, MaterialInstance, OpeningHours, Item, Member
+from .models import Book, Author, BookInstance, Loan, Material, MaterialInstance, OpeningHours, Item, Member, \
+    LoanReminder
 from django.contrib.auth.models import User
+
+
+def gather_metrics_data():
+    """USERS"""
+    num_user = User.objects.count()
+    num_staff = User.objects.filter(is_staff=True).count()
+
+    """ BOOKS """
+    num_books = Book.objects.count()
+    num_book_instances = BookInstance.objects.all().count()
+    # Available books
+    num_book_instances_available = BookInstance.objects.filter(status="a").count()
+
+    """ Material """
+    num_material = Material.objects.count()
+    num_material_instances = MaterialInstance.objects.all().count()
+    # Available materials
+    num_material_instances_available = MaterialInstance.objects.filter(status="a").count()
+
+    """ Authors """
+    num_authors = Author.objects.count()
+
+    """Loan"""
+    num_loans = Loan.objects.count()
+    num_unreturned_loans = Item.objects.filter(status="o").count()
+
+    """Reminder"""
+    reminder_sent_today = LoanReminder.objects.filter(sent_on=timezone.now().date()).count()
+
+    data = {
+        'users': num_user,
+        'staff': num_staff,
+
+        'books': num_books,
+        'book_instances': num_book_instances,
+        'book_instances_available': num_book_instances_available,
+
+        'materials': num_material,
+        'material_instances': num_material_instances,
+        'material_instances_available': num_material_instances_available,
+
+        'authors': num_authors,
+
+        "loans": num_loans,
+        "unreturned_loans": num_unreturned_loans,
+        "reminder_sent_today": reminder_sent_today,
+    }
+    return data
 
 
 def index(request):
     """View function for home page of site."""
+    data = gather_metrics_data()
+    context = data
 
-    # Generate counts of some of the main objects
-    num_books = Book.objects.count()
-    num_instances = BookInstance.objects.all().count()
-
-    # Available books
-    num_instances_available = BookInstance.objects.filter(status="a").count()
-
-    num_authors = Author.objects.count()
-
-    context = {
-        'num_books': num_books,
-        'num_instances': num_instances,
-        'num_instances_available': num_instances_available,
-        'num_authors': num_authors,
-    }
     if request.user.is_staff:
         from .mail import MailReminder
         mail_reminder = MailReminder()
         mail_reminder.send()
 
     return render(request, 'library/index.html', context=context)
+
+
+def metrics(request):
+    data = gather_metrics_data()
+
+    return JsonResponse(data)
 
 
 class BookListView(generic.ListView):
@@ -85,7 +129,6 @@ def borrow_item(request, pk):
 @login_required()
 @permission_required("library.can_add_loan", raise_exception=True)
 def borrow_user(request, ik, uk):
-    print(ik, uk)
     item = get_object_or_404(Item, pk=ik)
     user = get_object_or_404(User, pk=uk)
 
@@ -173,19 +216,20 @@ def renew_item_librarian(request, pk):
 
     return render(request, 'library/item_renew_librarian.html', context)
 
+
 @login_required
 def item_search(request):
     context = {}
 
     # If this is a POST request then process the Form data
     if request.method == 'POST':
-
         # Check if the form is valid:
         q = request.POST['q']
         queryset = Item.objects.filter(Q(label__iexact=q))
         context['items'] = queryset
 
     return render(request, 'library/item-search.html', context=context)
+
 
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.urls import reverse_lazy
