@@ -11,13 +11,17 @@ Exposed Metrics
 .. code::
 
    users: number of users (all roles combined)
-   loan: number of loans 
-   loan_length_mean: Mean loan length in days
-   admin_num: Number of admins
-   lent_books_num: number of books that are lent
-   avail_books_num: number of books that are available
-   lent_material_num: number of materials are lent
-   avail_material_num: number of materials are available
+   staff: number of users with staff privileges
+   books: number of books
+   book_instances: number of book instances
+   book_instances_available: number of book instances that are not on loan
+   material: number of material
+   material_instances: number of material instances
+   material_instances_available: number of material instances that are not on loan
+   authors: number of authors
+   loans: number of loans
+   unreturned_loans: number of unreturned loans
+   reminder_sent_today: number of reminders that were sent today
 
 Example workflow
 ----------------
