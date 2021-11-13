@@ -173,6 +173,19 @@ def renew_item_librarian(request, pk):
 
     return render(request, 'library/item_renew_librarian.html', context)
 
+@login_required
+def item_search(request):
+    context = {}
+
+    # If this is a POST request then process the Form data
+    if request.method == 'POST':
+
+        # Check if the form is valid:
+        q = request.POST['q']
+        queryset = Item.objects.get(Q(label__iexact=q))
+        context['items'] = queryset
+
+    return render(request, 'library/item-search.html', context=context)
 
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.urls import reverse_lazy
