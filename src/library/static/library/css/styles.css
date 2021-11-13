@@ -143,7 +143,7 @@ h1 {
     background-color: #4ba3cd;
 }
 
-.link-button a:link, .link-button a:visited {
+.form-button, .link-button a:link, .link-button a:visited {
     background-color: #4ba3cd;
     color: white;
     padding: 14px 25px;
@@ -152,9 +152,10 @@ h1 {
     display: block;
     margin: 10px;
     border-radius: 4px;
+    border: none;
 }
 
-.link-button a:hover, .link-button a:active {
+.form-button:hover, .link-button a:hover, .link-button a:active {
     background-color: #4090b6;
 }
 

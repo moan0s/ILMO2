@@ -26,6 +26,6 @@
 		<p>No opening hours are available.</p>
 	{% endif %}
     {%   if perms.library.change_opening_hours %}
-        <a href="{% url "library:openinghour-create" %}" >Create new opening hour</a>
+        <div class="link-button"><a  href="{% url "library:openinghour-create" %}" >Create new opening hour</a></div>
     {% endif %}
 {% endblock %}
