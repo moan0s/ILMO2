@@ -2,6 +2,7 @@ from django.conf.urls import url
 from django.urls import path, include
 
 from . import views
+
 app_name = "library"
 
 """ BOOK """
@@ -28,14 +29,15 @@ urlpatterns += [
     # ex: /library/material/5/
     path('material/<int:pk>', views.MaterialDetailView.as_view(), name='material-detail'),
     # ex: /library/materialInstance/a6c3b3ae-b254-4480-8573-95868068a9c3/
-    url(r'^materialInstance/(?P<pk>[0-9A-Fa-f-]+)/$', views.MaterialInstanceDetailView.as_view(), name='materialInstance-detail'),
+    url(r'^materialInstance/(?P<pk>[0-9A-Fa-f-]+)/$', views.MaterialInstanceDetailView.as_view(),
+        name='materialInstance-detail'),
 ]
 
 """ LOANS """
 urlpatterns += [
     # ex: /library/my-loans/
     path('my-loans/', views.list_loans_of_user, name='my-loans'),
-     # ex: /library/loaned-books/
+    # ex: /library/loaned-books/
     path('loaned-items/', views.list_loans_unreturned, name='loaned-items'),
     # ex: /library/loan/1/
     path('loan/<int:pk>/', views.LoanDetailView.as_view(), name='loan-detail'),
@@ -47,7 +49,7 @@ urlpatterns += [
     path('item/<uuid:pk>/borrow/', views.borrow_item, name='item-borrow'),
     # ex: /library/item/a6c3b3ae-b254-4480-8573-95868068a9c3/borrow/user/5
     path('item/<uuid:ik>/borrow/user/<int:uk>', views.borrow_user, name='user-borrow'),
-    ]
+]
 
 """ ITEM """
 urlpatterns += [
@@ -77,10 +79,12 @@ urlpatterns += [
 
 """ ACCOUNTS """
 urlpatterns += [
+    path('member-detail/<int:pk>/', views.member_detail, name='member-detail'),
+    path('my-profile/', views.my_profile, name='my-profile'),
     path('accounts/', include('django.contrib.auth.urls')),
 ]
 
-""" ACCOUNTS """
+""" Metrics """
 urlpatterns += [
     # ex: /library/metrics
     path('metrics/', views.metrics, name="metrics"),

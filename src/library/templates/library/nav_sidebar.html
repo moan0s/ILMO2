@@ -1,7 +1,6 @@
 {% block sidebar %}
     <div class="sidebar-nav">
         <ul class="sidebar-nav-top">
-            <li><a href="#user"><i class="fas fa-user"></i> {{ user.get_username }} </a></li>
             <li><a href="{% url 'library:index' %}"><i class="fas fa-home"></i> Home</a></li>
             <li><a href="{% url 'library:item-search' %}"><i class="fas fa-search"></i> Search</a></li>
             <li><a href="{% url 'library:books' %}"><i class="fas fa-book"></i> Books</a></li>
@@ -14,6 +13,7 @@
 
             {% if user.is_authenticated %}
                 <li><a href="{% url 'library:my-loans' %}"><i class="fas fa-undo-alt"></i> My Loans</a></li>
+                <li><a href="{% url 'library:my-profile' %}"><i class="fas fa-user"></i> {{ request.user.get_username }} </a></li>
                 <li><a href="{% url 'logout' %}?next={{ request.path }}"><i class="fas fa-sign-out-alt"></i> Logout</a>
                 </li>
             {% else %}
