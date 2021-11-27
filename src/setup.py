@@ -21,7 +21,7 @@ setup(
     url="https://github.com/moan0s/ILMO2",
     download_url="https://github.com/moan0s/ILMO2.git",
     license="GPL-3",
-    packages=["ILMO", "library"],
+    packages=["ilmo", "library"],
     classifiers=[
         'Development Status :: 4 - Beta',
         "Environment :: Web",
