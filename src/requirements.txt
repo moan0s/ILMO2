@@ -6,3 +6,4 @@ codecov
 fontawesomefree
 sphinx
 sphinx-rtd-theme
+gunicorn
