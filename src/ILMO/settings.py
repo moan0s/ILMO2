@@ -13,6 +13,17 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 from pathlib import Path
 from decouple import config
 import os
+import configparser
+
+config = configparser.RawConfigParser()
+if 'ILMO_CONFIG_FILE' in os.environ:
+    config.read_file(open(os.environ.get('ILMO_CONFIG_FILE'), encoding='utf-8'))
+else:
+    config.read(['/etc/ilmo/ilmo.cfg', os.path.expanduser('~/.ilmo.cfg'), 'ilmo.cfg'],
+                 encoding='utf-8')
+
+CONFIG_FILE = config
+SECRET_KEY = config.get('django', 'secret')
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -90,7 +101,6 @@ if os.getenv('BUILD_ON_TRAVIS', None):
     }
 elif (config('TEST_WITH_SQLITE')):
     print("Test with SQLITE")
-    SECRET_KEY = config("SECRET_KEY")
     DEBUG = config("DEBUG")
     DATABASES = {
         'default': {
@@ -100,7 +110,6 @@ elif (config('TEST_WITH_SQLITE')):
         }
 else:
     print("Using MYSQL backend")
-    SECRET_KEY = config("SECRET_KEY")
     DEBUG = config("DEBUG")
     DATABASES = {
         'default': {
