@@ -87,6 +87,11 @@ class Member(models.Model):
         if len(Member.objects.filter(user=instance)) != 1:
             Member.objects.create(user=instance)
 
+    def __str__(self):
+        return str(self.user)
+
+    def get_absolute_url(self):
+        return reverse("library:member-detail", self.user.id)
 
 class Item(models.Model):
     """Represents an item that is physically in the library"""

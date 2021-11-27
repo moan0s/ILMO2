@@ -81,6 +81,23 @@ def metrics(request):
 
     return JsonResponse(data)
 
+def show_user(request, user):
+    member = Member.objects.get(user=user)
+    context = {"member": member}
+    return render(request, 'library/member.html', context=context)
+
+@login_required()
+@permission_required("auth.user.view")
+def member_detail(request, pk):
+    user = get_object_or_404(User, pk=pk)
+    return show_user(request, user)
+
+
+@login_required()
+def my_profile(request):
+    user = get_object_or_404(User, pk=request.user.pk)
+    return show_user(request, user)
+
 
 class BookListView(generic.ListView):
     model = Book
