@@ -36,7 +36,7 @@ for legacy_user in user_list:
     try:
         member.preferred_language = Language.objects.get(name=language)
     except Language.DoesNotExist:
-        raise Language.DoesNotExist(f"Language {language} does not exist and has to manually created")
+        member.preferred_language = Language.objects.create(name=language)
     member.UID = legacy_user["UID"]
 
 
