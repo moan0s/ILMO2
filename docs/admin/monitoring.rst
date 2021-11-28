@@ -1,7 +1,7 @@
 Monitoring
 ==========
 
-ILMO should, like every other software, be easy to monitor. Therefore a basic metrics are exposed to `https://example.com/metrics_json/`.
+ILMO should, like every other software, be easy to monitor. Therefore a basic metrics are exposed to `https://example.com/library/metrics`.
 The data is encoded in JSON format and is therefore suitable to bea read by humans and it is easy to use it as data source for further processing.
 
 
@@ -11,13 +11,17 @@ Exposed Metrics
 .. code::
 
    users: number of users (all roles combined)
-   loan: number of loans 
-   loan_length_mean: Mean loan length in days
-   admin_num: Number of admins
-   lent_books_num: number of books that are lent
-   avail_books_num: number of books that are available
-   lent_material_num: number of materials are lent
-   avail_material_num: number of materials are available
+   staff: number of users with staff status
+   books: number of books
+   book_instances: number of physical copies of books
+   book_instances_available: number of available physical copies
+   materials: number of materials
+   material_instances: number of physical copies of material
+   material_instances_available: number of available physical copies
+   authors: number of authors
+   loans: number of loans
+   unreturned_loans: number of unreturned loans
+   reminder_sent_today: number of reminders that were sent to users on this day
 
 Example workflow
 ----------------
