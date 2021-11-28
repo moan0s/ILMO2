@@ -11,9 +11,19 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        migrations.AlterField(
+
+        migrations.AddField(
+            model_name='bookinstance',
+            name='uuid',
+            field=models.UUIDField(default=uuid.uuid4, unique=True, help_text='Unique ID for this particular book across whole library',primary_key=True)
+        ),
+        migrations.RemoveField(
             model_name='bookinstance',
             name='id',
-            field=models.UUIDField(default=uuid.uuid4, help_text='Unique ID for this particular book across whole library', primary_key=True, serialize=False),
         ),
+        migrations.RenameField(
+            model_name='bookinstance',
+            old_name='uuid',
+            new_name="id"
+        )
     ]
