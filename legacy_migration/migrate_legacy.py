@@ -1,3 +1,5 @@
+from django.db import IntegrityError
+
 from library.models import Book, BookInstance, Material, MaterialInstance, Member, Language, Author, Loan, LoanReminder
 from django.contrib.auth.models import User
 import string
@@ -25,10 +27,14 @@ with open('../legacy_migration/loan.json') as json_file:
     print(f"Loaded {len(old_loan_list)} loans.")
 
 for legacy_user in user_list:
-    user = User.objects.create(first_name=legacy_user["forename"],
+    try:
+        user = User.objects.create(first_name=legacy_user["forename"],
                                last_name=legacy_user["surname"],
                                email=legacy_user["email"],
                                username=legacy_user["user_ID"])
+    except IntegrityError:
+        print(f"Could not create user, {legacy_user['user_ID']} is already a username")
+        exit(1)
     member = Member.objects.get(user=user)
     language = legacy_user['language']
     if language == "":
@@ -73,37 +79,51 @@ print(f"Derived {len(books)} books")
 
 
 def get_author(name: str):
-    # Creates an unknown author if no name is given
+    """
+    Tries to extract authors
+
+    Creates an unknown author if no name is given
+
+    returns:
+        authors: List of author objects
+    """
+    name.replace("et al.", "")
     if name == "":
         try:
-            return Author.objects.get(first_name="Unknown")
+            return [Author.objects.get(first_name="Unknown")]
         except Author.DoesNotExist:
-            return Author.objects.create(first_name="Unknown", last_name="Author")
-    # Case for "Muster, Max"
-    if len(name.split(",")) > 1:
-        first_name = name.split(",")[1].strip()
-        last_name = name.split(",")[0].strip()
-        try:
-            # This will fail for authors with more than one name, multiple authors etc..
-            return Author.objects.filter(first_name=first_name).filter(last_name=last_name)[0]
-        except IndexError:
-            Author.objects.create(first_name=first_name, last_name=last_name)
+            return [Author.objects.create(first_name="Unknown", last_name="Author")]
 
-    try:
-        first_name = name.split(" ")[0]
-        last_name = name.split(" ")[1]
-        try:
-            # This will fail for authors with more than one name, multiple authors etc..
-            return Author.objects.filter(first_name=first_name).filter(last_name=last_name)[0]
-        except IndexError:
-            Author.objects.create(first_name=first_name, last_name=last_name)
-    except IndexError:
-        last_name = name
-        try:
-            # This will fail for authors with more than one name, multiple authors etc..
-            return Author.objects.filter(last_name=last_name)[0]
-        except IndexError:
-            Author.objects.create(last_name=last_name)
+
+    authors = []
+    # Case for Multiple authors such as "Schreiner, Müller"
+    author_strings = name.split(",")
+    if len(author_strings) > 1:
+        print("Multiple authors")
+        for author_string in author_strings:
+            last_name = author_string.strip()
+            try:
+                # Creating the author
+                author = Author.objects.filter(last_name=last_name)[0]
+                authors.append(author)
+                # This will fail for authors with more than one name, multiple authors etc..
+            except IndexError:
+                authors.append(Author.objects.create(last_name=last_name))
+        return authors
+
+
+    print("Single author")
+    last_name = name.strip()
+
+    # This will fail for authors with more than one name, multiple authors etc..
+    authors = Author.objects.filter(last_name=last_name)
+    if len(authors) == 0:
+        print("Creating author")
+        return [Author.objects.create(last_name=last_name)]
+    else:
+        print("Author already exists")
+        return authors
+
 
 
 def get_label_end(index):
@@ -136,9 +156,11 @@ test_label_end()
 for book_label in books:
     book_dict = books[book_label]
     print(f"Book dict {book_dict}")
-    author = get_author(book_dict["author"])
-    book = Book.objects.create(title=book_dict["title"],
-                               author=author)
+    authors = get_author(book_dict["author"])
+    book = Book.objects.create(title=book_dict["title"])
+    for author in authors:
+        print(f"Adding author {author} to book")
+        book.author.add(author)
     for i in range(0, book_dict["number"]):
         label_end = get_label_end(i)
         label = f"{book_label} {label_end}"
