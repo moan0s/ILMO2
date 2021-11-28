@@ -156,40 +156,45 @@ SSL
 
 The following snippet is an example on how to configure a nginx proxy for pretix::
 
-    server {
-        listen 80 default_server;
-        listen [::]:80 ipv6only=on default_server;
-        server_name ilmo.example.com;
-    }
-    server {
-        listen 443 default_server;
-        listen [::]:443 ipv6only=on default_server;
-        server_name ilmo.example.com;
+        server {
+                listen 80;
+                listen [::]:80;
 
-        ssl on;
-        ssl_certificate /path/to/cert.chain.pem;
-        ssl_certificate_key /path/to/key.pem;
+                if ($scheme = http) {
+                        return 301 https://$server_name$request_uri;
+                }
 
-        add_header Referrer-Policy same-origin;
-        add_header X-Content-Type-Options nosniff;
+                #
+                listen 443 ssl;
+                listen [::]:443 ssl;
+                ssl_certificate     /etc/letsencrypt/live/ilmo.example.com/cert.pem;
+                ssl_certificate_key /etc/letsencrypt/live/ilmo.example.com/privkey.pem;
+                ssl_protocols       TLSv1.2 TLSv1.3;
+                ssl_ciphers         HIGH:!aNULL:!MD5;
 
-        location / {
-            proxy_pass http://localhost:8345;
-            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-            proxy_set_header X-Forwarded-Proto https;
-            proxy_set_header Host $http_host;
+
+            # Set header
+            add_header X-Clacks-Overhead "GNU Terry Pratchett";
+            add_header Permissions-Policy interest-cohort=(); #Anti FLoC
+            add_header Referrer-Policy same-origin;
+            add_header X-Content-Type-Options nosniff;
+
+                server_name ilmo.example.com;
+            location / {
+                proxy_pass http://localhost:8345;
+                proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+                proxy_set_header X-Forwarded-Proto https;
+                proxy_set_header Host $http_host;
+            }
+
+            location /static/ {
+                alias /var/ilmo/ILMO2/src/library/static/;
+                access_log off;
+                expires 365d;
+                add_header Cache-Control "public";
+            }
         }
 
-        location /static/ {
-            alias /var/ilmo/venv/lib/python3.7/site-packages/ilmo/static.dist/;
-            access_log off;
-            expires 365d;
-            add_header Cache-Control "public";
-        }
-    }
-
-.. note:: Remember to replace the ``python3.7`` in the ``/static/`` path in the config
-          above with your python version.
 
 We recommend reading about setting `strong encryption settings`_ for your web server.
 
