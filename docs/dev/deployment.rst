@@ -211,6 +211,7 @@ To upgrade to a new ilmo release, pull the latest code changes and run the follo
 
     $ source /var/ilmo/venv/bin/activate
     (venv)$ git pull
+    (venv)$ pg_dump ilmo > ilmo.psql
     (venv)$ python manage.py migrate
     # systemctl restart ilmo-web
 

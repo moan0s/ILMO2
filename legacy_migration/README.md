@@ -6,9 +6,13 @@ Following are general instructions that need to be adapted to your special case.
 
 # Gather data
 
-To migrate, you need to export the data of the current ILMO instance from your databse. You will need the tables `TABLE_USER`, 
+To migrate, you need to export the data of the current ILMO instance from your database. You will need the tables `TABLE_USER`, 
 `TABLE_BOOKS`, `TABLE_MATERIAL` and `TABLE_LOAN` as defined in your config.
 Preferably download/convert them to JSON files, one file per table.
+
+# Backup
+
+Backup your data before running the script. Make sure that you are able to roll back, as the script can mess up your data.
 
 # Run migration script
 

@@ -84,7 +84,7 @@ def get_author(name: str):
         first_name = name.split(",")[1].strip()
         last_name = name.split(",")[0].strip()
         try:
-            # This will fail for authors with more than one name, multiple autors etc..
+            # This will fail for authors with more than one name, multiple authors etc..
             return Author.objects.filter(first_name=first_name).filter(last_name=last_name)[0]
         except IndexError:
             Author.objects.create(first_name=first_name, last_name=last_name)
@@ -93,14 +93,14 @@ def get_author(name: str):
         first_name = name.split(" ")[0]
         last_name = name.split(" ")[1]
         try:
-            # This will fail for authors with more than one name, multiple autors etc..
+            # This will fail for authors with more than one name, multiple authors etc..
             return Author.objects.filter(first_name=first_name).filter(last_name=last_name)[0]
         except IndexError:
             Author.objects.create(first_name=first_name, last_name=last_name)
     except IndexError:
         last_name = name
         try:
-            # This will fail for authors with more than one name, multiple autors etc..
+            # This will fail for authors with more than one name, multiple authors etc..
             return Author.objects.filter(last_name=last_name)[0]
         except IndexError:
             Author.objects.create(last_name=last_name)
