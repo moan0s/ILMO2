@@ -8,7 +8,7 @@ services: mysql
 
 env:
   global:
-    - DJANGO_SETTINGS_MODULE="ILMO.settings"
+    - DJANGO_SETTINGS_MODULE="ilmo.settings"
     - PYTHONPATH="/home/travis/build/moan0s/ILMO"
     - PIP_USE_MIRRORS=true
     - BUILD_ON_TRAVIS=true

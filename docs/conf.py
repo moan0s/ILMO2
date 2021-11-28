@@ -129,7 +129,7 @@ latex_elements = {
 # (source start file, target name, title,
 #  author, documentclass [howto, manual, or own class]).
 latex_documents = [
-    (master_doc, 'ILMO.tex', 'ILMO Documentation',
+    (master_doc, 'ilmo.tex', 'ILMO Documentation',
      'Julian-Samuel Gebühr', 'manual'),
 ]
 
