@@ -30,22 +30,6 @@ class Material(models.Model):
     name = models.CharField(max_length=200)
 
 
-class Book(models.Model):
-    def __str__(self):
-        return f"{self.title} by {self.author}"
-
-    def get_absolute_url(self):
-        """Returns the url to access a detail record for this book."""
-        return reverse('library:book-detail', args=[str(self.id)])
-
-    title = models.CharField(max_length=200)
-    author = models.ForeignKey('Author', on_delete=models.SET_NULL, null=True)
-    genre = models.ManyToManyField(Genre, help_text='Select a genre for this book')
-    summary = models.TextField(max_length=1000, help_text='Enter a brief description of the book')
-    isbn = models.CharField('ISBN', max_length=13, null=True, help_text='ISBN number (13 Characters)')
-    language = models.ForeignKey('Language', on_delete=models.SET_NULL, null=True)
-
-
 class Author(models.Model):
     """Model representing an author."""
     first_name = models.CharField(max_length=100)
@@ -64,6 +48,22 @@ class Author(models.Model):
     def get_absolute_url(self):
         """Returns the url to access a detail record for this book."""
         return reverse('library:author-detail', args=[str(self.id)])
+
+
+class Book(models.Model):
+    def __str__(self):
+        return f"{self.title} by {self.author}"
+
+    def get_absolute_url(self):
+        """Returns the url to access a detail record for this book."""
+        return reverse('library:book-detail', args=[str(self.id)])
+
+    title = models.CharField(max_length=200)
+    author = models.ManyToManyField(Author, help_text='Select the autor(s) of this book')
+    genre = models.ManyToManyField(Genre, help_text='Select a genre for this book')
+    summary = models.TextField(max_length=1000, help_text='Enter a brief description of the book')
+    isbn = models.CharField('ISBN', max_length=13, null=True, help_text='ISBN number (13 Characters)')
+    language = models.ForeignKey('Language', on_delete=models.SET_NULL, null=True)
 
 
 class Language(models.Model):
@@ -92,6 +92,7 @@ class Member(models.Model):
 
     def get_absolute_url(self):
         return reverse("library:member-detail", self.user.id)
+
 
 class Item(models.Model):
     """Represents an item that is physically in the library"""
@@ -178,6 +179,7 @@ class Item(models.Model):
         return True
 
     """ Returns the current borrower or 'Not borrowed'"""
+
     @property
     def borrower(self):
         try:
@@ -189,7 +191,6 @@ class Item(models.Model):
         except Loan.DoesNotExist:
             # Translators: Is shown instead of a person that borrowed the item
             return _("Not borrowed")
-
 
 
 class BookInstance(Item):
