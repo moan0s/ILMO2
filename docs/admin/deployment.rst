@@ -4,10 +4,10 @@ Manual deployment
 =============================
 
 This guide describes the installation of a installation of ILMO from source. It is inspired by this great guide from
-pretix `https://docs.pretix.eu/en/latest/admin/installation/manual_smallscale.html`_.
+pretix pretix_guide_.
 
 .. warning:: Even though this guide tries to make it as straightforward to run ILMO, it still requires some Linux experience to
-             get it right. If you're not feeling comfortable managing a Linux server, check out a managed service `hyteck.de/services`_.
+             get it right. If you're not feeling comfortable managing a Linux server, check out a managed service services_.
 
 This guide is tested on **Ubuntu20.04** but it should work very similar on other
 modern distributions, especially on all systemd-based ones.
@@ -90,10 +90,6 @@ Fill the configuration file ``/etc/ilmo/ilmo.cfg`` with the following content (a
     ; port=587
 
 
-
-
-See :ref:`email configuration <mail-settings>` to learn more about configuring mail features.
-
 Install pretix from PyPI
 ------------------------
 
@@ -110,7 +106,7 @@ We now clone and install ilmo, its direct dependencies and gunicorn::
     (venv)$ git clone https://github.com/moan0s/ILMO2
     (venv)$ cd ILMO2/src/
     (venv)$ pip3 install -r requirements.txt
-    (venv)$ pip3 install .
+    (venv)$ pip3 install -e .
 
 Note that you need Python 3.6 or newer. You can find out your Python version using ``python -V``.
 
@@ -206,14 +202,9 @@ Updates
 To upgrade to a new ilmo release, pull the latest code changes and run the following commands::
 
     $ source /var/ilmo/venv/bin/activate
-    (venv)$ pip3 install -U --upgrade-strategy eager ilmo gunicorn
-    (venv)$ python -m ilmo migrate
-    (venv)$ python -m pretix rebuild
-    (venv)$ python -m ilmo updatestyles
-    # systemctl restart ilmo-web ilmo-worker
-
-Make sure to also read :ref:`update_notes` and the release notes of the version you are updating to.
-
+    (venv)$ git pull
+    (venv)$ python manage.py migrate
+    # systemctl restart ilmo-web
 
 .. _Postfix: https://www.digitalocean.com/community/tutorials/how-to-install-and-configure-postfix-as-a-send-only-smtp-server-on-ubuntu-16-04
 .. _nginx: https://botleg.com/stories/https-with-lets-encrypt-and-nginx/
@@ -223,3 +214,6 @@ Make sure to also read :ref:`update_notes` and the release notes of the version 
 .. _redis: https://blog.programster.org/debian-8-install-redis-server/
 .. _ufw: https://en.wikipedia.org/wiki/Uncomplicated_Firewall
 .. _strong encryption settings: https://mozilla.github.io/server-side-tls/ssl-config-generator/
+.. _services: hyteck.de/services
+.. _pretix_guide: https://docs.pretix.eu/en/latest/admin/installation/manual_smallscale.html
+
