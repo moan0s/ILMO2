@@ -25,8 +25,11 @@ else:
 CONFIG_FILE = config
 SECRET_KEY = config.get('django', 'secret')
 DEBUG = config.get('django', 'debug')
-SQLITE = config.get("database", "sqlite")
-
+DB_BACKEND = config.get("database", "backend", fallback="sqlite3")
+DB_NAME = config.get("database", "name", fallback="ilmo.sqlite3")
+DB_USER = config.get("database", "user", fallback='')
+DB_PASSWORD = config.get("database", "password", fallback='')
+DB_HOST = config.get("database", "name", fallback="localhost")
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -101,22 +104,26 @@ if os.getenv('BUILD_ON_TRAVIS', None):
             'HOST': '127.0.0.1',
         }
     }
-elif (SQLITE):
-    print("Test with SQLITE")
+elif (DB_BACKEND == "sqlite3"):
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.sqlite3', 
-            'NAME': SQLITE,
+            'NAME': DB_NAME,
+            }
+        }
+elif (DB_BACKEND == "postgresql"):
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql',
+            'NAME': DB_NAME,
+            'USER': DB_USER,
+            'PASSWORD': DB_PASSWORD,
+            'HOST': DB_HOST,
             }
         }
 else:
-    print("Test with SQLITE")
-    DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.sqlite3',
-            'NAME': "sqlite_fallback.sq3",
-            }
-        }
+    print("Database backend unknown. Choose sqlite3 or postgresql")
+
 
 # Password validation
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators

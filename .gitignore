@@ -2,6 +2,7 @@
 .idea/*
 # SQLite database
 *.sq3
+*.sqlite3
 *tmp
 # Byte-compiled / optimized / DLL files
 __pycache__/
