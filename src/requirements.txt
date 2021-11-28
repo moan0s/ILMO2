@@ -3,7 +3,7 @@ python-decouple
 mysqlclient
 coverage
 codecov
-fontawesomefree
 sphinx
 sphinx-rtd-theme
 gunicorn
+psycopg2
