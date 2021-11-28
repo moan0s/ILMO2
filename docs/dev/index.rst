@@ -6,5 +6,6 @@ Installation, customization and contributing
    :maxdepth: 2
    :caption: Contents:
 
-   release.rst
+   deployment.rst
    contributing.rst
+   release.rst
