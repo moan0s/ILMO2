@@ -51,6 +51,9 @@ For PostgreSQL database creation, we would do::
 
     # sudo -u postgres createuser ilmo
     # sudo -u postgres createdb -O ilmo ilmo
+    # su ilmo
+    $ psql
+    > ALTER USER ilmo PASSWORD 'strong_password';
 
 Package dependencies
 --------------------
@@ -90,7 +93,7 @@ Fill the configuration file ``/etc/ilmo/ilmo.cfg`` with the following content (a
     ; port=587
 
 
-Install pretix from PyPI
+Install ilmo as package
 ------------------------
 
 Now we will install ilmo itself. The following steps are to be executed as the ``ilmo`` user. Before we
