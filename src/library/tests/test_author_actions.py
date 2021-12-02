@@ -9,9 +9,9 @@ class AuthorTests(TestCase):
     def setUpTestData(cls):
         test_author = Author.objects.create(first_name="Jane", last_name="Doe")
         test_book = Book.objects.create(title="How to Test genres",
-                author=Author.objects.create(first_name="Jane", last_name="Doe"),
                 summary="Book to test genres",
                 isbn="1234567890124")
+        test_book.author.add(test_author)
         test_user1 = User.objects.create_user(username='testuser1', password='12345')
         test_user2 = User.objects.create_user(username='testuser2', password='12345')
         permission = Permission.objects.get(name="Can add, update or delete an author")

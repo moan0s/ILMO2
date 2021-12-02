@@ -15,9 +15,9 @@ class MyLoansView(TestCase):
     def setUpTestData(cls):
         test_author = Author.objects.create(first_name="Jane", last_name="Doe")
         test_book = Book.objects.create(title="How to Test genres",
-                                        author=Author.objects.create(first_name="Jane", last_name="Doe"),
                                         summary="Book to test genres",
                                         isbn="1234567890124")
+        test_book.author.add(test_author)
         test_user1 = User.objects.create_user(username='testuser1', password='12345')
         test_user2 = User.objects.create_user(username='testuser2', password='12345')
         # Create 30 BookInstance objects
@@ -89,9 +89,9 @@ class LoanDetailView(TestCase):
     def setUpTestData(cls):
         test_author = Author.objects.create(first_name="Jane", last_name="Doe")
         test_book = Book.objects.create(title="How to Test genres",
-                                        author=Author.objects.create(first_name="Jane", last_name="Doe"),
                                         summary="Book to test genres",
                                         isbn="1234567890124")
+        test_book.author.add(test_author)
         # User to borrow the book
         test_user1 = User.objects.create_user(username='testuser1', password='12345')
         # User without permission to see borrower
@@ -163,10 +163,10 @@ class AllLoanView(TestCase):
     @classmethod
     def setUpTestData(cls):
         test_author = Author.objects.create(first_name="Jane", last_name="Doe")
-        test_book = Book.objects.create(title="How to Test genres",
-                                        author=Author.objects.create(first_name="Jane", last_name="Doe"),
-                                        summary="Book to test genres",
-                                        isbn="1234567890124")
+        b = Book.objects.create(title="How to Test",
+                                summary="How to write better tests than you do",
+                                isbn="1234567890123")
+        b.author.add(test_author)
         cls.test_user1 = User.objects.create_user(username='testuser1', password='12345')
         cls.test_user2 = User.objects.create_user(username='testuser2', password='12345')
         permission = Permission.objects.get(name__iexact="See all borrowed items")
@@ -177,7 +177,7 @@ class AllLoanView(TestCase):
         for book_copy in range(number_of_book_copies):
             status = 'm'
             BookInstance.objects.create(
-                book=test_book,
+                book=b,
                 label=f'A {book_copy}',
                 status=status,
             )
@@ -245,14 +245,11 @@ class AuthorViewTest(TestCase):
     @classmethod
     def setUpTestData(cls):
         cls.test_author1 = Author.objects.create(first_name="Jane", last_name="Doe")
-        cls.test_author1.save()
         cls.test_author2 = Author.objects.create(first_name="Jim", last_name="Butch")
-        cls.test_author2.save()
         cls.test_book = Book.objects.create(title="How to Test views",
-                                            author=cls.test_author1,
-                                            summary="Book to test views",
-                                            isbn="1234567890124")
-        cls.test_book.save()
+                                summary="How to write better tests than you do",
+                                isbn="1234567890123")
+        cls.test_book.author.add(cls.test_author1)
 
     def test_use_of_correct_template(self):
         response = self.client.get(self.test_author1.get_absolute_url())
@@ -349,10 +346,9 @@ class BookInstancesDetailViewTest(TestCase):
             title='Book Title',
             summary='My book summary',
             isbn='ABCDEFG',
-            author=test_author,
             language=test_language,
         )
-        test_book.save()
+        test_book.author.add(test_author)
 
         # Create a BookInstance object for test_user1
         self.test_bookinstance1 = BookInstance.objects.create(
@@ -490,9 +486,9 @@ class RenewBookInstancesViewTest(TestCase):
             title='Book Title',
             summary='My book summary',
             isbn='ABCDEFG',
-            author=test_author,
             language=test_language,
         )
+        test_book.author.add(test_author)
 
         # Create genre as a post-step
         genre_objects_for_book = Genre.objects.all()
@@ -712,14 +708,13 @@ class IndexViewTest(TestCase):
         test_user2.save()
 
         # Create a book
-        test_author = Author.objects.create(first_name='John', last_name='Smith')
         test_author = Author.objects.create(first_name='Jim', last_name='Knopf')
         test_book = Book.objects.create(
             title='Book Title',
             summary='My book summary',
             isbn='ABCDEFG',
-            author=test_author,
         )
+        test_book.author.add(test_author)
 
         # Create a BookInstance object for test_user1
         return_date = datetime.date.today() + datetime.timedelta(days=5)
@@ -810,12 +805,13 @@ class OpeningHoursCreateViewTest(TestCase):
 class BorrowProcedureTest(TestCase):
     @classmethod
     def setUpTestData(cls):
+        a = Author.objects.create(first_name="Jane", last_name="Doe")
         test_book = Book.objects.create(title="How to Test genres",
-                                        author=Author.objects.create(first_name="Jane", last_name="Doe"),
                                         summary="Book to test genres",
                                         isbn="1234567890124")
         cls.test_user1 = User.objects.create_user(username='testuser1', password='12345')
         cls.test_user2 = User.objects.create_user(username='testuser2', password='12345')
+        test_book.author.add(a)
         permission = Permission.objects.get(name__iexact="Can add a loan for all user")
         cls.test_user2.user_permissions.add(permission)
         cls.test_user2.save()

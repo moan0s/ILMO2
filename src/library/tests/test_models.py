@@ -70,10 +70,11 @@ class GenreModelTest(TestCase):
     @classmethod
     def setUpTestData(ctl):
         g1 = Genre.objects.create(name="Science Fiction")
-        b1 = Book.objects.create(title="How to Test genres",
-                                 author=Author.objects.create(first_name="Jane", last_name="Doe"),
-                                 summary="Book to test genres",
-                                 isbn="1234567890124")
+        test_author = Author.objects.create(first_name="Jane", last_name="Doe")
+        b1 = Book.objects.create(title="How to Test",
+                                summary="How to write better tests than you do",
+                                isbn="1234567890123")
+        b1.author.add(test_author)
         g1.save()
         b1.save()
 
@@ -94,10 +95,11 @@ class BookModelTest(TestCase):
 
     @classmethod
     def setUpTestData(cls):
+        test_author = Author.objects.create(first_name="Jane", last_name="Doe")
         b = Book.objects.create(title="How to Test",
-                                author=Author.objects.create(first_name="Jane", last_name="Doe"),
                                 summary="How to write better tests than you do",
                                 isbn="1234567890123")
+        b.author.add(test_author)
         b.save()
 
     def test_str(self):
@@ -110,10 +112,11 @@ class BookInstanceModelTest(TestCase):
 
     @classmethod
     def setUpTestData(cls):
+        test_author = Author.objects.create(first_name="Jane", last_name="Doe")
         b = Book.objects.create(title="How to Test",
-                                author=Author.objects.create(first_name="Jane", last_name="Doe"),
                                 summary="How to write better tests than you do",
                                 isbn="1234567890123")
+        b.author.add(test_author)
         bookInstanceA = BookInstance.objects.create(book=b, label="T 1 a")
         b.save()
         bookInstanceA.save()
@@ -200,10 +203,11 @@ class MaterialInstanceModelTest(TestCase):
 class ItemTest(TestCase):
     @classmethod
     def setUpTestData(cls):
+        test_author = Author.objects.create(first_name="Jane", last_name="Doe")
         b = Book.objects.create(title="How to Test",
-                                author=Author.objects.create(first_name="Jane", last_name="Doe"),
                                 summary="How to write better tests than you do",
                                 isbn="1234567890123")
+        b.author.add(test_author)
         cls.bookInstanceA = BookInstance.objects.create(book=b, label="T 1 a")
         cls.u = User.objects.create_user('foo', password='bar')
         cls.u.save()
@@ -246,10 +250,11 @@ class LoanModelTest(TestCase):
 
     @classmethod
     def setUpTestData(cls):
+        test_author = Author.objects.create(first_name="Jane", last_name="Doe")
         b = Book.objects.create(title="How to Test",
-                                author=Author.objects.create(first_name="Jane", last_name="Doe"),
                                 summary="How to write better tests than you do",
                                 isbn="1234567890123")
+        b.author.add(test_author)
         cls.bookInstanceA = BookInstance.objects.create(book=b, label="T 1 a")
         b.save()
         cls.bookInstanceA.save()
