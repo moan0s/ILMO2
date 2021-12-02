@@ -718,7 +718,7 @@ class IndexViewTest(TestCase):
 
         # Create a BookInstance object for test_user1
         return_date = datetime.date.today() + datetime.timedelta(days=5)
-        self.test_bookinstance1 = BookInstance.objects.create(
+        self.test_bookinstance0 = BookInstance.objects.create(
             book=test_book,
             imprint='Unlikely Imprint, 2016',
             status='a',
@@ -730,7 +730,6 @@ class IndexViewTest(TestCase):
         self.test_bookinstance1 = BookInstance.objects.create(
             book=test_book,
             imprint='Unlikely Imprint, 2016',
-            status='o',
             label="1",
         )
 
@@ -739,9 +738,10 @@ class IndexViewTest(TestCase):
         self.test_bookinstance2 = BookInstance.objects.create(
             book=test_book,
             imprint='Unlikely Imprint, 2016',
-            status='o',
             label="2",
         )
+        self.test_bookinstance1.borrow(Member.objects.get(user=test_user1))
+        self.test_bookinstance2.borrow(Member.objects.get(user=test_user1))
 
     # Test if the correct template is used for the library index
     def test_uses_correct_template(self):
@@ -767,10 +767,10 @@ class IndexViewTest(TestCase):
 
         self.assertEqual(response.status_code, 200)
         # Check that statistics numbers match
-        self.assertEqual(response.context['num_books'], 1)
-        self.assertEqual(response.context['num_instances'], 3)
-        self.assertEqual(response.context['num_instances_available'], 1)
-        self.assertEqual(response.context['num_authors'], 2)
+        self.assertEqual(response.context['books'], 1)
+        self.assertEqual(response.context['book_instances'], 3)
+        self.assertEqual(response.context['book_instances_available'], 1)
+        self.assertEqual(response.context['authors'], 1)
 
 
 class OpeningHoursCreateViewTest(TestCase):
