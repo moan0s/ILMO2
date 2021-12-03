@@ -79,7 +79,7 @@ urlpatterns += [
 
 """ ACCOUNTS """
 urlpatterns += [
-    path('member-detail/<int:pk>/', views.member_detail, name='member-detail'),
+    path('user-detail/<int:pk>/', views.user_detail, name='user-detail'),
     path('my-profile/', views.my_profile, name='my-profile'),
     path('accounts/', include('django.contrib.auth.urls')),
 ]

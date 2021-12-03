@@ -88,7 +88,7 @@ def show_user(request, user):
 
 @login_required()
 @permission_required("auth.user.view")
-def member_detail(request, pk):
+def user_detail(request, pk):
     user = get_object_or_404(User, pk=pk)
     return show_user(request, user)
 

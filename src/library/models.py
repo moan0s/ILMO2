@@ -91,7 +91,8 @@ class Member(models.Model):
         return str(self.user)
 
     def get_absolute_url(self):
-        return reverse("library:member-detail", self.user.id)
+        print(self.user.id)
+        return reverse("library:user-detail", self.user.id)
 
 
 class Item(models.Model):
