@@ -43,7 +43,10 @@ class Author(models.Model):
 
     def __str__(self):
         """String for representing the Model object."""
-        return f'{self.last_name}, {self.first_name}'
+        if self.first_name != "":
+            return f'{self.last_name}, {self.first_name}'
+        else:
+            return self.last_name
 
     def get_absolute_url(self):
         """Returns the url to access a detail record for this book."""

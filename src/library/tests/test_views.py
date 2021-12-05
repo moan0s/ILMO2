@@ -319,6 +319,30 @@ class AuthorListViewTest(TestCase):
         self.assertTrue(response.context['is_paginated'] == True)
         self.assertEqual(len(response.context['author_list']), 3)
 
+class BookDetailViewTest(TestCase):
+    def setUp(self):
+        test_author1 = Author.objects.create(first_name='John', last_name='Smith')
+        test_author2 = Author.objects.create(first_name='Jane', last_name='Hammer')
+        test_language = Language.objects.create(name='English')
+        self.test_book = Book.objects.create(
+            title='Book Title',
+            summary='My book summary',
+            isbn='ABCDEFG',
+            language=test_language,
+        )
+        self.test_book.author.add(test_author1)
+        self.test_book.author.add(test_author2)
+    def test_details(self):
+        response = self.client.get(reverse('library:book-detail', kwargs={'pk': self.test_book.pk}))
+        # Check that site access is permitted
+        self.assertEqual(response.status_code, 200)
+        # Check our user is logged in
+        self.assertContains(response, "Hammer, Jane")
+        self.assertContains(response, "Smith")
+        self.assertContains(response, "Book Title")
+        self.assertContains(response, "My book summary")
+
+
 
 class BookInstancesDetailViewTest(TestCase):
     def setUp(self):
