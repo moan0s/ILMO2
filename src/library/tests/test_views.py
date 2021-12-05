@@ -15,6 +15,7 @@ class MyLoansView(TestCase):
     def setUpTestData(cls):
         test_author = Author.objects.create(first_name="Jane", last_name="Doe")
         test_book = Book.objects.create(title="How to Test genres",
+                                        author=Author.objects.create(first_name="Jane", last_name="Doe"),
                                         summary="Book to test genres",
                                         isbn="1234567890124")
         test_book.author.add(test_author)
@@ -89,9 +90,9 @@ class LoanDetailView(TestCase):
     def setUpTestData(cls):
         test_author = Author.objects.create(first_name="Jane", last_name="Doe")
         test_book = Book.objects.create(title="How to Test genres",
+                                        author=Author.objects.create(first_name="Jane", last_name="Doe"),
                                         summary="Book to test genres",
                                         isbn="1234567890124")
-        test_book.author.add(test_author)
         # User to borrow the book
         test_user1 = User.objects.create_user(username='testuser1', password='12345')
         # User without permission to see borrower
@@ -245,7 +246,9 @@ class AuthorViewTest(TestCase):
     @classmethod
     def setUpTestData(cls):
         cls.test_author1 = Author.objects.create(first_name="Jane", last_name="Doe")
+        cls.test_author1.save()
         cls.test_author2 = Author.objects.create(first_name="Jim", last_name="Butch")
+        cls.test_author2.save()
         cls.test_book = Book.objects.create(title="How to Test views",
                                 summary="How to write better tests than you do",
                                 isbn="1234567890123")
@@ -346,6 +349,7 @@ class BookInstancesDetailViewTest(TestCase):
             title='Book Title',
             summary='My book summary',
             isbn='ABCDEFG',
+            author=test_author,
             language=test_language,
         )
         test_book.author.add(test_author)
@@ -486,6 +490,7 @@ class RenewBookInstancesViewTest(TestCase):
             title='Book Title',
             summary='My book summary',
             isbn='ABCDEFG',
+            author=test_author,
             language=test_language,
         )
         test_book.author.add(test_author)
@@ -708,11 +713,13 @@ class IndexViewTest(TestCase):
         test_user2.save()
 
         # Create a book
+        test_author = Author.objects.create(first_name='John', last_name='Smith')
         test_author = Author.objects.create(first_name='Jim', last_name='Knopf')
         test_book = Book.objects.create(
             title='Book Title',
             summary='My book summary',
             isbn='ABCDEFG',
+            author=test_author,
         )
         test_book.author.add(test_author)
 
@@ -730,6 +737,7 @@ class IndexViewTest(TestCase):
         self.test_bookinstance1 = BookInstance.objects.create(
             book=test_book,
             imprint='Unlikely Imprint, 2016',
+            status='o',
             label="1",
         )
 
@@ -738,6 +746,7 @@ class IndexViewTest(TestCase):
         self.test_bookinstance2 = BookInstance.objects.create(
             book=test_book,
             imprint='Unlikely Imprint, 2016',
+            status='o',
             label="2",
         )
         self.test_bookinstance1.borrow(Member.objects.get(user=test_user1))
@@ -807,6 +816,7 @@ class BorrowProcedureTest(TestCase):
     def setUpTestData(cls):
         a = Author.objects.create(first_name="Jane", last_name="Doe")
         test_book = Book.objects.create(title="How to Test genres",
+                                        author=Author.objects.create(first_name="Jane", last_name="Doe"),
                                         summary="Book to test genres",
                                         isbn="1234567890124")
         cls.test_user1 = User.objects.create_user(username='testuser1', password='12345')
