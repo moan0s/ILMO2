@@ -181,10 +181,10 @@ class Item(models.Model):
         self.save()
         return True
 
-    """ Returns the current borrower or 'Not borrowed'"""
 
     @property
     def borrower(self):
+        """ Returns the current borrower or 'Not borrowed'"""
         try:
             last_loan = Loan.objects.filter(item=self).latest("lent_on")
             if last_loan.returned:

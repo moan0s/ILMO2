@@ -49,6 +49,7 @@ urlpatterns += [
     path('item/<uuid:pk>/borrow/', views.borrow_item, name='item-borrow'),
     # ex: /library/item/a6c3b3ae-b254-4480-8573-95868068a9c3/borrow/user/5
     path('item/<uuid:ik>/borrow/user/<slug:uk>', views.borrow_user, name='user-borrow'),
+    path('item/<uuid:ik>/return', views.return_item, name='return-item'),
 ]
 
 """ ITEM """

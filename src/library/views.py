@@ -154,6 +154,16 @@ def borrow_user(request, ik, uk):
     context = {"loan": loan}
     return render(request, 'library/loan-detail.html', context=context)
 
+@login_required()
+@permission_required("library.can_mark_returned", raise_exception=True)
+def return_item(request, ik):
+    item = get_object_or_404(Item, pk=ik)
+
+    item.return_item()
+    loan = Loan.objects.filter(item=item).latest("lent_on")
+    context = {"loan": loan}
+    return render(request, 'library/loan-detail.html', context=context)
+
 
 class AuthorListView(generic.ListView):
     model = Author

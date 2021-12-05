@@ -14,7 +14,7 @@
         <p><strong> Borrowed by: </strong>
             <a href="{{ loan.borrower.get_absolute_url }}"> {{ loan.borrower}} </a></p>
     {% endif %}
-    {% if perms.library.can_mark_returned %}
+    {% if not loan.returned and perms.library.can_mark_returned %}
         <p><a href="{% url 'library:renew-item-librarian' loan.item.id %}">Renew</a></p>
     {% endif %}
   <p class="text-muted"><strong>Id:</strong> {{ loan.id }}</p>
