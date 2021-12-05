@@ -16,7 +16,7 @@ urlpatterns = [
     # ex: /library/books/5/loans/
     path('books/<int:pk>/loans/', views.loans_of_book),
     # ex: /library/bookInstance/a6c3b3ae-b254-4480-8573-95868068a9c3/
-    url(r'^bookInstance/(?P<pk>[0-9A-Fa-f-]+)/$', views.BookInstanceDetailView.as_view(), name='bookInstance-detail'),
+    path('bookInstance/<slug:pk>', views.BookInstanceDetailView.as_view(), name='bookInstance-detail'),
 
     # ex: /library/author/5/
     path('author/<int:pk>/', views.AuthorDetailView.as_view(), name='author-detail'),
@@ -29,7 +29,7 @@ urlpatterns += [
     # ex: /library/material/5/
     path('material/<int:pk>', views.MaterialDetailView.as_view(), name='material-detail'),
     # ex: /library/materialInstance/a6c3b3ae-b254-4480-8573-95868068a9c3/
-    url(r'^materialInstance/(?P<pk>[0-9A-Fa-f-]+)/$', views.MaterialInstanceDetailView.as_view(),
+    path('materialInstance/<slug:pk>', views.MaterialInstanceDetailView.as_view(),
         name='materialInstance-detail'),
 ]
 
@@ -48,7 +48,7 @@ urlpatterns += [
     # ex: /library/item/a6c3b3ae-b254-4480-8573-95868068a9c3/borrow/
     path('item/<uuid:pk>/borrow/', views.borrow_item, name='item-borrow'),
     # ex: /library/item/a6c3b3ae-b254-4480-8573-95868068a9c3/borrow/user/5
-    path('item/<uuid:ik>/borrow/user/<int:uk>', views.borrow_user, name='user-borrow'),
+    path('item/<uuid:ik>/borrow/user/<slug:uk>', views.borrow_user, name='user-borrow'),
 ]
 
 """ ITEM """
@@ -79,7 +79,7 @@ urlpatterns += [
 
 """ ACCOUNTS """
 urlpatterns += [
-    path('user-detail/<int:pk>/', views.user_detail, name='user-detail'),
+    path('user-detail/<slug:pk>/', views.user_detail, name='user-detail'),
     path('my-profile/', views.my_profile, name='my-profile'),
     path('accounts/', include('django.contrib.auth.urls')),
 ]

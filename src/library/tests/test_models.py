@@ -72,8 +72,8 @@ class GenreModelTest(TestCase):
         g1 = Genre.objects.create(name="Science Fiction")
         test_author = Author.objects.create(first_name="Jane", last_name="Doe")
         b1 = Book.objects.create(title="How to Test",
-                                summary="How to write better tests than you do",
-                                isbn="1234567890123")
+                                 summary="How to write better tests than you do",
+                                 isbn="1234567890123")
         b1.author.add(test_author)
         g1.save()
         b1.save()
@@ -141,8 +141,8 @@ class BookInstanceModelTest(TestCase):
 
     def test_get_absolute_url(self):
         bookInstanceB = BookInstance.objects.filter(label="T 1 b")[0]
-        self.assertEquals(bookInstanceB.get_absolute_url(),
-                          f"/library/bookInstance/{bookInstanceB.id}/")
+        self.assertEquals(f"/library/bookInstance/{bookInstanceB.id}",
+                          bookInstanceB.get_absolute_url())
 
 
 class MaterialModelTest(TestCase):
@@ -196,8 +196,8 @@ class MaterialInstanceModelTest(TestCase):
 
     def test_get_absolute_url(self):
         materialInstanceB = MaterialInstance.objects.filter(label="LC 3")[0]
-        self.assertEquals(materialInstanceB.get_absolute_url(),
-                          f"/library/materialInstance/{materialInstanceB.id}/")
+        self.assertEquals(f"/library/materialInstance/{materialInstanceB.id}",
+                          materialInstanceB.get_absolute_url())
 
 
 class ItemTest(TestCase):
@@ -289,7 +289,6 @@ class LoanModelTest(TestCase):
         self.bookInstanceA.return_item()
         self.assertEquals("a", self.bookInstanceA.status)
         self.assertEquals(_("Not borrowed"), self.bookInstanceA.borrower)
-
 
 
 class OpeningHourModelTest(TestCase):
