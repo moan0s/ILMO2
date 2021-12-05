@@ -15,6 +15,10 @@
             <p><a href="{% url 'library:renew-item-librarian' materialinstance.id %}">Renew</a></p>
             <p><a href="{% url 'library:return-item' materialinstance.id %}">Return</a></p>
         {% endif %}
+    {% else %}
+        {% if perms.loan.can_add %}
+            <a href="{% url 'library:item-borrow' materialinstance.id %}">Borrow</a>
+        {% endif %}
     {% endif %}
       <p class="text-muted"><strong>Id:</strong> {{ materialinstance.id }}</p>
 {% endblock %}

@@ -17,6 +17,11 @@
             <p>No books by this author.</p>
         {% endif %}
     </div>
-    <div class="link-button"><a href="{% url "library:author-update" author.id %}">Change Author</a></div>
-    <div class="link-button delete-button"><a href="{% url "library:author-delete" author.id %}">Delete Author</a></div>
+    {% if perms.author.can_change %}
+        <div class="link-button"><a href="{% url "library:author-update" author.id %}">Change Author</a></div>
+    {% endif %}
+    {% if perms.author.can_delete %}
+        <div class="link-button delete-button"><a href="{% url "library:author-delete" author.id %}">Delete Author</a>
+        </div>
+    {% endif %}
 {% endblock %}
