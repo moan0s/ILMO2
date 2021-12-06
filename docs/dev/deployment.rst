@@ -84,6 +84,9 @@ Fill the configuration file ``/etc/ilmo/ilmo.cfg`` with the following content (a
     name=ilmo
     user=ilmo
 
+    [locations]
+    static=/var/ilmo/static
+
     [mail]
     ; See config file documentation for more options
     ; from=ilmo@example.com
@@ -113,8 +116,9 @@ We now clone and install ilmo, its direct dependencies and gunicorn::
 
 Note that you need Python 3.6 or newer. You can find out your Python version using ``python -V``.
 
-Finally, we compile static files and translation data and create the database structure::
+Finally, we compile static files and create the database structure::
 
+    (venv)$ ./manage.py collectstatic
     (venv)$ ./manage.py migrate
 
 
