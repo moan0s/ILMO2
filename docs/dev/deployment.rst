@@ -191,7 +191,7 @@ The following snippet is an example on how to configure a nginx proxy for pretix
             }
 
             location /static/ {
-                alias /var/ilmo/ILMO2/src/library/static/;
+                alias /var/ilmo/static/;
                 access_log off;
                 expires 365d;
                 add_header Cache-Control "public";
