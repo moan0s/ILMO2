@@ -1,0 +1,12 @@
+<table>
+    <tr>
+        <th>Title</th>
+        <th>Author</th>
+    </tr>
+    {% for book in books %}
+        <tr>
+            <td><b><a href="{{ book.get_absolute_url }}">{{ book.title }}</a></b></td>
+            <td>{{ book.author }}</td>
+        </tr>
+    {% endfor %}
+</table>

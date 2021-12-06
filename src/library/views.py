@@ -81,10 +81,12 @@ def metrics(request):
 
     return JsonResponse(data)
 
+
 def show_user(request, user):
     member = Member.objects.get(user=user)
     context = {"member": member}
     return render(request, 'library/member.html', context=context)
+
 
 @login_required()
 @permission_required("auth.user.view")
@@ -153,6 +155,7 @@ def borrow_user(request, ik, uk):
     loan = Loan.objects.filter(item=item).latest("lent_on")
     context = {"loan": loan}
     return render(request, 'library/loan-detail.html', context=context)
+
 
 @login_required()
 @permission_required("library.can_mark_returned", raise_exception=True)
@@ -256,6 +259,42 @@ def item_search(request):
         context['items'] = queryset
 
     return render(request, 'library/item-search.html', context=context)
+
+
+def get_books(query):
+    """Returns all book objects roughly matching the query"""
+    books = Book.objects.filter(Q(title__icontains=query))
+    return books
+
+
+def get_book_intances(query):
+    book_instances = BookInstance.objects.filter(Q(label__iexact=query))
+    return book_instances
+
+
+def get_user(query):
+    user = User.objects.filter(
+        Q(username__icontains=query) | Q(first_name__icontains=query) | Q(last_name__icontains=query))
+    return user
+
+
+def search(request):
+    """
+    Enables search for items and users for multiple fields
+    """
+    context = {}
+
+    # If this is a POST request then process the Form data
+    if request.method == 'POST':
+        # Check if the form is valid:
+        q = request.POST['q']
+        context['book_instances'] = get_book_intances(q)
+        context['books'] = get_books(q)
+
+        if request.user.has_perm('Can view user'):
+            context['user_list'] = get_user(q)
+
+    return render(request, 'library/search.html', context=context)
 
 
 from django.views.generic.edit import CreateView, UpdateView, DeleteView

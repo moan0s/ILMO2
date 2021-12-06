@@ -1,0 +1,38 @@
+{% extends "library/base_generic.html" %}
+
+{% block content %}
+    <h1>Search for any item or user</h1>
+    <form action="" method="post">
+        {% csrf_token %}
+        <input type="text" name="q">
+        <input type="submit" value="Search">
+    </form>
+    {% if book_instances %}
+        <h1>Book instances</h1>
+        <div class="book_search_result">
+            {% block bookInstanceTable %}
+                {% include "library/bookInstanceTable.html" %}
+            {% endblock %}
+        </div>
+        {% else %}
+        No book instances found.
+    {% endif %}
+    {% if books %}
+        <div class="books_search_result">
+            {% block bookTable %}
+                {% include "library/bookTable.html" %}
+            {% endblock %}
+        </div>
+        {% else %}
+        No books found.
+    {% endif %}
+    {% if user_list %}
+        <div class="user_search_result">
+            {% block userTable %}
+                {% include "library/userTable.html" %}
+            {% endblock %}
+        </div>
+        {% else %}
+        No user found.
+    {% endif %}
+{% endblock %}
