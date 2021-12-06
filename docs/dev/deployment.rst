@@ -95,6 +95,14 @@ Fill the configuration file ``/etc/ilmo/ilmo.cfg`` with the following content (a
     ; password=foobar
     ; port=587
 
+    [security]
+    ; See https://securitytxt.org/ for reference
+    ;Contact=
+    ;Expires=
+    ;Encryption=
+    ;Preferred-Languages=
+    ;Scope=
+    ;Policy=
 
 Install ilmo as package
 ------------------------
