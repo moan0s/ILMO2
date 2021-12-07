@@ -11,7 +11,7 @@ class SecurityTxtTests(SimpleTestCase):
         content = response.content.decode()
 
         # Check that security contact is correct
-        self.assertTrue(content.startswith("Contact: mailto: julian-samuel@gebuehr.net"))
+        self.assertTrue(content.startswith("Contact: julian-samuel@gebuehr.net"))
 
         # Check that security.txt is not expired
         lines = content.split("\n")
