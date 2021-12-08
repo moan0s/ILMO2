@@ -271,11 +271,12 @@ def get_book_intances(query):
     book_instances = BookInstance.objects.filter(Q(label__iexact=query))
     return book_instances
 
-
 def get_user(query):
-    user = User.objects.filter(
-        Q(username__icontains=query) | Q(first_name__icontains=query) | Q(last_name__icontains=query))
-    return user
+    user = []
+    for search_string in query.split(" "):
+        user.extend(User.objects.filter(
+            Q(username__icontains=search_string) | Q(first_name__icontains=search_string) | Q(last_name__icontains=search_string)))
+    return set(user)
 
 
 def search(request):
