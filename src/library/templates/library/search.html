@@ -9,50 +9,55 @@
     </form>
     {% if user_list %}
         <div class="search_result">
+            <h1>User</h1>
             {% block userTable %}
                 {% include "library/userTable.html" %}
             {% endblock %}
         </div>
-        {% else %}
+    {% else %}
         No user found.
     {% endif %}
     {% if books %}
         <div class="search_result">
+            <h1>Books</h1>
             {% block bookTable %}
                 {% include "library/bookTable.html" %}
             {% endblock %}
         </div>
-        {% else %}
+    {% else %}
         No books found.
     {% endif %}
     {% if materials %}
         <div class="search_result">
+
+            <h1>Materials</h1>
             {% block materialTable %}
                 {% include "library/materialTable.html" %}
             {% endblock %}
         </div>
-        {% else %}
+    {% else %}
         No materials found.
     {% endif %}
     {% if book_instances %}
-        <h1>Book instances</h1>
         <div class="search_result">
+
+            <h1>Book instances</h1>
             {% block bookInstanceTable %}
                 {% include "library/bookInstanceTable.html" %}
             {% endblock %}
         </div>
-        {% else %}
+    {% else %}
         No book instances found.
     {% endif %}
 
     {% if material_instances %}
-        <h1>Material instances</h1>
         <div class="search_result">
+            <h1>Material instances</h1>
             {% block materialInstanceTable %}
                 {% include "library/materialInstanceTable.html" %}
             {% endblock %}
         </div>
-        {% else %}
+    {% else %}
         No material instances found.
     {% endif %}
 
