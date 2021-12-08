@@ -1,0 +1,10 @@
+<table>
+    <tr>
+        <th>Name</th>
+    </tr>
+    {% for material in materials %}
+        <tr>
+            <td><b><a href="{{ material.get_absolute_url }}">{{ material.name }}</a></b></td>
+        </tr>
+    {% endfor %}
+</table>

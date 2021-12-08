@@ -7,27 +7,8 @@
         <input type="text" name="q">
         <input type="submit" value="Search">
     </form>
-    {% if book_instances %}
-        <h1>Book instances</h1>
-        <div class="book_search_result">
-            {% block bookInstanceTable %}
-                {% include "library/bookInstanceTable.html" %}
-            {% endblock %}
-        </div>
-        {% else %}
-        No book instances found.
-    {% endif %}
-    {% if books %}
-        <div class="books_search_result">
-            {% block bookTable %}
-                {% include "library/bookTable.html" %}
-            {% endblock %}
-        </div>
-        {% else %}
-        No books found.
-    {% endif %}
     {% if user_list %}
-        <div class="user_search_result">
+        <div class="search_result">
             {% block userTable %}
                 {% include "library/userTable.html" %}
             {% endblock %}
@@ -35,4 +16,44 @@
         {% else %}
         No user found.
     {% endif %}
+    {% if books %}
+        <div class="search_result">
+            {% block bookTable %}
+                {% include "library/bookTable.html" %}
+            {% endblock %}
+        </div>
+        {% else %}
+        No books found.
+    {% endif %}
+    {% if materials %}
+        <div class="search_result">
+            {% block materialTable %}
+                {% include "library/materialTable.html" %}
+            {% endblock %}
+        </div>
+        {% else %}
+        No materials found.
+    {% endif %}
+    {% if book_instances %}
+        <h1>Book instances</h1>
+        <div class="search_result">
+            {% block bookInstanceTable %}
+                {% include "library/bookInstanceTable.html" %}
+            {% endblock %}
+        </div>
+        {% else %}
+        No book instances found.
+    {% endif %}
+
+    {% if material_instances %}
+        <h1>Material instances</h1>
+        <div class="search_result">
+            {% block materialInstanceTable %}
+                {% include "library/materialInstanceTable.html" %}
+            {% endblock %}
+        </div>
+        {% else %}
+        No material instances found.
+    {% endif %}
+
 {% endblock %}

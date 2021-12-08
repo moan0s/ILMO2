@@ -271,11 +271,24 @@ def get_book_intances(query):
     book_instances = BookInstance.objects.filter(Q(label__iexact=query))
     return book_instances
 
+
+def get_material_instances(query):
+    material_instances = MaterialInstance.objects.filter(Q(label__iexact=query) | Q(label__icontains=query))
+    return material_instances
+
+
+def get_materials(query):
+    """Returns all material objects roughly matching the query"""
+    materials = Material.objects.filter(Q(name__icontains=query))
+    return materials
+
+
 def get_user(query):
     user = []
     for search_string in query.split(" "):
         user.extend(User.objects.filter(
-            Q(username__icontains=search_string) | Q(first_name__icontains=search_string) | Q(last_name__icontains=search_string)))
+            Q(username__icontains=search_string) | Q(first_name__icontains=search_string) | Q(
+                last_name__icontains=search_string)))
     return set(user)
 
 
@@ -289,11 +302,12 @@ def search(request):
     if request.method == 'POST':
         # Check if the form is valid:
         q = request.POST['q']
-        context['book_instances'] = get_book_intances(q)
-        context['books'] = get_books(q)
-
         if request.user.has_perm('Can view user'):
             context['user_list'] = get_user(q)
+        context['books'] = get_books(q)
+        context['materials'] = get_materials(q)
+        context['book_instances'] = get_book_intances(q)
+        context['material_instances'] = get_material_instances(q)
 
     return render(request, 'library/search.html', context=context)
 
