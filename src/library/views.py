@@ -292,6 +292,21 @@ def get_user(query):
     return set(user)
 
 
+def get_authors(query):
+    authors = []
+    for search_string in query.split(" "):
+        authors.extend(Author.objects.filter(Q(first_name__icontains=search_string) | Q(
+            last_name__icontains=search_string)))
+    return set(authors)
+
+
+def get_books_of_authors(authors):
+    books = []
+    for author in authors:
+        books.extend(Book.objects.filter(author=author))
+    return set(books)
+
+
 def search(request):
     """
     Enables search for items and users for multiple fields
@@ -304,7 +319,13 @@ def search(request):
         q = request.POST['q']
         if request.user.has_perm('Can view user'):
             context['user_list'] = get_user(q)
-        context['books'] = get_books(q)
+
+        books = []
+        books.extend(get_books(q))
+        authors = get_authors(q)
+        books_by_author = get_books_of_authors(authors)
+        books.extend(books_by_author)
+        context['books'] = books
         context['materials'] = get_materials(q)
         context['book_instances'] = get_book_intances(q)
         context['material_instances'] = get_material_instances(q)

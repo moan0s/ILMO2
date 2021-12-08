@@ -7,6 +7,8 @@ import datetime
 from django.contrib.auth.models import Permission
 import uuid
 
+from library.views import *
+
 
 class SearchTest(TestCase):
     @classmethod
@@ -16,6 +18,19 @@ class SearchTest(TestCase):
                                         summary="Book to test genres",
                                         isbn="1234567890124")
         test_book.author.add(test_author)
+
+        test_author2 = Author.objects.create(first_name="Jane", last_name="Milburn")
+        test_book2 = Book.objects.create(title="How to put on socks",
+                                        summary="Safe use of socks",
+                                        isbn="1234567890124")
+        test_book2.author.add(test_author2)
+
+        test_author3 = Author.objects.create(first_name="John", last_name="Sax")
+        test_book3 = Book.objects.create(title="How to Test genres",
+                                         summary="Book to test genres",
+                                         isbn="1234567890124")
+        test_book3.author.add(test_author3)
+
         test_user1 = User.objects.create_user(username='testuser1',
                                               first_name="Max",
                                               last_name="Müller",
@@ -25,6 +40,11 @@ class SearchTest(TestCase):
                                               first_name="Mia-Mo Michael",
                                               last_name="Müller",
                                               password='12345')
+
+    def test_author_search(self):
+        authors = get_authors("Jane")
+        books = get_books_of_authors(authors)
+        self.assertEqual(2, len(books))
 
     def test_user_search(self):
         from library.views import get_user
