@@ -61,6 +61,13 @@ class Book(models.Model):
         """Returns the url to access a detail record for this book."""
         return reverse('library:book-detail', args=[str(self.id)])
 
+    def author_as_html_list(self):
+        authors_with_href = []
+        for author in self.author.all():
+            author_html = f"<a href={author.get_absolute_url()}>{author}</a>"
+            authors_with_href.append(author_html)
+        return ", ".join(authors_with_href)
+
     title = models.CharField(max_length=200)
     author = models.ManyToManyField(Author, help_text='Select the autor(s) of this book')
     genre = models.ManyToManyField(Genre, help_text='Select a genre for this book')
