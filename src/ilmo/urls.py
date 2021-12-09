@@ -9,6 +9,5 @@ urlpatterns = [
     path('admin/', admin.site.urls, name="admin"),
     path("accounts/", include("django.contrib.auth.urls")),
     path(".well-known/security.txt", security_txt),
+    path("api-auth/", include('rest_framework.urls')),
 ]
-
-

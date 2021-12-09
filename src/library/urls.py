@@ -96,3 +96,8 @@ urlpatterns += [
     # ex: /library/metrics
     path('metrics/', views.metrics, name="metrics"),
 ]
+
+""" API """
+urlpatterns += [
+    path('api/', include('library.api.urls')),
+]
