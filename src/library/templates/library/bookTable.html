@@ -6,7 +6,7 @@
     {% for book in books %}
         <tr>
             <td><b><a href="{{ book.get_absolute_url }}">{{ book.title }}</a></b></td>
-            <td>{{ book.author_as_html_list|safe }}</td>
+            <td>{{ book.author.all|join:", " }}</td>
         </tr>
     {% endfor %}
 </table>
