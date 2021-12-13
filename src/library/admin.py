@@ -1,6 +1,8 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 from django.contrib.auth.models import User
+from rest_framework.authtoken.models import Token
+
 from .models import Book, Material, BookInstance, MaterialInstance, Genre, Author, Loan, Member, Language, Room
 
 admin.site.register(Book)
@@ -60,9 +62,13 @@ class MemberInline(admin.StackedInline):
     can_delete = False
     verbose_name_plural = 'members'
 
+class TokenInline(admin.StackedInline):
+    model = Token
+
 # Define a new User admin
 class UserAdmin(BaseUserAdmin):
     inlines = (MemberInline,)
+    inlines = (TokenInline,)
 
 # Re-register UserAdmin
 admin.site.unregister(User)
