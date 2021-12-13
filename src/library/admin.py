@@ -1,13 +1,14 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 from django.contrib.auth.models import User
-from .models import Book, Material, BookInstance, MaterialInstance, Genre, Author, Loan, Member, Language
+from .models import Book, Material, BookInstance, MaterialInstance, Genre, Author, Loan, Member, Language, Room
 
 admin.site.register(Book)
 admin.site.register(Material)
 admin.site.register(Genre)
 admin.site.register(Author)
 admin.site.register(Language)
+admin.site.register(Room)
 
 @admin.register(BookInstance)
 class BookInstanceAdmin(admin.ModelAdmin):
