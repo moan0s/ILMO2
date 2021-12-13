@@ -61,7 +61,6 @@ class Book(models.Model):
         """Returns the url to access a detail record for this book."""
         return reverse('library:book-detail', args=[str(self.id)])
 
-
     title = models.CharField(max_length=200)
     author = models.ManyToManyField(Author, help_text='Select the autor(s) of this book')
     genre = models.ManyToManyField(Genre, help_text='Select a genre for this book')
@@ -95,7 +94,7 @@ class Member(models.Model):
         return str(self.user)
 
     def get_absolute_url(self):
-        return reverse("library:user-detail",  args=[str(self.user.id)])
+        return reverse("library:user-detail", args=[str(self.user.id)])
 
 
 class Item(models.Model):
@@ -181,7 +180,6 @@ class Item(models.Model):
         self.status = "a"
         self.save()
         return True
-
 
     @property
     def borrower(self):
@@ -302,3 +300,16 @@ class OpeningHours(models.Model):
 class LoanReminder(models.Model):
     loan = models.ForeignKey(Loan, on_delete=models.PROTECT)
     sent_on = models.DateField()
+
+
+class Room(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, help_text='Unique ID for this room')
+    name = models.CharField(max_length=200, unique=True)
+    allowed_user = models.ManyToManyField(User, help_text="Users that are allowed to access this room")
+
+    def __str__(self):
+        return f"Room: {self.name}"
+
+    def check_access(self, user):
+        """ Check if the given user is allowed in the room"""
+        return (user in self.allowed_user.all())
