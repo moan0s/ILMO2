@@ -16,5 +16,18 @@
     {% else %}
         <p>No UID set.</p>
     {% endif %}
+    {% if token %}
+        <form action="" method="POST">
+            {% csrf_token %}
+            <p class="text-muted"><strong>API token:</strong> {{ token }}</p>
+            <input class="create-token" type="submit" name="delete_token" value="Delete API token">
+        </form>
+    {% else %}
+        <p>No token set.</p>
+        <form action="" method="POST">
+            {% csrf_token %}
+            <input class="create-token" type="submit" name="create_token" value="Create API token">
+        </form>
+    {% endif %}
 
 {% endblock %}

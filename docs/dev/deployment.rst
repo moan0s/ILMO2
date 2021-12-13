@@ -84,6 +84,9 @@ Fill the configuration file ``/etc/ilmo/ilmo.cfg`` with the following content (a
     name=ilmo
     user=ilmo
 
+    [locations]
+    static=/var/ilmo/static
+
     [mail]
     ; See config file documentation for more options
     ; from=ilmo@example.com
@@ -92,6 +95,14 @@ Fill the configuration file ``/etc/ilmo/ilmo.cfg`` with the following content (a
     ; password=foobar
     ; port=587
 
+    [security]
+    ; See https://securitytxt.org/ for reference
+    ;Contact=
+    ;Expires=
+    ;Encryption=
+    ;Preferred-Languages=
+    ;Scope=
+    ;Policy=
 
 Install ilmo as package
 ------------------------
@@ -113,8 +124,9 @@ We now clone and install ilmo, its direct dependencies and gunicorn::
 
 Note that you need Python 3.6 or newer. You can find out your Python version using ``python -V``.
 
-Finally, we compile static files and translation data and create the database structure::
+Finally, we compile static files and create the database structure::
 
+    (venv)$ ./manage.py collectstatic
     (venv)$ ./manage.py migrate
 
 
@@ -187,7 +199,7 @@ The following snippet is an example on how to configure a nginx proxy for pretix
             }
 
             location /static/ {
-                alias /var/ilmo/ILMO2/src/library/static/;
+                alias /var/ilmo/static/;
                 access_log off;
                 expires 365d;
                 add_header Cache-Control "public";

@@ -1,0 +1,26 @@
+<table>
+    <tr>
+        <th>Label</th>
+        <th>Title</th>
+        <th>Status</th>
+        <th>Borrow/Return</th>
+    </tr>
+    {% for book_instance in book_instances %}
+        <tr>
+            <td>{{ book_instance.label }}</td>
+            <td>{{ book_instance.book.title }}</td>
+            <td class="{% if book_instance.status == 'a' %}text-success{% elif book_instance.status == 'm' %}text-danger{% else %}text-warning{% endif %}">
+                {{ book_instance.get_status_display }}
+            </td>
+            <td>
+                {% if book_instance.status == "a" %}
+                    <a href="{% url 'library:item-borrow' book_instance.id %}">Borrow</a>
+                {% elif book_instance.status == "o" %}
+                    <a href="{% url 'library:item-return' book_instance.id %}">Return</a>
+                {% else %}
+                    Unavailable
+                {% endif %}
+            </td>
+        </tr>
+    {% endfor %}
+</table>

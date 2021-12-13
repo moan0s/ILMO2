@@ -7,6 +7,84 @@ import datetime
 from django.contrib.auth.models import Permission
 import uuid
 
+from library.views import *
+
+
+class SearchTest(TestCase):
+    @classmethod
+    def setUpTestData(cls):
+        test_author = Author.objects.create(first_name="Jane", last_name="Doe")
+        test_book = Book.objects.create(title="How to Test genres",
+                                        summary="Book to test genres",
+                                        isbn="1234567890124")
+        test_book.author.add(test_author)
+
+        test_author2 = Author.objects.create(first_name="Jane", last_name="Milburn")
+        test_book2 = Book.objects.create(title="How to put on socks",
+                                        summary="Safe use of socks",
+                                        isbn="1234567890124")
+        test_book2.author.add(test_author2)
+
+        test_author3 = Author.objects.create(first_name="John", last_name="Sax")
+        test_book3 = Book.objects.create(title="How to Test genres",
+                                         summary="Book to test genres",
+                                         isbn="1234567890124")
+        test_book3.author.add(test_author3)
+
+        test_user1 = User.objects.create_user(username='testuser1',
+                                              first_name="Max",
+                                              last_name="Müller",
+                                              password='12345')
+        test_user1.save()
+        cls.test_user2 = User.objects.create_user(username='testuser2',
+                                              first_name="Mia-Mo Michael",
+                                              last_name="Müller",
+                                              password='12345')
+
+    def test_author_search(self):
+        authors = get_authors("Jane")
+        books = get_books_of_authors(authors)
+        self.assertEqual(2, len(books))
+
+    def test_user_search(self):
+        from library.views import get_user
+        query = "Müller"
+        result = get_user(query)
+        self.assertEqual(2, len(result))
+
+        query = "Mia-Mo"
+        result = get_user(query)
+        self.assertEqual(1, len(result))
+
+        query = "Marvin"
+        result = get_user(query)
+        self.assertEqual(0, len(result))
+
+        """Allows Max to be present, has to find Mia-Mo"""
+        query = "Mia-Mo Michael Müller"
+        result = get_user(query)
+        self.assertTrue(self.test_user2 in result)
+
+    def test_user_search_view(self):
+        """Has to find Mia-Mo and Max"""
+        response = self.client.post(reverse('library:search'), data={'q': "Müller"})
+        self.assertEqual(response.status_code, 200)
+        print(response.content)
+        self.assertContains(response, "Max")
+        self.assertContains(response, "Mia-Mo")
+
+
+        """Allows Max to be present, has to find Mia-Mo"""
+        response = self.client.post(reverse('library:search'), data={'q': "Mia-Mo Michael Müller"})
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, "Mia-Mo")
+
+        """Has to find Mia-Mo and not Max"""
+        response = self.client.post(reverse('library:search'), {'q': "Mia-Mo"})
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, "Mia-Mo")
+        self.assertNotContains(response, "Max")
+
 
 # Tests the view of library/my-loans/
 class MyLoansView(TestCase):
@@ -250,8 +328,8 @@ class AuthorViewTest(TestCase):
         cls.test_author2 = Author.objects.create(first_name="Jim", last_name="Butch")
         cls.test_author2.save()
         cls.test_book = Book.objects.create(title="How to Test views",
-                                summary="How to write better tests than you do",
-                                isbn="1234567890123")
+                                            summary="How to write better tests than you do",
+                                            isbn="1234567890123")
         cls.test_book.author.add(cls.test_author1)
 
     def test_use_of_correct_template(self):
@@ -321,6 +399,31 @@ class AuthorListViewTest(TestCase):
         self.assertTrue('is_paginated' in response.context)
         self.assertTrue(response.context['is_paginated'] == True)
         self.assertEqual(len(response.context['author_list']), 3)
+
+
+class BookDetailViewTest(TestCase):
+    def setUp(self):
+        test_author1 = Author.objects.create(first_name='John', last_name='Smith')
+        test_author2 = Author.objects.create(first_name='Jane', last_name='Hammer')
+        test_language = Language.objects.create(name='English')
+        self.test_book = Book.objects.create(
+            title='Book Title',
+            summary='My book summary',
+            isbn='ABCDEFG',
+            language=test_language,
+        )
+        self.test_book.author.add(test_author1)
+        self.test_book.author.add(test_author2)
+
+    def test_details(self):
+        response = self.client.get(reverse('library:book-detail', kwargs={'pk': self.test_book.pk}))
+        # Check that site access is permitted
+        self.assertEqual(response.status_code, 200)
+        # Check our user is logged in
+        self.assertContains(response, "Hammer, Jane")
+        self.assertContains(response, "Smith")
+        self.assertContains(response, "Book Title")
+        self.assertContains(response, "My book summary")
 
 
 class BookInstancesDetailViewTest(TestCase):

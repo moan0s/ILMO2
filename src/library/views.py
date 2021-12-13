@@ -8,6 +8,7 @@ from django.db.models import Q
 from django.http import JsonResponse
 import datetime
 from django.utils import timezone
+from rest_framework.authtoken.models import Token
 
 from .forms import RenewItemForm, UserSearchForm
 from .models import Book, Author, BookInstance, Loan, Material, MaterialInstance, OpeningHours, Item, Member, \
@@ -81,10 +82,13 @@ def metrics(request):
 
     return JsonResponse(data)
 
-def show_user(request, user):
+
+def show_user(request, user, token=None):
     member = Member.objects.get(user=user)
-    context = {"member": member}
+    context = {"member": member,
+               "token": token, }
     return render(request, 'library/member.html', context=context)
+
 
 @login_required()
 @permission_required("auth.user.view")
@@ -96,7 +100,19 @@ def user_detail(request, pk):
 @login_required()
 def my_profile(request):
     user = get_object_or_404(User, pk=request.user.pk)
-    return show_user(request, user)
+
+    if request.method == 'POST':
+        print(request.POST)
+        if "create_token" in request.POST:
+            print("Creating token")
+            Token.objects.create(user=request.user)
+        elif "delete_token" in request.POST:
+            Token.objects.get(user=request.user).delete()
+    try:
+        token = Token.objects.get(user=user)
+    except Token.DoesNotExist:
+        token = None
+    return show_user(request, user, token)
 
 
 class BookListView(generic.ListView):
@@ -150,6 +166,17 @@ def borrow_user(request, ik, uk):
     user = get_object_or_404(User, pk=uk)
 
     item.borrow(borrower=Member.objects.get(user=user))
+    loan = Loan.objects.filter(item=item).latest("lent_on")
+    context = {"loan": loan}
+    return render(request, 'library/loan-detail.html', context=context)
+
+
+@login_required()
+@permission_required("library.can_mark_returned", raise_exception=True)
+def return_item(request, ik):
+    item = get_object_or_404(Item, pk=ik)
+
+    item.return_item()
     loan = Loan.objects.filter(item=item).latest("lent_on")
     context = {"loan": loan}
     return render(request, 'library/loan-detail.html', context=context)
@@ -246,6 +273,78 @@ def item_search(request):
         context['items'] = queryset
 
     return render(request, 'library/item-search.html', context=context)
+
+
+def get_books(query):
+    """Returns all book objects roughly matching the query"""
+    books = Book.objects.filter(Q(title__icontains=query))
+    return books
+
+
+def get_book_intances(query):
+    book_instances = BookInstance.objects.filter(Q(label__iexact=query))
+    return book_instances
+
+
+def get_material_instances(query):
+    material_instances = MaterialInstance.objects.filter(Q(label__iexact=query) | Q(label__icontains=query))
+    return material_instances
+
+
+def get_materials(query):
+    """Returns all material objects roughly matching the query"""
+    materials = Material.objects.filter(Q(name__icontains=query))
+    return materials
+
+
+def get_user(query):
+    user = []
+    for search_string in query.split(" "):
+        user.extend(User.objects.filter(
+            Q(username__icontains=search_string) | Q(first_name__icontains=search_string) | Q(
+                last_name__icontains=search_string)))
+    return set(user)
+
+
+def get_authors(query):
+    authors = []
+    for search_string in query.split(" "):
+        authors.extend(Author.objects.filter(Q(first_name__icontains=search_string) | Q(
+            last_name__icontains=search_string)))
+    return set(authors)
+
+
+def get_books_of_authors(authors):
+    books = []
+    for author in authors:
+        books.extend(Book.objects.filter(author=author))
+    return set(books)
+
+
+def search(request):
+    """
+    Enables search for items and users for multiple fields
+    """
+    context = {}
+
+    # If this is a POST request then process the Form data
+    if request.method == 'POST':
+        # Check if the form is valid:
+        q = request.POST['q']
+        if request.user.has_perm('Can view user'):
+            context['user_list'] = get_user(q)
+
+        books = []
+        books.extend(get_books(q))
+        authors = get_authors(q)
+        books_by_author = get_books_of_authors(authors)
+        books.extend(books_by_author)
+        context['books'] = books
+        context['materials'] = get_materials(q)
+        context['book_instances'] = get_book_intances(q)
+        context['material_instances'] = get_material_instances(q)
+
+    return render(request, 'library/search.html', context=context)
 
 
 from django.views.generic.edit import CreateView, UpdateView, DeleteView

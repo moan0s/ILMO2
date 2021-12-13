@@ -1,0 +1,26 @@
+<table>
+    <tr>
+        <th>Label</th>
+        <th>Name</th>
+        <th>Status</th>
+        <th>Borrow/Return</th>
+    </tr>
+    {% for material_instance in material_instances %}
+        <tr>
+            <td>{{ material_instance.label }}</td>
+            <td>{{ material_instance.material.name }}</td>
+            <td class="{% if material_instance.status == 'a' %}text-success{% elif material_instance.status == 'm' %}text-danger{% else %}text-warning{% endif %}">
+                {{ material_instance.get_status_display }}
+            </td>
+            <td>
+                {% if material_instance.status == "a" %}
+                    <a href="{% url 'library:item-borrow' material_instance.id %}">Borrow</a>
+                {% elif material_instance.status == "o" %}
+                    <a href="{% url 'library:item-return' material_instance.id %}">Return</a>
+                {% else %}
+                    Unavailable
+                {% endif %}
+            </td>
+        </tr>
+    {% endfor %}
+</table>

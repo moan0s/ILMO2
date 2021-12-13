@@ -1,13 +1,17 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 from django.contrib.auth.models import User
-from .models import Book, Material, BookInstance, MaterialInstance, Genre, Author, Loan, Member, Language
+from rest_framework.authtoken.models import Token
+
+from .models import Book, Material, BookInstance, MaterialInstance, Genre, Author, Loan, Member, Language, Room
 
 admin.site.register(Book)
 admin.site.register(Material)
 admin.site.register(Genre)
 admin.site.register(Author)
 admin.site.register(Language)
+admin.site.register(Room)
+
 
 @admin.register(BookInstance)
 class BookInstanceAdmin(admin.ModelAdmin):
@@ -17,12 +21,13 @@ class BookInstanceAdmin(admin.ModelAdmin):
 
     fieldsets = (
         (None, {
-            'fields': ('book','label', 'imprint')
+            'fields': ('book', 'label', 'imprint')
         }),
         ('Availability', {
             'fields': ('status',)
         }),
     )
+
 
 @admin.register(MaterialInstance)
 class MaterialInstanceAdmin(admin.ModelAdmin):
@@ -39,29 +44,37 @@ class MaterialInstanceAdmin(admin.ModelAdmin):
         }),
     )
 
+
 @admin.register(Loan)
 class LoanAdmin(admin.ModelAdmin):
     search_fields = ['item__label']
     list_display = ('item', 'lent_on', 'due_back')
-    #list_filter = ('returned','is_overdue')
+    # list_filter = ('returned','is_overdue')
 
     fieldsets = (
         (None, {
-            'fields': ('item','borrower')
+            'fields': ('item', 'borrower')
         }),
         ('Timeline', {
             'fields': ('lent_on', 'due_back', 'returned_on')
         }),
     )
 
+
 class MemberInline(admin.StackedInline):
     model = Member
     can_delete = False
     verbose_name_plural = 'members'
 
+
+class TokenInline(admin.StackedInline):
+    model = Token
+
+
 # Define a new User admin
 class UserAdmin(BaseUserAdmin):
-    inlines = (MemberInline,)
+    inlines = (MemberInline, TokenInline,)
+
 
 # Re-register UserAdmin
 admin.site.unregister(User)

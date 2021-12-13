@@ -1,7 +1,7 @@
 {% extends "library/base_generic.html" %}
 
 {% block content %}
-  <h1>Book: {{ bookinstance }}</h1>
+    <h1>Book: {{ bookinstance }}</h1>
     <p class="{% if bookinstance.status == 'a' %}text-success{% elif bookinstance.status == 'm' %}text-danger{% else %}text-warning{% endif %}">
         {{ bookinstance.get_status_display }}
     </p>
@@ -9,13 +9,16 @@
         <p><strong>Due to be returned:</strong> {{ bookinstance.due_back }}</p>
         {% if perms.library.can_see_borrowed %}
             <p><strong> Borrowed by: </strong>
-                <a href="{{ bookinstance.borrower.get_absolute_url }}"> {{ bookinstance.borrower}} </a></p>
+                <a href="{{ bookinstance.borrower.get_absolute_url }}"> {{ bookinstance.borrower }} </a></p>
         {% endif %}
         {% if perms.library.can_mark_returned %}
             <p><a href="{% url 'library:renew-item-librarian' bookinstance.id %}">Renew</a></p>
+            <p><a href="{% url 'library:item-return' bookinstance.id %}">Return</a></p>
         {% endif %}
     {% else %}
-        <a href="{% url 'library:item-borrow' bookinstance.id %}">Borrow</a>
+        {% if perms.loan.can_add %}
+            <a href="{% url 'library:item-borrow' bookinstance.id %}">Borrow</a>
+        {% endif %}
     {% endif %}
-  <p class="text-muted"><strong>Id:</strong> {{ bookinstance.id }}</p>
+    <p class="text-muted"><strong>Id:</strong> {{ bookinstance.id }}</p>
 {% endblock %}

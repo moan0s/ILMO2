@@ -1,0 +1,13 @@
+{% load custom_tags %}
+<table>
+    <tr>
+        <th>Title</th>
+        <th>Author</th>
+    </tr>
+    {% for book in books %}
+        <tr>
+            <td><b><a href="{{ book.get_absolute_url }}">{{ book.title }}</a></b></td>
+            <td>{{ book.author.all|join_link:", " | safe }}</td>
+        </tr>
+    {% endfor %}
+</table>

@@ -7,3 +7,4 @@ sphinx
 sphinx-rtd-theme
 gunicorn
 psycopg2
+djangorestframework

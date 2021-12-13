@@ -15,16 +15,20 @@ from decouple import config
 import os
 import configparser
 
+"""CONFIG PARSER """
 config = configparser.RawConfigParser()
 if 'ILMO_CONFIG_FILE' in os.environ:
     config.read_file(open(os.environ.get('ILMO_CONFIG_FILE'), encoding='utf-8'))
 else:
     config.read(['/etc/ilmo/ilmo.cfg', os.path.expanduser('~/.ilmo.cfg'), 'ilmo.cfg'],
-                 encoding='utf-8')
-
+                encoding='utf-8')
 CONFIG_FILE = config
+
+""" DJANGO """
 SECRET_KEY = config.get('django', 'secret')
 DEBUG = config.get('django', 'debug')
+
+""" DATABASE """
 DB_BACKEND = config.get("database", "backend", fallback="sqlite3")
 DB_NAME = config.get("database", "name", fallback="ilmo.sqlite3")
 DB_USER = config.get("database", "user", fallback='')
@@ -33,6 +37,20 @@ DB_HOST = config.get("database", "host", fallback="localhost")
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+""" SECURITY.TXT """
+SEC_CONTACT = config.get("security", "Contact", fallback="julian-samuel@gebuehr.net")
+SEC_EXPIRES = config.get("security", "Expires", fallback="2022-11-28T07:00:00.000Z")
+SEC_ENCRYPTION = config.get("security", "Encryption", fallback="https://hyteck.de/julian-samuel@gebuehr.net.pub.asc")
+SEC_LANG = config.get("security", "Preferred-Languages", fallback="en, de")
+SEC_SCOPE = config.get("security", "Scope",
+                       fallback="The provided contact is the main developer of the application and NOT necessarily the "
+                                "instance")
+SEC_POLICY = config.get("security", "Policy",
+                        fallback="Do NOT include user data or detailed reports (especially public or unencrypted) "
+                                 "without being asked to do so.")
+
+""" LOCATIONS """
+STATIC_ROOT = config.get("locations", "static", fallback=".django-static/")
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
@@ -50,6 +68,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'fontawesomefree',
+    'rest_framework',
+    'rest_framework.authtoken',
 ]
 
 MIDDLEWARE = [
@@ -82,12 +102,11 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'ilmo.wsgi.application'
 
-
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 import os
 
-#Use the following live settings to build on Travis CI
+# Use the following live settings to build on Travis CI
 if os.getenv('BUILD_ON_TRAVIS', None):
     SECRET_KEY = "SecretKeyForUseOnTravis"
     DEBUG = False
@@ -105,10 +124,10 @@ if os.getenv('BUILD_ON_TRAVIS', None):
 elif (DB_BACKEND == "sqlite3"):
     DATABASES = {
         'default': {
-            'ENGINE': 'django.db.backends.sqlite3', 
+            'ENGINE': 'django.db.backends.sqlite3',
             'NAME': DB_NAME,
-            }
         }
+    }
 elif (DB_BACKEND == "postgresql"):
     DATABASES = {
         'default': {
@@ -117,11 +136,10 @@ elif (DB_BACKEND == "postgresql"):
             'USER': DB_USER,
             'PASSWORD': DB_PASSWORD,
             'HOST': DB_HOST,
-            }
         }
+    }
 else:
     print("Database backend unknown. Choose sqlite3 or postgresql")
-
 
 # Password validation
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators
@@ -141,7 +159,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/3.2/topics/i18n/
 
@@ -155,7 +172,6 @@ USE_L10N = True
 
 USE_TZ = True
 
-
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
@@ -168,3 +184,11 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # Redirect to home URL after login (Default redirects to /accounts/profile/)
 LOGIN_REDIRECT_URL = '/'
+
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.TokenAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
+    ]
+}

@@ -43,7 +43,10 @@ class Author(models.Model):
 
     def __str__(self):
         """String for representing the Model object."""
-        return f'{self.last_name}, {self.first_name}'
+        if self.first_name != "":
+            return f'{self.last_name}, {self.first_name}'
+        else:
+            return self.last_name
 
     def get_absolute_url(self):
         """Returns the url to access a detail record for this book."""
@@ -91,7 +94,7 @@ class Member(models.Model):
         return str(self.user)
 
     def get_absolute_url(self):
-        return reverse("library:user-detail",  args=[str(self.user.id)])
+        return reverse("library:user-detail", args=[str(self.user.id)])
 
 
 class Item(models.Model):
@@ -178,10 +181,9 @@ class Item(models.Model):
         self.save()
         return True
 
-    """ Returns the current borrower or 'Not borrowed'"""
-
     @property
     def borrower(self):
+        """ Returns the current borrower or 'Not borrowed'"""
         try:
             last_loan = Loan.objects.filter(item=self).latest("lent_on")
             if last_loan.returned:
@@ -298,3 +300,16 @@ class OpeningHours(models.Model):
 class LoanReminder(models.Model):
     loan = models.ForeignKey(Loan, on_delete=models.PROTECT)
     sent_on = models.DateField()
+
+
+class Room(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, help_text='Unique ID for this room')
+    name = models.CharField(max_length=200, unique=True)
+    allowed_user = models.ManyToManyField(User, help_text="Users that are allowed to access this room")
+
+    def __str__(self):
+        return f"Room: {self.name}"
+
+    def check_access(self, user):
+        """ Check if the given user is allowed in the room"""
+        return (user in self.allowed_user.all())
