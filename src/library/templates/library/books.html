@@ -1,16 +1,16 @@
 {% extends "library/base_generic.html" %}
 {% load custom_tags %}
 {% block content %}
-	{% if book_list %}
-		<ul>
-		{% for book in book_list %}
-		<li><b><a href="{{ book.get_absolute_url }}">{{ book.title }}</a></b><br>
-			by {{ book.author.all|join_link:", " | safe }}
-		</li>
-		{% endfor %}
-		</ul>
-	{% else %}
-		<p>No books are available.</p>
-	{% endif %}
+    {% if book_list %}
+        <ul>
+            {% for book in book_list %}
+                <li><b><a href="{{ book.get_absolute_url }}">{{ book.title }}</a></b><br>
+                    by {{ book.author.all|join_link:", " | safe }}
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>No books are available.</p>
+    {% endif %}
 
 {% endblock %}

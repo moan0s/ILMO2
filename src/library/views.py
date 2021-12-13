@@ -8,6 +8,7 @@ from django.db.models import Q
 from django.http import JsonResponse
 import datetime
 from django.utils import timezone
+from rest_framework.authtoken.models import Token
 
 from .forms import RenewItemForm, UserSearchForm
 from .models import Book, Author, BookInstance, Loan, Material, MaterialInstance, OpeningHours, Item, Member, \
@@ -82,9 +83,10 @@ def metrics(request):
     return JsonResponse(data)
 
 
-def show_user(request, user):
+def show_user(request, user, token=None):
     member = Member.objects.get(user=user)
-    context = {"member": member}
+    context = {"member": member,
+               "token": token, }
     return render(request, 'library/member.html', context=context)
 
 
@@ -98,7 +100,19 @@ def user_detail(request, pk):
 @login_required()
 def my_profile(request):
     user = get_object_or_404(User, pk=request.user.pk)
-    return show_user(request, user)
+
+    if request.method == 'POST':
+        print(request.POST)
+        if "create_token" in request.POST:
+            print("Creating token")
+            Token.objects.create(user=request.user)
+        elif "delete_token" in request.POST:
+            Token.objects.get(user=request.user).delete()
+    try:
+        token = Token.objects.get(user=user)
+    except Token.DoesNotExist:
+        token = None
+    return show_user(request, user, token)
 
 
 class BookListView(generic.ListView):
