@@ -205,7 +205,7 @@ class BookInstance(Item):
         """Returns the url to access a detail record for this bookInstance."""
         return reverse('library:bookInstance-detail', args=[str(self.id)])
 
-    book = models.ForeignKey('Book', on_delete=models.RESTRICT, null=True)
+    book = models.ForeignKey('Book', on_delete=models.RESTRICT)
     imprint = models.CharField(max_length=200, null=True, blank=True)
 
 

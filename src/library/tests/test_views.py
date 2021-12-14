@@ -8,6 +8,8 @@ from django.contrib.auth.models import Permission
 import uuid
 
 from library.views import *
+from model_bakery import baker
+from model_bakery.recipe import Recipe, seq
 
 
 class SearchTest(TestCase):
@@ -69,7 +71,6 @@ class SearchTest(TestCase):
         """Has to find Mia-Mo and Max"""
         response = self.client.post(reverse('library:search'), data={'q': "Müller"})
         self.assertEqual(response.status_code, 200)
-        print(response.content)
         self.assertContains(response, "Max")
         self.assertContains(response, "Mia-Mo")
 
@@ -446,32 +447,12 @@ class BookInstancesDetailViewTest(TestCase):
         test_user2.save()
 
         # Create a book
-        test_author = Author.objects.create(first_name='John', last_name='Smith')
-        test_language = Language.objects.create(name='English')
-        test_book = Book.objects.create(
-            title='Book Title',
-            summary='My book summary',
-            isbn='ABCDEFG',
-            author=test_author,
-            language=test_language,
-        )
-        test_book.author.add(test_author)
+        test_book = baker.make_recipe("library.book")
 
         # Create a BookInstance object for test_user1
-        self.test_bookinstance1 = BookInstance.objects.create(
-            book=test_book,
-            imprint='Unlikely Imprint, 2016',
-            status='a',
-            label="1",
-        )
+        self.test_bookinstance1 = baker.make(BookInstance)
+        self.test_bookinstance2 = baker.make(BookInstance)
 
-        # Create a BookInstance object for test_user2
-        self.test_bookinstance2 = BookInstance.objects.create(
-            book=test_book,
-            imprint='Unlikely Imprint, 2016',
-            status='a',
-            label="2",
-        )
         self.test_bookinstance1.borrow(Member.objects.get(user=test_user1))
         self.test_bookinstance2.borrow(Member.objects.get(user=test_user1))
 
