@@ -1,13 +1,10 @@
-from django.test import Client
 from django.test import TestCase
-from django.urls import reverse
 from library.models import *
-from django.utils import timezone
-import datetime
 from django.contrib.auth.models import Permission
 import uuid
 
 from library.views import *
+from model_bakery import baker
 
 
 class SearchTest(TestCase):
@@ -69,7 +66,6 @@ class SearchTest(TestCase):
         """Has to find Mia-Mo and Max"""
         response = self.client.post(reverse('library:search'), data={'q': "Müller"})
         self.assertEqual(response.status_code, 200)
-        print(response.content)
         self.assertContains(response, "Max")
         self.assertContains(response, "Mia-Mo")
 
@@ -91,12 +87,7 @@ class MyLoansView(TestCase):
 
     @classmethod
     def setUpTestData(cls):
-        test_author = Author.objects.create(first_name="Jane", last_name="Doe")
-        test_book = Book.objects.create(title="How to Test genres",
-                                        author=Author.objects.create(first_name="Jane", last_name="Doe"),
-                                        summary="Book to test genres",
-                                        isbn="1234567890124")
-        test_book.author.add(test_author)
+        test_book = baker.make_recipe("library.book")
         test_user1 = User.objects.create_user(username='testuser1', password='12345')
         test_user2 = User.objects.create_user(username='testuser2', password='12345')
         # Create 30 BookInstance objects
@@ -167,10 +158,7 @@ class LoanDetailView(TestCase):
     @classmethod
     def setUpTestData(cls):
         test_author = Author.objects.create(first_name="Jane", last_name="Doe")
-        test_book = Book.objects.create(title="How to Test genres",
-                                        author=Author.objects.create(first_name="Jane", last_name="Doe"),
-                                        summary="Book to test genres",
-                                        isbn="1234567890124")
+        test_book = baker.make_recipe("library.book")
         # User to borrow the book
         test_user1 = User.objects.create_user(username='testuser1', password='12345')
         # User without permission to see borrower
@@ -446,32 +434,12 @@ class BookInstancesDetailViewTest(TestCase):
         test_user2.save()
 
         # Create a book
-        test_author = Author.objects.create(first_name='John', last_name='Smith')
-        test_language = Language.objects.create(name='English')
-        test_book = Book.objects.create(
-            title='Book Title',
-            summary='My book summary',
-            isbn='ABCDEFG',
-            author=test_author,
-            language=test_language,
-        )
-        test_book.author.add(test_author)
+        test_book = baker.make_recipe("library.book")
 
         # Create a BookInstance object for test_user1
-        self.test_bookinstance1 = BookInstance.objects.create(
-            book=test_book,
-            imprint='Unlikely Imprint, 2016',
-            status='a',
-            label="1",
-        )
+        self.test_bookinstance1 = baker.make(BookInstance)
+        self.test_bookinstance2 = baker.make(BookInstance)
 
-        # Create a BookInstance object for test_user2
-        self.test_bookinstance2 = BookInstance.objects.create(
-            book=test_book,
-            imprint='Unlikely Imprint, 2016',
-            status='a',
-            label="2",
-        )
         self.test_bookinstance1.borrow(Member.objects.get(user=test_user1))
         self.test_bookinstance2.borrow(Member.objects.get(user=test_user1))
 
@@ -589,14 +557,7 @@ class RenewBookInstancesViewTest(TestCase):
         test_author = Author.objects.create(first_name='John', last_name='Smith')
         test_genre = Genre.objects.create(name='Fantasy')
         test_language = Language.objects.create(name='English')
-        test_book = Book.objects.create(
-            title='Book Title',
-            summary='My book summary',
-            isbn='ABCDEFG',
-            author=test_author,
-            language=test_language,
-        )
-        test_book.author.add(test_author)
+        test_book = baker.make_recipe("library.book")
 
         # Create genre as a post-step
         genre_objects_for_book = Genre.objects.all()
@@ -808,23 +769,16 @@ Test the view of the index page
 
 class IndexViewTest(TestCase):
     def setUp(self):
-        # Create a user
-        test_user1 = User.objects.create_user(username='testuser1', password='1X<ISRUkw+tuK')
-        test_user2 = User.objects.create_user(username='testuser2', password='2HJ1vRV0Z&3iD')
+        # Create three user
+        test_user = baker.make_recipe("library.user", 3)
 
-        test_user1.save()
-        test_user2.save()
+        # Create authors
+        test_author1 = baker.make_recipe("library.author")
+        test_author2 = baker.make_recipe("library.author")
 
         # Create a book
-        test_author = Author.objects.create(first_name='John', last_name='Smith')
-        test_author = Author.objects.create(first_name='Jim', last_name='Knopf')
-        test_book = Book.objects.create(
-            title='Book Title',
-            summary='My book summary',
-            isbn='ABCDEFG',
-            author=test_author,
-        )
-        test_book.author.add(test_author)
+        test_book = baker.make_recipe("library.book", author=[test_author1])
+        test_book2 = baker.make_recipe("library.book", author=[test_author1, test_author2])
 
         # Create a BookInstance object for test_user1
         return_date = datetime.date.today() + datetime.timedelta(days=5)
@@ -852,8 +806,8 @@ class IndexViewTest(TestCase):
             status='o',
             label="2",
         )
-        self.test_bookinstance1.borrow(Member.objects.get(user=test_user1))
-        self.test_bookinstance2.borrow(Member.objects.get(user=test_user1))
+        self.test_bookinstance1.borrow(Member.objects.get(user=test_user[0]))
+        self.test_bookinstance2.borrow(Member.objects.get(user=test_user[0]))
 
     # Test if the correct template is used for the library index
     def test_uses_correct_template(self):
@@ -879,10 +833,11 @@ class IndexViewTest(TestCase):
 
         self.assertEqual(response.status_code, 200)
         # Check that statistics numbers match
-        self.assertEqual(response.context['books'], 1)
+        self.assertEqual(response.context['books'], 2)
         self.assertEqual(response.context['book_instances'], 3)
         self.assertEqual(response.context['book_instances_available'], 1)
-        self.assertEqual(response.context['authors'], 1)
+        self.assertEqual(response.context['authors'], 2)
+        self.assertEqual(response.context['users'], 3)
 
 
 class OpeningHoursCreateViewTest(TestCase):
@@ -917,14 +872,9 @@ class OpeningHoursCreateViewTest(TestCase):
 class BorrowProcedureTest(TestCase):
     @classmethod
     def setUpTestData(cls):
-        a = Author.objects.create(first_name="Jane", last_name="Doe")
-        test_book = Book.objects.create(title="How to Test genres",
-                                        author=Author.objects.create(first_name="Jane", last_name="Doe"),
-                                        summary="Book to test genres",
-                                        isbn="1234567890124")
+        test_book = baker.make_recipe("library.book")
         cls.test_user1 = User.objects.create_user(username='testuser1', password='12345')
         cls.test_user2 = User.objects.create_user(username='testuser2', password='12345')
-        test_book.author.add(a)
         permission = Permission.objects.get(name__iexact="Can add a loan for all user")
         cls.test_user2.user_permissions.add(permission)
         cls.test_user2.save()

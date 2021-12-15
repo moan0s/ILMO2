@@ -3,7 +3,7 @@ from django.urls import reverse
 from django.contrib.auth.models import User
 import uuid
 from datetime import date
-from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import gettext_lazy as _
 from django.utils import timezone
 from django.db.models.signals import post_save
 from django.dispatch import receiver
@@ -205,7 +205,7 @@ class BookInstance(Item):
         """Returns the url to access a detail record for this bookInstance."""
         return reverse('library:bookInstance-detail', args=[str(self.id)])
 
-    book = models.ForeignKey('Book', on_delete=models.RESTRICT, null=True)
+    book = models.ForeignKey('Book', on_delete=models.RESTRICT)
     imprint = models.CharField(max_length=200, null=True, blank=True)
 
 
