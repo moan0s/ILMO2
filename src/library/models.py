@@ -3,7 +3,7 @@ from django.urls import reverse
 from django.contrib.auth.models import User
 import uuid
 from datetime import date
-from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import gettext_lazy as _
 from django.utils import timezone
 from django.db.models.signals import post_save
 from django.dispatch import receiver

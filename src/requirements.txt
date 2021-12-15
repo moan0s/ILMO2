@@ -1,4 +1,4 @@
-django
+Django
 python-decouple
 mysqlclient
 coverage
@@ -6,5 +6,6 @@ codecov
 sphinx
 sphinx-rtd-theme
 gunicorn
-psycopg2
 djangorestframework
+model_bakery
+fontawesomefree
