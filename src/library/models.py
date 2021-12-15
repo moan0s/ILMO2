@@ -194,6 +194,19 @@ class Item(models.Model):
             # Translators: Is shown instead of a person that borrowed the item
             return _("Not borrowed")
 
+    @property
+    def due_back(self):
+        """ Returns the current due date or 'Not borrowed'"""
+        try:
+            last_loan = Loan.objects.filter(item=self).latest("lent_on")
+            if last_loan.returned:
+                raise Loan.DoesNotExist
+            else:
+                return last_loan.due_back
+        except Loan.DoesNotExist:
+            # Translators: Is shown instead of a person that borrowed the item
+            return _("Not borrowed")
+
 
 class BookInstance(Item):
     """Represents a copy of a book that is physically in the library"""

@@ -1,19 +1,13 @@
 {% extends "library/base_generic.html" %}
 
 {% block content %}
-    <h1>Borrowed books</h1>
-
     {% if bookinstance_list %}
-    <ul>
-
-      {% for bookinst in bookinstance_list %}
-      <li class="{% if bookinst.is_overdue %}text-danger{% endif %}">
-        <a href="{% url 'library:book-detail' bookinst.book.pk %}">{{bookinst}}</a>
-		 {% if perms.library.can_mark_returned %}- <a href="{% url 'library:renew-item-librarian' bookinst.id %}">Renew</a>  {% endif %}
-      </li>
-      {% endfor %}
-    </ul>
-
+        <h1>Borrowed books</h1>
+        <div class="book_table">
+            {% block bookLoanTable %}
+                {% include "library/loan_book_table.html" %}
+            {% endblock %}
+        </div>
     {% else %}
       <p>There are no books borrowed.</p>
     {% endif %}

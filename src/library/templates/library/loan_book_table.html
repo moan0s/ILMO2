@@ -1,0 +1,28 @@
+<table>
+    <tr>
+    <th>Label</th>
+    <th>Title</th>
+    <th>Borrower</th>
+    <th>Due</th>
+    {% if perms.library.can_mark_returned %}
+    <th>Change status</th>
+    {% endif %}
+
+
+    </tr>
+    {% for bookinst in bookinstance_list %}
+        <tr class="{% if bookinst.is_overdue %}text-danger{% endif %}">
+            <td><a href="{% url 'library:bookInstance-detail' bookinst.pk %}">{{ bookinst.label }}</a></td>
+            <td>{{ bookinst.book.title }}</td>
+            <td>{{ bookinst.borrower }}</td>
+            <td>{{ bookinst.due_back }}</td>
+            {% if perms.library.can_mark_returned %}
+            <td><a href="{% url 'library:renew-item-librarian' bookinst.id %}">Renew</a></td>
+            {% endif %}
+
+
+        </tr>
+    {% endfor %}
+</table>
+
+
