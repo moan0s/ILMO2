@@ -92,12 +92,7 @@ class MyLoansView(TestCase):
 
     @classmethod
     def setUpTestData(cls):
-        test_author = Author.objects.create(first_name="Jane", last_name="Doe")
-        test_book = Book.objects.create(title="How to Test genres",
-                                        author=Author.objects.create(first_name="Jane", last_name="Doe"),
-                                        summary="Book to test genres",
-                                        isbn="1234567890124")
-        test_book.author.add(test_author)
+        test_book = baker.make_recipe("library.book")
         test_user1 = User.objects.create_user(username='testuser1', password='12345')
         test_user2 = User.objects.create_user(username='testuser2', password='12345')
         # Create 30 BookInstance objects
@@ -168,10 +163,7 @@ class LoanDetailView(TestCase):
     @classmethod
     def setUpTestData(cls):
         test_author = Author.objects.create(first_name="Jane", last_name="Doe")
-        test_book = Book.objects.create(title="How to Test genres",
-                                        author=Author.objects.create(first_name="Jane", last_name="Doe"),
-                                        summary="Book to test genres",
-                                        isbn="1234567890124")
+        test_book = baker.make_recipe("library.book")
         # User to borrow the book
         test_user1 = User.objects.create_user(username='testuser1', password='12345')
         # User without permission to see borrower
@@ -570,14 +562,7 @@ class RenewBookInstancesViewTest(TestCase):
         test_author = Author.objects.create(first_name='John', last_name='Smith')
         test_genre = Genre.objects.create(name='Fantasy')
         test_language = Language.objects.create(name='English')
-        test_book = Book.objects.create(
-            title='Book Title',
-            summary='My book summary',
-            isbn='ABCDEFG',
-            author=test_author,
-            language=test_language,
-        )
-        test_book.author.add(test_author)
+        test_book = baker.make_recipe("library.book")
 
         # Create genre as a post-step
         genre_objects_for_book = Genre.objects.all()
@@ -799,12 +784,7 @@ class IndexViewTest(TestCase):
         # Create a book
         test_author = Author.objects.create(first_name='John', last_name='Smith')
         test_author = Author.objects.create(first_name='Jim', last_name='Knopf')
-        test_book = Book.objects.create(
-            title='Book Title',
-            summary='My book summary',
-            isbn='ABCDEFG',
-            author=test_author,
-        )
+        test_book = baker.make_recipe("library.book")
         test_book.author.add(test_author)
 
         # Create a BookInstance object for test_user1
@@ -898,14 +878,9 @@ class OpeningHoursCreateViewTest(TestCase):
 class BorrowProcedureTest(TestCase):
     @classmethod
     def setUpTestData(cls):
-        a = Author.objects.create(first_name="Jane", last_name="Doe")
-        test_book = Book.objects.create(title="How to Test genres",
-                                        author=Author.objects.create(first_name="Jane", last_name="Doe"),
-                                        summary="Book to test genres",
-                                        isbn="1234567890124")
+        test_book = baker.make_recipe("library.book")
         cls.test_user1 = User.objects.create_user(username='testuser1', password='12345')
         cls.test_user2 = User.objects.create_user(username='testuser2', password='12345')
-        test_book.author.add(a)
         permission = Permission.objects.get(name__iexact="Can add a loan for all user")
         cls.test_user2.user_permissions.add(permission)
         cls.test_user2.save()
