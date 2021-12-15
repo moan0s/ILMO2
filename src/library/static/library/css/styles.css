@@ -159,7 +159,7 @@ h1 {
     background-color: #4090b6;
 }
 
-.delete-button, .delete-button a, .delete-button a:visited {
+.delete-button, .delete-button a:link, .delete-button a:visited {
     border: none;
     margin: 10px;
     background-color: #a3380a;
