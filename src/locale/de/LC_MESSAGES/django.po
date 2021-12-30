@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-12-30 21:30+0100\n"
+"POT-Creation-Date: 2021-12-30 21:44+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -124,3 +124,47 @@ msgstr ""
 #: .\library\templates\library\openinghours.html:27
 msgid "No opening hours are available."
 msgstr ""
+
+#: .\library\templates\library\search.html:5
+msgid "Search for any item or user"
+msgstr "Suche an einem Item oder Benutzer"
+
+#: .\library\templates\library\search.html:13
+msgid "User"
+msgstr "Benutzer"
+
+#: .\library\templates\library\search.html:19
+msgid "No user found."
+msgstr "Kein Benutzer gefunden."
+
+#: .\library\templates\library\search.html:23
+msgid "Books"
+msgstr "Bücher"
+
+#: .\library\templates\library\search.html:29
+msgid "No books found."
+msgstr "Keine Bücher gefunden."
+
+#: .\library\templates\library\search.html:34
+msgid "Materials"
+msgstr "Materialien"
+
+#: .\library\templates\library\search.html:40
+msgid "No materials found."
+msgstr "Kein Material gefunden."
+
+#: .\library\templates\library\search.html:45
+msgid "Book instances"
+msgstr "Bücherinstanz"
+
+#: .\library\templates\library\search.html:51
+msgid "No book instances found."
+msgstr "Keine Bücherinstanz gefunden."
+
+#: .\library\templates\library\search.html:56
+msgid "Material instances"
+msgstr "Materialinstanz"
+
+#: .\library\templates\library\search.html:62
+msgid "No material instances found."
+msgstr "Keine Materialinstanz gefunden."
