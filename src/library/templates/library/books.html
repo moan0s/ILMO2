@@ -1,4 +1,6 @@
 {% extends "library/base_generic.html" %}
+{% load i18n %}
+
 {% load custom_tags %}
 {% block content %}
     {% if book_list %}
@@ -10,7 +12,7 @@
             {% endfor %}
         </ul>
     {% else %}
-        <p>No books are available.</p>
+        <p>{% translate "No books are available." %}</p>
     {% endif %}
 
 {% endblock %}

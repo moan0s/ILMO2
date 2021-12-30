@@ -1,7 +1,8 @@
 {% extends "library/base_generic.html" %}
+{% load i18n %}
 
 {% block content %}
-    <h1>Search for any item or user</h1>
+    <h1>{% translate "Search for any item or user" %}</h1>
     <form action="" method="post">
         {% csrf_token %}
         <input type="text" name="q" autofocus>
@@ -9,56 +10,56 @@
     </form>
     {% if user_list %}
         <div class="search_result">
-            <h1>User</h1>
+            <h1>{% translate "User" %}</h1>
             {% block userTable %}
                 {% include "library/userTable.html" %}
             {% endblock %}
         </div>
     {% else %}
-        No user found.
+        {% translate "No user found." %}
     {% endif %}
     {% if books %}
         <div class="search_result">
-            <h1>Books</h1>
+            <h1>{% translate "Books" %}</h1>
             {% block bookTable %}
                 {% include "library/bookTable.html" %}
             {% endblock %}
         </div>
     {% else %}
-        No books found.
+        {% translate "No books found." %}
     {% endif %}
     {% if materials %}
         <div class="search_result">
 
-            <h1>Materials</h1>
+            <h1>{% translate "Materials" %}</h1>
             {% block materialTable %}
                 {% include "library/materialTable.html" %}
             {% endblock %}
         </div>
     {% else %}
-        No materials found.
+        {% translate "No materials found." %}
     {% endif %}
     {% if book_instances %}
         <div class="search_result">
 
-            <h1>Book instances</h1>
+            <h1>{% translate "Book instances" %}</h1>
             {% block bookInstanceTable %}
                 {% include "library/bookInstanceTable.html" %}
             {% endblock %}
         </div>
     {% else %}
-        No book instances found.
+        {% translate "No book instances found." %}
     {% endif %}
 
     {% if material_instances %}
         <div class="search_result">
-            <h1>Material instances</h1>
+            <h1>{% translate "Material instances" %}</h1>
             {% block materialInstanceTable %}
                 {% include "library/materialInstanceTable.html" %}
             {% endblock %}
         </div>
     {% else %}
-        No material instances found.
+        {% translate "No material instances found." %}
     {% endif %}
 
 {% endblock %}

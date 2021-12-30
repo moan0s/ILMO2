@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-12-30 21:44+0100\n"
+"POT-Creation-Date: 2021-12-30 22:03+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -26,7 +26,7 @@ msgstr ""
 msgid "Invalid date - renewal more than 4 weeks ahead"
 msgstr ""
 
-#: .\library\forms.py:33
+#: .\library\forms.py:33 .\library\templates\library\openinghours.html:8
 msgid "Open from"
 msgstr ""
 
@@ -71,35 +71,35 @@ msgstr ""
 #. Translators: Is shown instead of a person that borrowed the item
 #: .\library\models.py:195 .\library\tests\test_models.py:291
 msgid "Not borrowed"
-msgstr ""
+msgstr "Nicht ausgeliehen"
 
 #: .\library\models.py:275
 msgid "Monday"
-msgstr ""
+msgstr "Montag"
 
 #: .\library\models.py:276
 msgid "Tuesday"
-msgstr ""
+msgstr "Dienstag"
 
 #: .\library\models.py:277
 msgid "Wednesday"
-msgstr ""
+msgstr "Mittwoch"
 
 #: .\library\models.py:278
 msgid "Thursday"
-msgstr ""
+msgstr "Donnerstag"
 
 #: .\library\models.py:279
 msgid "Friday"
-msgstr ""
+msgstr "Freitag"
 
 #: .\library\models.py:280
 msgid "Saturday"
-msgstr ""
+msgstr "Samstag"
 
 #: .\library\models.py:281
 msgid "Sunday"
-msgstr ""
+msgstr "Sonntag"
 
 #: .\library\templates\library\authors.html:14
 msgid "No authors are known to this library."
@@ -109,21 +109,33 @@ msgstr "Keine Autoren in dieser Bibliothek bekannt."
 msgid "Add Author"
 msgstr "Autor hinzufügen"
 
+#: .\library\templates\library\books.html:15
+msgid "No books are available."
+msgstr "Keine Bücher verfügbar."
+
+#: .\library\templates\library\materials.html:13
+msgid "No materials are available."
+msgstr "Keine Materialien verfügbar."
+
 #: .\library\templates\library\openinghours.html:7
 msgid "Weekday"
-msgstr ""
-
-#: .\library\templates\library\openinghours.html:8
-msgid " Open from"
-msgstr ""
+msgstr "Wochentag"
 
 #: .\library\templates\library\openinghours.html:10
 msgid "Comment"
-msgstr ""
+msgstr "Kommentar"
+
+#: .\library\templates\library\openinghours.html:12
+msgid "Delete"
+msgstr "Löschen"
 
 #: .\library\templates\library\openinghours.html:27
 msgid "No opening hours are available."
-msgstr ""
+msgstr "Keine Öffnungszeiten verfügbar."
+
+#: .\library\templates\library\openinghours.html:30
+msgid "Create new opening hour"
+msgstr "Erstelle neue Öffnungszeiten"
 
 #: .\library\templates\library\search.html:5
 msgid "Search for any item or user"
