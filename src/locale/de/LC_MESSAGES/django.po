@@ -127,7 +127,7 @@ msgstr ""
 
 #: .\library\templates\library\search.html:5
 msgid "Search for any item or user"
-msgstr "Suche an einem Item oder Benutzer"
+msgstr "Suche nach einem Item oder Benutzer"
 
 #: .\library\templates\library\search.html:13
 msgid "User"
