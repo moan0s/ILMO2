@@ -36,6 +36,7 @@ DB_PASSWORD = config.get("database", "password", fallback='')
 DB_HOST = config.get("database", "host", fallback="localhost")
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+LOCALE_PATHS = [os.path.join(BASE_DIR, 'locale')]
 
 """ SECURITY.TXT """
 SEC_CONTACT = config.get("security", "Contact", fallback="julian-samuel@gebuehr.net")
@@ -162,7 +163,7 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/3.2/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'de'
 
 TIME_ZONE = 'CET'
 
