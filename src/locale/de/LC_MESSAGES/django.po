@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-12-31 12:29+0100\n"
+"POT-Creation-Date: 2021-12-31 12:36+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -205,6 +205,7 @@ msgid "ISBN"
 msgstr "ISBN"
 
 #: .\library\templates\library\book.html:10
+#: .\library\templates\library\member.html:11
 msgid "Language"
 msgstr "Sprache"
 
@@ -280,6 +281,7 @@ msgid "No books are available."
 msgstr "Keine Bücher verfügbar."
 
 #: .\library\templates\library\borrow-user-search.html:24
+#: .\library\templates\library\member.html:7
 msgid "Username"
 msgstr "Benutzername"
 
@@ -312,6 +314,7 @@ msgid "The library has the following record counts:"
 msgstr "Die Bibliothek hat die folgenden Daten:"
 
 #: .\library\templates\library\index.html:10
+#: .\library\templates\library\nav_sidebar.html:7
 #: .\library\templates\library\search.html:23
 msgid "Books"
 msgstr "Bücher"
@@ -321,6 +324,7 @@ msgid "Copies available"
 msgstr "Exemplare verfügbar"
 
 #: .\library\templates\library\index.html:13
+#: .\library\templates\library\nav_sidebar.html:9
 msgid "Authors"
 msgstr "Autoren"
 
@@ -351,6 +355,11 @@ msgstr "Ausleihender"
 msgid "Due date"
 msgstr "Bis"
 
+#: .\library\templates\library\item_renew_librarian.html:14
+#: .\library\templates\library\openinghours_form.html:10
+msgid "Submit"
+msgstr "Bestätigen"
+
 #: .\library\templates\library\list_loans_all.html:5
 #: .\library\templates\library\list_loans_user.html:5
 msgid "Borrowed books"
@@ -378,9 +387,81 @@ msgstr "Ausleihe"
 msgid "Returned on"
 msgstr "Zurückgegeben am"
 
+#: .\library\templates\library\materialTable.html:4
+msgid "Name"
+msgstr "Name"
+
 #: .\library\templates\library\materials.html:13
 msgid "No materials are available."
 msgstr "Keine Materialien verfügbar."
+
+#: .\library\templates\library\member.html:8
+msgid "E-Mail"
+msgstr "E-Mail"
+
+#: .\library\templates\library\member.html:13
+msgid "No preferred language set."
+msgstr "Keine bevorzugte Sprache gesetzt."
+
+#: .\library\templates\library\member.html:16
+msgid "UID"
+msgstr "UID"
+
+#: .\library\templates\library\member.html:18
+msgid "No UID set."
+msgstr "Keine UID gesetzt."
+
+#: .\library\templates\library\member.html:24
+msgid "Delete API token"
+msgstr "Lösche API token"
+
+#: .\library\templates\library\member.html:27
+msgid "No token set."
+msgstr "Kein token gesetzt."
+
+#: .\library\templates\library\member.html:30
+msgid "Create API token"
+msgstr "Erstelle API token"
+
+#: .\library\templates\library\nav_sidebar.html:5
+msgid "Home"
+msgstr "Start"
+
+#: .\library\templates\library\nav_sidebar.html:6
+msgid "Search"
+msgstr "Suche"
+
+#: .\library\templates\library\nav_sidebar.html:8
+msgid "Material"
+msgstr "Material"
+
+#: .\library\templates\library\nav_sidebar.html:10
+msgid "Opening hours"
+msgstr "Öffnungszeiten"
+
+#: .\library\templates\library\nav_sidebar.html:12
+msgid "All loans"
+msgstr "Alle Ausleihen"
+
+#: .\library\templates\library\nav_sidebar.html:16
+msgid "My Loans"
+msgstr "Meine Ausleihen"
+
+#: .\library\templates\library\nav_sidebar.html:18
+msgid "Logout"
+msgstr "Ausloggen"
+
+#: .\library\templates\library\nav_sidebar.html:21
+msgid "Login"
+msgstr "Einloggen"
+
+#: .\library\templates\library\nav_sidebar.html:25
+msgid "Admin"
+msgstr "Admin"
+
+#: .\library\templates\library\openinghour_confirm_delete.html:12
+msgid "Yes, delete."
+msgstr "Ja, löschen."
 
 #: .\library\templates\library\openinghours.html:7
 msgid "Weekday"
@@ -401,10 +482,6 @@ msgstr "Keine Öffnungszeiten verfügbar."
 #: .\library\templates\library\openinghours.html:30
 msgid "Create new opening hour"
 msgstr "Erstelle neue Öffnungszeiten"
-
-#: .\library\templates\library\openinghours_form.html:10
-msgid "Submit"
-msgstr "Bestätigen"
 
 #: .\library\templates\library\search.html:5
 msgid "Search for any item or user"
@@ -441,3 +518,8 @@ msgstr "Materialinstanz"
 #: .\library\templates\library\search.html:62
 msgid "No material instances found."
 msgstr "Keine Materialinstanz gefunden."
+
+#, fuzzy
+#~| msgid "Language"
+#~ msgid "Language:"
+#~ msgstr "Sprache"
