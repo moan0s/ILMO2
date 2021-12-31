@@ -1,7 +1,8 @@
 {% extends "library/base_generic.html" %}
+{% load i18n %}
 
 {% block content %}
-    <h1>Search for an item by label</h1>
+    <h1>{% translate "Search for an item by label" %}</h1>
     <form action="" method="post">
         {% csrf_token %}
         <input type="text" name="q">
@@ -10,9 +11,9 @@
     <div class="item_search_result">
         <table>
             <tr>
-                <th>Label</th>
-                <th>Status</th>
-                <th>Borrow?</th>
+                <th>{% translate "Label" %}</th>
+                <th>{% translate "Status" %}</th>
+                <th>{% translate "Borrow" %}?</th>
             </tr>
             {% for item in items %}
                 <tr>
@@ -20,7 +21,7 @@
                     <td class="{% if copy.status == 'a' %}text-success{% elif copy.status == 'm' %}text-danger{% else %}text-warning{% endif %}">
                         {{ item.get_status_display }}
                     </td>
-                    <td><a href="{% url 'library:item-borrow' item.id %}">Borrow</a></td>
+                    <td><a href="{% url 'library:item-borrow' item.id %}">{% translate "Borrow" %}</a></td>
                 </tr>
             {% endfor %}
         </table>

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-12-31 11:45+0100\n"
+"POT-Creation-Date: 2021-12-31 12:04+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -218,6 +218,7 @@ msgstr "Exemplare"
 
 #: .\library\templates\library\book.html:23
 #: .\library\templates\library\bookInstance-detail.html:10
+#: .\library\templates\library\loan-detail.html:12
 msgid "Due to be returned"
 msgstr "Zurückzugeben bis"
 
@@ -226,6 +227,7 @@ msgid "Imprint"
 msgstr "Impressum"
 
 #: .\library\templates\library\book.html:26
+#: .\library\templates\library\loan-detail.html:21
 msgid "Id"
 msgstr "Id"
 
@@ -234,14 +236,17 @@ msgid "Book"
 msgstr "Buch"
 
 #: .\library\templates\library\bookInstance-detail.html:12
+#: .\library\templates\library\loan-detail.html:15
 msgid "Borrowed by"
 msgstr "Ausgeliehen von"
 
 #: .\library\templates\library\bookInstanceTable.html:4
+#: .\library\templates\library\item-search.html:14
 msgid "Label"
 msgstr "Label"
 
 #: .\library\templates\library\bookInstanceTable.html:6
+#: .\library\templates\library\item-search.html:15
 msgid "Status"
 msgstr "Status"
 
@@ -252,6 +257,8 @@ msgstr "Ausleihen/Zurückgeben"
 #: .\library\templates\library\bookInstanceTable.html:18
 #: .\library\templates\library\borrow-user-search.html:27
 #: .\library\templates\library\borrow-user-search.html:34
+#: .\library\templates\library\item-search.html:16
+#: .\library\templates\library\item-search.html:24
 msgid "Borrow"
 msgstr "Ausleihen"
 
@@ -324,6 +331,51 @@ msgstr "Materialien"
 #: .\library\templates\library\index.html:15
 msgid "Materials available"
 msgstr "Materialien verfügbar"
+
+#: .\library\templates\library\item-search.html:5
+msgid "Search for an item by label"
+msgstr "Suche nach einem Item nach Bezeichnung"
+
+#: .\library\templates\library\item_renew_librarian.html:5
+#: .\library\templates\library\list_loans_all.html:13
+#: .\library\templates\library\list_loans_all.html:30
+msgid "Renew"
+msgstr "Verlängern"
+
+#: .\library\templates\library\item_renew_librarian.html:6
+msgid "Borrower"
+msgstr "Ausleihender"
+
+#: .\library\templates\library\item_renew_librarian.html:7
+msgid "Due date"
+msgstr "Bis"
+
+#: .\library\templates\library\list_loans_all.html:5
+#: .\library\templates\library\list_loans_user.html:5
+msgid "Borrowed books"
+msgstr "Ausgeliehene Bücher"
+
+#: .\library\templates\library\list_loans_all.html:19
+#: .\library\templates\library\list_loans_user.html:18
+msgid "There are no books borrowed."
+msgstr "Es sind keine Bücher ausgeliehen."
+
+#: .\library\templates\library\list_loans_all.html:22
+#: .\library\templates\library\list_loans_user.html:21
+msgid "Borrowed material"
+msgstr "Ausgeliehene Materialien"
+
+#: .\library\templates\library\list_loans_user.html:34
+msgid "There are no materials borrowed."
+msgstr "Es sind keine Materialien ausgeliehen."
+
+#: .\library\templates\library\loan-detail.html:5
+msgid "Loan"
+msgstr "Ausleihe"
+
+#: .\library\templates\library\loan-detail.html:10
+msgid "Returned on"
+msgstr "Zurückgegeben am"
 
 #: .\library\templates\library\materials.html:13
 msgid "No materials are available."
