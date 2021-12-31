@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-12-31 10:54+0100\n"
+"POT-Creation-Date: 2021-12-31 11:05+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -102,12 +102,13 @@ msgid "Sunday"
 msgstr "Sonntag"
 
 #: .\library\templates\library\author.html:5
-msgid "Author: "
-msgstr "Autor: "
+#: .\library\templates\library\bookTable.html:6
+msgid "Author"
+msgstr "Autor"
 
 #: .\library\templates\library\author.html:6
-msgid "Date of birth:"
-msgstr "Geburtsdatum:"
+msgid "Date of birth"
+msgstr "Geburtsdatum"
 
 #: .\library\templates\library\author.html:10
 msgid "Books by this author"
@@ -127,8 +128,8 @@ msgid "Delete Author"
 msgstr "Autor löschen"
 
 #: .\library\templates\library\author_confirm_delete.html:8
-msgid "Are you sure you want to delete the author: "
-msgstr ""
+msgid "Are you sure you want to delete the author"
+msgstr "Bist du dir sicher, dass du diesen Autor löschen willst"
 
 #: .\library\templates\library\authors.html:14
 msgid "No authors are known to this library."
@@ -139,62 +140,60 @@ msgid "Add Author"
 msgstr "Autor hinzufügen"
 
 #: .\library\templates\library\book.html:6
-msgid "Title: "
-msgstr "Titel: "
+#: .\library\templates\library\bookInstanceTable.html:5
+#: .\library\templates\library\bookTable.html:5
+msgid "Title"
+msgstr "Titel"
 
 #: .\library\templates\library\book.html:7
-msgid "Author(s):"
+msgid "Author(s)"
 msgstr "Autor(en):"
 
 #: .\library\templates\library\book.html:8
-msgid "Summary:"
-msgstr "Zusammenfassung:"
+msgid "Summary"
+msgstr "Zusammenfassung"
 
 #: .\library\templates\library\book.html:9
-msgid "ISBN:"
-msgstr "ISBN:"
+msgid "ISBN"
+msgstr "ISBN"
 
 #: .\library\templates\library\book.html:10
-msgid "Language:"
-msgstr "Sprache:"
+msgid "Language"
+msgstr "Sprache"
 
 #: .\library\templates\library\book.html:11
-msgid "Genre:"
-msgstr "Genre:"
+msgid "Genre"
+msgstr "Genre"
 
 #: .\library\templates\library\book.html:14
+#: .\library\templates\library\index.html:11
 msgid "Copies"
 msgstr "Exemplare"
 
 #: .\library\templates\library\book.html:23
 #: .\library\templates\library\bookInstance-detail.html:10
-msgid "Due to be returned:"
-msgstr "Zurückzugeben bis:"
+msgid "Due to be returned"
+msgstr "Zurückzugeben bis"
 
 #: .\library\templates\library\book.html:25
-msgid "Imprint:"
-msgstr "Impressum:"
+msgid "Imprint"
+msgstr "Impressum"
 
 #: .\library\templates\library\book.html:26
-msgid "Id:"
-msgstr "Id:"
+msgid "Id"
+msgstr "Id"
 
 #: .\library\templates\library\bookInstance-detail.html:5
-msgid "Book: "
-msgstr "Buch: "
+msgid "Book"
+msgstr "Buch"
 
 #: .\library\templates\library\bookInstance-detail.html:12
-msgid "Borrowed by:"
-msgstr "Ausgeliehen von:"
+msgid "Borrowed by"
+msgstr "Ausgeliehen von"
 
 #: .\library\templates\library\bookInstanceTable.html:4
 msgid "Label"
 msgstr "Label"
-
-#: .\library\templates\library\bookInstanceTable.html:5
-#: .\library\templates\library\bookTable.html:5
-msgid "Title"
-msgstr "Titel"
 
 #: .\library\templates\library\bookInstanceTable.html:6
 msgid "Status"
@@ -205,6 +204,8 @@ msgid "Borrow/Return"
 msgstr "Ausleihen/Zurückgeben"
 
 #: .\library\templates\library\bookInstanceTable.html:18
+#: .\library\templates\library\borrow-user-search.html:27
+#: .\library\templates\library\borrow-user-search.html:34
 msgid "Borrow"
 msgstr "Ausleihen"
 
@@ -216,10 +217,6 @@ msgstr "Zurückgeben"
 msgid "Unavailable"
 msgstr "Nicht verfügbar"
 
-#: .\library\templates\library\bookTable.html:6
-msgid "Author"
-msgstr "Autor"
-
 #: .\library\templates\library\books.html:10
 msgid "by"
 msgstr "von"
@@ -227,6 +224,60 @@ msgstr "von"
 #: .\library\templates\library\books.html:15
 msgid "No books are available."
 msgstr "Keine Bücher verfügbar."
+
+#: .\library\templates\library\borrow-user-search.html:24
+msgid "Username"
+msgstr "Benutzername"
+
+#: .\library\templates\library\borrow-user-search.html:25
+msgid "First Name"
+msgstr "Vorname"
+
+#: .\library\templates\library\borrow-user-search.html:26
+msgid "Last Name"
+msgstr "Nachname"
+
+#: .\library\templates\library\header.html:6
+msgid "About the software"
+msgstr "Über die Software"
+
+#: .\library\templates\library\index.html:5
+msgid "ILMO - Intelligent Library Management Online"
+msgstr ""
+
+#: .\library\templates\library\index.html:6
+msgid "Welcome to ILMO, developed by "
+msgstr "Willkomen bei ILMO, entwickelt von "
+
+#: .\library\templates\library\index.html:7
+msgid "Statistics"
+msgstr "Statistiken"
+
+#: .\library\templates\library\index.html:8
+msgid "The library has the following record counts:"
+msgstr "Die Bibliothek hat die folgenden Daten:"
+
+#: .\library\templates\library\index.html:10
+#: .\library\templates\library\search.html:23
+msgid "Books"
+msgstr "Bücher"
+
+#: .\library\templates\library\index.html:12
+msgid "Copies available"
+msgstr "Exemplare verfügbar"
+
+#: .\library\templates\library\index.html:13
+msgid "Authors"
+msgstr "Autoren"
+
+#: .\library\templates\library\index.html:14
+#: .\library\templates\library\search.html:34
+msgid "Materials"
+msgstr "Materialien"
+
+#: .\library\templates\library\index.html:15
+msgid "Materials available"
+msgstr "Materialien verfügbar"
 
 #: .\library\templates\library\materials.html:13
 msgid "No materials are available."
@@ -264,17 +315,9 @@ msgstr "Benutzer"
 msgid "No user found."
 msgstr "Kein Benutzer gefunden."
 
-#: .\library\templates\library\search.html:23
-msgid "Books"
-msgstr "Bücher"
-
 #: .\library\templates\library\search.html:29
 msgid "No books found."
 msgstr "Keine Bücher gefunden."
-
-#: .\library\templates\library\search.html:34
-msgid "Materials"
-msgstr "Materialien"
 
 #: .\library\templates\library\search.html:40
 msgid "No materials found."

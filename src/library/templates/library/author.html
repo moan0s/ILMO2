@@ -2,8 +2,8 @@
 {% load i18n %}
 
 {% block content %}
-    <h1>{% translate "Author: " %}{{ author }}</h1>
-    <p><strong>{% translate "Date of birth:" %}</strong> {{ author.date_of_birth }}</p>
+    <h1>{% translate "Author" %}: {{ author }}</h1>
+    <p><strong>{% translate "Date of birth" %}: </strong> {{ author.date_of_birth }}</p>
 
     <div style="margin-left:20px;margin-top:20px">
         {% if author.book_set.all %}

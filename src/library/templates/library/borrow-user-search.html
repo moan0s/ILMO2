@@ -1,4 +1,5 @@
 {% extends "library/base_generic.html" %}
+{% load i18n %}
 
 {% block content %}
     <h1>Item: {{ item }}</h1>
@@ -20,17 +21,17 @@
     <div class="user_search_result">
     <table>
         <tr>
-            <th>Username</th>
-            <th>First Name</th>
-            <th>Last Name</th>
-            <th>Borrow</th>
+            <th>{% translate "Username" %}</th>
+            <th>{% translate "First Name" %}</th>
+            <th>{% translate "Last Name" %}</th>
+            <th>{% translate "Borrow" %}</th>
         </tr>
         {% for user in users %}
             <tr>
                 <td>{{ user.username }}</td>
                 <td>{{ user.first_name }}</td>
                 <td>{{ user.last_name }}</td>
-                <td><a href="{% url 'library:user-borrow' ik=item.id uk=user.id %}">Borrow</a></td>
+                <td><a href="{% url 'library:user-borrow' ik=item.id uk=user.id %}">{% translate "Borrow" %}</a></td>
             </tr>
         {% endfor %}
     </table>
