@@ -12,7 +12,7 @@ from datetime import datetime, timedelta
 
 class Genre(models.Model):
     """Model representing a book genre."""
-    name = models.CharField(max_length=200, help_text='Enter a book genre (e.g. Science Fiction)')
+    name = models.CharField(max_length=200, help_text=_('Enter a book genre (e.g. Science Fiction)'))
 
     def __str__(self):
         """String for representing the Model object."""
@@ -62,17 +62,17 @@ class Book(models.Model):
         return reverse('library:book-detail', args=[str(self.id)])
 
     title = models.CharField(max_length=200)
-    author = models.ManyToManyField(Author, help_text='Select the autor(s) of this book')
-    genre = models.ManyToManyField(Genre, help_text='Select a genre for this book')
-    summary = models.TextField(max_length=1000, help_text='Enter a brief description of the book')
-    isbn = models.CharField('ISBN', max_length=13, null=True, help_text='ISBN number (13 Characters)')
+    author = models.ManyToManyField(Author, help_text=_('Select the autor(s) of this book'))
+    genre = models.ManyToManyField(Genre, help_text=_('Select a genre for this book'))
+    summary = models.TextField(max_length=1000, help_text=_('Enter a brief description of the book'))
+    isbn = models.CharField('ISBN', max_length=13, null=True, help_text=_('ISBN number (13 Characters)'))
     language = models.ForeignKey('Language', on_delete=models.SET_NULL, null=True)
 
 
 class Language(models.Model):
     """Model representing a Language (e.g. English, French, Japanese, etc.)"""
     name = models.CharField(max_length=200,
-                            help_text="Enter a natural languages name (e.g. English, French, Japanese etc.)",
+                            help_text=_("Enter a natural languages name (e.g. English, French, Japanese etc.)"),
                             unique=True)
 
     def __str__(self):
@@ -116,12 +116,12 @@ class Item(models.Model):
         choices=LOAN_STATUS,
         blank=True,
         default='m',
-        help_text='Item availability',
+        help_text=_('Item availability'),
     )
 
     class Meta:
-        permissions = (("can_mark_returned", "Set item as returned"),
-                       ("can_see_borrowed", "See all borrowed items"))
+        permissions = (("can_mark_returned", _("Set item as returned")),
+                       ("can_see_borrowed", _("See all borrowed items")))
 
     def __str__(self):
         return str(f"[{self.label}]")
@@ -231,7 +231,7 @@ class Loan(models.Model):
 
     def __str__(self):
         """String representation."""
-        return f"{self.item} borrowed until {self.due_back}"
+        return f"{self.item} _(borrowed until) {self.due_back}"
 
     def get_absolute_url(self):
         """Returns the url to access a detail record for this loan."""
@@ -303,9 +303,9 @@ class LoanReminder(models.Model):
 
 
 class Room(models.Model):
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4, help_text='Unique ID for this room')
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, help_text=_('Unique ID for this room'))
     name = models.CharField(max_length=200, unique=True)
-    allowed_user = models.ManyToManyField(User, help_text="Users that are allowed to access this room")
+    allowed_user = models.ManyToManyField(User, help_text=_("Users that are allowed to access this room"))
 
     def __str__(self):
         return f"Room: {self.name}"

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-12-31 11:16+0100\n"
+"POT-Creation-Date: 2021-12-31 11:45+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -28,7 +28,7 @@ msgstr "Ungültiges datum - Verlängerung mehr als 4 Wochen voraus"
 
 #: .\library\forms.py:33 .\library\templates\library\openinghours.html:8
 msgid "Open from"
-msgstr "Offen ab"
+msgstr "Offen von"
 
 #: .\library\forms.py:34 .\library\templates\library\openinghours.html:9
 msgid "Open until"
@@ -41,7 +41,7 @@ msgstr "Bibliothek muss öffnen bevor sie schließt 😉"
 #: .\library\mail.py:12
 #, python-format
 msgid "%(item)s is due back on %(due_day)s.%(due_month)s.%(due_year)s"
-msgstr ""%(item)s ist zurück am %(due_day)s.%(due_month)s.%(due_year)s""
+msgstr "%(item)s ist zurück am %(due_day)s.%(due_month)s.%(due_year)s"
 
 #: .\library\mail.py:45
 msgid ""
@@ -68,37 +68,43 @@ msgstr "Hallo %(first_name)s %(lastname)s,\r\n"
 
 #: .\library\models.py:15
 msgid "Enter a book genre (e.g. Science Fiction)"
-msgstr ""
+msgstr "Gebe ein Büchergenre ein (z.B. Science Fiction)"
 
 #: .\library\models.py:65
 msgid "Select the autor(s) of this book"
-msgstr ""
+msgstr "Wähle den/die Autor(en) für dieses Buch aus"
 
 #: .\library\models.py:66
 msgid "Select a genre for this book"
-msgstr ""
+msgstr "Wähle das Genre für dieses Buch aus"
 
 #: .\library\models.py:67
 msgid "Enter a brief description of the book"
-msgstr ""
+msgstr "Gebe eine kurze Beschreibung für dieses Buch ein"
 
 #: .\library\models.py:68
 msgid "ISBN number (13 Characters)"
-msgstr ""
+msgstr "ISBN Nummer (13 Zeichen)"
 
 #: .\library\models.py:75
 msgid "Enter a natural languages name (e.g. English, French, Japanese etc.)"
-msgstr ""
+msgstr "Gib eine natürliche Sprache ein (z.B. Deutsch, Englisch, Französisch etc."
 
 #: .\library\models.py:86
 msgid "The UID of a NFC chip (e.g. in a student id)"
-msgstr ""
+msgstr "Die UID eines NFC chips (z.B. eines Studierendenausweis)"
 
 #: .\library\models.py:119
-#, fuzzy
-#| msgid "Materials available"
 msgid "Item availability"
-msgstr "Materialien verfügbar"
+msgstr "Item Verfügbarkeit"
+
+#: .\library\models.py:123
+msgid "Set item as returned"
+msgstr "Markiere Item als zurückgegeben"
+
+#: .\library\models.py:124
+msgid "See all borrowed items"
+msgstr "Sehe alle ausgeliehene Items"
 
 #. Translators: Is shown instead of a person that borrowed the item
 #: .\library\models.py:195 .\library\tests\test_models.py:291
@@ -132,6 +138,14 @@ msgstr "Samstag"
 #: .\library\models.py:281
 msgid "Sunday"
 msgstr "Sonntag"
+
+#: .\library\models.py:306
+msgid "Unique ID for this room"
+msgstr ""
+
+#: .\library\models.py:308
+msgid "Users that are allowed to access this room"
+msgstr ""
 
 #: .\library\templates\library\author.html:5
 #: .\library\templates\library\bookTable.html:6
