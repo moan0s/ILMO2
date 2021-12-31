@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-12-31 12:41+0100\n"
+"POT-Creation-Date: 2021-12-31 12:49+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -221,6 +221,8 @@ msgstr "Exemplare"
 #: .\library\templates\library\book.html:23
 #: .\library\templates\library\bookInstance-detail.html:10
 #: .\library\templates\library\loan-detail.html:12
+#: .\library\templates\library\material.html:16
+#: .\library\templates\library\materialInstance-detail.html:10
 msgid "Due to be returned"
 msgstr "Zurückzugeben bis"
 
@@ -230,6 +232,8 @@ msgstr "Impressum"
 
 #: .\library\templates\library\book.html:26
 #: .\library\templates\library\loan-detail.html:21
+#: .\library\templates\library\material.html:18
+#: .\library\templates\library\materialInstance-detail.html:24
 msgid "Id"
 msgstr "Id"
 
@@ -239,6 +243,7 @@ msgstr "Buch"
 
 #: .\library\templates\library\bookInstance-detail.html:12
 #: .\library\templates\library\loan-detail.html:15
+#: .\library\templates\library\materialInstance-detail.html:12
 msgid "Borrowed by"
 msgstr "Ausgeliehen von"
 
@@ -268,6 +273,7 @@ msgid "Borrow"
 msgstr "Ausleihen"
 
 #: .\library\templates\library\bookInstanceTable.html:20
+#: .\library\templates\library\materialInstance-detail.html:17
 msgid "Return"
 msgstr "Zurückgeben"
 
@@ -348,6 +354,7 @@ msgstr "Suche nach einem Item nach Bezeichnung"
 #: .\library\templates\library\item_renew_librarian.html:5
 #: .\library\templates\library\list_loans_all.html:13
 #: .\library\templates\library\list_loans_all.html:30
+#: .\library\templates\library\materialInstance-detail.html:16
 msgid "Renew"
 msgstr "Verlängern"
 
@@ -390,6 +397,16 @@ msgstr "Ausleihe"
 #: .\library\templates\library\loan-detail.html:10
 msgid "Returned on"
 msgstr "Zurückgegeben am"
+
+#: .\library\templates\library\material.html:5
+#: .\library\templates\library\materialInstance-detail.html:5
+#: .\library\templates\library\nav_sidebar.html:8
+msgid "Material"
+msgstr "Material"
+
+#: .\library\templates\library\material.html:8
+msgid "Items"
+msgstr ""
 
 #: .\library\templates\library\materialInstanceTable.html:5
 #: .\library\templates\library\materialTable.html:4
@@ -435,10 +452,6 @@ msgstr "Start"
 #: .\library\templates\library\nav_sidebar.html:6
 msgid "Search"
 msgstr "Suche"
-
-#: .\library\templates\library\nav_sidebar.html:8
-msgid "Material"
-msgstr "Material"
 
 #: .\library\templates\library\nav_sidebar.html:10
 msgid "Opening hours"
@@ -524,7 +537,10 @@ msgstr "Materialinstanz"
 msgid "No material instances found."
 msgstr "Keine Materialinstanz gefunden."
 
-#, fuzzy
-#~| msgid "Language"
-#~ msgid "Language:"
-#~ msgstr "Sprache"
+#: .\library\views.py:109
+msgid "Creating API token"
+msgstr "Erstelle API token"
+
+#: .\library\views.py:133
+msgid "You're looking at the loans of book %s."
+msgstr "Du suchst nach der Ausleihe des Buches %s."
