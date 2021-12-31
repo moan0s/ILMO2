@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-12-31 12:36+0100\n"
+"POT-Creation-Date: 2021-12-31 12:41+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -244,15 +244,18 @@ msgstr "Ausgeliehen von"
 
 #: .\library\templates\library\bookInstanceTable.html:4
 #: .\library\templates\library\item-search.html:14
+#: .\library\templates\library\materialInstanceTable.html:4
 msgid "Label"
 msgstr "Label"
 
 #: .\library\templates\library\bookInstanceTable.html:6
 #: .\library\templates\library\item-search.html:15
+#: .\library\templates\library\materialInstanceTable.html:6
 msgid "Status"
 msgstr "Status"
 
 #: .\library\templates\library\bookInstanceTable.html:7
+#: .\library\templates\library\materialInstanceTable.html:7
 msgid "Borrow/Return"
 msgstr "Ausleihen/Zurückgeben"
 
@@ -269,6 +272,7 @@ msgid "Return"
 msgstr "Zurückgeben"
 
 #: .\library\templates\library\bookInstanceTable.html:22
+#: .\library\templates\library\materialInstanceTable.html:22
 msgid "Unavailable"
 msgstr "Nicht verfügbar"
 
@@ -387,6 +391,7 @@ msgstr "Ausleihe"
 msgid "Returned on"
 msgstr "Zurückgegeben am"
 
+#: .\library\templates\library\materialInstanceTable.html:5
 #: .\library\templates\library\materialTable.html:4
 msgid "Name"
 msgstr "Name"

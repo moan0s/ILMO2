@@ -1,9 +1,10 @@
+{% load i18n %}
 <table>
     <tr>
-        <th>Label</th>
-        <th>Name</th>
-        <th>Status</th>
-        <th>Borrow/Return</th>
+        <th>{% translate "Label" %}</th>
+        <th>{% translate "Name" %}</th>
+        <th>{% translate "Status" %}</th>
+        <th>{% translate "Borrow/Return" %}</th>
     </tr>
     {% for material_instance in material_instances %}
         <tr>
@@ -18,7 +19,7 @@
                 {% elif material_instance.status == "o" %}
                     <a href="{% url 'library:item-return' material_instance.id %}">Return</a>
                 {% else %}
-                    Unavailable
+                    {% translate "Unavailable" %}
                 {% endif %}
             </td>
         </tr>
