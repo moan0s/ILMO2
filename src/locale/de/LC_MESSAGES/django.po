@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-12-31 12:04+0100\n"
+"POT-Creation-Date: 2021-12-31 12:29+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -88,7 +88,8 @@ msgstr "ISBN Nummer (13 Zeichen)"
 
 #: .\library\models.py:75
 msgid "Enter a natural languages name (e.g. English, French, Japanese etc.)"
-msgstr "Gib eine natürliche Sprache ein (z.B. Deutsch, Englisch, Französisch etc."
+msgstr ""
+"Gib eine natürliche Sprache ein (z.B. Deutsch, Englisch, Französisch etc."
 
 #: .\library\models.py:86
 msgid "The UID of a NFC chip (e.g. in a student id)"
@@ -193,7 +194,7 @@ msgstr "Titel"
 
 #: .\library\templates\library\book.html:7
 msgid "Author(s)"
-msgstr "Autor(en):"
+msgstr "Autor(en)"
 
 #: .\library\templates\library\book.html:8
 msgid "Summary"
@@ -400,6 +401,10 @@ msgstr "Keine Öffnungszeiten verfügbar."
 #: .\library\templates\library\openinghours.html:30
 msgid "Create new opening hour"
 msgstr "Erstelle neue Öffnungszeiten"
+
+#: .\library\templates\library\openinghours_form.html:10
+msgid "Submit"
+msgstr "Bestätigen"
 
 #: .\library\templates\library\search.html:5
 msgid "Search for any item or user"

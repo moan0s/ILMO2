@@ -1,8 +1,9 @@
+{% load i18n %}
 <table>
     <tr>
-        <th>Username</th>
-        <th>First Name</th>
-        <th>Last Name</th>
+        <th>{% translate "Username{% load i18n %}</th>
+        <th>{% translate "First Name{% load i18n %}</th>
+        <th>{% translate "Last Name{% load i18n %}</th>
     </tr>
     {% for user in user_list %}
         <tr>
