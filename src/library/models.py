@@ -105,10 +105,10 @@ class Item(models.Model):
     label = models.CharField(max_length=20, unique=True)
 
     LOAN_STATUS = (
-        ('m', 'Maintenance'),
-        ('o', 'On loan'),
-        ('a', 'Available'),
-        ('r', 'Reserved'),
+        ('m', _('Maintenance')),
+        ('o', _('On loan')),
+        ('a', _('Available')),
+        ('r', _('Reserved')),
     )
 
     status = models.CharField(

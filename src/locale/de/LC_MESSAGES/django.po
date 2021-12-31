@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-12-31 12:49+0100\n"
+"POT-Creation-Date: 2021-12-31 13:01+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -94,6 +94,22 @@ msgstr ""
 #: .\library\models.py:86
 msgid "The UID of a NFC chip (e.g. in a student id)"
 msgstr "Die UID eines NFC chips (z.B. eines Studierendenausweis)"
+
+#: .\library\models.py:108
+msgid "Maintenance"
+msgstr "Wartung"
+
+#: .\library\models.py:109
+msgid "On loan"
+msgstr "Ausgeliehen"
+
+#: .\library\models.py:110
+msgid "Available"
+msgstr "Verfügbar"
+
+#: .\library\models.py:111
+msgid "Reserved"
+msgstr "Reserviert"
 
 #: .\library\models.py:119
 msgid "Item availability"
@@ -292,14 +308,17 @@ msgstr "Keine Bücher verfügbar."
 
 #: .\library\templates\library\borrow-user-search.html:24
 #: .\library\templates\library\member.html:7
+#: .\library\templates\library\userTable.html:4
 msgid "Username"
 msgstr "Benutzername"
 
 #: .\library\templates\library\borrow-user-search.html:25
+#: .\library\templates\library\userTable.html:5
 msgid "First Name"
 msgstr "Vorname"
 
 #: .\library\templates\library\borrow-user-search.html:26
+#: .\library\templates\library\userTable.html:6
 msgid "Last Name"
 msgstr "Nachname"
 
@@ -439,7 +458,7 @@ msgstr "Lösche API token"
 
 #: .\library\templates\library\member.html:27
 msgid "No token set."
-msgstr "Kein token gesetzt."
+msgstr "Kein Token gesetzt."
 
 #: .\library\templates\library\member.html:30
 msgid "Create API token"
@@ -542,5 +561,6 @@ msgid "Creating API token"
 msgstr "Erstelle API token"
 
 #: .\library\views.py:133
+#, python-format
 msgid "You're looking at the loans of book %s."
 msgstr "Du suchst nach der Ausleihe des Buches %s."
