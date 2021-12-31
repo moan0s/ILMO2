@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-12-31 11:05+0100\n"
+"POT-Creation-Date: 2021-12-31 11:16+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -20,28 +20,28 @@ msgstr ""
 
 #: .\library\forms.py:19
 msgid "Invalid date - renewal in past"
-msgstr ""
+msgstr "Ungültiges Datum - Verlängerung in der Vergangenheit"
 
 #: .\library\forms.py:23
 msgid "Invalid date - renewal more than 4 weeks ahead"
-msgstr ""
+msgstr "Ungültiges datum - Verlängerung mehr als 4 Wochen voraus"
 
 #: .\library\forms.py:33 .\library\templates\library\openinghours.html:8
 msgid "Open from"
-msgstr ""
+msgstr "Offen ab"
 
 #: .\library\forms.py:34 .\library\templates\library\openinghours.html:9
 msgid "Open until"
-msgstr ""
+msgstr "Offen bis"
 
 #: .\library\forms.py:41
 msgid "Library must be open before closing 😉"
-msgstr ""
+msgstr "Bibliothek muss öffnen bevor sie schließt 😉"
 
 #: .\library\mail.py:12
 #, python-format
 msgid "%(item)s is due back on %(due_day)s.%(due_month)s.%(due_year)s"
-msgstr ""
+msgstr ""%(item)s ist zurück am %(due_day)s.%(due_month)s.%(due_year)s""
 
 #: .\library\mail.py:45
 msgid ""
@@ -54,19 +54,51 @@ msgid ""
 "Loans that will become due:\n"
 "\r"
 msgstr ""
+"Ausleihen werden fällig am:\n"
+"\r"
 
 #: .\library\mail.py:73
 msgid "Your unreturned loans"
-msgstr ""
+msgstr "Deine nicht zurückgegebenen Ausleihen"
 
 #: .\library\mail.py:74
 #, python-format
 msgid "Hello %(first_name)s %(lastname)s,\r\n"
+msgstr "Hallo %(first_name)s %(lastname)s,\r\n"
+
+#: .\library\models.py:15
+msgid "Enter a book genre (e.g. Science Fiction)"
+msgstr ""
+
+#: .\library\models.py:65
+msgid "Select the autor(s) of this book"
+msgstr ""
+
+#: .\library\models.py:66
+msgid "Select a genre for this book"
+msgstr ""
+
+#: .\library\models.py:67
+msgid "Enter a brief description of the book"
+msgstr ""
+
+#: .\library\models.py:68
+msgid "ISBN number (13 Characters)"
+msgstr ""
+
+#: .\library\models.py:75
+msgid "Enter a natural languages name (e.g. English, French, Japanese etc.)"
 msgstr ""
 
 #: .\library\models.py:86
 msgid "The UID of a NFC chip (e.g. in a student id)"
 msgstr ""
+
+#: .\library\models.py:119
+#, fuzzy
+#| msgid "Materials available"
+msgid "Item availability"
+msgstr "Materialien verfügbar"
 
 #. Translators: Is shown instead of a person that borrowed the item
 #: .\library\models.py:195 .\library\tests\test_models.py:291
