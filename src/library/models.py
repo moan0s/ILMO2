@@ -55,7 +55,8 @@ class Author(models.Model):
 
 class Book(models.Model):
     def __str__(self):
-        return f"{self.title} by {self.author}"
+        by = _("by")
+        return f"{self.title} {by} {self.author}"
 
     def get_absolute_url(self):
         """Returns the url to access a detail record for this book."""
@@ -199,7 +200,8 @@ class BookInstance(Item):
     """Represents a copy of a book that is physically in the library"""
 
     def __str__(self):
-        return f"[{self.label}] {self.book.title} by {self.book.author}"
+        by = _("by")
+        return f"[{self.label}] {self.book.title} {by} {self.book.author}"
 
     def get_absolute_url(self):
         """Returns the url to access a detail record for this bookInstance."""
