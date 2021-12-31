@@ -9,7 +9,7 @@ from django.urls import reverse
 from django.contrib.auth.models import User
 
 class RenewItemForm(forms.Form):
-    renewal_date = forms.DateField(help_text="Enter a date between now and 4 weeks (default 3).")
+    renewal_date = forms.DateField(help_text=_("Enter a date between now and 4 weeks (default 3)."))
 
     def clean_renewal_date(self):
         data = self.cleaned_data['renewal_date']
