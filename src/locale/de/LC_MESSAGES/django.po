@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-01-01 11:49+0100\n"
+"POT-Creation-Date: 2022-01-01 12:19+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -74,6 +74,10 @@ msgstr "Hallo %(first_name)s %(lastname)s,\r\n"
 msgid "Enter a book genre (e.g. Science Fiction)"
 msgstr "Gebe ein Büchergenre ein (z.B. Science Fiction)"
 
+#: .\library\models.py:42
+msgid "Can add, update or delete an author"
+msgstr "Kann Autor hinzufügen, ändern oder löschen"
+
 #: .\library\models.py:58 .\library\models.py:203
 #: .\library\templates\library\books.html:10
 msgid "by"
@@ -103,6 +107,10 @@ msgstr ""
 #: .\library\models.py:87
 msgid "The UID of a NFC chip (e.g. in a student id)"
 msgstr "Die UID eines NFC chips (z.B. eines Studierendenausweis)"
+
+#: .\library\models.py:105
+msgid "Unique ID for this particular item across whole library"
+msgstr "Eindeutige ID für dieses Item in der gesamten Bibliothek"
 
 #: .\library\models.py:109
 msgid "Maintenance"
@@ -137,6 +145,10 @@ msgstr "Sehe alle ausgeliehene Items"
 msgid "Not borrowed"
 msgstr "Nicht ausgeliehen"
 
+#: .\library\models.py:273
+msgid "Can add a loan for all user"
+msgstr "Kann allen Bentuzer eine Ausleihe hinzufügen"
+
 #: .\library\models.py:277
 msgid "Monday"
 msgstr "Montag"
@@ -164,6 +176,10 @@ msgstr "Samstag"
 #: .\library\models.py:283
 msgid "Sunday"
 msgstr "Sonntag"
+
+#: .\library\models.py:296
+msgid "Can change opening hours"
+msgstr "Kann Öffnungszeiten ändern"
 
 #: .\library\models.py:308
 msgid "Unique ID for this room"

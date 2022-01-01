@@ -39,7 +39,7 @@ class Author(models.Model):
 
     class Meta:
         ordering = ['last_name', 'first_name']
-        permissions = (("can_modify_author", "Can add, update or delete an author"),)
+        permissions = (("can_modify_author", _("Can add, update or delete an author")),)
 
     def __str__(self):
         """String for representing the Model object."""
@@ -102,7 +102,7 @@ class Item(models.Model):
     """Represents an item that is physically in the library"""
 
     id = models.UUIDField(primary_key=True, default=uuid.uuid4,
-                          help_text='Unique ID for this particular item across whole library')
+                          help_text=_('Unique ID for this particular item across whole library'))
     label = models.CharField(max_length=20, unique=True)
 
     LOAN_STATUS = (
@@ -270,7 +270,7 @@ class Loan(models.Model):
         return days_since_last_reminder >= timedelta(days=reminder_interval)
 
     class Meta:
-        permissions = (('can_add_loan', 'Can add a loan for all user'),)
+        permissions = (('can_add_loan', _('Can add a loan for all user')),)
 
 
 WEEKDAYS = [
@@ -293,7 +293,7 @@ class OpeningHours(models.Model):
     class Meta:
         ordering = ('weekday', 'from_hour')
         unique_together = ('weekday', 'from_hour', 'to_hour')
-        permissions = (('change_opening_hours', 'Can change opening hours'),)
+        permissions = (('change_opening_hours', _('Can change opening hours')),)
 
     def __str__(self):
         return f"{self.get_weekday_display()} {self.from_hour:%H:%M}-{self.to_hour:%H:%M}"
