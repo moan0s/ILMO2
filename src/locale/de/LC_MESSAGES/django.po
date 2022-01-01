@@ -102,7 +102,7 @@ msgstr "ISBN Nummer (13 Zeichen)"
 #: .\library\models.py:76
 msgid "Enter a natural languages name (e.g. English, French, Japanese etc.)."
 msgstr ""
-"Gib eine natürliche Sprache ein (z.B. Deutsch, Englisch, Französisch etc."
+"Gib eine natürliche Sprache (z.B. Deutsch, Englisch, Französisch etc.) ein."
 
 #: .\library\models.py:87
 msgid "The UID of a NFC chip (e.g. in a student id)."
@@ -183,11 +183,11 @@ msgstr "Kann Öffnungszeiten ändern"
 
 #: .\library\models.py:308
 msgid "Unique ID for this room"
-msgstr ""
+msgstr "Eindeutige ID für diesen Raum"
 
 #: .\library\models.py:310
 msgid "Users that are allowed to access this room"
-msgstr ""
+msgstr "Benutzer, die eine Zutrittsberechtigung für diesen Raum haben"
 
 #: .\library\templates\library\author.html:5
 #: .\library\templates\library\bookTable.html:6
