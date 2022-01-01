@@ -13,11 +13,15 @@ from datetime import datetime, timedelta
 
 class Genre(models.Model):
     """Model representing a book genre."""
-    name = models.CharField(max_length=200, help_text=_('Enter a book genre (e.g. Science Fiction)'))
+    name = models.CharField(max_length=200, help_text=_('Enter a book genre (e.g. Science Fiction)'), verbose_name=_('Name'))
 
     def __str__(self):
         """String for representing the Model object."""
         return self.name
+
+    class Meta:
+        verbose_name=_('Genre')
+        verbose_name_plural=_('Genre')
 
 
 class Material(models.Model):
@@ -30,17 +34,17 @@ class Material(models.Model):
 
     name = models.CharField(max_length=200)
 
+    class Meta:
+        verbose_name=_('Material')
+        verbose_name_plural=_('Materials')
+
 
 class Author(models.Model):
     """Model representing an author."""
-    first_name = models.CharField(max_length=100)
-    last_name = models.CharField(max_length=100)
-    date_of_birth = models.DateField(null=True, blank=True)
-    date_of_death = models.DateField('Died', null=True, blank=True)
-
-    class Meta:
-        ordering = ['last_name', 'first_name']
-        permissions = (("can_modify_author", _("Can add, update or delete an author")),)
+    first_name = models.CharField(max_length=100, verbose_name=_('First name'))
+    last_name = models.CharField(max_length=100, verbose_name=_('Last name'))
+    date_of_birth = models.DateField(null=True, blank=True, verbose_name=_('Date of birth'))
+    date_of_death = models.DateField(null=True, blank=True, verbose_name=_('Date of death'))
 
     def __str__(self):
         """String for representing the Model object."""
@@ -53,8 +57,21 @@ class Author(models.Model):
         """Returns the url to access a detail record for this book."""
         return reverse('library:author-detail', args=[str(self.id)])
 
+    class Meta:
+        ordering = ['last_name', 'first_name']
+        permissions = (("can_modify_author", _("Can add, update or delete an author")),)
+        verbose_name=_('Author')
+        verbose_name_plural=_('Authors')
+
 
 class Book(models.Model):
+    title = models.CharField(max_length=200, verbose_name=_('Titel'))
+    author = models.ManyToManyField(Author, help_text=_('Select the autor(s) of this book.'), verbose_name=_('Author'))
+    genre = models.ManyToManyField(Genre, help_text=_('Select a genre for this book.'), verbose_name=_('Genre'))
+    summary = models.TextField(max_length=1000, help_text=_('Enter a brief description of the book.'), verbose_name=_('Summary'))
+    isbn = models.CharField(max_length=13, null=True, help_text=_('ISBN number (13 Characters)'), verbose_name=_('ISBN'))
+    language = models.ForeignKey('Language', on_delete=models.SET_NULL, null=True, verbose_name=_('Language'))
+
     def __str__(self):
         by = _("by")
         return f"{self.title} {by} {self.author}"
@@ -63,13 +80,9 @@ class Book(models.Model):
         """Returns the url to access a detail record for this book."""
         return reverse('library:book-detail', args=[str(self.id)])
 
-    title = models.CharField(max_length=200)
-    author = models.ManyToManyField(Author, help_text=_('Select the autor(s) of this book.'))
-    genre = models.ManyToManyField(Genre, help_text=_('Select a genre for this book.'))
-    summary = models.TextField(max_length=1000, help_text=_('Enter a brief description of the book.'))
-    isbn = models.CharField('ISBN', max_length=13, null=True, help_text=_('ISBN number (13 Characters)'))
-    language = models.ForeignKey('Language', on_delete=models.SET_NULL, null=True)
-
+    class Meta:
+        verbose_name=_('Book')
+        verbose_name_plural=_('Books')
 
 class Language(models.Model):
     """Model representing a Language (e.g. English, French, Japanese, etc.)"""
@@ -77,15 +90,20 @@ class Language(models.Model):
                             help_text=_("Enter a natural languages name (e.g. English, French, Japanese etc.)."),
                             unique=True)
 
+
     def __str__(self):
         """String for representing the Model object (in Admin site etc.)"""
         return self.name
 
+    class Meta:
+        verbose_name=_('Language')
+        verbose_name_plural=_('Languages')
+
 
 class Member(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
-    preferred_language = models.ForeignKey(Language, on_delete=models.PROTECT, null=True)
-    UID = models.CharField(max_length=50, blank=True, help_text=_("The UID of a NFC chip (e.g. in a student id)."))
+    user = models.OneToOneField(User, unique=True,  on_delete=models.CASCADE, verbose_name=_('User'))
+    preferred_language = models.ForeignKey(Language, on_delete=models.PROTECT, null=True, verbose_name=_('Preffered language'))
+    UID = models.CharField(max_length=50, blank=True, help_text=_("The UID of a NFC chip (e.g. in a student id)."), verbose_name=_('UID'))
 
     @receiver(post_save, sender=User)
     def add_member(sender, instance, created, raw, using, **kwargs):
@@ -98,13 +116,18 @@ class Member(models.Model):
     def get_absolute_url(self):
         return reverse("library:user-detail", args=[str(self.user.id)])
 
+    class Meta:
+        verbose_name=_('Member')
+        verbose_name_plural=_('Members')
+
 
 class Item(models.Model):
     """Represents an item that is physically in the library"""
 
     id = models.UUIDField(primary_key=True, default=uuid.uuid4,
-                          help_text=_('Unique ID for this particular item across whole library.'))
-    label = models.CharField(max_length=20, unique=True)
+                          help_text=_('Unique ID for this particular item across whole library.'),
+                          verbose_name=_('Id'))
+    label = models.CharField(max_length=20, unique=True, verbose_name=_('Label'))
 
     LOAN_STATUS = (
         ('m', _('Maintenance')),
@@ -124,6 +147,8 @@ class Item(models.Model):
     class Meta:
         permissions = (("can_mark_returned", _("Set item as returned")),
                        ("can_see_borrowed", _("See all borrowed items")))
+        verbose_name=_('Item')
+        verbose_name_plural=_('Items')
 
     def __str__(self):
         return str(f"[{self.label}]")
@@ -208,8 +233,12 @@ class BookInstance(Item):
         """Returns the url to access a detail record for this bookInstance."""
         return reverse('library:bookInstance-detail', args=[str(self.id)])
 
-    book = models.ForeignKey('Book', on_delete=models.RESTRICT)
-    imprint = models.CharField(max_length=200, null=True, blank=True)
+    book = models.ForeignKey('Book', on_delete=models.RESTRICT, verbose_name=_('Book'))
+    imprint = models.CharField(max_length=200, null=True, blank=True, verbose_name=_('Imprint'))
+
+    class Meta:
+        verbose_name=_('Book instance')
+        verbose_name_plural=_('Book instances')
 
 
 class MaterialInstance(Item):
@@ -222,15 +251,19 @@ class MaterialInstance(Item):
         """Returns the url to access a detail record for this materialInstance."""
         return reverse('library:materialInstance-detail', args=[str(self.id)])
 
-    material = models.ForeignKey('Material', on_delete=models.RESTRICT, null=True)
+    material = models.ForeignKey('Material', on_delete=models.RESTRICT, null=True, verbose_name=_('Material'))
+
+    class Meta:
+        verbose_name=_('Material instance')
+        verbose_name_plural=_('Material instances')
 
 
 class Loan(models.Model):
-    borrower = models.ForeignKey(Member, on_delete=models.PROTECT)
-    item = models.ForeignKey(Item, on_delete=models.PROTECT)
-    lent_on = models.DateField()
-    due_back = models.DateField()
-    returned_on = models.DateField(null=True, blank=True)
+    borrower = models.ForeignKey(Member, on_delete=models.PROTECT, verbose_name=_('Borrower'))
+    item = models.ForeignKey(Item, on_delete=models.PROTECT, verbose_name=_('Item'))
+    lent_on = models.DateField(verbose_name=_('Lent on'))
+    due_back = models.DateField(verbose_name=_('Due back'))
+    returned_on = models.DateField(null=True, blank=True, verbose_name=_('Returned on'))
 
     def __str__(self):
         """String representation."""
@@ -272,6 +305,8 @@ class Loan(models.Model):
 
     class Meta:
         permissions = (('can_add_loan', _('Can add a loan for all user')),)
+        verbose_name=_('Loan')
+        verbose_name_plural=_('Loans')
 
 
 WEEKDAYS = [
@@ -286,29 +321,35 @@ WEEKDAYS = [
 
 
 class OpeningHours(models.Model):
-    weekday = models.IntegerField(choices=WEEKDAYS)
-    from_hour = models.TimeField()
-    to_hour = models.TimeField()
-    comment = models.CharField(max_length=200, blank=True)
+    weekday = models.IntegerField(choices=WEEKDAYS, verbose_name=_('Weekday'))
+    from_hour = models.TimeField(verbose_name=_('From hour'))
+    to_hour = models.TimeField(verbose_name=_('To hour'))
+    comment = models.CharField(max_length=200, blank=True, verbose_name=_('Comment'))
 
     class Meta:
         ordering = ('weekday', 'from_hour')
         unique_together = ('weekday', 'from_hour', 'to_hour')
         permissions = (('change_opening_hours', _('Can change opening hours')),)
+        verbose_name=_('Opening hour')
+        verbose_name_plural=_('Opening hours')
 
     def __str__(self):
         return f"{self.get_weekday_display()} {self.from_hour:%H:%M}-{self.to_hour:%H:%M}"
 
 
 class LoanReminder(models.Model):
-    loan = models.ForeignKey(Loan, on_delete=models.PROTECT)
-    sent_on = models.DateField()
+    loan = models.ForeignKey(Loan, on_delete=models.PROTECT, verbose_name=_('Loan'))
+    sent_on = models.DateField(verbose_name=_('Sent on'))
+
+    class Meta:
+        verbose_name=_('Loan Reminder')
+        verbose_name_plural=_('Loan Reminders')
 
 
 class Room(models.Model):
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4, help_text=_('Unique ID for this room'))
-    name = models.CharField(max_length=200, unique=True)
-    allowed_user = models.ManyToManyField(User, help_text=_("Users that are allowed to access this room."))
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, help_text=_('Unique Id for this room'), verbose_name=_('Id'))
+    name = models.CharField(max_length=200, unique=True, verbose_name=_('Name'))
+    allowed_user = models.ManyToManyField(User, help_text=_("Users that are allowed to access this room."), verbose_name=_('Allowed user'))
 
     def __str__(self):
         return f"Room: {self.name}"
@@ -316,3 +357,7 @@ class Room(models.Model):
     def check_access(self, user):
         """ Check if the given user is allowed in the room"""
         return (user in self.allowed_user.all())
+
+    class Meta:
+        verbose_name=_('Room')
+        verbose_name_plural=_('Rooms')

@@ -20,7 +20,7 @@
     {% if token %}
         <form action="" method="POST">
             {% csrf_token %}
-            <p class="text-muted"><strong>API token:</strong> {{ token }}</p>
+            <p class="text-muted"><strong>{% translate "API token:" %}</strong> {{ token }}</p>
             <input class="create-token" type="submit" name="delete_token" value={% translate "Delete API token" %}>
         </form>
     {% else %}
