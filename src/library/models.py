@@ -308,7 +308,7 @@ class LoanReminder(models.Model):
 class Room(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, help_text=_('Unique ID for this room'))
     name = models.CharField(max_length=200, unique=True)
-    allowed_user = models.ManyToManyField(User, help_text=_("Users that are allowed to access this room"))
+    allowed_user = models.ManyToManyField(User, help_text=_("Users that are allowed to access this room."))
 
     def __str__(self):
         return f"Room: {self.name}"

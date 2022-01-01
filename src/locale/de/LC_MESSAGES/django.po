@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-01-01 13:10+0100\n"
+"POT-Creation-Date: 2022-01-01 14:50+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -26,27 +26,27 @@ msgstr "Englisch"
 msgid "German"
 msgstr "Deutsch"
 
-#: .\library\forms.py:12
+#: .\library\forms.py:13
 msgid "Enter a date between now and 4 weeks (default 3)."
 msgstr "Gebe ein Datum zwischen jetzt und 4 Wochen ein (Standard 3)."
 
-#: .\library\forms.py:19
+#: .\library\forms.py:20
 msgid "Invalid date - renewal in past"
 msgstr "Ungültiges Datum - Verlängerung in der Vergangenheit"
 
-#: .\library\forms.py:23
+#: .\library\forms.py:24
 msgid "Invalid date - renewal more than 4 weeks ahead"
 msgstr "Ungültiges datum - Verlängerung mehr als 4 Wochen voraus"
 
-#: .\library\forms.py:33 .\library\templates\library\openinghours.html:8
+#: .\library\forms.py:34 .\library\templates\library\openinghours.html:8
 msgid "Open from"
 msgstr "Offen von"
 
-#: .\library\forms.py:34 .\library\templates\library\openinghours.html:9
+#: .\library\forms.py:35 .\library\templates\library\openinghours.html:9
 msgid "Open until"
 msgstr "Offen bis"
 
-#: .\library\forms.py:41
+#: .\library\forms.py:42
 msgid "Library must be open before closing 😉"
 msgstr "Bibliothek muss öffnen bevor sie schließt 😉"
 
@@ -78,124 +78,124 @@ msgstr "Deine nicht zurückgegebenen Ausleihen"
 msgid "Hello %(first_name)s %(lastname)s,\r\n"
 msgstr "Hallo %(first_name)s %(lastname)s,\r\n"
 
-#: .\library\models.py:15
+#: .\library\models.py:16
 msgid "Enter a book genre (e.g. Science Fiction)"
 msgstr "Gebe ein Büchergenre ein (z.B. Science Fiction)"
 
-#: .\library\models.py:42
+#: .\library\models.py:43
 msgid "Can add, update or delete an author"
 msgstr "Kann Autor hinzufügen, ändern oder löschen"
 
-#: .\library\models.py:58 .\library\models.py:203
+#: .\library\models.py:59 .\library\models.py:204
 #: .\library\templates\library\books.html:10
 msgid "by"
 msgstr "von"
 
-#: .\library\models.py:66
+#: .\library\models.py:67
 msgid "Select the autor(s) of this book."
 msgstr "Wähle den/die Autor(en) für dieses Buch aus."
 
-#: .\library\models.py:67
+#: .\library\models.py:68
 msgid "Select a genre for this book."
 msgstr "Wähle das Genre für dieses Buch aus."
 
-#: .\library\models.py:68
+#: .\library\models.py:69
 msgid "Enter a brief description of the book."
 msgstr "Gebe eine kurze Beschreibung für dieses Buch ein."
 
-#: .\library\models.py:69
+#: .\library\models.py:70
 msgid "ISBN number (13 Characters)"
 msgstr "ISBN Nummer (13 Zeichen)"
 
-#: .\library\models.py:76
+#: .\library\models.py:77
 msgid "Enter a natural languages name (e.g. English, French, Japanese etc.)."
 msgstr ""
 "Gib eine natürliche Sprache (z.B. Deutsch, Englisch, Französisch etc.) ein."
 
-#: .\library\models.py:87
+#: .\library\models.py:88
 msgid "The UID of a NFC chip (e.g. in a student id)."
 msgstr "Die UID eines NFC chips (z.B. eines Studierendenausweis)."
 
-#: .\library\models.py:105
+#: .\library\models.py:106
 msgid "Unique ID for this particular item across whole library."
 msgstr "Eindeutige ID für dieses Item in der gesamten Bibliothek."
 
-#: .\library\models.py:109
+#: .\library\models.py:110
 msgid "Maintenance"
 msgstr "Wartung"
 
-#: .\library\models.py:110
+#: .\library\models.py:111
 msgid "On loan"
 msgstr "Ausgeliehen"
 
-#: .\library\models.py:111
+#: .\library\models.py:112
 msgid "Available"
 msgstr "Verfügbar"
 
-#: .\library\models.py:112
+#: .\library\models.py:113
 msgid "Reserved"
 msgstr "Reserviert"
 
-#: .\library\models.py:120
+#: .\library\models.py:121
 msgid "Item availability"
 msgstr "Item Verfügbarkeit"
 
-#: .\library\models.py:124
+#: .\library\models.py:125
 msgid "Set item as returned"
 msgstr "Markiere Item als zurückgegeben"
 
-#: .\library\models.py:125
+#: .\library\models.py:126
 msgid "See all borrowed items"
 msgstr "Sehe alle ausgeliehene Items"
 
 #. Translators: Is shown instead of a person that borrowed the item
-#: .\library\models.py:196 .\library\tests\test_models.py:291
+#: .\library\models.py:197 .\library\tests\test_models.py:291
 msgid "Not borrowed"
 msgstr "Nicht ausgeliehen"
 
-#: .\library\models.py:273
+#: .\library\models.py:274
 msgid "Can add a loan for all user"
 msgstr "Kann allen Bentuzer eine Ausleihe hinzufügen"
 
-#: .\library\models.py:277
+#: .\library\models.py:278
 msgid "Monday"
 msgstr "Montag"
 
-#: .\library\models.py:278
+#: .\library\models.py:279
 msgid "Tuesday"
 msgstr "Dienstag"
 
-#: .\library\models.py:279
+#: .\library\models.py:280
 msgid "Wednesday"
 msgstr "Mittwoch"
 
-#: .\library\models.py:280
+#: .\library\models.py:281
 msgid "Thursday"
 msgstr "Donnerstag"
 
-#: .\library\models.py:281
+#: .\library\models.py:282
 msgid "Friday"
 msgstr "Freitag"
 
-#: .\library\models.py:282
+#: .\library\models.py:283
 msgid "Saturday"
 msgstr "Samstag"
 
-#: .\library\models.py:283
+#: .\library\models.py:284
 msgid "Sunday"
 msgstr "Sonntag"
 
-#: .\library\models.py:296
+#: .\library\models.py:297
 msgid "Can change opening hours"
 msgstr "Kann Öffnungszeiten ändern"
 
-#: .\library\models.py:308
+#: .\library\models.py:309
 msgid "Unique ID for this room"
 msgstr "Eindeutige ID für diesen Raum"
 
-#: .\library\models.py:310
-msgid "Users that are allowed to access this room"
-msgstr "Benutzer, die eine Zutrittsberechtigung für diesen Raum haben"
+#: .\library\models.py:311
+msgid "Users that are allowed to access this room."
+msgstr "Benutzer, die eine Zutrittsberechtigung für diesen Raum haben."
 
 #: .\library\templates\library\author.html:5
 #: .\library\templates\library\bookTable.html:6
