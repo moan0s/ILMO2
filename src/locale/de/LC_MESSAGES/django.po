@@ -18,6 +18,14 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
+#: .\ilmo\settings.py:179
+msgid "English"
+msgstr "Englisch"
+
+#: .\ilmo\settings.py:180
+msgid "German"
+msgstr "Deutsch"
+
 #: .\library\forms.py:12
 msgid "Enter a date between now and 4 weeks (default 3)."
 msgstr "Gebe ein Datum zwischen jetzt und 4 Wochen ein (Standard 3)."

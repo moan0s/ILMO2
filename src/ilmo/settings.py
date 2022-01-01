@@ -14,6 +14,7 @@ from pathlib import Path
 from decouple import config
 import os
 import configparser
+from django.utils.translation import gettext_lazy as _
 
 """CONFIG PARSER """
 config = configparser.RawConfigParser()
@@ -62,6 +63,7 @@ ALLOWED_HOSTS = ['*']
 
 INSTALLED_APPS = [
     'library.apps.LibraryConfig',
+    'modeltranslation',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -172,6 +174,11 @@ USE_I18N = True
 USE_L10N = True
 
 USE_TZ = True
+
+LANGUAGES = (
+    ('en-us', _('English')),
+    ('de', _('German')),
+)
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
