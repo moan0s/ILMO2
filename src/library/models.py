@@ -64,9 +64,9 @@ class Book(models.Model):
         return reverse('library:book-detail', args=[str(self.id)])
 
     title = models.CharField(max_length=200)
-    author = models.ManyToManyField(Author, help_text=_('Select the autor(s) of this book'))
-    genre = models.ManyToManyField(Genre, help_text=_('Select a genre for this book'))
-    summary = models.TextField(max_length=1000, help_text=_('Enter a brief description of the book'))
+    author = models.ManyToManyField(Author, help_text=_('Select the autor(s) of this book.'))
+    genre = models.ManyToManyField(Genre, help_text=_('Select a genre for this book.'))
+    summary = models.TextField(max_length=1000, help_text=_('Enter a brief description of the book.'))
     isbn = models.CharField('ISBN', max_length=13, null=True, help_text=_('ISBN number (13 Characters)'))
     language = models.ForeignKey('Language', on_delete=models.SET_NULL, null=True)
 
@@ -74,7 +74,7 @@ class Book(models.Model):
 class Language(models.Model):
     """Model representing a Language (e.g. English, French, Japanese, etc.)"""
     name = models.CharField(max_length=200,
-                            help_text=_("Enter a natural languages name (e.g. English, French, Japanese etc.)"),
+                            help_text=_("Enter a natural languages name (e.g. English, French, Japanese etc.)."),
                             unique=True)
 
     def __str__(self):
@@ -85,7 +85,7 @@ class Language(models.Model):
 class Member(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     preferred_language = models.ForeignKey(Language, on_delete=models.PROTECT, null=True)
-    UID = models.CharField(max_length=50, blank=True, help_text=_("The UID of a NFC chip (e.g. in a student id)"))
+    UID = models.CharField(max_length=50, blank=True, help_text=_("The UID of a NFC chip (e.g. in a student id)."))
 
     @receiver(post_save, sender=User)
     def add_member(sender, instance, created, raw, using, **kwargs):
@@ -103,7 +103,7 @@ class Item(models.Model):
     """Represents an item that is physically in the library"""
 
     id = models.UUIDField(primary_key=True, default=uuid.uuid4,
-                          help_text=_('Unique ID for this particular item across whole library'))
+                          help_text=_('Unique ID for this particular item across whole library.'))
     label = models.CharField(max_length=20, unique=True)
 
     LOAN_STATUS = (
