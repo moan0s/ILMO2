@@ -101,7 +101,7 @@ class Language(models.Model):
 
 
 class Member(models.Model):
-    user = models.OneToOneField(User, unique=True,  on_delete=models.CASCADE, verbose_name=_('User'))
+    user = models.OneToOneField(User,  on_delete=models.CASCADE, verbose_name=_('User'))
     preferred_language = models.ForeignKey(Language, on_delete=models.PROTECT, null=True, verbose_name=_('Preffered language'))
     UID = models.CharField(max_length=50, blank=True, help_text=_("The UID of a NFC chip (e.g. in a student id)."), verbose_name=_('UID'))
 
