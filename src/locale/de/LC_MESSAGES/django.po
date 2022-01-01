@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-01-01 12:19+0100\n"
+"POT-Creation-Date: 2022-01-01 13:10+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -84,33 +84,33 @@ msgid "by"
 msgstr "von"
 
 #: .\library\models.py:66
-msgid "Select the autor(s) of this book"
-msgstr "Wähle den/die Autor(en) für dieses Buch aus"
+msgid "Select the autor(s) of this book."
+msgstr "Wähle den/die Autor(en) für dieses Buch aus."
 
 #: .\library\models.py:67
-msgid "Select a genre for this book"
-msgstr "Wähle das Genre für dieses Buch aus"
+msgid "Select a genre for this book."
+msgstr "Wähle das Genre für dieses Buch aus."
 
 #: .\library\models.py:68
-msgid "Enter a brief description of the book"
-msgstr "Gebe eine kurze Beschreibung für dieses Buch ein"
+msgid "Enter a brief description of the book."
+msgstr "Gebe eine kurze Beschreibung für dieses Buch ein."
 
 #: .\library\models.py:69
 msgid "ISBN number (13 Characters)"
 msgstr "ISBN Nummer (13 Zeichen)"
 
 #: .\library\models.py:76
-msgid "Enter a natural languages name (e.g. English, French, Japanese etc.)"
+msgid "Enter a natural languages name (e.g. English, French, Japanese etc.)."
 msgstr ""
 "Gib eine natürliche Sprache ein (z.B. Deutsch, Englisch, Französisch etc."
 
 #: .\library\models.py:87
-msgid "The UID of a NFC chip (e.g. in a student id)"
-msgstr "Die UID eines NFC chips (z.B. eines Studierendenausweis)"
+msgid "The UID of a NFC chip (e.g. in a student id)."
+msgstr "Die UID eines NFC chips (z.B. eines Studierendenausweis)."
 
 #: .\library\models.py:105
-msgid "Unique ID for this particular item across whole library"
-msgstr "Eindeutige ID für dieses Item in der gesamten Bibliothek"
+msgid "Unique ID for this particular item across whole library."
+msgstr "Eindeutige ID für dieses Item in der gesamten Bibliothek."
 
 #: .\library\models.py:109
 msgid "Maintenance"
