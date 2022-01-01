@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-12-31 15:13+0100\n"
+"POT-Creation-Date: 2022-01-01 11:49+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -410,6 +410,7 @@ msgstr "Es sind keine Bücher ausgeliehen."
 msgid "Borrowed material"
 msgstr "Ausgeliehene Materialien"
 
+#: .\library\templates\library\list_loans_all.html:36
 #: .\library\templates\library\list_loans_user.html:34
 msgid "There are no materials borrowed."
 msgstr "Es sind keine Materialien ausgeliehen."
@@ -474,6 +475,7 @@ msgid "Home"
 msgstr "Start"
 
 #: .\library\templates\library\nav_sidebar.html:6
+#: .\library\templates\library\search.html:9
 msgid "Search"
 msgstr "Suche"
 
@@ -569,3 +571,87 @@ msgstr "Erstelle API token"
 #, python-format
 msgid "You're looking at the loans of book %s."
 msgstr "Du suchst nach der Ausleihe des Buches %s."
+
+#: .\templates\registration\logged_out.html:5
+msgid "Logged out"
+msgstr "Ausgeloggt"
+
+#: .\templates\registration\logged_out.html:6
+msgid "Click here to login again."
+msgstr "Klicke hier um dich wieder einzuloggen."
+
+#: .\templates\registration\login.html:7
+msgid "Your username and password didn't match. Please try again."
+msgstr "Dein Benutzername und Passwort passen nicht. Versuche es bitte erneut."
+
+#: .\templates\registration\login.html:15
+msgid "Please login to see this page."
+msgstr "Logge dich bitte ein um diese Seite zu sehen."
+
+#: .\templates\registration\login.html:31
+msgid "login"
+msgstr "Einloggen"
+
+#: .\templates\registration\login.html:36
+msgid "Lost password?"
+msgstr "Passwort vergessen?"
+
+#: .\templates\registration\password_reset_complete.html:5
+msgid "The password has been changed!"
+msgstr "Das Passwort wurde geändert!"
+
+#: .\templates\registration\password_reset_confirmation.html:6
+msgid "Please enter (and confirm) your new password."
+msgstr "Gebe (und bestätige) bitte dein neues Passwort."
+
+#: .\templates\registration\password_reset_confirmation.html:12
+msgid "New password"
+msgstr "Neues Passwort"
+
+#: .\templates\registration\password_reset_confirmation.html:17
+msgid "Confirm password"
+msgstr "Passwort bestätigen"
+
+#: .\templates\registration\password_reset_confirmation.html:22
+msgid "Change my password"
+msgstr "Mein Passwort ändern"
+
+#: .\templates\registration\password_reset_confirmation.html:27
+msgid "Password reset failed"
+msgstr "Passwort Reset fehlgeschlagen"
+
+#: .\templates\registration\password_reset_confirmation.html:28
+msgid ""
+"The password reset link was invalid, possibly because it has already been "
+"used. Please request a new password reset."
+msgstr ""
+"Der Passwortresetlink war ungültig, wahrscheinlich weil er bereits "
+"genutztwurde. Bitte fordere ein neues Passwort an."
+
+#: .\templates\registration\password_reset_done.html:5
+msgid ""
+"We've emailed you instructions for setting your password. If they haven't "
+"arrived in a few minutes, check your spam folder."
+msgstr ""
+"Wir haben dir eine Mail mit der Anweisung zum Zurücksetzen geschickt.Sollte "
+"die Mail nicht in ein paar Minuten ankommen, schau bitte in dein Spamordner."
+
+#: .\templates\registration\password_reset_email.html:2
+msgid ""
+"Someone asked for password reset for email {{ email }}. Follow the link "
+"below:"
+msgstr ""
+"Jemand hat für die E-Mailadresse {{ email }} ein Passworreset angefragt.Rufe "
+"den nachfolgenden Link auf"
+
+#: .\templates\registration\password_reset_form.html:10
+msgid "Password reset"
+msgstr "Passwort zurücksetzen"
+
+#: .\templates\registration\password_reset_form.html:11
+msgid "Provide the e-mail address that is connected with your account"
+msgstr "Gib die Mailadresse ein, die mit diesem Account verbunden ist"
+
+#: .\templates\registration\password_reset_form.html:13
+msgid "Reset"
+msgstr "Zurücksetzen"

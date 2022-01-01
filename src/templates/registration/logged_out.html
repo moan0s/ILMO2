@@ -1,6 +1,7 @@
 {% extends "library/base_generic.html" %}
+{% load i18n %}
 
 {% block content %}
-  <p>Logged out!</p>
-  <a href="{% url 'login'%}">Click here to login again.</a>
+  <p>{% translate "Logged out" %}!</p>
+  <a href="{% url 'login'%}">{% translate "Click here to login again." %}</a>
 {% endblock %}
