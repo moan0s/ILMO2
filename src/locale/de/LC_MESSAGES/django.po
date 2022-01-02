@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-01-01 19:50+0100\n"
+"POT-Creation-Date: 2022-01-02 19:34+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -382,7 +382,7 @@ msgstr "Wochentag"
 
 #: .\library\models.py:325
 msgid "From hour"
-msgstr "VOn Stunde"
+msgstr "Vnn Stunde"
 
 #: .\library\models.py:326
 msgid "To hour"
@@ -397,10 +397,8 @@ msgid "Can change opening hours"
 msgstr "Kann Öffnungszeiten ändern"
 
 #: .\library\models.py:333
-#, fuzzy
-#| msgid "Opening hours"
 msgid "Opening hour"
-msgstr "Öffnungszeiten"
+msgstr "Öffnungszeit"
 
 #: .\library\models.py:334 .\library\templates\library\nav_sidebar.html:10
 msgid "Opening hours"
