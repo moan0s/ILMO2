@@ -5,4 +5,18 @@
   <div class="header-right">
     <a href="https://github.com/moan0s/ILMO2">{% translate "About the software" %}</a>
   </div>
+
+  <form action="{% url 'change_language' %}" method="post">
+    {% csrf_token %}
+    <select name="language">
+        {% get_available_languages as LANGUAGES %}
+        {% for language in LANGUAGES %}
+        <option value="{{ language.0 }}" {% if language.0 == LANGUAGE_CODE %} selected{% endif %}>
+            {{ language.0|language_name_local }} ({{ language.0 }})
+        </option>
+        {% endfor %}
+    </select>
+    <input type="submit" value="Change language">
+  </form>
+
 </div>
