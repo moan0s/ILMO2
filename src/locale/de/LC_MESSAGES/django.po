@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-01-02 19:34+0100\n"
+"POT-Creation-Date: 2022-01-03 12:16+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,11 +18,11 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: .\ilmo\settings.py:179
+#: .\ilmo\settings.py:180
 msgid "English"
 msgstr "Englisch"
 
-#: .\ilmo\settings.py:180
+#: .\ilmo\settings.py:181
 msgid "German"
 msgstr "Deutsch"
 
@@ -536,6 +536,10 @@ msgstr "Benutzername"
 #: .\library\templates\library\header.html:6
 msgid "About the software"
 msgstr "Über die Software"
+
+#: .\library\templates\library\header.html:19
+msgid "Change language"
+msgstr "Sprache ändern"
 
 #: .\library\templates\library\index.html:5
 msgid "ILMO - Intelligent Library Management Online"
