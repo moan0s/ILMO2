@@ -9,7 +9,7 @@
 
 <form action="" method="POST">
   {% csrf_token %}
-  <input class="delete-button" type="submit" value="Yes, delete.">
+  <input class="delete-button" type="submit" value={% translate "Yes, delete." %}>
 </form>
 
 {% endblock %}

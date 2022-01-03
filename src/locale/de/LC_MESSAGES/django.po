@@ -3,12 +3,11 @@
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
-#, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-01-02 19:34+0100\n"
+"POT-Creation-Date: 2022-01-03 12:24+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,11 +17,11 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: .\ilmo\settings.py:179
+#: .\ilmo\settings.py:180
 msgid "English"
 msgstr "Englisch"
 
-#: .\ilmo\settings.py:180
+#: .\ilmo\settings.py:181
 msgid "German"
 msgstr "Deutsch"
 
@@ -114,16 +113,12 @@ msgstr "Materialien"
 #: .\library\models.py:44
 #: .\library\templates\library\borrow-user-search.html:25
 #: .\library\templates\library\userTable.html:5
-#, fuzzy
-#| msgid "First Name"
 msgid "First name"
 msgstr "Vorname"
 
 #: .\library\models.py:45
 #: .\library\templates\library\borrow-user-search.html:26
 #: .\library\templates\library\userTable.html:6
-#, fuzzy
-#| msgid "Last Name"
 msgid "Last name"
 msgstr "Nachname"
 
@@ -214,8 +209,6 @@ msgid "User"
 msgstr "Benutzer"
 
 #: .\library\models.py:105
-#, fuzzy
-#| msgid "No preferred language set."
 msgid "Preffered language"
 msgstr "Keine bevorzugte Sprache gesetzt."
 
@@ -307,8 +300,6 @@ msgid "Book instances"
 msgstr "Bücherinstanzen"
 
 #: .\library\models.py:257
-#, fuzzy
-#| msgid "Material instances"
 msgid "Material instance"
 msgstr "Materialinstanz"
 
@@ -326,10 +317,8 @@ msgid "Lent on"
 msgstr "Ausgeliehen am"
 
 #: .\library\models.py:265
-#, fuzzy
-#| msgid "Due date"
 msgid "Due back"
-msgstr "Bis"
+msgstr "Zurück bis"
 
 #: .\library\models.py:266 .\library\templates\library\loan-detail.html:10
 msgid "Returned on"
@@ -457,6 +446,17 @@ msgstr "Autor löschen"
 msgid "Are you sure you want to delete the author"
 msgstr "Bist du dir sicher, dass du diesen Autor löschen willst"
 
+#: .\library\templates\library\author_confirm_delete.html:12
+#: .\library\templates\library\openinghour_confirm_delete.html:12
+msgid "Yes, delete."
+msgstr "Ja, löschen."
+
+#: .\library\templates\library\author_form.html:10
+#: .\library\templates\library\item_renew_librarian.html:14
+#: .\library\templates\library\openinghours_form.html:10
+msgid "Submit"
+msgstr "Bestätigen"
+
 #: .\library\templates\library\authors.html:14
 msgid "No authors are known to this library."
 msgstr "Keine Autoren in dieser Bibliothek bekannt."
@@ -527,6 +527,13 @@ msgstr "Nicht verfügbar"
 msgid "No books are available."
 msgstr "Keine Bücher verfügbar."
 
+#: .\library\templates\library\borrow-user-search.html:19
+#: .\library\templates\library\item-search.html:9
+#: .\library\templates\library\nav_sidebar.html:6
+#: .\library\templates\library\search.html:9
+msgid "Search"
+msgstr "Suche"
+
 #: .\library\templates\library\borrow-user-search.html:24
 #: .\library\templates\library\member.html:7
 #: .\library\templates\library\userTable.html:4
@@ -543,7 +550,7 @@ msgstr ""
 
 #: .\library\templates\library\index.html:6
 msgid "Welcome to ILMO, developed by "
-msgstr "Willkomen bei ILMO, entwickelt von "
+msgstr "Willkommen bei ILMO, entwickelt von "
 
 #: .\library\templates\library\index.html:7
 msgid "Statistics"
@@ -575,11 +582,6 @@ msgstr "Verlängern"
 #: .\library\templates\library\item_renew_librarian.html:7
 msgid "Due date"
 msgstr "Bis"
-
-#: .\library\templates\library\item_renew_librarian.html:14
-#: .\library\templates\library\openinghours_form.html:10
-msgid "Submit"
-msgstr "Bestätigen"
 
 #: .\library\templates\library\list_loans_all.html:5
 #: .\library\templates\library\list_loans_user.html:5
@@ -618,10 +620,8 @@ msgid "No UID set."
 msgstr "Keine UID gesetzt."
 
 #: .\library\templates\library\member.html:23
-#, fuzzy
-#| msgid "Delete API token"
 msgid "API token:"
-msgstr "Lösche API token"
+msgstr "API token"
 
 #: .\library\templates\library\member.html:24
 msgid "Delete API token"
@@ -638,11 +638,6 @@ msgstr "Erstelle API token"
 #: .\library\templates\library\nav_sidebar.html:5
 msgid "Home"
 msgstr "Start"
-
-#: .\library\templates\library\nav_sidebar.html:6
-#: .\library\templates\library\search.html:9
-msgid "Search"
-msgstr "Suche"
 
 #: .\library\templates\library\nav_sidebar.html:12
 msgid "All loans"
@@ -663,10 +658,6 @@ msgstr "Einloggen"
 #: .\library\templates\library\nav_sidebar.html:25
 msgid "Admin"
 msgstr "Admin"
-
-#: .\library\templates\library\openinghour_confirm_delete.html:12
-msgid "Yes, delete."
-msgstr "Ja, löschen."
 
 #: .\library\templates\library\openinghours.html:12
 msgid "Delete"

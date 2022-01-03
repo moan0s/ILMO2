@@ -1,4 +1,5 @@
 {% extends "library/base_generic.html" %}
+{% load i18n %}
 
 {% block content %}
   <form action="" method="post">
@@ -6,6 +7,6 @@
     <table>
     {{ form.as_table }}
     </table>
-    <input type="submit" value="Submit">
+    <input type="submit" value={% translate "Submit" %}>
   </form>
 {% endblock %}
