@@ -267,7 +267,8 @@ class Loan(models.Model):
 
     def __str__(self):
         """String representation."""
-        return f"{self.item} _(borrowed until) {self.due_back}"
+        borrowed = _('borrowed until')
+        return f"{self.item} {borrowed} {self.due_back}"
 
     def get_absolute_url(self):
         """Returns the url to access a detail record for this loan."""
