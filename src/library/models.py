@@ -90,6 +90,11 @@ class Language(models.Model):
                             help_text=_("Enter a natural languages name (e.g. English, French, Japanese etc.)."),
                             unique=True)
 
+    languagecode = models.CharField(max_length = 10,
+                                # Translators: This helptext includes an URL
+                                help_text = _("Enter the language code for this language. For further information see  http://www.i18nguy.com/unicode/language-identifiers.html"),
+                                verbose_name=_('Language code'))
+
 
     def __str__(self):
         """String for representing the Model object (in Admin site etc.)"""
