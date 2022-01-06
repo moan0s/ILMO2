@@ -14,7 +14,8 @@
             <p>{% translate "No authors are known to this library." %}</p>
         {% endif %}
     </p>
-
-    <div class="link-button"><a href="{% url "library:author-create" %}">{% translate "Add Author" %}</a></div>
+    {% if perms.library.can_add_author %}
+        <div class="link-button"><a href="{% url "library:author-create" %}">{% translate "Add Author" %}</a></div>
+    {% endif %}
 
 {% endblock %}
