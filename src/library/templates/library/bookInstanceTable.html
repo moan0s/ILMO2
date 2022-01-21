@@ -1,9 +1,10 @@
+{% load i18n %}
 <table>
     <tr>
-        <th>Label</th>
-        <th>Title</th>
-        <th>Status</th>
-        <th>Borrow/Return</th>
+        <th>{% translate "Label" %}</th>
+        <th>{% translate "Title" %}</th>
+        <th>{% translate "Status" %}</th>
+        <th>{% translate "Borrow/Return" %}</th>
     </tr>
     {% for book_instance in book_instances %}
         <tr>
@@ -14,11 +15,11 @@
             </td>
             <td>
                 {% if book_instance.status == "a" %}
-                    <a href="{% url 'library:item-borrow' book_instance.id %}">Borrow</a>
+                    <a href="{% url 'library:item-borrow' book_instance.id %}">{% translate "Borrow" %}</a>
                 {% elif book_instance.status == "o" %}
-                    <a href="{% url 'library:item-return' book_instance.id %}">Return</a>
+                    <a href="{% url 'library:item-return' book_instance.id %}">{% translate "Return" %}</a>
                 {% else %}
-                    Unavailable
+                    {% translate "Unavailable" %}
                 {% endif %}
             </td>
         </tr>
