@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-01-03 13:08+0100\n"
+"POT-Creation-Date: 2022-01-21 13:05+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -87,7 +87,7 @@ msgstr "Hallo %(first_name)s %(lastname)s,\r\n"
 msgid "Enter a book genre (e.g. Science Fiction)"
 msgstr "Gebe ein Büchergenre ein (z.B. Science Fiction)"
 
-#: .\library\models.py:16 .\library\models.py:351
+#: .\library\models.py:16 .\library\models.py:352
 #: .\library\templates\library\materialInstanceTable.html:5
 #: .\library\templates\library\materialTable.html:4
 msgid "Name"
@@ -232,7 +232,7 @@ msgstr "Mitglieder"
 msgid "Unique ID for this particular item across whole library."
 msgstr "Eindeutige ID für dieses Item in der gesamten Bibliothek."
 
-#: .\library\models.py:129 .\library\models.py:350
+#: .\library\models.py:129 .\library\models.py:351
 #: .\library\templates\library\book.html:26
 #: .\library\templates\library\loan-detail.html:21
 #: .\library\templates\library\material.html:18
@@ -324,104 +324,108 @@ msgstr "Zurück bis"
 msgid "Returned on"
 msgstr "Zurückgegeben am"
 
-#: .\library\models.py:307
+#: .\library\models.py:270
+msgid "borrowed until"
+msgstr "ausgeliehen bis"
+
+#: .\library\models.py:308
 msgid "Can add a loan for all user"
 msgstr "Kann allen Bentuzer eine Ausleihe hinzufügen"
 
-#: .\library\models.py:308 .\library\models.py:341
+#: .\library\models.py:309 .\library\models.py:342
 #: .\library\templates\library\loan-detail.html:5
 msgid "Loan"
 msgstr "Ausleihe"
 
-#: .\library\models.py:309
+#: .\library\models.py:310
 msgid "Loans"
 msgstr "Ausleihen"
 
-#: .\library\models.py:313
+#: .\library\models.py:314
 msgid "Monday"
 msgstr "Montag"
 
-#: .\library\models.py:314
+#: .\library\models.py:315
 msgid "Tuesday"
 msgstr "Dienstag"
 
-#: .\library\models.py:315
+#: .\library\models.py:316
 msgid "Wednesday"
 msgstr "Mittwoch"
 
-#: .\library\models.py:316
+#: .\library\models.py:317
 msgid "Thursday"
 msgstr "Donnerstag"
 
-#: .\library\models.py:317
+#: .\library\models.py:318
 msgid "Friday"
 msgstr "Freitag"
 
-#: .\library\models.py:318
+#: .\library\models.py:319
 msgid "Saturday"
 msgstr "Samstag"
 
-#: .\library\models.py:319
+#: .\library\models.py:320
 msgid "Sunday"
 msgstr "Sonntag"
 
-#: .\library\models.py:324 .\library\templates\library\openinghours.html:7
+#: .\library\models.py:325 .\library\templates\library\openinghours.html:7
 msgid "Weekday"
 msgstr "Wochentag"
 
-#: .\library\models.py:325
+#: .\library\models.py:326
 msgid "From hour"
 msgstr "Vnn Stunde"
 
-#: .\library\models.py:326
+#: .\library\models.py:327
 msgid "To hour"
 msgstr "Bis Stunde"
 
-#: .\library\models.py:327 .\library\templates\library\openinghours.html:10
+#: .\library\models.py:328 .\library\templates\library\openinghours.html:10
 msgid "Comment"
 msgstr "Kommentar"
 
-#: .\library\models.py:332
+#: .\library\models.py:333
 msgid "Can change opening hours"
 msgstr "Kann Öffnungszeiten ändern"
 
-#: .\library\models.py:333
+#: .\library\models.py:334
 msgid "Opening hour"
 msgstr "Öffnungszeit"
 
-#: .\library\models.py:334 .\library\templates\library\nav_sidebar.html:10
+#: .\library\models.py:335 .\library\templates\library\nav_sidebar.html:10
 msgid "Opening hours"
 msgstr "Öffnungszeiten"
 
-#: .\library\models.py:342
+#: .\library\models.py:343
 msgid "Sent on"
 msgstr "Gesendet an"
 
-#: .\library\models.py:345
+#: .\library\models.py:346
 msgid "Loan Reminder"
 msgstr "Ausleiheerinnerung"
 
-#: .\library\models.py:346
+#: .\library\models.py:347
 msgid "Loan Reminders"
 msgstr "Ausheiheerinnerungen"
 
-#: .\library\models.py:350
+#: .\library\models.py:351
 msgid "Unique Id for this room"
 msgstr "Eindeutige ID für diesen Raum"
 
-#: .\library\models.py:352
+#: .\library\models.py:353
 msgid "Users that are allowed to access this room."
 msgstr "Benutzer, die eine Zutrittsberechtigung für diesen Raum haben."
 
-#: .\library\models.py:352
+#: .\library\models.py:353
 msgid "Allowed user"
 msgstr "Erlaubte Benutzer"
 
-#: .\library\models.py:362
+#: .\library\models.py:363
 msgid "Room"
 msgstr "Raum"
 
-#: .\library\models.py:363
+#: .\library\models.py:364
 msgid "Rooms"
 msgstr "Räume"
 
@@ -660,6 +664,7 @@ msgid "Admin"
 msgstr "Admin"
 
 #: .\library\templates\library\openinghours.html:12
+#: .\library\templates\library\openinghours.html:21
 msgid "Delete"
 msgstr "Löschen"
 
