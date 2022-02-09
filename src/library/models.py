@@ -231,8 +231,14 @@ class BookInstance(Item):
     """Represents a copy of a book that is physically in the library"""
 
     def __str__(self):
+        authors = ""
+        authorlist = self.book.author.all()
+        for a in authorlist:
+            authors += str(a)
+            if a != self.book.author.last():
+                authors += (", ")
         by = _("by")
-        return f"[{self.label}] {self.book.title} {by} {self.book.author}"
+        return f"[{self.label}] {self.book.title} {by} {authors}"
 
     def get_absolute_url(self):
         """Returns the url to access a detail record for this bookInstance."""
