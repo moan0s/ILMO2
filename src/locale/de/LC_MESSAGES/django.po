@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-02-10 13:43+0100\n"
+"POT-Creation-Date: 2022-02-10 14:11+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -674,6 +674,10 @@ msgstr "Ausloggen"
 #: .\library\templates\library\nav_sidebar.html:21
 msgid "Login"
 msgstr "Einloggen"
+
+#: .\library\templates\library\nav_sidebar.html:22
+msgid "Register"
+msgstr "Registrieren"
 
 #: .\library\templates\library\nav_sidebar.html:25
 msgid "Admin"
