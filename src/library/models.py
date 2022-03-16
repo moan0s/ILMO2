@@ -8,6 +8,7 @@ from django.utils import timezone
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 from datetime import datetime, timedelta
+from polymorphic.models import PolymorphicModel
 
 
 class Genre(models.Model):
@@ -97,7 +98,7 @@ class Member(models.Model):
         return reverse("library:user-detail", args=[str(self.user.id)])
 
 
-class Item(models.Model):
+class Item(PolymorphicModel):
     """Represents an item that is physically in the library"""
 
     id = models.UUIDField(primary_key=True, default=uuid.uuid4,
@@ -207,6 +208,10 @@ class Item(models.Model):
             # Translators: Is shown instead of a person that borrowed the item
             return _("Not borrowed")
 
+    @property
+    def description(self) -> str:
+        raise NotImplementedError
+
 
 class BookInstance(Item):
     """Represents a copy of a book that is physically in the library"""
@@ -217,6 +222,10 @@ class BookInstance(Item):
     def get_absolute_url(self):
         """Returns the url to access a detail record for this bookInstance."""
         return reverse('library:bookInstance-detail', args=[str(self.id)])
+
+    @property
+    def description(self) -> str:
+        return str(self.book)
 
     book = models.ForeignKey('Book', on_delete=models.RESTRICT)
     imprint = models.CharField(max_length=200, null=True, blank=True)
@@ -231,6 +240,10 @@ class MaterialInstance(Item):
     def get_absolute_url(self):
         """Returns the url to access a detail record for this materialInstance."""
         return reverse('library:materialInstance-detail', args=[str(self.id)])
+
+    @property
+    def description(self) -> str:
+        return str(self.material)
 
     material = models.ForeignKey('Material', on_delete=models.RESTRICT, null=True)
 

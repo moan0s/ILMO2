@@ -9,3 +9,4 @@ gunicorn
 djangorestframework
 model_bakery
 fontawesomefree
+django-polymorphic
