@@ -9,8 +9,7 @@
 
   {% if next %}
     {% if user.is_authenticated %}
-      <p>{% translate "Your account doesn't have access to this page. To proceed,
-      please login with an account that has access." %}</p>
+      <p>{% translate "You're already logged in." %}</p>
     {% else %}
       <p>{% translate "Please login to see this page." %}</p>
     {% endif %}

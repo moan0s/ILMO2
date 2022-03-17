@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-03-17 13:16+0100\n"
+"POT-Creation-Date: 2022-03-17 14:40+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -774,15 +774,19 @@ msgstr "Klicke hier um dich wieder einzuloggen."
 msgid "Your username and password didn't match. Please try again."
 msgstr "Dein Benutzername und Passwort passen nicht. Versuche es bitte erneut."
 
-#: .\templates\registration\login.html:15
+#: .\templates\registration\login.html:12
+msgid "You're already logged in."
+msgstr "Du bist bereits eingeloggt."
+
+#: .\templates\registration\login.html:14
 msgid "Please login to see this page."
 msgstr "Logge dich bitte ein um diese Seite zu sehen."
 
-#: .\templates\registration\login.html:31
+#: .\templates\registration\login.html:30
 msgid "login"
 msgstr "Einloggen"
 
-#: .\templates\registration\login.html:36
+#: .\templates\registration\login.html:35
 msgid "Lost password?"
 msgstr "Passwort vergessen?"
 
@@ -845,3 +849,10 @@ msgstr "Gib die Mailadresse ein, die mit diesem Account verbunden ist"
 #: .\templates\registration\password_reset_form.html:13
 msgid "Reset"
 msgstr "Zurücksetzen"
+
+#~ msgid ""
+#~ "Your account doesn't have access to this page. To proceed, please login "
+#~ "with an account that has access."
+#~ msgstr ""
+#~ "Dein Account hat keinen Zugang zu dieser Seite. Bitte logge dich mit "
+#~ "einem Account ein, der Zugriff zu dieser Seite hat."
