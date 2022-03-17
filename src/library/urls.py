@@ -87,6 +87,7 @@ urlpatterns += [
 urlpatterns += [
     path('user-detail/<slug:pk>/', views.user_detail, name='user-detail'),
     path('my-profile/', views.my_profile, name='my-profile'),
+    path('accounts/', include('django_registration.backends.activation.urls')),
     path('accounts/', include('django.contrib.auth.urls')),
 ]
 

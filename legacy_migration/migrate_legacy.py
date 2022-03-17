@@ -31,7 +31,7 @@ for legacy_user in user_list:
         user = User.objects.create(first_name=legacy_user["forename"],
                                last_name=legacy_user["surname"],
                                email=legacy_user["email"],
-                               username=legacy_user["user_ID"])
+                               username=f"{legacy_user['forename']}.{legacy_user['surname']}")
     except IntegrityError:
         print(f"Could not create user, {legacy_user['user_ID']} is already a username")
         exit(1)
