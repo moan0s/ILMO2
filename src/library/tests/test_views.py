@@ -569,7 +569,7 @@ class RenewBookInstancesViewTest(TestCase):
         self.test_bookinstance1 = BookInstance.objects.create(
             book=test_book,
             imprint='Unlikely Imprint, 2016',
-            status='o',
+            status='a',
             label="1",
         )
 
@@ -578,9 +578,11 @@ class RenewBookInstancesViewTest(TestCase):
         self.test_bookinstance2 = BookInstance.objects.create(
             book=test_book,
             imprint='Unlikely Imprint, 2016',
-            status='o',
+            status='a',
             label="2",
         )
+        self.test_bookinstance1.borrow(Member.objects.get(user=test_user1))
+        self.test_bookinstance2.borrow(Member.objects.get(user=test_user1))
 
     def test_redirect_if_not_logged_in(self):
         response = self.client.get(reverse('library:renew-item-librarian', kwargs={'pk': self.test_bookinstance1.pk}))
@@ -679,7 +681,7 @@ class RenewMaterialInstancesViewTest(TestCase):
         return_date = datetime.date.today() + datetime.timedelta(days=5)
         self.test_materialinstance1 = MaterialInstance.objects.create(
             material=test_material,
-            status='o',
+            status='a',
             label="1",
         )
 
@@ -687,9 +689,11 @@ class RenewMaterialInstancesViewTest(TestCase):
         return_date = datetime.date.today() + datetime.timedelta(days=5)
         self.test_materialinstance2 = MaterialInstance.objects.create(
             material=test_material,
-            status='o',
+            status='a',
             label="2",
         )
+        self.test_materialinstance1.borrow(Member.objects.get(user=test_user1))
+        self.test_materialinstance2.borrow(Member.objects.get(user=test_user1))
 
     def test_redirect_if_not_logged_in(self):
         response = self.client.get(

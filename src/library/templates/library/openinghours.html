@@ -18,7 +18,7 @@
                 <td>{{ openinghour.from_hour }}</td>
                 <td>{{ openinghour.comment }}</td>
                 {% if perms.library.change_opening_hours %}
-                    <td><a href="{% url "library:openinghour-delete" openinghour.id %} "> Delete</a></td>
+                    <td><a href="{% url "library:openinghour-delete" openinghour.id %} ">{% translate "Delete" %}</a></td>
                 {% endif %}
             </tr>
             {% endfor %}

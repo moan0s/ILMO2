@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-02-10 14:11+0100\n"
+"POT-Creation-Date: 2022-03-17 13:16+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,11 +17,11 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: .\ilmo\settings.py:180
+#: .\ilmo\settings.py:181
 msgid "English"
 msgstr "Englisch"
 
-#: .\ilmo\settings.py:181
+#: .\ilmo\settings.py:182
 msgid "German"
 msgstr "Deutsch"
 
@@ -83,111 +83,108 @@ msgstr "Deine nicht zurückgegebenen Ausleihen"
 msgid "Hello %(first_name)s %(lastname)s,\r\n"
 msgstr "Hallo %(first_name)s %(lastname)s,\r\n"
 
-#: .\library\models.py:16
+#: .\library\models.py:17
 msgid "Enter a book genre (e.g. Science Fiction)"
 msgstr "Gebe ein Büchergenre ein (z.B. Science Fiction)"
 
-#: .\library\models.py:16 .\library\models.py:363
+#: .\library\models.py:17 .\library\models.py:386
 #: .\library\templates\library\materialInstanceTable.html:5
 #: .\library\templates\library\materialTable.html:4
 msgid "Name"
 msgstr "Name"
 
-#: .\library\models.py:23 .\library\models.py:24 .\library\models.py:70
+#: .\library\models.py:24 .\library\models.py:25 .\library\models.py:71
 #: .\library\templates\library\book.html:11
 msgid "Genre"
 msgstr "Genre"
 
-#: .\library\models.py:38 .\library\models.py:265
+#: .\library\models.py:39 .\library\models.py:285
 #: .\library\templates\library\material.html:5
 #: .\library\templates\library\materialInstance-detail.html:5
 #: .\library\templates\library\nav_sidebar.html:8
 msgid "Material"
 msgstr "Material"
 
-#: .\library\models.py:39 .\library\templates\library\index.html:14
+#: .\library\models.py:40 .\library\templates\library\index.html:14
 #: .\library\templates\library\search.html:34
 msgid "Materials"
 msgstr "Materialien"
 
-#: .\library\models.py:44
+#: .\library\models.py:45
 #: .\library\templates\library\borrow-user-search.html:25
 #: .\library\templates\library\userTable.html:5
 msgid "First name"
 msgstr "Vorname"
 
-#: .\library\models.py:45
+#: .\library\models.py:46
 #: .\library\templates\library\borrow-user-search.html:26
 #: .\library\templates\library\userTable.html:6
 msgid "Last name"
 msgstr "Nachname"
 
-#: .\library\models.py:46 .\library\templates\library\author.html:6
+#: .\library\models.py:47 .\library\templates\library\author.html:6
 msgid "Date of birth"
 msgstr "Geburtsdatum"
 
-#: .\library\models.py:47
+#: .\library\models.py:48
 msgid "Date of death"
 msgstr "Todesdatum"
 
-#: .\library\models.py:62
+#: .\library\models.py:63
 msgid "Can add, update or delete an author"
 msgstr "Kann Autor hinzufügen, ändern oder löschen"
 
-#: .\library\models.py:63 .\library\models.py:69
+#: .\library\models.py:64 .\library\models.py:70
 #: .\library\templates\library\author.html:5
 #: .\library\templates\library\bookTable.html:6
 msgid "Author"
 msgstr "Autor"
 
-#: .\library\models.py:64 .\library\templates\library\index.html:13
+#: .\library\models.py:65 .\library\templates\library\index.html:13
 #: .\library\templates\library\nav_sidebar.html:9
 msgid "Authors"
 msgstr "Autoren"
 
-#: .\library\models.py:68
+#: .\library\models.py:69
 msgid "Titel"
 msgstr "Titel"
 
-#: .\library\models.py:69
+#: .\library\models.py:70
 msgid "Select the autor(s) of this book."
 msgstr "Wähle den/die Autor(en) für dieses Buch aus."
 
-#: .\library\models.py:70
+#: .\library\models.py:71
 msgid "Select a genre for this book."
 msgstr "Wähle das Genre für dieses Buch aus."
 
-#: .\library\models.py:71
+#: .\library\models.py:72
 msgid "Enter a brief description of the book."
 msgstr "Gebe eine kurze Beschreibung für dieses Buch ein."
 
-#: .\library\models.py:71 .\library\templates\library\book.html:8
+#: .\library\models.py:72 .\library\templates\library\book.html:8
 msgid "Summary"
 msgstr "Zusammenfassung"
 
-#: .\library\models.py:72
+#: .\library\models.py:73
 msgid "ISBN number (13 Characters)"
 msgstr "ISBN Nummer (13 Zeichen)"
 
-#: .\library\models.py:72 .\library\templates\library\book.html:9
+#: .\library\models.py:73 .\library\templates\library\book.html:9
 msgid "ISBN"
 msgstr "ISBN"
 
-#: .\library\models.py:73 .\library\models.py:104
+#: .\library\models.py:74 .\library\models.py:104
 #: .\library\templates\library\book.html:10
 #: .\library\templates\library\member.html:11
 msgid "Language"
 msgstr "Sprache"
 
-#: .\library\models.py:76 .\library\models.py:240
-#: .\library\templates\library\books.html:10
-msgid "by"
-msgstr "von"
-
-#: .\library\models.py:84 .\library\models.py:247
+#: .\library\models.py:84 .\library\models.py:263
 #: .\library\templates\library\bookInstance-detail.html:5
+#, fuzzy
+#| msgid "Books"
 msgid "Book"
-msgstr "Buch"
+msgstr "Bücher"
 
 #: .\library\models.py:85 .\library\templates\library\index.html:10
 #: .\library\templates\library\nav_sidebar.html:7
@@ -245,7 +242,7 @@ msgstr "Mitglieder"
 msgid "Unique ID for this particular item across whole library."
 msgstr "Eindeutige ID für dieses Item in der gesamten Bibliothek."
 
-#: .\library\models.py:134 .\library\models.py:362
+#: .\library\models.py:134 .\library\models.py:385
 #: .\library\templates\library\book.html:26
 #: .\library\templates\library\loan-detail.html:21
 #: .\library\templates\library\material.html:18
@@ -287,160 +284,163 @@ msgstr "Markiere Item als zurückgegeben"
 msgid "See all borrowed items"
 msgstr "Sehe alle ausgeliehene Items"
 
-#: .\library\models.py:155 .\library\models.py:274
+#: .\library\models.py:155 .\library\models.py:297
+#, fuzzy
+#| msgid "Items"
 msgid "Item"
-msgstr "Item"
+msgstr "Items"
 
 #: .\library\models.py:156 .\library\templates\library\material.html:8
 msgid "Items"
 msgstr "Items"
 
 #. Translators: Is shown instead of a person that borrowed the item
-#: .\library\models.py:227 .\library\tests\test_models.py:291
+#: .\library\models.py:227 .\library\models.py:240
+#: .\library\tests\test_models.py:292
 msgid "Not borrowed"
 msgstr "Nicht ausgeliehen"
 
-#: .\library\models.py:248 .\library\templates\library\book.html:25
+#: .\library\models.py:264 .\library\templates\library\book.html:25
 msgid "Imprint"
 msgstr "Impressum"
 
-#: .\library\models.py:251
+#: .\library\models.py:267
 msgid "Book instance"
 msgstr "Bücherinstanze"
 
-#: .\library\models.py:252 .\library\templates\library\search.html:45
+#: .\library\models.py:268 .\library\templates\library\search.html:45
 msgid "Book instances"
 msgstr "Bücherinstanzen"
 
-#: .\library\models.py:268
+#: .\library\models.py:288
 msgid "Material instance"
 msgstr "Materialinstanz"
 
-#: .\library\models.py:269 .\library\templates\library\search.html:56
+#: .\library\models.py:289 .\library\templates\library\search.html:56
 msgid "Material instances"
 msgstr "Materialinstanz"
 
-#: .\library\models.py:273
+#: .\library\models.py:296
 #: .\library\templates\library\item_renew_librarian.html:6
+#, fuzzy
+#| msgid "Borrow"
 msgid "Borrower"
-msgstr "Ausleihender"
+msgstr "Ausleihen"
 
-#: .\library\models.py:275
+#: .\library\models.py:298
 msgid "Lent on"
 msgstr "Ausgeliehen am"
 
-#: .\library\models.py:276
+#: .\library\models.py:299
 msgid "Due back"
 msgstr "Zurück bis"
 
-#: .\library\models.py:277 .\library\templates\library\loan-detail.html:10
+#: .\library\models.py:300 .\library\templates\library\loan-detail.html:10
 msgid "Returned on"
 msgstr "Zurückgegeben am"
 
-#: .\library\models.py:281
-#, fuzzy
-#| msgid "Borrowed material"
+#: .\library\models.py:304
 msgid "borrowed until"
-msgstr "Ausgeliehene Materialien"
+msgstr "Ausgeliehen bis"
 
-#: .\library\models.py:319
+#: .\library\models.py:342
 msgid "Can add a loan for all user"
 msgstr "Kann allen Bentuzer eine Ausleihe hinzufügen"
 
-#: .\library\models.py:320 .\library\models.py:353
+#: .\library\models.py:343 .\library\models.py:376
 #: .\library\templates\library\loan-detail.html:5
 msgid "Loan"
 msgstr "Ausleihe"
 
-#: .\library\models.py:321
+#: .\library\models.py:344
 msgid "Loans"
 msgstr "Ausleihen"
 
-#: .\library\models.py:325
+#: .\library\models.py:348
 msgid "Monday"
 msgstr "Montag"
 
-#: .\library\models.py:326
+#: .\library\models.py:349
 msgid "Tuesday"
 msgstr "Dienstag"
 
-#: .\library\models.py:327
+#: .\library\models.py:350
 msgid "Wednesday"
 msgstr "Mittwoch"
 
-#: .\library\models.py:328
+#: .\library\models.py:351
 msgid "Thursday"
 msgstr "Donnerstag"
 
-#: .\library\models.py:329
+#: .\library\models.py:352
 msgid "Friday"
 msgstr "Freitag"
 
-#: .\library\models.py:330
+#: .\library\models.py:353
 msgid "Saturday"
 msgstr "Samstag"
 
-#: .\library\models.py:331
+#: .\library\models.py:354
 msgid "Sunday"
 msgstr "Sonntag"
 
-#: .\library\models.py:336 .\library\templates\library\openinghours.html:7
+#: .\library\models.py:359 .\library\templates\library\openinghours.html:7
 msgid "Weekday"
 msgstr "Wochentag"
 
-#: .\library\models.py:337
+#: .\library\models.py:360
 msgid "From hour"
 msgstr "Vnn Stunde"
 
-#: .\library\models.py:338
+#: .\library\models.py:361
 msgid "To hour"
 msgstr "Bis Stunde"
 
-#: .\library\models.py:339 .\library\templates\library\openinghours.html:10
+#: .\library\models.py:362 .\library\templates\library\openinghours.html:10
 msgid "Comment"
 msgstr "Kommentar"
 
-#: .\library\models.py:344
+#: .\library\models.py:367
 msgid "Can change opening hours"
 msgstr "Kann Öffnungszeiten ändern"
 
-#: .\library\models.py:345
+#: .\library\models.py:368
 msgid "Opening hour"
 msgstr "Öffnungszeit"
 
-#: .\library\models.py:346 .\library\templates\library\nav_sidebar.html:10
+#: .\library\models.py:369 .\library\templates\library\nav_sidebar.html:10
 msgid "Opening hours"
 msgstr "Öffnungszeiten"
 
-#: .\library\models.py:354
+#: .\library\models.py:377
 msgid "Sent on"
 msgstr "Gesendet an"
 
-#: .\library\models.py:357
+#: .\library\models.py:380
 msgid "Loan Reminder"
 msgstr "Ausleiheerinnerung"
 
-#: .\library\models.py:358
+#: .\library\models.py:381
 msgid "Loan Reminders"
 msgstr "Ausheiheerinnerungen"
 
-#: .\library\models.py:362
+#: .\library\models.py:385
 msgid "Unique Id for this room"
 msgstr "Eindeutige ID für diesen Raum"
 
-#: .\library\models.py:364
+#: .\library\models.py:387
 msgid "Users that are allowed to access this room."
 msgstr "Benutzer, die eine Zutrittsberechtigung für diesen Raum haben."
 
-#: .\library\models.py:364
+#: .\library\models.py:387
 msgid "Allowed user"
 msgstr "Erlaubte Benutzer"
 
-#: .\library\models.py:374
+#: .\library\models.py:397
 msgid "Room"
 msgstr "Raum"
 
-#: .\library\models.py:375
+#: .\library\models.py:398
 msgid "Rooms"
 msgstr "Räume"
 
@@ -543,6 +543,10 @@ msgstr "Zurückgeben"
 msgid "Unavailable"
 msgstr "Nicht verfügbar"
 
+#: .\library\templates\library\books.html:10
+msgid "by"
+msgstr "von"
+
 #: .\library\templates\library\books.html:15
 msgid "No books are available."
 msgstr "Keine Bücher verfügbar."
@@ -593,8 +597,8 @@ msgid "Search for an item by label"
 msgstr "Suche nach einem Item nach Bezeichnung"
 
 #: .\library\templates\library\item_renew_librarian.html:5
-#: .\library\templates\library\list_loans_all.html:13
-#: .\library\templates\library\list_loans_all.html:30
+#: .\library\templates\library\list_loans_all.html:14
+#: .\library\templates\library\list_loans_all.html:31
 #: .\library\templates\library\materialInstance-detail.html:16
 msgid "Renew"
 msgstr "Verlängern"
@@ -603,22 +607,22 @@ msgstr "Verlängern"
 msgid "Due date"
 msgstr "Bis"
 
-#: .\library\templates\library\list_loans_all.html:5
+#: .\library\templates\library\list_loans_all.html:6
 #: .\library\templates\library\list_loans_user.html:5
 msgid "Borrowed books"
 msgstr "Ausgeliehene Bücher"
 
-#: .\library\templates\library\list_loans_all.html:19
+#: .\library\templates\library\list_loans_all.html:20
 #: .\library\templates\library\list_loans_user.html:18
 msgid "There are no books borrowed."
 msgstr "Es sind keine Bücher ausgeliehen."
 
-#: .\library\templates\library\list_loans_all.html:22
+#: .\library\templates\library\list_loans_all.html:23
 #: .\library\templates\library\list_loans_user.html:21
 msgid "Borrowed material"
 msgstr "Ausgeliehene Materialien"
 
-#: .\library\templates\library\list_loans_all.html:36
+#: .\library\templates\library\list_loans_all.html:37
 #: .\library\templates\library\list_loans_user.html:34
 msgid "There are no materials borrowed."
 msgstr "Es sind keine Materialien ausgeliehen."
@@ -684,6 +688,7 @@ msgid "Admin"
 msgstr "Admin"
 
 #: .\library\templates\library\openinghours.html:12
+#: .\library\templates\library\openinghours.html:21
 msgid "Delete"
 msgstr "Löschen"
 
