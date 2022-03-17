@@ -42,8 +42,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 LOCALE_PATHS = [os.path.join(BASE_DIR, 'locale')]
 
 """ E-MAIL  """
-console_only = config.getboolean("email", "console_only", fallback="true")
-EMAIL_SUBJECT_PREFIX = config.get("email", "prefix", fallback="[ILMO]]")
+console_only = config.getboolean("mail", "console_only", fallback="true")
+EMAIL_SUBJECT_PREFIX = config.get("mail", "prefix", fallback="[ILMO]]")
 if console_only:
     EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 else:
