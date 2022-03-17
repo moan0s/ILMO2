@@ -11,6 +11,8 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 """
 
 from pathlib import Path
+
+import django.core.mail.backends.base
 from decouple import config
 import os
 import configparser
@@ -38,6 +40,20 @@ DB_HOST = config.get("database", "host", fallback="localhost")
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 LOCALE_PATHS = [os.path.join(BASE_DIR, 'locale')]
+
+""" E-MAIL  """
+console_only = config.get("email", "console_only", fallback="true")
+EMAIL_SUBJECT_PREFIX = config.get("email", "prefix", fallback="[ILMO]]")
+if console_only:
+    EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+else:
+    EMAIL_HOST = config.get('mail', 'host', fallback='localhost')
+    EMAIL_PORT = config.getint('mail', 'port', fallback=25)
+    EMAIL_HOST_USER = config.get('mail', 'user', fallback='')
+    EMAIL_HOST_PASSWORD = config.get('mail', 'password', fallback='')
+    EMAIL_USE_TLS = config.getboolean('mail', 'tls', fallback=False)
+    EMAIL_USE_SSL = config.getboolean('mail', 'ssl', fallback=False)
+
 
 """ SECURITY.TXT """
 SEC_CONTACT = config.get("security", "Contact", fallback="julian-samuel@gebuehr.net")
@@ -167,9 +183,8 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/3.2/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
-
-TIME_ZONE = 'CET'
+LANGUAGE_CODE = config.get('locale', 'default', fallback='en')
+TIME_ZONE = config.get('locale', 'timezone', fallback='UTC')
 
 USE_I18N = True
 
