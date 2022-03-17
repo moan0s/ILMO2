@@ -15,9 +15,9 @@ class AuthorModelTest(TestCase):
         a1.save()
         a2.save()
 
-    def test_object_name_is_last_name_comma_first_name(self):
+    def test_object_name_is_normalized(self):
         author = Author.objects.all()[0]
-        expected_object_name = '{0}, {1}'.format(author.last_name, author.first_name)
+        expected_object_name = f"{author.first_name} {author.last_name}"
         self.assertEquals(str(author), expected_object_name)
 
     def test_special_character(self):
@@ -54,10 +54,6 @@ class AuthorModelTest(TestCase):
         max_length = author._meta.get_field('first_name').max_length
         self.assertEqual(max_length, 100)
 
-    def test_object_name_is_last_name_comma_first_name(self):
-        author = Author.objects.all()[0]
-        expected_object_name = f'{author.last_name}, {author.first_name}'
-        self.assertEqual(str(author), expected_object_name)
 
     def test_get_absolute_url(self):
         author = Author.objects.all()[0]
@@ -99,13 +95,17 @@ class BookModelTest(TestCase):
         b = Book.objects.create(title="How to Test",
                                 summary="How to write better tests than you do",
                                 isbn="1234567890123")
+        test_author.save()
+        b.save()
         b.author.add(test_author)
         b.save()
+        print("")
 
     def test_str(self):
         book = Book.objects.all()[0]
         string_representation = str(book)
-        self.assertEquals(string_representation, f"How to Test by {book.author}")
+        self.assertEquals(f"How to Test",
+                          string_representation)
 
 
 class BookInstanceModelTest(TestCase):
@@ -113,6 +113,7 @@ class BookInstanceModelTest(TestCase):
     @classmethod
     def setUpTestData(cls):
         test_author = Author.objects.create(first_name="Jane", last_name="Doe")
+        test_author.save()
         b = Book.objects.create(title="How to Test",
                                 summary="How to write better tests than you do",
                                 isbn="1234567890123")
@@ -133,7 +134,7 @@ class BookInstanceModelTest(TestCase):
     def test_str(self):
         bookInstance = BookInstance.objects.filter(label="T 1 a")[0]
         string_representation = str(bookInstance)
-        self.assertEquals(string_representation, f"[T 1 a] {bookInstance.book.title} by {bookInstance.book.author}")
+        self.assertEquals(string_representation, f"[T 1 a] {bookInstance.book.title}")
 
     def test_default(self):
         bookInstance = BookInstance.objects.all()[0]

@@ -50,7 +50,7 @@ class Author(models.Model):
     def __str__(self):
         """String for representing the Model object."""
         if self.first_name != "":
-            return f'{self.last_name}, {self.first_name}'
+            return f'{self.first_name} {self.last_name}'
         else:
             return self.last_name
 
@@ -74,8 +74,7 @@ class Book(models.Model):
     language = models.ForeignKey('Language', on_delete=models.SET_NULL, null=True, verbose_name=_('Language'))
 
     def __str__(self):
-        by = _("by")
-        return f"{self.title} {by} {', '.join([str(a) for a in self.author.all()])}"
+        return f"{self.title}"
 
     def get_absolute_url(self):
         """Returns the url to access a detail record for this book."""
@@ -239,6 +238,12 @@ class Item(PolymorphicModel):
         except Loan.DoesNotExist:
             # Translators: Is shown instead of a person that borrowed the item
             return _("Not borrowed")
+
+    @due_back.setter
+    def due_back(self, value):
+        """ Sets the due_back of the latest loan of the item to value'"""
+        last_loan = Loan.objects.filter(item=self).latest("lent_on")
+        last_loan.due_back = value
 
     @property
     def description(self) -> str:

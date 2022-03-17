@@ -217,11 +217,9 @@ def list_loans_unreturned(request):
     """View all unreturned items"""
     loans = Loan.objects.all()
     unreturned_loans = [loan for loan in loans if not loan.returned]
-    bookinstance_list = BookInstance.objects.filter(loan__in=unreturned_loans)
-    materialinstance_list = MaterialInstance.objects.filter(loan__in=unreturned_loans)
+    item_list = Item.objects.filter(loan__in=unreturned_loans)
     context = {
-        'bookinstance_list': bookinstance_list,
-        'materialinstance_list': materialinstance_list,
+        'item_list': item_list,
     }
 
     return render(request, 'library/list_loans_all.html', context=context)
