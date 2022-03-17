@@ -70,6 +70,7 @@ INSTALLED_APPS = [
     'fontawesomefree',
     'rest_framework',
     'rest_framework.authtoken',
+    'polymorphic',
 ]
 
 MIDDLEWARE = [
