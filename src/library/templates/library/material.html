@@ -1,10 +1,11 @@
 {% extends "library/base_generic.html" %}
+{% load i18n %}
 
 {% block content %}
-  <h1>Material: {{ material.name }}</h1>
+  <h1>{% translate "Material" %}: {{ material.name }}</h1>
 
   <div style="margin-left:20px;margin-top:20px">
-    <h4>Items</h4>
+    <h4>{% translate "Items" %}</h4>
 
     {% for item in material.materialinstance_set.all %}
       <hr><p><strong><a href="{{  item.get_absolute_url }}">{{ item.label }}</a></strong> </p>
@@ -12,9 +13,9 @@
         {{ item.get_status_display }}
       </p>
       {% if item.status != 'a' %}
-        <p><strong>Due to be returned:</strong> {{ item.due_back }}</p>
+        <p><strong>{% translate "Due to be returned" %}:</strong> {{ item.due_back }}</p>
       {% endif %}
-      <p class="text-muted"><strong>Id:</strong> {{ item.id }}</p>
+      <p class="text-muted"><strong>{% translate "Id" %}:</strong> {{ item.id }}</p>
     {% endfor %}
   </div>
 {% endblock %}

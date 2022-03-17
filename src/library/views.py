@@ -15,6 +15,8 @@ from .models import Book, Author, BookInstance, Loan, Material, MaterialInstance
     LoanReminder
 from django.contrib.auth.models import User
 
+from django.utils.translation import gettext_lazy as _
+
 
 def gather_metrics_data():
     """USERS"""
@@ -104,7 +106,7 @@ def my_profile(request):
     if request.method == 'POST':
         print(request.POST)
         if "create_token" in request.POST:
-            print("Creating token")
+            print( _("Creating API token"))
             Token.objects.create(user=request.user)
         elif "delete_token" in request.POST:
             Token.objects.get(user=request.user).delete()
@@ -128,7 +130,7 @@ class BookDetailView(generic.DetailView):
 
 # TODO
 def loans_of_book(request, pk):
-    response = "You're looking at the loans of book %s."
+    response = _("You're looking at the loans of book %s.")
     return HttpResponse(response % pk)
 
 

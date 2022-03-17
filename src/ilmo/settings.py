@@ -14,6 +14,7 @@ from pathlib import Path
 from decouple import config
 import os
 import configparser
+from django.utils.translation import gettext_lazy as _
 
 """CONFIG PARSER """
 config = configparser.RawConfigParser()
@@ -36,6 +37,7 @@ DB_PASSWORD = config.get("database", "password", fallback='')
 DB_HOST = config.get("database", "host", fallback="localhost")
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+LOCALE_PATHS = [os.path.join(BASE_DIR, 'locale')]
 
 """ SECURITY.TXT """
 SEC_CONTACT = config.get("security", "Contact", fallback="julian-samuel@gebuehr.net")
@@ -61,6 +63,7 @@ ALLOWED_HOSTS = ['*']
 
 INSTALLED_APPS = [
     'library.apps.LibraryConfig',
+    'modeltranslation',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -81,6 +84,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'django.middleware.locale.LocaleMiddleware',
 ]
 
 ROOT_URLCONF = 'ilmo.urls'
@@ -172,6 +176,11 @@ USE_I18N = True
 USE_L10N = True
 
 USE_TZ = True
+
+LANGUAGES = (
+    ('en-us', _('English')),
+    ('de', _('German')),
+)
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.2/howto/static-files/

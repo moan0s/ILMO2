@@ -1,12 +1,13 @@
 {% extends "library/base_generic.html" %}
+{% load i18n %}
 
 {% block content %}
-    <h1>Author: {{ author }}</h1>
-    <p><strong>Date of birth:</strong> {{ author.date_of_birth }}</p>
+    <h1>{% translate "Author" %}: {{ author }}</h1>
+    <p><strong>{% translate "Date of birth" %}: </strong> {{ author.date_of_birth }}</p>
 
     <div style="margin-left:20px;margin-top:20px">
         {% if author.book_set.all %}
-            <h4>Books by this author</h4>
+            <h4>{% translate "Books by this author" %}</h4>
 
             {% for book in author.book_set.all %}
                 <hr>
@@ -14,14 +15,14 @@
             {% endfor %}
 
         {% else %}
-            <p>No books by this author.</p>
+            <p>{% translate "No books by this author." %}</p>
         {% endif %}
     </div>
     {% if perms.author.can_change %}
-        <div class="link-button"><a href="{% url "library:author-update" author.id %}">Change Author</a></div>
+        <div class="link-button"><a href="{% url "library:author-update" author.id %}">{% translate "Change Author" %}</a></div>
     {% endif %}
     {% if perms.author.can_delete %}
-        <div class="link-button delete-button"><a href="{% url "library:author-delete" author.id %}">Delete Author</a>
+        <div class="link-button delete-button"><a href="{% url "library:author-delete" author.id %}">{% translate "Delete Author" %}</a>
         </div>
     {% endif %}
 {% endblock %}

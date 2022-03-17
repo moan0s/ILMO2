@@ -1,17 +1,18 @@
 {% extends "library/base_generic.html" %}
+{% load i18n %}
 
 {% block content %}
 
   {% if form.errors %}
-    <p>Your username and password didn't match. Please try again.</p>
+    <p>{% translate "Your username and password didn't match. Please try again." %}</p>
   {% endif %}
 
   {% if next %}
     {% if user.is_authenticated %}
-      <p>Your account doesn't have access to this page. To proceed,
-      please login with an account that has access.</p>
+      <p>{% translate "Your account doesn't have access to this page. To proceed,
+      please login with an account that has access." %}</p>
     {% else %}
-      <p>Please login to see this page.</p>
+      <p>{% translate "Please login to see this page." %}</p>
     {% endif %}
   {% endif %}
 
@@ -27,11 +28,11 @@
         <td>{{ form.password }}</td>
       </tr>
     </table>
-    <input type="submit" value="login" />
+    <input type="submit" value={% translate "login" %} />
     <input type="hidden" name="next" value="{{ next }}" />
   </form>
 
   {# Assumes you setup the password_reset view in your URLconf #}
-  <p><a href="{% url 'password_reset' %}">Lost password?</a></p>
+  <p><a href="{% url 'password_reset' %}">{% translate "Lost password?" %}</a></p>
 
 {% endblock %}

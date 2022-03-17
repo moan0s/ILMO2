@@ -42,12 +42,12 @@ class AuthorModelTest(TestCase):
     def test_first_name_label(self):
         author = Author.objects.all()[0]
         field_label = author._meta.get_field('first_name').verbose_name
-        self.assertEqual(field_label, 'first name')
+        self.assertEqual(field_label, 'First name')
 
     def test_date_of_death_label(self):
         author = Author.objects.all()[0]
         field_label = author._meta.get_field('date_of_death').verbose_name
-        self.assertEqual(field_label, 'Died')
+        self.assertEqual(field_label, 'Date of death')
 
     def test_first_name_max_length(self):
         author = Author.objects.all()[0]
