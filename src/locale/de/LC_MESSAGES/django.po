@@ -334,10 +334,8 @@ msgid "Returned on"
 msgstr "Zurückgegeben am"
 
 #: .\library\models.py:304
-#, fuzzy
-#| msgid "Borrowed material"
 msgid "borrowed until"
-msgstr "Ausgeliehene Materialien"
+msgstr "Ausgeliehen bis"
 
 #: .\library\models.py:342
 msgid "Can add a loan for all user"
