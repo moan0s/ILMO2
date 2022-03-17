@@ -31,7 +31,7 @@ for legacy_user in user_list:
         user = User.objects.create(first_name=legacy_user["forename"],
                                last_name=legacy_user["surname"],
                                email=legacy_user["email"],
-                               username=f"{legacy_user['forename']}.{legacy_user['surname']}")
+                               username=f"{legacy_user['user_ID']}")
     except IntegrityError:
         print(f"Could not create user, {legacy_user['user_ID']} is already a username")
         exit(1)
@@ -87,11 +87,19 @@ def get_author(name: str):
     returns:
         authors: List of author objects
     """
-    name.replace("et al.", "")
+    name = name.replace("et al.", "")
+    name = name.replace("et. al.", "")
+    name = name.replace("et. Al", "")
+    name = name.replace("et al", "")
+    name = name.replace("⁺", "")
+    name = name.replace(";", ",")
+    name = name.replace("&", ",")
+    name = name.replace("/", ",")
     if name == "":
         try:
             return [Author.objects.get(first_name="Unknown")]
         except Author.DoesNotExist:
+            print(name)
             return [Author.objects.create(first_name="Unknown", last_name="Author")]
 
 
@@ -190,6 +198,8 @@ for material_label in materials:
                                         status="a",
                                         label=label)
 unhandled_loans = []
+
+print("\nStart handling loans")
 for legacy_loan in old_loan_list:
     print(f"Loan {legacy_loan}")
     try:
@@ -216,7 +226,18 @@ for legacy_loan in old_loan_list:
             loan = Loan.objects.filter(item=item).latest("lent_on")
             last_reminder_as_datetime = datetime.strptime(last_reminder, "%Y-%m-%d").date()
             LoanReminder.objects.create(loan=loan, sent_on=last_reminder_as_datetime)
-    except Exception:
+        loan.save()
+    except Exception as e:
+        print(e)
         unhandled_loans.append(legacy_loan)
     continue
 print(f"Could not handle the following loans {unhandled_loans}")
+
+
+"""
+Change user IDs
+"""
+for user in User.objects.all():
+    new_username = f"{user.first_name}.{user.last_name}".lower()
+    user.username = new_username
+    user.save()
