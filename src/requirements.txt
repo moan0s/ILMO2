@@ -10,3 +10,4 @@ djangorestframework
 model_bakery
 fontawesomefree
 django-modeltranslation
+django-polymorphic

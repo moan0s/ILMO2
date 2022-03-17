@@ -6,7 +6,7 @@
     <form action="" method="post">
         {% csrf_token %}
         <input type="text" name="q">
-        <input type="submit" value="Search">
+        <input type="submit" value={% translate "Search" %}>
     </form>
     <div class="item_search_result">
         <table>
