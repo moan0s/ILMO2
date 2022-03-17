@@ -128,6 +128,7 @@ Finally, we compile static files and create the database structure::
 
     (venv)$ ./manage.py collectstatic
     (venv)$ ./manage.py migrate
+    (venv)$ django-admin compilemessages --ignore venv
 
 
 Start ilmo as a service
@@ -225,7 +226,10 @@ To upgrade to a new ilmo release, pull the latest code changes and run the follo
     (venv)$ git pull
     (venv)$ pg_dump ilmo > ilmo.psql
     (venv)$ python manage.py migrate
+    (venv)$ django-admin compilemessages --ignore venv
+
     # systemctl restart ilmo-web
+
 
 .. _Postfix: https://www.digitalocean.com/community/tutorials/how-to-install-and-configure-postfix-as-a-send-only-smtp-server-on-ubuntu-16-04
 .. _nginx: https://botleg.com/stories/https-with-lets-encrypt-and-nginx/
