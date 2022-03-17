@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-03-17 14:52+0100\n"
+"POT-Creation-Date: 2022-03-17 16:30+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -736,11 +736,11 @@ msgstr "Klicke hier um dich wieder einzuloggen."
 msgid "Your username and password didn't match. Please try again."
 msgstr "Dein Benutzername und Passwort passen nicht. Versuche es bitte erneut."
 
-#: .\templates\registration\login.html:12
+#: .\templates\registration\login.html:11
 msgid "You're already logged in."
 msgstr "Du bist bereits eingeloggt."
 
-#: .\templates\registration\login.html:14
+#: .\templates\registration\login.html:13
 msgid "Please login to see this page."
 msgstr "Logge dich bitte ein um diese Seite zu sehen."
 
@@ -748,7 +748,7 @@ msgstr "Logge dich bitte ein um diese Seite zu sehen."
 msgid "login"
 msgstr "Einloggen"
 
-#: .\templates\registration\login.html:35
+#: .\templates\registration\login.html:34
 msgid "Lost password?"
 msgstr "Passwort vergessen?"
 
@@ -789,16 +789,14 @@ msgid ""
 "We've emailed you instructions for setting your password. If they haven't "
 "arrived in a few minutes, check your spam folder."
 msgstr ""
-"Wir haben dir eine Mail mit der Anweisung zum Zurücksetzen geschickt.Sollte "
+"Wir haben dir eine Mail mit der Anweisung zum Zurücksetzen geschickt. Sollte "
 "die Mail nicht in ein paar Minuten ankommen, schau bitte in dein Spamordner."
 
 #: .\templates\registration\password_reset_email.html:2
-msgid ""
-"Someone asked for password reset for email {{ email }}. Follow the link "
-"below:"
+msgid "Someone asked for password reset for your email. Follow the link below:"
 msgstr ""
-"Jemand hat für die E-Mailadresse {{ email }} ein Passworreset angefragt.Rufe "
-"den nachfolgenden Link auf"
+"Jemand hat für die deine E-Mailadresse ein Passwortreset angefragt."
+"Rufe den nachfolgenden Link auf:"
 
 #: .\templates\registration\password_reset_form.html:10
 msgid "Password reset"
