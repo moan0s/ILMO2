@@ -9,6 +9,7 @@ from django.db.models.signals import post_save
 from django.db import models
 from django.dispatch import receiver
 from datetime import datetime, timedelta
+from polymorphic.models import PolymorphicModel
 
 
 class Genre(models.Model):
@@ -74,7 +75,7 @@ class Book(models.Model):
 
     def __str__(self):
         by = _("by")
-        return f"{self.title} {by} {self.author}"
+        return f"{self.title} {by} {', '.join([str(a) for a in self.author.all()])}"
 
     def get_absolute_url(self):
         """Returns the url to access a detail record for this book."""
@@ -126,7 +127,7 @@ class Member(models.Model):
         verbose_name_plural=_('Members')
 
 
-class Item(models.Model):
+class Item(PolymorphicModel):
     """Represents an item that is physically in the library"""
 
     id = models.UUIDField(primary_key=True, default=uuid.uuid4,
@@ -226,19 +227,29 @@ class Item(models.Model):
             # Translators: Is shown instead of a person that borrowed the item
             return _("Not borrowed")
 
+    @property
+    def due_back(self):
+        """ Returns the current due date or 'Not borrowed'"""
+        try:
+            last_loan = Loan.objects.filter(item=self).latest("lent_on")
+            if last_loan.returned:
+                raise Loan.DoesNotExist
+            else:
+                return last_loan.due_back
+        except Loan.DoesNotExist:
+            # Translators: Is shown instead of a person that borrowed the item
+            return _("Not borrowed")
+
+    @property
+    def description(self) -> str:
+        raise NotImplementedError
+
 
 class BookInstance(Item):
     """Represents a copy of a book that is physically in the library"""
 
     def __str__(self):
-        authors = ""
-        authorlist = self.book.author.all()
-        for a in authorlist:
-            authors += str(a)
-            if a != self.book.author.last():
-                authors += (", ")
-        by = _("by")
-        return f"[{self.label}] {self.book.title} {by} {authors}"
+        return f"[{self.label}] {self.book}"
 
     def get_absolute_url(self):
         """Returns the url to access a detail record for this bookInstance."""
@@ -250,6 +261,10 @@ class BookInstance(Item):
     class Meta:
         verbose_name=_('Book instance')
         verbose_name_plural=_('Book instances')
+    @property
+    def description(self) -> str:
+        return str(self.book)
+
 
 
 class MaterialInstance(Item):
@@ -268,6 +283,9 @@ class MaterialInstance(Item):
         verbose_name=_('Material instance')
         verbose_name_plural=_('Material instances')
 
+    @property
+    def description(self) -> str:
+        return str(self.material)
 
 class Loan(models.Model):
     borrower = models.ForeignKey(Member, on_delete=models.PROTECT, verbose_name=_('Borrower'))
