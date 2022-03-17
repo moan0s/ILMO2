@@ -1,8 +1,9 @@
 {% load custom_tags %}
+{% load i18n %}
 <table>
     <tr>
-        <th>Title</th>
-        <th>Author</th>
+        <th>{% translate "Title" %}</th>
+        <th>{% translate "Author" %}</th>
     </tr>
     {% for book in books %}
         <tr>

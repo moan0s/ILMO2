@@ -1,7 +1,8 @@
 {% extends "library/base_generic.html" %}
+{% load i18n %}
 
 {% block content %}
-    <h1>Borrowed books</h1>
+    <h1>{% translate "Borrowed books" %}</h1>
 
     {% if bookinstance_list %}
     <ul>
@@ -14,10 +15,10 @@
     </ul>
 
     {% else %}
-      <p>There are no books borrowed.</p>
+      <p>{% translate "There are no books borrowed." %}</p>
     {% endif %}
 
-    <h1>Borrowed material</h1>
+    <h1>{% translate "Borrowed material" %}</h1>
 
     {% if materialinstance_list %}
     <ul>
@@ -30,6 +31,6 @@
     </ul>
 
     {% else %}
-      <p>There are no materials borrowed.</p>
+      <p>{% translate "There are no materials borrowed." %}</p>
     {% endif %}
 {% endblock %}

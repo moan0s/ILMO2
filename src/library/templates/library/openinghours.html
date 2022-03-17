@@ -1,14 +1,15 @@
 {% extends "library/base_generic.html" %}
+{% load i18n %}
 
 {% block content %}
 	{% if openinghours_list %}
         <table>
-            <th>Weekday</th>
-            <th>Open from</th>
-            <th>Open until</th>
-            <th>Comment</th>
+            <th>{% translate "Weekday" %}</th>
+            <th>{% translate "Open from" %}</th>
+            <th>{% translate "Open until" %}</th>
+            <th>{% translate "Comment" %}</th>
             {% if perms.library.change_opening_hours %}
-                <th>Delete</th>
+                <th>{% translate "Delete" %}</th>
             {% endif %}
             {% for openinghour in openinghours_list %}
             <tr>
@@ -17,15 +18,15 @@
                 <td>{{ openinghour.from_hour }}</td>
                 <td>{{ openinghour.comment }}</td>
                 {% if perms.library.change_opening_hours %}
-                    <td><a href="{% url "library:openinghour-delete" openinghour.id %} "> Delete</a></td>
+                    <td><a href="{% url "library:openinghour-delete" openinghour.id %} ">{% translate "Delete" %}</a></td>
                 {% endif %}
             </tr>
             {% endfor %}
         </table>
 	{% else %}
-		<p>No opening hours are available.</p>
+		<p>{% translate "No opening hours are available." %}</p>
 	{% endif %}
     {%   if perms.library.change_opening_hours %}
-        <div class="link-button"><a  href="{% url "library:openinghour-create" %}" >Create new opening hour</a></div>
+        <div class="link-button"><a  href="{% url "library:openinghour-create" %}" >{% translate "Create new opening hour" %}</a></div>
     {% endif %}
 {% endblock %}

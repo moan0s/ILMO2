@@ -1,32 +1,33 @@
 {% extends "library/base_generic.html" %}
+{% load i18n %}
 
 {% block content %}
     <h1>{{ member.user.get_full_name }}</h1>
 
-    <p><strong>Username:</strong> {{ member.user.username }}</p>
-    <p><strong>E-Mail:</strong> {{ member.user.email }}</p>
+    <p><strong>{% translate "Username" %}:</strong> {{ member.user.username }}</p>
+    <p><strong>{% translate "E-Mail" %}:</strong> {{ member.user.email }}</p>
 
     {% if member.preferred_language %}
-        <p><strong>Language:</strong> {{ member.preferred_language }}</p>
+        <p><strong>{% translate "Language" %}:</strong> {{ member.preferred_language }}</p>
     {% else %}
-        <p>No preferred language set.</p>
+        <p>{% translate "No preferred language set." %}</p>
     {% endif %}
     {% if member.UID %}
-        <p><strong>UID:</strong> {{ member.UID }}</p>
+        <p><strong>{% translate "UID" %}:</strong> {{ member.UID }}</p>
     {% else %}
-        <p>No UID set.</p>
+        <p>{% translate "No UID set." %}</p>
     {% endif %}
     {% if token %}
         <form action="" method="POST">
             {% csrf_token %}
-            <p class="text-muted"><strong>API token:</strong> {{ token }}</p>
-            <input class="create-token" type="submit" name="delete_token" value="Delete API token">
+            <p class="text-muted"><strong>{% translate "API token:" %}</strong> {{ token }}</p>
+            <input class="create-token" type="submit" name="delete_token" value={% translate "Delete API token" %}>
         </form>
     {% else %}
-        <p>No token set.</p>
+        <p>{% translate "No token set." %}</p>
         <form action="" method="POST">
             {% csrf_token %}
-            <input class="create-token" type="submit" name="create_token" value="Create API token">
+            <input class="create-token" type="submit" name="create_token" value={% translate "Create API token" %}>
         </form>
     {% endif %}
 

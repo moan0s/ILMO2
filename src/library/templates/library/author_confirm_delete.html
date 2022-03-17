@@ -1,14 +1,15 @@
 {% extends "library/base_generic.html" %}
+{% load i18n %}
 
 {% block content %}
 
-<h1>Delete Author</h1>
+<h1>{% translate "Delete Author" %}</h1>
 
-<p>Are you sure you want to delete the author: {{ author }}?</p>
+<p>{% translate "Are you sure you want to delete the author" %}: {{ author }}?</p>
 
 <form action="" method="POST">
   {% csrf_token %}
-  <input class="delete-button" type="submit" value="Yes, delete.">
+  <input class="delete-button" type="submit" value={% translate "Yes, delete." %}>
 </form>
 
 {% endblock %}

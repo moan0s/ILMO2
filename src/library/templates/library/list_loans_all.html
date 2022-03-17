@@ -1,18 +1,26 @@
 {% extends "library/base_generic.html" %}
+{% load i18n %}
 
 {% block content %}
+
+    <h1>{% translate "Borrowed books" %}</h1>
+
     {% if bookinstance_list %}
-        <h1>Borrowed books</h1>
-        <div class="book_table">
-            {% block bookLoanTable %}
-                {% include "library/loan_book_table.html" %}
-            {% endblock %}
-        </div>
+    <ul>
+
+      {% for bookinst in bookinstance_list %}
+      <li class="{% if bookinst.is_overdue %}text-danger{% endif %}">
+        <a href="{% url 'library:book-detail' bookinst.book.pk %}">{{bookinst}}</a>
+		 {% if perms.library.can_mark_returned %}- <a href="{% url 'library:renew-item-librarian' bookinst.id %}">{% translate "Renew" %}</a>  {% endif %}
+      </li>
+      {% endfor %}
+    </ul>
+
     {% else %}
-      <p>There are no books borrowed.</p>
+      <p>{% translate "There are no books borrowed." %}</p>
     {% endif %}
 
-    <h1>Borrowed material</h1>
+    <h1>{% translate "Borrowed material" %}</h1>
 
     {% if materialinstance_list %}
     <ul>
@@ -20,12 +28,12 @@
       {% for materialinst in materialinstance_list %}
       <li class="{% if materialinst.is_overdue %}text-danger{% endif %}">
         <a href="{% url 'library:material-detail' materialinst.material.pk %}">{{materialinst}}</a>
-		 {% if perms.library.can_mark_returned %}- <a href="{% url 'library:renew-item-librarian' materialinst.id %}">Renew</a>  {% endif %}
+		 {% if perms.library.can_mark_returned %}- <a href="{% url 'library:renew-item-librarian' materialinst.id %}">{% translate "Renew" %}</a>  {% endif %}
       </li>
       {% endfor %}
     </ul>
 
     {% else %}
-      <p>There are no materials borrowed.</p>
+      <p>{% translate "There are no materials borrowed." %}</p>
     {% endif %}
 {% endblock %}

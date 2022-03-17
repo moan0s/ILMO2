@@ -1,24 +1,25 @@
 {% extends "library/base_generic.html" %}
+{% load i18n %}
 
 {% block content %}
-  <h1>Material: {{ materialinstance }}</h1>
+  <h1>{% translate "Material" %}: {{ materialinstance }}</h1>
     <p class="{% if materialinstance.status == 'a' %}text-success{% elif materialinstance.status == 'm' %}text-danger{% else %}text-warning{% endif %}">
         {{ materialinstance.get_status_display }}
     </p>
     {% if materialinstance.status != 'a' %}
-        <p><strong>Due to be returned:</strong> {{ materialinstance.due_back }}</p>
+        <p><strong>{% translate "Due to be returned" %}:</strong> {{ materialinstance.due_back }}</p>
         {% if perms.library.can_see_borrowed %}
-            <p><strong> Borrowed by: </strong>
+            <p><strong> {% translate "Borrowed by" %}: </strong>
                 <a href="{{ bookinstance.borrower.get_absolute_url }}"> {{ bookinstance.borrower}} </a></p>
         {% endif %}
         {% if perms.library.can_mark_returned %}
-            <p><a href="{% url 'library:renew-item-librarian' materialinstance.id %}">Renew</a></p>
-            <p><a href="{% url 'library:item-return' materialinstance.id %}">Return</a></p>
+            <p><a href="{% url 'library:renew-item-librarian' materialinstance.id %}">{% translate "Renew" %}</a></p>
+            <p><a href="{% url 'library:item-return' materialinstance.id %}">{% translate "Return" %}</a></p>
         {% endif %}
     {% else %}
         {% if perms.loan.can_add %}
             <a href="{% url 'library:item-borrow' materialinstance.id %}">Borrow</a>
         {% endif %}
     {% endif %}
-      <p class="text-muted"><strong>Id:</strong> {{ materialinstance.id }}</p>
+      <p class="text-muted"><strong>{% translate "Id" %}:</strong> {{ materialinstance.id }}</p>
 {% endblock %}

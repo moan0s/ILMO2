@@ -1,14 +1,15 @@
 {% extends "library/base_generic.html" %}
+{% load i18n %}
 
 {% block content %}
-    <h1>Book: {{ bookinstance }}</h1>
+    <h1>{% translate "Book" %}: {{ bookinstance }}</h1>
     <p class="{% if bookinstance.status == 'a' %}text-success{% elif bookinstance.status == 'm' %}text-danger{% else %}text-warning{% endif %}">
         {{ bookinstance.get_status_display }}
     </p>
     {% if bookinstance.status != 'a' %}
-        <p><strong>Due to be returned:</strong> {{ bookinstance.due_back }}</p>
+        <p><strong>{% translate "Due to be returned" %}:</strong> {{ bookinstance.due_back }}</p>
         {% if perms.library.can_see_borrowed %}
-            <p><strong> Borrowed by: </strong>
+            <p><strong>{% translate "Borrowed by" %}:</strong>
                 <a href="{{ bookinstance.borrower.get_absolute_url }}"> {{ bookinstance.borrower }} </a></p>
         {% endif %}
         {% if perms.library.can_mark_returned %}
