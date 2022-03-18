@@ -2,10 +2,14 @@
 {% load i18n %}
 
 {% block content %}
-<form method="post" action=".">
-  {% csrf_token %}
-  {{ form.as_p }}
+{% if not user.is_authenticated %}
+  <form method="post" action=".">
+    {% csrf_token %}
+    {{ form.as_p }}
 
-  <input type="submit" value="{% translate 'Submit' %}" />
-</form>
+    <input type="submit" value="{% translate 'Submit' %}" />
+  </form>
+{% else %}
+  <p>{% translate "You're already logged in." %}</p>
+{% endif %}
 {% endblock %}
