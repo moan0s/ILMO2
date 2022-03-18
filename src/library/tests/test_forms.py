@@ -1,5 +1,8 @@
+from http import HTTPStatus
+
 from django.test import SimpleTestCase, TestCase
 from django.utils import timezone
+from library.models import User
 from library.forms import RenewItemForm, OpeningHoursModelForm
 import datetime
 
@@ -68,3 +71,38 @@ class CreateOpeninghourTests(TestCase):
         of magic and reverses from and to hour (not only in form.cleaned_data). Bug or feature? ^^
         """
         self.assertTrue(form.is_valid())
+
+class changePasswordTest(TestCase):
+    @classmethod
+    def setUpData(cls):
+        u = User.objects.create_user('foo', password='bar14789')
+
+
+    def test_change_passwort_correct(self):
+        logged_in = self.client.login(username='foo', password='bar14789')
+        form_data = {"old_password": "bar14789",
+                     "new_password1": "kjkjkjkj",
+                     "new_password2": "kjkjkjkj"}
+        response = self.client.post("/library/password/", data=form_data)
+        self.assertEqual(response.status_code, 302) #Redirection to start page
+
+def test_change_passwort_incorrect(self):
+    logged_in = self.client.login(username='foo', password='bar14789')
+    form_data = {"old_password": "bar14789",
+                 "new_password1": "asdfasdfsad",
+                 "new_password2": "kjkjkjkj"}
+    response = self.client.post("/library/password/", data=form_data)
+    print(response)
+    self.assertEqual(response.status_code, HTTPStatus.OK)
+
+def test_change_false_start_passwort(self):
+    logged_in = self.client.login(username='foo', password='bar14789')
+    form_data = {"old_password": "12345678",
+                 "new_password1": "kjkjkjkj",
+                 "new_password2": "kjkjkjkj"}
+    response = self.client.post("/library/password/", data=form_data)
+    print(response)
+    self.assertEqual(response.status_code, HTTPStatus.OK)
+
+
+
