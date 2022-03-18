@@ -9,3 +9,4 @@ Installation, customization and contributing
    deployment.rst
    contributing.rst
    release.rst
+   backup.rst
