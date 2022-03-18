@@ -127,9 +127,10 @@ class MyLoansView(TestCase):
         # Check that we got a response "success"
         self.assertEqual(response.status_code, 200)
 
-        # Check that initially we don't have any books in list (none on loan)
-        self.assertTrue('bookinstance_list' in response.context)
-        self.assertEqual(len(response.context['bookinstance_list']), 0)
+        # Check that initially we don't have any items in list (none on loan)
+        self.assertTrue('unreturned_loans' in response.context)
+        self.assertTrue('returned_loans' in response.context)
+        self.assertEqual(len(response.context['unreturned_loans'])+len(response.context['returned_loans']), 0)
 
         # Now change all books to be on loan
         books = BookInstance.objects.all()[:10]
@@ -145,12 +146,13 @@ class MyLoansView(TestCase):
         # Check that we got a response "success"
         self.assertEqual(response.status_code, 200)
 
-        self.assertTrue('bookinstance_list' in response.context)
+        self.assertTrue('unreturned_loans' in response.context)
+        self.assertTrue('returned_loans' in response.context)
         # Check that all books are in context
-        self.assertEqual(len(response.context['bookinstance_list']), 10)
+        self.assertEqual(len(response.context['unreturned_loans']), 10)
         # Confirm all books belong to testuser1 and are on loan
-        for bookitem in response.context['bookinstance_list']:
-            self.assertEqual(bookitem.status, 'o')
+        for loan in response.context['unreturned_loans']:
+            self.assertEqual(loan.item.status, 'o')
 
 
 class LoanDetailView(TestCase):
