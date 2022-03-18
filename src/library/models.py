@@ -273,7 +273,7 @@ class BookInstance(Item):
 
 
 class MaterialInstance(Item):
-    """Represents a instance of a material that is physically in the library"""
+    """Represents an instance of a material that is physically in the library"""
 
     def __str__(self):
         return f"[{self.label}] {self.material.name}"
