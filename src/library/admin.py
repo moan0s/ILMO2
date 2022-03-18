@@ -3,7 +3,8 @@ from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 from django.contrib.auth.models import User
 from rest_framework.authtoken.models import Token
 
-from .models import Book, Material, BookInstance, MaterialInstance, Genre, Author, Loan, Member, Language, Room
+from .models import Book, Material, BookInstance, MaterialInstance, Genre, Author, Loan, Member, Language, Room, \
+    LoanReminder
 
 admin.site.register(Book)
 admin.site.register(Material)
@@ -11,6 +12,7 @@ admin.site.register(Genre)
 admin.site.register(Author)
 admin.site.register(Language)
 admin.site.register(Room)
+admin.site.register(LoanReminder)
 
 
 @admin.register(BookInstance)
@@ -48,7 +50,7 @@ class MaterialInstanceAdmin(admin.ModelAdmin):
 @admin.register(Loan)
 class LoanAdmin(admin.ModelAdmin):
     search_fields = ['item__label']
-    list_display = ('item', 'lent_on', 'due_back')
+    list_display = ('item', 'lent_on', 'due_back', 'last_reminder')
     # list_filter = ('returned','is_overdue')
 
     fieldsets = (
