@@ -273,7 +273,7 @@ class BookInstance(Item):
 
 
 class MaterialInstance(Item):
-    """Represents a instance of a material that is physically in the library"""
+    """Represents an instance of a material that is physically in the library"""
 
     def __str__(self):
         return f"[{self.label}] {self.material.name}"
@@ -375,6 +375,9 @@ class OpeningHours(models.Model):
 class LoanReminder(models.Model):
     loan = models.ForeignKey(Loan, on_delete=models.PROTECT, verbose_name=_('Loan'))
     sent_on = models.DateField(verbose_name=_('Sent on'))
+
+    def __str__(self):
+        return f"Reminder for {self.loan} sent on {self.sent_on}"
 
     class Meta:
         verbose_name=_('Loan Reminder')
