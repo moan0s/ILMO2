@@ -2,35 +2,36 @@
 {% load i18n %}
 
 {% block content %}
-    <h1>{% translate "Borrowed books" %}</h1>
+    <h1>{% translate "Unreturned loans" %}</h1>
 
-    {% if bookinstance_list %}
-    <ul>
+    {% if unreturned_loans %}
+        <ul>
 
-      {% for bookinst in bookinstance_list %}
-      <li class="{% if bookinst.is_overdue %}text-danger{% endif %}">
-        <a href="{{  bookinst.get_absolute_url }}">{{bookinst}}</a>
-      </li>
-      {% endfor %}
-    </ul>
-
-    {% else %}
-      <p>{% translate "There are no books borrowed." %}</p>
-    {% endif %}
-
-    <h1>{% translate "Borrowed material" %}</h1>
-
-    {% if materialinstance_list %}
-    <ul>
-
-      {% for materialinst in materialinstance_list %}
-      <li class="{% if materialinst.is_overdue %}text-danger{% endif %}">
-        <a href="{{  materialinst.get_absolute_url }}">{{materialinst}}</a>
-      </li>
-      {% endfor %}
-    </ul>
+            {% for loan in unreturned_loans %}
+                <li class="{% if loan.is_overdue %}text-danger{% endif %}">
+                    <a href="{{ loan.get_absolute_url }}">{{ loan }}</a>
+                </li>
+            {% endfor %}
+        </ul>
 
     {% else %}
-      <p>{% translate "There are no materials borrowed." %}</p>
+        <p>{% translate "You have no unreturned loans." %}</p>
     {% endif %}
+
+    <h1>{% translate "Returned loans" %}</h1>
+
+    {% if returned_loans %}
+        <ul>
+
+            {% for loan in returned_loans %}
+                <li>
+                    <a href="{{ loan.get_absolute_url }}">{{ loan }}</a>
+                </li>
+            {% endfor %}
+        </ul>
+
+    {% else %}
+        <p>{% translate "You have no returned loans." %}</p>
+    {% endif %}
+
 {% endblock %}
