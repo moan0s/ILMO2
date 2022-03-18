@@ -281,8 +281,8 @@ class AllLoanView(TestCase):
         self.assertEqual(str(response.context['user']), 'testuser2')
 
         # Check that initially we don't have any books in list (none on loan)
-        self.assertTrue('bookinstance_list' in response.context)
-        self.assertEqual(len(response.context['bookinstance_list']), 0)
+        self.assertTrue('item_list' in response.context)
+        self.assertEqual(sum([isinstance(item, BookInstance) for item in response.context['item_list']]), 0)
 
         # Now change some books to be on loan
         books = BookInstance.objects.all()[:20]
@@ -299,12 +299,17 @@ class AllLoanView(TestCase):
         # Check that we got a response "success"
         self.assertEqual(response.status_code, 200)
 
-        self.assertTrue('bookinstance_list' in response.context)
+        self.assertTrue('item_list' in response.context)
         # Check that all books are in context
-        self.assertEqual(len(response.context['bookinstance_list']), 20)
+        self.assertEqual(sum([isinstance(item, BookInstance) for item in response.context['item_list']]), 20)
         # Confirm are on loan
-        for bookitem in response.context['bookinstance_list']:
-            self.assertEqual(bookitem.status, 'o')
+        for item in response.context['item_list']:
+            self.assertEqual(item.status, 'o')
+
+        # Confirm content is displayed
+        self.assertContains(response, self.test_user1.username)
+        self.assertContains(response, self.test_user2.username)
+        self.assertContains(response, "A 1")
 
 
 class AuthorViewTest(TestCase):
