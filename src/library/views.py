@@ -339,7 +339,7 @@ def search(request):
     if request.method == 'POST':
         # Check if the form is valid:
         q = request.POST['q']
-        if request.user.has_perm('Can view user'):
+        if request.user.has_perm('library.view_member'):
             context['user_list'] = get_user(q)
 
         books = []

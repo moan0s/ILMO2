@@ -28,6 +28,14 @@ class SearchTest(TestCase):
                                          isbn="1234567890124")
         test_book3.author.add(test_author3)
 
+        # Test user with permission to view other users
+        test_user0 = User.objects.create_user(username='testuser0',
+                                              first_name="Admin",
+                                              last_name="BOFH",
+                                              password='12345')
+        permission_view_user = Permission.objects.get(codename='view_member')
+        test_user0.user_permissions.add(permission_view_user)
+
         test_user1 = User.objects.create_user(username='testuser1',
                                               first_name="Max",
                                               last_name="Müller",
@@ -37,7 +45,6 @@ class SearchTest(TestCase):
                                                   first_name="Mia-Mo Michael",
                                                   last_name="Müller",
                                                   password='12345')
-
     def test_author_search(self):
         authors = get_authors("Jane")
         books = get_books_of_authors(authors)
@@ -64,8 +71,13 @@ class SearchTest(TestCase):
 
     def test_user_search_view(self):
         """Has to find Mia-Mo and Max"""
+        self.client.login(username='testuser0', password='12345')
+
         response = self.client.post(reverse('library:search'), data={'q': "Müller"})
         self.assertEqual(response.status_code, 200)
+        # Check our user is logged in
+        self.assertEqual(str(response.context['user']), 'testuser0')
+        self.assertTrue((len(response.context['user_list']) > 0))
         self.assertContains(response, "Max")
         self.assertContains(response, "Mia-Mo")
 
