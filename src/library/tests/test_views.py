@@ -415,7 +415,7 @@ class BookDetailViewTest(TestCase):
         # Check that site access is permitted
         self.assertEqual(response.status_code, 200)
         # Check our user is logged in
-        self.assertContains(response, "Hammer, Jane")
+        self.assertContains(response, "Jane Hammer")
         self.assertContains(response, "Smith")
         self.assertContains(response, "Book Title")
         self.assertContains(response, "My book summary")

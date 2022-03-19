@@ -104,7 +104,7 @@ class BookModelTest(TestCase):
     def test_str(self):
         book = Book.objects.all()[0]
         string_representation = str(book)
-        self.assertEquals(f"How to Test",
+        self.assertEquals(f"How to Test by Jane Doe",
                           string_representation)
 
 
@@ -134,7 +134,7 @@ class BookInstanceModelTest(TestCase):
     def test_str(self):
         bookInstance = BookInstance.objects.filter(label="T 1 a")[0]
         string_representation = str(bookInstance)
-        self.assertEquals(string_representation, f"[T 1 a] {bookInstance.book.title}")
+        self.assertEquals(string_representation, f"[T 1 a] How to Test by Jane Doe")
 
     def test_default(self):
         bookInstance = BookInstance.objects.all()[0]

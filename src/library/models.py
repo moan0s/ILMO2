@@ -77,7 +77,7 @@ class Book(models.Model):
     language = models.ForeignKey('Language', on_delete=models.SET_NULL, null=True, verbose_name=_('Language'))
 
     def __str__(self):
-        return f"{self.title}"
+        return f"{self.title} by {', '.join([str(author) for author in self.author.all()])}"
 
     def get_absolute_url(self):
         """Returns the url to access a detail record for this book."""
