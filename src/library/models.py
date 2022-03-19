@@ -67,14 +67,12 @@ class Author(models.Model):
 
 
 class Book(models.Model):
-    title = models.CharField(max_length=200, verbose_name=_('Title'))
-    author = models.ManyToManyField(Author, help_text=_('Select the author(s) of this book.'), verbose_name=_('Author'))
-    genre = models.ManyToManyField(Genre, help_text=_('Select a genre for this book.'), verbose_name=_('Genre'))
-    summary = models.TextField(max_length=1000, help_text=_('Enter a brief description of the book.'),
-                               verbose_name=_('Summary'))
-    isbn = models.CharField(max_length=13, null=True, help_text=_('ISBN number (13 Characters)'),
-                            verbose_name=_('ISBN'))
-    language = models.ForeignKey('Language', on_delete=models.SET_NULL, null=True, verbose_name=_('Language'))
+    title = models.CharField(max_length=200, verbose_name=_('Titel'))
+    author = models.ManyToManyField(Author, help_text=_('Select the autor(s) of this book.'), verbose_name=_('Author'))
+    genre = models.ManyToManyField(Genre, help_text=_('Select a genre for this book.'), blank=True, verbose_name=_('Genre'))
+    summary = models.TextField(max_length=1000, help_text=_('Enter a brief description of the book.'), blank=True, verbose_name=_('Summary'))
+    isbn = models.CharField(max_length=13, null=True, help_text=_('ISBN number (13 Characters)'), blank=True, verbose_name=_('ISBN'))
+    language = models.ForeignKey('Language', on_delete=models.SET_NULL, null=True, blank=True, verbose_name=_('Language'))
 
     def __str__(self):
         return f"{self.title} by {', '.join([str(author) for author in self.author.all()])}"
