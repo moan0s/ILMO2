@@ -18,8 +18,8 @@ class SearchTest(TestCase):
 
         test_author2 = Author.objects.create(first_name="Jane", last_name="Milburn")
         test_book2 = Book.objects.create(title="How to put on socks",
-                                        summary="Safe use of socks",
-                                        isbn="1234567890124")
+                                         summary="Safe use of socks",
+                                         isbn="1234567890124")
         test_book2.author.add(test_author2)
 
         test_author3 = Author.objects.create(first_name="John", last_name="Sax")
@@ -34,9 +34,9 @@ class SearchTest(TestCase):
                                               password='12345')
         test_user1.save()
         cls.test_user2 = User.objects.create_user(username='testuser2',
-                                              first_name="Mia-Mo Michael",
-                                              last_name="Müller",
-                                              password='12345')
+                                                  first_name="Mia-Mo Michael",
+                                                  last_name="Müller",
+                                                  password='12345')
 
     def test_author_search(self):
         authors = get_authors("Jane")
@@ -68,7 +68,6 @@ class SearchTest(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, "Max")
         self.assertContains(response, "Mia-Mo")
-
 
         """Allows Max to be present, has to find Mia-Mo"""
         response = self.client.post(reverse('library:search'), data={'q': "Mia-Mo Michael Müller"})
@@ -130,7 +129,7 @@ class MyLoansView(TestCase):
         # Check that initially we don't have any items in list (none on loan)
         self.assertTrue('unreturned_loans' in response.context)
         self.assertTrue('returned_loans' in response.context)
-        self.assertEqual(len(response.context['unreturned_loans'])+len(response.context['returned_loans']), 0)
+        self.assertEqual(len(response.context['unreturned_loans']) + len(response.context['returned_loans']), 0)
 
         # Now change all books to be on loan
         books = BookInstance.objects.all()[:10]
