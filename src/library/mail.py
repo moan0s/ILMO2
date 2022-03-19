@@ -1,7 +1,9 @@
+import django.conf.global_settings
+
 from .models import LoanReminder, Loan
 from django.utils.translation import gettext_lazy as _
 from django.utils.translation import gettext
-from datetime import datetime, timedelta
+from django.conf import settings
 from django.core import mail
 
 
@@ -74,7 +76,7 @@ class MailReminder():
                 greeting = _("Hello %(first_name)s %(lastname)s,\r\n") % {"first_name": member.user.first_name,
                                                                           "lastname": member.user.last_name}
                 message = greeting+loan_text
-                messages.append(mail.EmailMessage(subject, message, "from@example.com", [member.user.email]))
+                messages.append(mail.EmailMessage(subject, message, settings.DEFAULT_FROM_EMAIL , [member.user.email]))
             else:
                 continue
         return messages

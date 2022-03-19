@@ -15,8 +15,7 @@
             {% if user.is_authenticated %}
                 <li><a href="{% url 'library:my-loans' %}"><i class="fas fa-undo-alt"></i> {% translate "My Loans" %}</a></li>
                 <li><a href="{% url 'library:my-profile' %}"><i class="fas fa-user"></i> {{ request.user.get_username }} </a></li>
-                <li><a href="{% url 'logout' %}?next={{ request.path }}"><i class="fas fa-sign-out-alt"></i> {% translate "Logout" %}</a>
-                </li>
+                <li><a href="{% url 'logout' %}?next={{ request.path }}"><i class="fas fa-sign-out-alt"></i> {% translate "Logout" %}</a></li>
             {% else %}
                 <li><a href="{% url 'login' %}?next={{ request.path }}"><i class="fas fa-sign-in-alt"></i> {% translate "Login" %}</a>
                 </li>

@@ -1,14 +1,19 @@
-from django.shortcuts import render, get_object_or_404
+from django.contrib.auth import update_session_auth_hash
+from django.contrib.auth.forms import PasswordChangeForm
+from django.contrib.auth.views import PasswordChangeView
+from django.shortcuts import render, get_object_or_404, redirect
 from django.http import HttpResponse, HttpResponseRedirect
 from django.views import generic
 from django.contrib.auth.mixins import PermissionRequiredMixin, LoginRequiredMixin
 from django.contrib.auth.decorators import login_required, permission_required
-from django.urls import reverse
+from django.urls import reverse, reverse_lazy
 from django.db.models import Q
 from django.http import JsonResponse
 import datetime
 from django.utils import timezone
 from rest_framework.authtoken.models import Token
+
+from django.contrib import messages
 
 from .forms import RenewItemForm, UserSearchForm
 from .models import Book, Author, BookInstance, Loan, Material, MaterialInstance, OpeningHours, Item, Member, \
@@ -116,6 +121,10 @@ def my_profile(request):
         token = None
     return show_user(request, user, token)
 
+class PasswordsChangeView(PasswordChangeView):
+    form_class = PasswordChangeForm
+    template_name = 'library/change_password.html'
+    success_url = reverse_lazy("library:index")
 
 class BookListView(generic.ListView):
     model = Book

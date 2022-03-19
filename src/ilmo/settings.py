@@ -50,6 +50,7 @@ else:
     EMAIL_HOST = config.get('mail', 'host', fallback='localhost')
     EMAIL_PORT = config.getint('mail', 'port', fallback=25)
     EMAIL_HOST_USER = config.get('mail', 'user', fallback='')
+    DEFAULT_FROM_EMAIL = config.get('mail', 'from', fallback='ilmo@localhost')
     EMAIL_HOST_PASSWORD = config.get('mail', 'password', fallback='')
     EMAIL_USE_TLS = config.getboolean('mail', 'tls', fallback=False)
     EMAIL_USE_SSL = config.getboolean('mail', 'ssl', fallback=False)
