@@ -67,8 +67,8 @@ class Author(models.Model):
 
 
 class Book(models.Model):
-    title = models.CharField(max_length=200, verbose_name=_('Titel'))
-    author = models.ManyToManyField(Author, help_text=_('Select the autor(s) of this book.'), verbose_name=_('Author'))
+    title = models.CharField(max_length=200, verbose_name=_('Title'))
+    author = models.ManyToManyField(Author, help_text=_('Select the author(s) of this book.'), verbose_name=_('Author'))
     genre = models.ManyToManyField(Genre, help_text=_('Select a genre for this book.'), verbose_name=_('Genre'))
     summary = models.TextField(max_length=1000, help_text=_('Enter a brief description of the book.'),
                                verbose_name=_('Summary'))
@@ -112,7 +112,7 @@ class Language(models.Model):
 class Member(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, verbose_name=_('User'))
     preferred_language = models.ForeignKey(Language, on_delete=models.PROTECT, null=True,
-                                           verbose_name=_('Preffered language'))
+                                           verbose_name=_('Preferred language'))
     UID = models.CharField(max_length=50, blank=True, help_text=_("The UID of a NFC chip (e.g. in a student id)."),
                            verbose_name=_('UID'))
 
@@ -181,13 +181,13 @@ class Item(PolymorphicModel):
         -------
         None
         """
-        l = Loan.objects.create(
+        loan = Loan.objects.create(
             item=self,
             lent_on=lent_on,
             due_back=due_back,
             borrower=borrower,
         )
-        l.save()
+        loan.save()
         # Set status to on loan
         self.status = "o"
         self.save()
@@ -403,7 +403,7 @@ class Room(models.Model):
 
     def check_access(self, user):
         """ Check if the given user is allowed in the room"""
-        return (user in self.allowed_user.all())
+        return user in self.allowed_user.all()
 
     class Meta:
         verbose_name = _('Room')
