@@ -9,7 +9,7 @@
             <li><a href="{% url 'library:authors' %}"><i class="fas fa-feather-alt"></i> {% translate "Authors" %}</a></li>
             <li><a href="{% url 'library:openinghours' %}"><i class="fas fa-clock"></i> {% translate "Opening hours" %}</a></li>
             {% if perms.library.can_see_borrowed %}
-                <li><a href="{% url 'library:loaned-items' %}"><i class="fas fa-list"></i> {% translate "All loans" %}</a></li>
+                <li><a href="{% url 'library:loans' %}"><i class="fas fa-list"></i> {% translate "Loans" %}</a></li>
             {% endif %}
 
             {% if user.is_authenticated %}

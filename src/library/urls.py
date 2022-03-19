@@ -37,8 +37,8 @@ urlpatterns += [
 urlpatterns += [
     # ex: /library/my-loans/
     path('my-loans/', views.list_loans_of_user, name='my-loans'),
-    # ex: /library/loaned-items/
-    path('loaned-items/', views.list_loans_unreturned, name='loaned-items'),
+    # ex: /library/unreturned-loans/
+    path('unreturned_loans/', views.list_loans_unreturned, name='unreturned-loans'),
     # ex: /library/loans/
     path('loans/', views.list_loans, name='loans'),
     # ex: /library/loan/1/
