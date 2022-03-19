@@ -218,3 +218,5 @@ REST_FRAMEWORK = {
         'rest_framework.authentication.SessionAuthentication',
     ]
 }
+
+ACCOUNT_ACTIVATION_DAYS = 7 # One-week activation window

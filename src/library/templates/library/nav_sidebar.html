@@ -17,8 +17,8 @@
                 <li><a href="{% url 'library:my-profile' %}"><i class="fas fa-user"></i> {{ request.user.get_username }} </a></li>
                 <li><a href="{% url 'logout' %}?next={{ request.path }}"><i class="fas fa-sign-out-alt"></i> {% translate "Logout" %}</a></li>
             {% else %}
-                <li><a href="{% url 'login' %}?next={{ request.path }}"><i class="fas fa-sign-in-alt"></i> {% translate "Login" %}</a>
-                </li>
+                <li><a href="{% url 'login' %}?next={{ request.path }}"><i class="fas fa-sign-in-alt"></i> {% translate "Login" %}</a></li>
+                <li><a href="{% url 'django_registration_register' %}?next={{ request.path }}"><i class="fas"></i> {% translate "Register" %}</a></li>
             {% endif %}
             {% if user.is_staff %}
                 <a href="{% url 'admin:index' %}">{% translate "Admin" %}</a>
