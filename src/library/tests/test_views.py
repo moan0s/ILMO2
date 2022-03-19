@@ -18,8 +18,8 @@ class SearchTest(TestCase):
 
         test_author2 = Author.objects.create(first_name="Jane", last_name="Milburn")
         test_book2 = Book.objects.create(title="How to put on socks",
-                                        summary="Safe use of socks",
-                                        isbn="1234567890124")
+                                         summary="Safe use of socks",
+                                         isbn="1234567890124")
         test_book2.author.add(test_author2)
 
         test_author3 = Author.objects.create(first_name="John", last_name="Sax")
@@ -34,9 +34,9 @@ class SearchTest(TestCase):
                                               password='12345')
         test_user1.save()
         cls.test_user2 = User.objects.create_user(username='testuser2',
-                                              first_name="Mia-Mo Michael",
-                                              last_name="Müller",
-                                              password='12345')
+                                                  first_name="Mia-Mo Michael",
+                                                  last_name="Müller",
+                                                  password='12345')
 
     def test_author_search(self):
         authors = get_authors("Jane")
@@ -68,7 +68,6 @@ class SearchTest(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, "Max")
         self.assertContains(response, "Mia-Mo")
-
 
         """Allows Max to be present, has to find Mia-Mo"""
         response = self.client.post(reverse('library:search'), data={'q': "Mia-Mo Michael Müller"})
@@ -127,9 +126,10 @@ class MyLoansView(TestCase):
         # Check that we got a response "success"
         self.assertEqual(response.status_code, 200)
 
-        # Check that initially we don't have any books in list (none on loan)
-        self.assertTrue('bookinstance_list' in response.context)
-        self.assertEqual(len(response.context['bookinstance_list']), 0)
+        # Check that initially we don't have any items in list (none on loan)
+        self.assertTrue('unreturned_loans' in response.context)
+        self.assertTrue('returned_loans' in response.context)
+        self.assertEqual(len(response.context['unreturned_loans']) + len(response.context['returned_loans']), 0)
 
         # Now change all books to be on loan
         books = BookInstance.objects.all()[:10]
@@ -145,12 +145,13 @@ class MyLoansView(TestCase):
         # Check that we got a response "success"
         self.assertEqual(response.status_code, 200)
 
-        self.assertTrue('bookinstance_list' in response.context)
+        self.assertTrue('unreturned_loans' in response.context)
+        self.assertTrue('returned_loans' in response.context)
         # Check that all books are in context
-        self.assertEqual(len(response.context['bookinstance_list']), 10)
+        self.assertEqual(len(response.context['unreturned_loans']), 10)
         # Confirm all books belong to testuser1 and are on loan
-        for bookitem in response.context['bookinstance_list']:
-            self.assertEqual(bookitem.status, 'o')
+        for loan in response.context['unreturned_loans']:
+            self.assertEqual(loan.item.status, 'o')
 
 
 class LoanDetailView(TestCase):
@@ -413,7 +414,7 @@ class BookDetailViewTest(TestCase):
         # Check that site access is permitted
         self.assertEqual(response.status_code, 200)
         # Check our user is logged in
-        self.assertContains(response, "Hammer, Jane")
+        self.assertContains(response, "Jane Hammer")
         self.assertContains(response, "Smith")
         self.assertContains(response, "Book Title")
         self.assertContains(response, "My book summary")

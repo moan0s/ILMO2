@@ -209,12 +209,11 @@ class AuthorDetailView(generic.DetailView):
 def list_loans_of_user(request):
     """View function for home page of site."""
     loans_by_user = Loan.objects.filter(borrower=Member.objects.get(user=request.user))
+    returned_loans_by_user = [loan for loan in loans_by_user if (loan.returned)]
     unreturned_loans_by_user = [loan for loan in loans_by_user if not (loan.returned)]
-    bookinstance_list = BookInstance.objects.filter(loan__in=unreturned_loans_by_user)
-    materialinstance_list = MaterialInstance.objects.filter(loan__in=unreturned_loans_by_user)
     context = {
-        'bookinstance_list': bookinstance_list,
-        'materialinstance_list': materialinstance_list,
+        'returned_loans': returned_loans_by_user,
+        'unreturned_loans': unreturned_loans_by_user,
     }
 
     return render(request, 'library/list_loans_user.html', context=context)

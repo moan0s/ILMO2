@@ -58,7 +58,7 @@ class MailTest(TestCase):
     def test_email_text_from_loan(self):
         loanA = Loan.objects.get(item=self.bookInstanceA)
         loan_text = MailReminder._email_text_from_loan(loanA)
-        self.assertEquals(f"[T 1 a] How to Test is due back on {date.today().strftime('%-d.%-m.%Y')}", loan_text)
+        self.assertEquals(f"[T 1 a] How to Test by Jane Doe is due back on {date.today().strftime('%-d.%-m.%Y')}", loan_text)
 
     def test_gen_loan_text(self):
         reminder = MailReminder()

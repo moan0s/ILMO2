@@ -16,6 +16,7 @@
                     {% elif item|is_bookinstance %}
                         <a href="{% url 'library:book-detail' item.book.pk %}">{{ item }}</a>
                     {% endif %}
+                    {% translate "lent by " %}<a href="{% url 'library:user-detail' item.borrower.pk %}">{{ item.borrower }}</a>
                     {% if perms.library.can_mark_returned %}-
                         <a href="{% url 'library:renew-item-librarian' item.id %}">{% translate "Renew" %}</a>  {% endif %}
                 </li>
