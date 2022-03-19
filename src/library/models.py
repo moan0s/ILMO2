@@ -177,7 +177,7 @@ class Item(PolymorphicModel):
 
         Returns
         -------
-        None
+        Loan: The created loan object
         """
         loan = Loan.objects.create(
             item=self,
@@ -189,6 +189,7 @@ class Item(PolymorphicModel):
         # Set status to on loan
         self.status = "o"
         self.save()
+        return loan
 
     def return_item(self,
                     return_date=timezone.now()) -> bool:
@@ -342,6 +343,10 @@ class Loan(models.Model):
         reminder_interval = 28
         days_since_last_reminder = datetime.now().date() - self.last_reminder
         return days_since_last_reminder >= timedelta(days=reminder_interval)
+
+    @property
+    def num_reminders(self):
+        return len(LoanReminder.objects.filter(loan=self))
 
     class Meta:
         permissions = (('can_add_loan', _('Can add a loan for all user')),)

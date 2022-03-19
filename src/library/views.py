@@ -223,14 +223,23 @@ def list_loans_of_user(request):
 @permission_required('library.can_see_borrowed', raise_exception=True)
 def list_loans_unreturned(request):
     """View all unreturned items"""
-    loans = Loan.objects.all()
+    loans = Loan.objects.filter()
     unreturned_loans = [loan for loan in loans if not loan.returned]
-    item_list = Item.objects.filter(loan__in=unreturned_loans)
     context = {
-        'item_list': item_list,
+        'loan_list': unreturned_loans,
     }
 
-    return render(request, 'library/list_loans_all.html', context=context)
+    return render(request, 'library/list_loans.html', context=context)
+
+@login_required()
+@permission_required('library.can_see_borrowed', raise_exception=True)
+def list_loans(request):
+    """View all unreturned items"""
+    loans = Loan.objects.all()
+    context = {
+        'loan_list': loans,
+    }
+    return render(request, 'library/list_loans.html', context=context)
 
 
 @login_required

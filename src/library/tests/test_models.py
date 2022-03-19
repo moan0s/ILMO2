@@ -54,7 +54,6 @@ class AuthorModelTest(TestCase):
         max_length = author._meta.get_field('first_name').max_length
         self.assertEqual(max_length, 100)
 
-
     def test_get_absolute_url(self):
         author = Author.objects.all()[0]
         # This will also fail if the urlconf is not defined.
@@ -290,6 +289,13 @@ class LoanModelTest(TestCase):
         self.bookInstanceA.return_item()
         self.assertEquals("a", self.bookInstanceA.status)
         self.assertEquals(_("Not borrowed"), self.bookInstanceA.borrower)
+
+    def test_num_reminder(self):
+        loan = self.bookInstanceA.borrow(self.m1)
+        num_reminders_expected = 3
+        for i in range(0, num_reminders_expected):
+            loan.remind()
+        self.assertEquals(loan.num_reminders, num_reminders_expected)
 
 
 class OpeningHourModelTest(TestCase):
