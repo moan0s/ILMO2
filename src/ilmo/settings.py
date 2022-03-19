@@ -29,7 +29,7 @@ CONFIG_FILE = config
 
 """ DJANGO """
 SECRET_KEY = config.get('django', 'secret')
-DEBUG = config.get('django', 'debug')
+DEBUG = config.getboolean('django', 'debug', fallback=False)
 
 """ DATABASE """
 DB_BACKEND = config.get("database", "backend", fallback="sqlite3")
