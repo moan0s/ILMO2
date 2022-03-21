@@ -4,19 +4,21 @@
   <a href="{% url 'library:index' %}" class="logo"><img src={% static 'library/img/logo.svg' %}></a>
   <div class="header-right">
     <a href="https://github.com/moan0s/ILMO2">{% translate "About the software" %}</a>
-  </div>
-
-  <form action="{% url 'change_language' %}" method="post">
+    <form action="{% url 'change_language' %}" method="post" onchange='this.form.submit()'>
     {% csrf_token %}
-    <select name="language">
+    <select name="language" onchange='this.form.submit()'>
+        {% get_current_language as LANGUAGE_CODE_CURRENT %}
         {% get_available_languages as LANGUAGES %}
         {% for language in LANGUAGES %}
-        <option value="{{ language.0 }}" {% if language.0 == LANGUAGE_CODE %} selected{% endif %}>
+        <option value="{{ language.0 }}" {% if language.0 == LANGUAGE_CODE_CURRENT %} selected{% endif %}>
             {{ language.0|language_name_local }} ({{ language.0 }})
         </option>
+        <!--<option value="{{ language.0 }}" {% if language.0 == LANGUAGE_CODE %} selected{% endif %}>
+            {{ language.0|language_name_local }} ({{ language.0 }})
+        </option>-->
         {% endfor %}
     </select>
-    <input type="submit" value={% translate "change" %}>
+     <!--<input type="submit" value={% translate "change" %}>-->
   </form>
-
+  </div>
 </div>
