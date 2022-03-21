@@ -18,8 +18,8 @@ class SearchTest(TestCase):
 
         test_author2 = Author.objects.create(first_name="Jane", last_name="Milburn")
         test_book2 = Book.objects.create(title="How to put on socks",
-                                        summary="Safe use of socks",
-                                        isbn="1234567890124")
+                                         summary="Safe use of socks",
+                                         isbn="1234567890124")
         test_book2.author.add(test_author2)
 
         test_author3 = Author.objects.create(first_name="John", last_name="Sax")
@@ -28,16 +28,23 @@ class SearchTest(TestCase):
                                          isbn="1234567890124")
         test_book3.author.add(test_author3)
 
+        # Test user with permission to view other users
+        test_user0 = User.objects.create_user(username='testuser0',
+                                              first_name="Admin",
+                                              last_name="BOFH",
+                                              password='12345')
+        permission_view_user = Permission.objects.get(codename='view_member')
+        test_user0.user_permissions.add(permission_view_user)
+
         test_user1 = User.objects.create_user(username='testuser1',
                                               first_name="Max",
                                               last_name="Müller",
                                               password='12345')
         test_user1.save()
         cls.test_user2 = User.objects.create_user(username='testuser2',
-                                              first_name="Mia-Mo Michael",
-                                              last_name="Müller",
-                                              password='12345')
-
+                                                  first_name="Mia-Mo Michael",
+                                                  last_name="Müller",
+                                                  password='12345')
     def test_author_search(self):
         authors = get_authors("Jane")
         books = get_books_of_authors(authors)
@@ -64,11 +71,15 @@ class SearchTest(TestCase):
 
     def test_user_search_view(self):
         """Has to find Mia-Mo and Max"""
+        self.client.login(username='testuser0', password='12345')
+
         response = self.client.post(reverse('library:search'), data={'q': "Müller"})
         self.assertEqual(response.status_code, 200)
+        # Check our user is logged in
+        self.assertEqual(str(response.context['user']), 'testuser0')
+        self.assertTrue((len(response.context['user_list']) > 0))
         self.assertContains(response, "Max")
         self.assertContains(response, "Mia-Mo")
-
 
         """Allows Max to be present, has to find Mia-Mo"""
         response = self.client.post(reverse('library:search'), data={'q': "Mia-Mo Michael Müller"})
@@ -127,9 +138,10 @@ class MyLoansView(TestCase):
         # Check that we got a response "success"
         self.assertEqual(response.status_code, 200)
 
-        # Check that initially we don't have any books in list (none on loan)
-        self.assertTrue('bookinstance_list' in response.context)
-        self.assertEqual(len(response.context['bookinstance_list']), 0)
+        # Check that initially we don't have any items in list (none on loan)
+        self.assertTrue('unreturned_loans' in response.context)
+        self.assertTrue('returned_loans' in response.context)
+        self.assertEqual(len(response.context['unreturned_loans']) + len(response.context['returned_loans']), 0)
 
         # Now change all books to be on loan
         books = BookInstance.objects.all()[:10]
@@ -145,12 +157,13 @@ class MyLoansView(TestCase):
         # Check that we got a response "success"
         self.assertEqual(response.status_code, 200)
 
-        self.assertTrue('bookinstance_list' in response.context)
+        self.assertTrue('unreturned_loans' in response.context)
+        self.assertTrue('returned_loans' in response.context)
         # Check that all books are in context
-        self.assertEqual(len(response.context['bookinstance_list']), 10)
+        self.assertEqual(len(response.context['unreturned_loans']), 10)
         # Confirm all books belong to testuser1 and are on loan
-        for bookitem in response.context['bookinstance_list']:
-            self.assertEqual(bookitem.status, 'o')
+        for loan in response.context['unreturned_loans']:
+            self.assertEqual(loan.item.status, 'o')
 
 
 class LoanDetailView(TestCase):
@@ -250,30 +263,30 @@ class AllLoanView(TestCase):
             )
 
     def test_redirect_if_not_logged_in(self):
-        response = self.client.get(reverse('library:loaned-items'))
-        self.assertRedirects(response, '/accounts/login/?next=/library/loaned-items/')
+        response = self.client.get(reverse('library:loans'))
+        self.assertRedirects(response, '/accounts/login/?next=/library/loans/')
 
     def test_forbidden_if_logged_in_but_not_correct_permission(self):
         login = self.client.login(username='testuser1', password='12345')
-        response = self.client.get(reverse('library:loaned-items'))
+        response = self.client.get(reverse('library:loans'))
         self.assertEqual(response.status_code, 403)
 
     def test_logged_in_uses_correct_template(self):
         login = self.client.login(username='testuser2', password='12345')
-        response = self.client.get(reverse('library:loaned-items'))
+        response = self.client.get(reverse('library:loans'))
         # Check that we got a response "success"
         self.assertEqual(response.status_code, 200)
         # Check our user is logged in
         self.assertEqual(str(response.context['user']), 'testuser2')
 
         # Check we used correct template
-        self.assertTemplateUsed(response, 'library/list_loans_all.html')
+        self.assertTemplateUsed(response, 'library/list_loans.html')
 
         # Tests if the borrowed items of the user are really shown, only shown when on loan and not anymore books
 
     def test_content(self):
         login = self.client.login(username='testuser2', password='12345')
-        response = self.client.get(reverse('library:loaned-items'))
+        response = self.client.get(reverse('library:unreturned-loans'))
         # Check that we got a response "success"
         self.assertEqual(response.status_code, 200)
 
@@ -281,8 +294,8 @@ class AllLoanView(TestCase):
         self.assertEqual(str(response.context['user']), 'testuser2')
 
         # Check that initially we don't have any books in list (none on loan)
-        self.assertTrue('bookinstance_list' in response.context)
-        self.assertEqual(len(response.context['bookinstance_list']), 0)
+        self.assertTrue('loan_list' in response.context)
+        self.assertEqual(sum([isinstance(loan.item, BookInstance) for loan in response.context['loan_list']]), 0)
 
         # Now change some books to be on loan
         books = BookInstance.objects.all()[:20]
@@ -293,18 +306,23 @@ class AllLoanView(TestCase):
             book.borrow(borrower=the_borrower)
 
         # Check that now we have borrowed books in the list
-        response = self.client.get(reverse('library:loaned-items'))
+        response = self.client.get(reverse('library:unreturned-loans'))
         # Check our user is logged in
         self.assertEqual(str(response.context['user']), 'testuser2')
         # Check that we got a response "success"
         self.assertEqual(response.status_code, 200)
 
-        self.assertTrue('bookinstance_list' in response.context)
+        self.assertTrue('loan_list' in response.context)
         # Check that all books are in context
-        self.assertEqual(len(response.context['bookinstance_list']), 20)
+        self.assertEqual(sum([isinstance(loan.item, BookInstance) for loan in response.context['loan_list']]), 20)
         # Confirm are on loan
-        for bookitem in response.context['bookinstance_list']:
-            self.assertEqual(bookitem.status, 'o')
+        for loan in response.context['loan_list']:
+            self.assertEqual(loan.item.status, 'o')
+
+        # Confirm content is displayed
+        self.assertContains(response, self.test_user1.username)
+        self.assertContains(response, self.test_user2.username)
+        self.assertContains(response, "A 1")
 
 
 class AuthorViewTest(TestCase):
@@ -408,7 +426,7 @@ class BookDetailViewTest(TestCase):
         # Check that site access is permitted
         self.assertEqual(response.status_code, 200)
         # Check our user is logged in
-        self.assertContains(response, "Hammer, Jane")
+        self.assertContains(response, "Jane Hammer")
         self.assertContains(response, "Smith")
         self.assertContains(response, "Book Title")
         self.assertContains(response, "My book summary")

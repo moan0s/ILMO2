@@ -30,5 +30,6 @@
             <input class="create-token" type="submit" name="create_token" value={% translate "Create API token" %}>
         </form>
     {% endif %}
+<a href="{% url 'library:password' %}">{% translate "Change password here." %}</a>
 
 {% endblock %}

@@ -1,0 +1,12 @@
+{% extends "library/base_generic.html" %}
+{% load i18n %}
+{% load custom_tags %}
+
+{% block content %}
+
+    <h1>{% translate "Loans" %}</h1>
+    {% block loanTable %}
+                    {% include "library/loan_list_table.html" %}
+    {% endblock %}
+
+{% endblock %}

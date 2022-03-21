@@ -1,14 +1,19 @@
-from django.shortcuts import render, get_object_or_404
+from django.contrib.auth import update_session_auth_hash
+from django.contrib.auth.forms import PasswordChangeForm
+from django.contrib.auth.views import PasswordChangeView
+from django.shortcuts import render, get_object_or_404, redirect
 from django.http import HttpResponse, HttpResponseRedirect
 from django.views import generic
 from django.contrib.auth.mixins import PermissionRequiredMixin, LoginRequiredMixin
 from django.contrib.auth.decorators import login_required, permission_required
-from django.urls import reverse
+from django.urls import reverse, reverse_lazy
 from django.db.models import Q
 from django.http import JsonResponse
 import datetime
 from django.utils import timezone
 from rest_framework.authtoken.models import Token
+
+from django.contrib import messages
 
 from .forms import RenewItemForm, UserSearchForm
 from .models import Book, Author, BookInstance, Loan, Material, MaterialInstance, OpeningHours, Item, Member, \
@@ -116,6 +121,10 @@ def my_profile(request):
         token = None
     return show_user(request, user, token)
 
+class PasswordsChangeView(PasswordChangeView):
+    form_class = PasswordChangeForm
+    template_name = 'library/change_password.html'
+    success_url = reverse_lazy("library:index")
 
 class BookListView(generic.ListView):
     model = Book
@@ -200,12 +209,11 @@ class AuthorDetailView(generic.DetailView):
 def list_loans_of_user(request):
     """View function for home page of site."""
     loans_by_user = Loan.objects.filter(borrower=Member.objects.get(user=request.user))
+    returned_loans_by_user = [loan for loan in loans_by_user if (loan.returned)]
     unreturned_loans_by_user = [loan for loan in loans_by_user if not (loan.returned)]
-    bookinstance_list = BookInstance.objects.filter(loan__in=unreturned_loans_by_user)
-    materialinstance_list = MaterialInstance.objects.filter(loan__in=unreturned_loans_by_user)
     context = {
-        'bookinstance_list': bookinstance_list,
-        'materialinstance_list': materialinstance_list,
+        'returned_loans': returned_loans_by_user,
+        'unreturned_loans': unreturned_loans_by_user,
     }
 
     return render(request, 'library/list_loans_user.html', context=context)
@@ -215,14 +223,23 @@ def list_loans_of_user(request):
 @permission_required('library.can_see_borrowed', raise_exception=True)
 def list_loans_unreturned(request):
     """View all unreturned items"""
-    loans = Loan.objects.all()
+    loans = Loan.objects.filter()
     unreturned_loans = [loan for loan in loans if not loan.returned]
-    item_list = Item.objects.filter(loan__in=unreturned_loans)
     context = {
-        'item_list': item_list,
+        'loan_list': unreturned_loans,
     }
 
-    return render(request, 'library/list_loans_all.html', context=context)
+    return render(request, 'library/list_loans.html', context=context)
+
+@login_required()
+@permission_required('library.can_see_borrowed', raise_exception=True)
+def list_loans(request):
+    """View all unreturned items"""
+    loans = Loan.objects.all()
+    context = {
+        'loan_list': loans,
+    }
+    return render(request, 'library/list_loans.html', context=context)
 
 
 @login_required
@@ -331,7 +348,7 @@ def search(request):
     if request.method == 'POST':
         # Check if the form is valid:
         q = request.POST['q']
-        if request.user.has_perm('Can view user'):
+        if request.user.has_perm('library.view_member'):
             context['user_list'] = get_user(q)
 
         books = []

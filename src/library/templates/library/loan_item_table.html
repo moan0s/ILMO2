@@ -1,12 +1,13 @@
 <table>
     <tr>
-    <th>Label</th>
-    <th>Description</th>
-    <th>Borrower</th>
-    <th>Due</th>
-    {% if perms.library.can_mark_returned %}
-    <th>Change status</th>
-    {% endif %}
+        <th>Label</th>
+        <th>Description</th>
+        <th>Borrower</th>
+        <th>Due</th>
+        {% if perms.library.can_mark_returned %}
+            <th>Renew</th>
+            <th>Return</th>
+        {% endif %}
 
 
     </tr>
@@ -17,7 +18,8 @@
             <td>{{ item.borrower }}</td>
             <td>{{ item.due_back }}</td>
             {% if perms.library.can_mark_returned %}
-            <td><a href="{% url 'library:renew-item-librarian' item.id %}">Renew</a></td>
+                <td><a href="{% url 'library:renew-item-librarian' item.id %}">Renew</a></td>
+                <td><a href="{% url 'library:item-return' item.id %}">Return</a></td>
             {% endif %}
 
 

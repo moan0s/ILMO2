@@ -1,3 +1,5 @@
+*django.mo
+*ilmo.cfg
 *.json
 .idea/*
 # SQLite database

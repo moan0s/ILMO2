@@ -1,4 +1,5 @@
 from django import template
+from library.models import BookInstance, MaterialInstance
 
 register = template.Library()
 
@@ -20,3 +21,18 @@ def join_link(value, arg):
         ))
 
     return arg.join(arr)
+
+
+@register.filter
+def get_type(value):
+    return type(value)
+
+
+@register.filter
+def is_bookinstance(value):
+    return type(value) == BookInstance
+
+
+@register.filter
+def is_materialinstance(value):
+    return type(value) == MaterialInstance

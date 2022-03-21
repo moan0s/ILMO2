@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-03-17 14:40+0100\n"
+"POT-Creation-Date: 2022-03-17 13:16+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -83,103 +83,112 @@ msgstr "Deine nicht zurückgegebenen Ausleihen"
 msgid "Hello %(first_name)s %(lastname)s,\r\n"
 msgstr "Hallo %(first_name)s %(lastname)s,\r\n"
 
-#: .\library\models.py:17
+#: .\library\models.py:16
 msgid "Enter a book genre (e.g. Science Fiction)"
 msgstr "Gebe ein Büchergenre ein (z.B. Science Fiction)"
 
 #: .\library\models.py:17 .\library\models.py:386
+#: .\library\models.py:16 .\library\models.py:363
 #: .\library\templates\library\materialInstanceTable.html:5
 #: .\library\templates\library\materialTable.html:4
 msgid "Name"
 msgstr "Name"
 
-#: .\library\models.py:24 .\library\models.py:25 .\library\models.py:71
+#: .\library\models.py:23 .\library\models.py:24 .\library\models.py:70
 #: .\library\templates\library\book.html:11
 msgid "Genre"
 msgstr "Genre"
 
 #: .\library\models.py:39 .\library\models.py:285
+#: .\library\models.py:38 .\library\models.py:265
 #: .\library\templates\library\material.html:5
 #: .\library\templates\library\materialInstance-detail.html:5
 #: .\library\templates\library\nav_sidebar.html:8
 msgid "Material"
 msgstr "Material"
 
-#: .\library\models.py:40 .\library\templates\library\index.html:14
+#: .\library\models.py:39 .\library\templates\library\index.html:14
 #: .\library\templates\library\search.html:34
 msgid "Materials"
 msgstr "Materialien"
 
-#: .\library\models.py:45
+#: .\library\models.py:44
 #: .\library\templates\library\borrow-user-search.html:25
 #: .\library\templates\library\userTable.html:5
 msgid "First name"
 msgstr "Vorname"
 
-#: .\library\models.py:46
+#: .\library\models.py:45
 #: .\library\templates\library\borrow-user-search.html:26
 #: .\library\templates\library\userTable.html:6
 msgid "Last name"
 msgstr "Nachname"
 
-#: .\library\models.py:47 .\library\templates\library\author.html:6
+#: .\library\models.py:46 .\library\templates\library\author.html:6
 msgid "Date of birth"
 msgstr "Geburtsdatum"
 
-#: .\library\models.py:48
+#: .\library\models.py:47
 msgid "Date of death"
 msgstr "Todesdatum"
 
-#: .\library\models.py:63
+#: .\library\models.py:62
 msgid "Can add, update or delete an author"
 msgstr "Kann Autor hinzufügen, ändern oder löschen"
 
-#: .\library\models.py:64 .\library\models.py:70
+#: .\library\models.py:63 .\library\models.py:69
 #: .\library\templates\library\author.html:5
 #: .\library\templates\library\bookTable.html:6
 msgid "Author"
 msgstr "Autor"
 
-#: .\library\models.py:65 .\library\templates\library\index.html:13
+#: .\library\models.py:64 .\library\templates\library\index.html:13
 #: .\library\templates\library\nav_sidebar.html:9
 msgid "Authors"
 msgstr "Autoren"
 
-#: .\library\models.py:69
+#: .\library\models.py:68
 msgid "Titel"
 msgstr "Titel"
 
-#: .\library\models.py:70
+#: .\library\models.py:69
 msgid "Select the autor(s) of this book."
 msgstr "Wähle den/die Autor(en) für dieses Buch aus."
 
-#: .\library\models.py:71
+#: .\library\models.py:70
 msgid "Select a genre for this book."
 msgstr "Wähle das Genre für dieses Buch aus."
 
-#: .\library\models.py:72
+#: .\library\models.py:71
 msgid "Enter a brief description of the book."
 msgstr "Gebe eine kurze Beschreibung für dieses Buch ein."
 
-#: .\library\models.py:72 .\library\templates\library\book.html:8
+#: .\library\models.py:71 .\library\templates\library\book.html:8
 msgid "Summary"
 msgstr "Zusammenfassung"
 
-#: .\library\models.py:73
+#: .\library\models.py:72
 msgid "ISBN number (13 Characters)"
 msgstr "ISBN Nummer (13 Zeichen)"
 
-#: .\library\models.py:73 .\library\templates\library\book.html:9
+#: .\library\models.py:72 .\library\templates\library\book.html:9
 msgid "ISBN"
 msgstr "ISBN"
 
 #: .\library\models.py:74 .\library\models.py:104
+#: .\library\models.py:73 .\library\models.py:104
 #: .\library\templates\library\book.html:10
 #: .\library\templates\library\member.html:11
 msgid "Language"
 msgstr "Sprache"
 
 #: .\library\models.py:84 .\library\models.py:263
+#: .\library\models.py:76 .\library\models.py:240
+#: .\library\templates\library\books.html:10
+msgid "by"
+msgstr "von"
+
+#: .\library\models.py:84 .\library\models.py:247
 #: .\library\templates\library\bookInstance-detail.html:5
 #, fuzzy
 #| msgid "Books"
@@ -243,6 +252,7 @@ msgid "Unique ID for this particular item across whole library."
 msgstr "Eindeutige ID für dieses Item in der gesamten Bibliothek."
 
 #: .\library\models.py:134 .\library\models.py:385
+#: .\library\models.py:134 .\library\models.py:362
 #: .\library\templates\library\book.html:26
 #: .\library\templates\library\loan-detail.html:21
 #: .\library\templates\library\material.html:18
@@ -285,10 +295,9 @@ msgid "See all borrowed items"
 msgstr "Sehe alle ausgeliehene Items"
 
 #: .\library\models.py:155 .\library\models.py:297
-#, fuzzy
-#| msgid "Items"
+#: .\library\models.py:155 .\library\models.py:274
 msgid "Item"
-msgstr "Items"
+msgstr "Item"
 
 #: .\library\models.py:156 .\library\templates\library\material.html:8
 msgid "Items"
@@ -320,12 +329,10 @@ msgstr "Materialinstanz"
 msgid "Material instances"
 msgstr "Materialinstanz"
 
-#: .\library\models.py:296
+#: .\library\models.py:273
 #: .\library\templates\library\item_renew_librarian.html:6
-#, fuzzy
-#| msgid "Borrow"
 msgid "Borrower"
-msgstr "Ausleihen"
+msgstr "Ausleihender"
 
 #: .\library\models.py:298
 msgid "Lent on"
@@ -338,7 +345,7 @@ msgstr "Zurück bis"
 #: .\library\models.py:300 .\library\templates\library\loan-detail.html:10
 msgid "Returned on"
 msgstr "Zurückgegeben am"
-
+#: .\library\models.py:281
 #: .\library\models.py:304
 msgid "borrowed until"
 msgstr "Ausgeliehen bis"
@@ -347,6 +354,7 @@ msgstr "Ausgeliehen bis"
 msgid "Can add a loan for all user"
 msgstr "Kann allen Bentuzer eine Ausleihe hinzufügen"
 
+#: .\library\models.py:320 .\library\models.py:353
 #: .\library\models.py:343 .\library\models.py:376
 #: .\library\templates\library\loan-detail.html:5
 msgid "Loan"
@@ -390,8 +398,9 @@ msgstr "Wochentag"
 
 #: .\library\models.py:360
 msgid "From hour"
-msgstr "Vnn Stunde"
+msgstr "Von Stunde"
 
+#: .\library\models.py:375
 #: .\library\models.py:361
 msgid "To hour"
 msgstr "Bis Stunde"
@@ -564,6 +573,10 @@ msgstr "Suche"
 msgid "Username"
 msgstr "Benutzername"
 
+#: .\library\templates\library\change_password.html:9
+msgid "Change passsword"
+msgstr "Passwort ändern"
+
 #: .\library\templates\library\header.html:6
 msgid "About the software"
 msgstr "Über die Software"
@@ -597,8 +610,8 @@ msgid "Search for an item by label"
 msgstr "Suche nach einem Item nach Bezeichnung"
 
 #: .\library\templates\library\item_renew_librarian.html:5
-#: .\library\templates\library\list_loans_all.html:14
-#: .\library\templates\library\list_loans_all.html:31
+#: .\library\templates\library\list_loans_all.html:13
+#: .\library\templates\library\list_loans_all.html:30
 #: .\library\templates\library\materialInstance-detail.html:16
 msgid "Renew"
 msgstr "Verlängern"
@@ -607,22 +620,22 @@ msgstr "Verlängern"
 msgid "Due date"
 msgstr "Bis"
 
-#: .\library\templates\library\list_loans_all.html:6
+#: .\library\templates\library\list_loans_all.html:5
 #: .\library\templates\library\list_loans_user.html:5
 msgid "Borrowed books"
 msgstr "Ausgeliehene Bücher"
 
-#: .\library\templates\library\list_loans_all.html:20
+#: .\library\templates\library\list_loans_all.html:19
 #: .\library\templates\library\list_loans_user.html:18
 msgid "There are no books borrowed."
 msgstr "Es sind keine Bücher ausgeliehen."
 
-#: .\library\templates\library\list_loans_all.html:23
+#: .\library\templates\library\list_loans_all.html:22
 #: .\library\templates\library\list_loans_user.html:21
 msgid "Borrowed material"
 msgstr "Ausgeliehene Materialien"
 
-#: .\library\templates\library\list_loans_all.html:37
+#: .\library\templates\library\list_loans_all.html:36
 #: .\library\templates\library\list_loans_user.html:34
 msgid "There are no materials borrowed."
 msgstr "Es sind keine Materialien ausgeliehen."
@@ -659,6 +672,12 @@ msgstr "Kein Token gesetzt."
 msgid "Create API token"
 msgstr "Erstelle API token"
 
+#: .\library\templates\library\member.html:33
+#, fuzzy
+#| msgid "Change my password"
+msgid "Change password here."
+msgstr "Mein Passwort ändern"
+
 #: .\library\templates\library\nav_sidebar.html:5
 msgid "Home"
 msgstr "Start"
@@ -675,10 +694,11 @@ msgstr "Meine Ausleihen"
 msgid "Logout"
 msgstr "Ausloggen"
 
-#: .\library\templates\library\nav_sidebar.html:21
+#: .\library\templates\library\nav_sidebar.html:20
 msgid "Login"
 msgstr "Einloggen"
 
+#: .\library\templates\library\nav_sidebar.html:24
 #: .\library\templates\library\nav_sidebar.html:22
 msgid "Register"
 msgstr "Registrieren"
@@ -688,7 +708,6 @@ msgid "Admin"
 msgstr "Admin"
 
 #: .\library\templates\library\openinghours.html:12
-#: .\library\templates\library\openinghours.html:21
 msgid "Delete"
 msgstr "Löschen"
 
@@ -724,11 +743,11 @@ msgstr "Keine Bücherinstanz gefunden."
 msgid "No material instances found."
 msgstr "Keine Materialinstanz gefunden."
 
-#: .\library\views.py:109
+#: .\library\views.py:114
 msgid "Creating API token"
 msgstr "Erstelle API token"
 
-#: .\library\views.py:133
+#: .\library\views.py:142
 #, python-format
 msgid "You're looking at the loans of book %s."
 msgstr "Du suchst nach der Ausleihe des Buches %s."
@@ -774,11 +793,11 @@ msgstr "Klicke hier um dich wieder einzuloggen."
 msgid "Your username and password didn't match. Please try again."
 msgstr "Dein Benutzername und Passwort passen nicht. Versuche es bitte erneut."
 
-#: .\templates\registration\login.html:12
+#: .\templates\registration\login.html:11
 msgid "You're already logged in."
 msgstr "Du bist bereits eingeloggt."
 
-#: .\templates\registration\login.html:14
+#: .\templates\registration\login.html:13
 msgid "Please login to see this page."
 msgstr "Logge dich bitte ein um diese Seite zu sehen."
 
@@ -786,7 +805,7 @@ msgstr "Logge dich bitte ein um diese Seite zu sehen."
 msgid "login"
 msgstr "Einloggen"
 
-#: .\templates\registration\login.html:35
+#: .\templates\registration\login.html:34
 msgid "Lost password?"
 msgstr "Passwort vergessen?"
 
@@ -827,16 +846,14 @@ msgid ""
 "We've emailed you instructions for setting your password. If they haven't "
 "arrived in a few minutes, check your spam folder."
 msgstr ""
-"Wir haben dir eine Mail mit der Anweisung zum Zurücksetzen geschickt.Sollte "
+"Wir haben dir eine Mail mit der Anweisung zum Zurücksetzen geschickt. Sollte "
 "die Mail nicht in ein paar Minuten ankommen, schau bitte in dein Spamordner."
 
 #: .\templates\registration\password_reset_email.html:2
-msgid ""
-"Someone asked for password reset for email {{ email }}. Follow the link "
-"below:"
+msgid "Someone asked for password reset for your email. Follow the link below:"
 msgstr ""
-"Jemand hat für die E-Mailadresse {{ email }} ein Passworreset angefragt.Rufe "
-"den nachfolgenden Link auf"
+"Jemand hat für die deine E-Mailadresse ein Passwortreset angefragt."
+"Rufe den nachfolgenden Link auf:"
 
 #: .\templates\registration\password_reset_form.html:10
 msgid "Password reset"
@@ -849,10 +866,3 @@ msgstr "Gib die Mailadresse ein, die mit diesem Account verbunden ist"
 #: .\templates\registration\password_reset_form.html:13
 msgid "Reset"
 msgstr "Zurücksetzen"
-
-#~ msgid ""
-#~ "Your account doesn't have access to this page. To proceed, please login "
-#~ "with an account that has access."
-#~ msgstr ""
-#~ "Dein Account hat keinen Zugang zu dieser Seite. Bitte logge dich mit "
-#~ "einem Account ein, der Zugriff zu dieser Seite hat."
