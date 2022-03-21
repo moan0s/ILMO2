@@ -18,8 +18,8 @@
             <td>{{ loan.due_back }}</td>
             <td>{{ loan.last_reminder }} ({{ loan.num_reminders }})</td>
             {% if perms.library.can_mark_returned %}
-                <td><a href="{% url 'library:renew-item-librarian' 'ffa36908-d5e9-4ebe-9236-c25db4f83268'  %}">Renew</a></td>
-                <td><a href="{% url 'library:item-return' 'ffa36908-d5e9-4ebe-9236-c25db4f83268' %}">Return</a></td>
+                <td><a href="{% url 'library:renew-item-librarian' loan.pk  %}">Renew</a></td>
+                <td><a href="{% url 'library:item-return' loan.pk %}">Return</a></td>
             {% endif %}
         </tr>
     {% endfor %}
