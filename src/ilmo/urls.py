@@ -5,7 +5,13 @@ from django.conf.urls.i18n import i18n_patterns
 from . import views
 from .views import *
 
-urlpatterns = i18n_patterns(
+urlpatterns = [
+    path('change_language/',
+         change_language,
+         name='change_language')
+]
+
+urlpatterns += i18n_patterns(
     path('', RedirectView.as_view(url='library/', permanent=True)),
     path('library/', include('library.urls')),
     path('admin/', admin.site.urls, name="admin"),

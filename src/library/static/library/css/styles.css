@@ -64,6 +64,21 @@ h1 {
     color: white;
 }
 
+.header-right select{
+    width: 75%;
+    padding: 8px 10px;
+    border: none;
+    border-radius: 4px;
+    opacity: 1;
+    background-color: #4ba3cd;
+}
+.header-right select.option{
+	color: #000;
+  	background-color: #4ba3cd;
+    padding: 0 10px;
+    border: 1px;
+}
+
 .header-right {
     float: right;
 }
