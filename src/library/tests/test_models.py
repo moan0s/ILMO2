@@ -98,7 +98,6 @@ class BookModelTest(TestCase):
         b.save()
         b.author.add(test_author)
         b.save()
-        print("")
 
     def test_str(self):
         book = Book.objects.all()[0]

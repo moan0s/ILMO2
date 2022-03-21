@@ -55,7 +55,6 @@ class CreateOpeninghourTests(TestCase):
         form = OpeningHoursModelForm(data=form_data)
         form.errors
         self.assertFalse(form.is_valid())
-        print(form.errors)
         self.assertEqual(form.errors['weekday'][0],
             'This field is required.')
         self.assertFalse(form.is_valid())
@@ -92,7 +91,6 @@ def test_change_passwort_incorrect(self):
                  "new_password1": "asdfasdfsad",
                  "new_password2": "kjkjkjkj"}
     response = self.client.post("/library/password/", data=form_data)
-    print(response)
     self.assertEqual(response.status_code, HTTPStatus.OK)
 
 def test_change_false_start_passwort(self):
@@ -101,7 +99,6 @@ def test_change_false_start_passwort(self):
                  "new_password1": "kjkjkjkj",
                  "new_password2": "kjkjkjkj"}
     response = self.client.post("/library/password/", data=form_data)
-    print(response)
     self.assertEqual(response.status_code, HTTPStatus.OK)
 
 

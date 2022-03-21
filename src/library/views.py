@@ -109,9 +109,7 @@ def my_profile(request):
     user = get_object_or_404(User, pk=request.user.pk)
 
     if request.method == 'POST':
-        print(request.POST)
         if "create_token" in request.POST:
-            print( _("Creating API token"))
             Token.objects.create(user=request.user)
         elif "delete_token" in request.POST:
             Token.objects.get(user=request.user).delete()
