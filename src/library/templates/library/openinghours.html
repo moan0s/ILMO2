@@ -14,8 +14,8 @@
             {% for openinghour in openinghours_list %}
             <tr>
                 <td>{{ openinghour.get_weekday_display }}</td>
-                <td>{{ openinghour.to_hour }}</td>
                 <td>{{ openinghour.from_hour }}</td>
+                <td>{{ openinghour.to_hour }}</td>
                 <td>{{ openinghour.comment }}</td>
                 {% if perms.library.change_opening_hours %}
                     <td><a href="{% url "library:openinghour-delete" openinghour.id %} ">{% translate "Delete" %}</a></td>
