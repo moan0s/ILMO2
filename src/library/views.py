@@ -423,6 +423,10 @@ class OpeningHoursListView(generic.ListView):
     model = OpeningHours
     template_name = 'library/openinghours.html'
 
+class OpeningHoursListPlainView(generic.ListView):
+    model = OpeningHours
+    template_name = 'library/openinghours_plain.html'
+
 
 class OpeningHourDeleteView(PermissionRequiredMixin, DeleteView):
     permission_required = "library.change_opening_hours"

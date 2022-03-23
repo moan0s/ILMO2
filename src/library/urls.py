@@ -84,6 +84,8 @@ urlpatterns += [
     path('openinghour/<int:pk>/delete', views.OpeningHourDeleteView.as_view(), name='openinghour-delete'),
     # ex: /library/openinghours/
     path('openinghours/', views.OpeningHoursListView.as_view(), name='openinghours'),
+    # ex /library/openinghoursplain
+    path('openinghoursplain', views.OpeningHoursListPlainView.as_view(), name='openinghoursplain'),
 ]
 
 """ ACCOUNTS """
