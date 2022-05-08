@@ -317,6 +317,10 @@ class Loan(models.Model):
     def remind(self):
         LoanReminder.objects.create(loan=self, sent_on=timezone.now().date())
 
+    def return_loan(self, return_date=timezone.now()):
+        self.item.status = "a"
+        self.returned_on = return_date
+
     @property
     def is_overdue(self):
         if self.due_back and date.today() > self.due_back:

@@ -296,6 +296,15 @@ class LoanModelTest(TestCase):
             loan.remind()
         self.assertEquals(loan.num_reminders, num_reminders_expected)
 
+    def test_return(self):
+        loan = self.bookInstanceA.borrow(self.m1)
+        loan.return_loan()
+        self.assertTrue(loan.returned)
+        loan = self.bookInstanceA.borrow(self.m1)
+        loan.return_loan(timezone.now().date()-timezone.timedelta(days=-30))
+        self.assertTrue(loan.returned)
+        self.assertEquals(loan.returned_on, timezone.now().date()-timezone.timedelta(days=-30))
+
 
 class OpeningHourModelTest(TestCase):
     @classmethod
