@@ -11,7 +11,7 @@
         {% endif %}
     </tr>
     {% for loan in loan_list %}
-        <tr class="{% if loan.is_overdue %}text-danger{% endif %}">
+        <tr class="{% if not loan.returned and  loan.is_overdue %}text-danger{% endif %}">
             <td><a href="{% url 'library:loan-detail' loan.pk %}">{{ loan.pk }}</a></td>
             <td>{{ loan.item }}</td>
             <td>{{ loan.borrower }}</td>
