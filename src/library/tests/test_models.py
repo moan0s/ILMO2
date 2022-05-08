@@ -266,7 +266,7 @@ class LoanModelTest(TestCase):
     def test_str(self):
         loan = Loan.objects.filter(item=self.bookInstanceA)[0]
         string_representation = str(loan)
-        self.assertEquals(string_representation, f"{loan.item} borrowed until {loan.due_back}")
+        self.assertEquals(string_representation, f"{loan.item}")
 
     def test_default(self):
         bookInstance = Loan.objects.all()[0]
