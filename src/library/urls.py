@@ -11,7 +11,7 @@ urlpatterns = [
     path('', views.index, name='index'),
     # ex: /books/
     path('books/', views.BookListView.as_view(), name='books'),
-    # ex: /library/books/5/
+    # ex: /library/book/5/
     path('book/<int:pk>', views.BookDetailView.as_view(), name='book-detail'),
     # ex: /library/books/5/loans/
     path('books/<int:pk>/loans/', views.loans_of_book),
@@ -84,6 +84,8 @@ urlpatterns += [
     path('openinghour/<int:pk>/delete', views.OpeningHourDeleteView.as_view(), name='openinghour-delete'),
     # ex: /library/openinghours/
     path('openinghours/', views.OpeningHoursListView.as_view(), name='openinghours'),
+    # ex /library/openinghoursplain
+    path('openinghoursplain', views.OpeningHoursListPlainView.as_view(), name='openinghoursplain'),
 ]
 
 """ ACCOUNTS """
