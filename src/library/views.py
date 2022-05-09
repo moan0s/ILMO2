@@ -15,7 +15,7 @@ from rest_framework.authtoken.models import Token
 
 from django.contrib import messages
 
-from .forms import RenewItemForm, UserSearchForm
+from .forms import RenewItemForm, UserSearchForm, OpeningHoursModelForm
 from .models import Book, Author, BookInstance, Loan, Material, MaterialInstance, OpeningHours, Item, Member, \
     LoanReminder
 from django.contrib.auth.models import User
@@ -412,8 +412,8 @@ class LoanDetailView(generic.DetailView):
 
 class OpeningHoursCreateView(PermissionRequiredMixin, CreateView):
     permission_required = "library.change_opening_hours"
-    model = OpeningHours
-    fields = ['weekday', 'from_hour', 'to_hour', 'comment']
+    form_class = OpeningHoursModelForm
+    template_name = "library/openinghours_form.html"
 
     def get_success_url(self):
         return reverse('library:openinghours')

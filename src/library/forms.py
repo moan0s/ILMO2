@@ -8,6 +8,7 @@ from library.models import OpeningHours
 from django.urls import reverse
 from django.contrib.auth.models import User
 
+
 class RenewItemForm(forms.Form):
     renewal_date = forms.DateField(help_text=_("Enter a date between now and 4 weeks (default 3)."))
 
@@ -33,18 +34,20 @@ class OpeningHoursModelForm(ModelForm):
         labels = {'from_hour': _('Open from'),
                   'to_hour': _('Open until')}
 
-    def clean_hours(self):
-        data = self.cleaned_data
+    def clean(self):
+        cleaned_data = super().clean()
+        from_hour = cleaned_data.get("from_hour")
+        to_hour = cleaned_data.get("to_hour")
 
-        # Check if opening is before closing
-        if data['from_hour'] > data['to_hour']:
-            raise ValidationError(_('Library must be open before closing 😉'))
+        if from_hour and to_hour:
+            # Only do something if both fields are valid so far.
+            if from_hour > to_hour:
+                raise ValidationError(_('Library must be open before closing 😉'))
 
-        return data
 
 class UserSearchForm(ModelForm):
     class Meta:
         model = User
         fields = ['first_name', 'last_name']
-    use_required_attribute = False
 
+    use_required_attribute = False
