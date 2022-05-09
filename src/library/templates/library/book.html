@@ -23,7 +23,9 @@
                 <p><strong>{% translate "Due to be returned" %}:</strong> {{ copy.due_back }}</p>
             {% endif %}
             <p><strong>{% translate "Imprint" %}:</strong> {{ copy.imprint }}</p>
+            {% if user.is_staff %}
             <p class="text-muted"><strong>{% translate "Id" %}:</strong> {{ copy.id }}</p>
+            {% endif %}
         {% endfor %}
     </div>
 {% endblock %}
