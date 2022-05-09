@@ -16,6 +16,7 @@ from django.utils import timezone
 from rest_framework.authtoken.models import Token
 
 from django.contrib import messages
+import json
 
 from .forms import RenewItemForm, UserSearchForm, OpeningHoursModelForm
 from .models import Book, Author, BookInstance, Loan, Material, MaterialInstance, OpeningHours, Item, Member, \
@@ -447,6 +448,9 @@ def export_own_profile(request):
     member_as_json = serializers.serialize('json', member)
     user = User.objects.filter(username=request.user)
     user_as_json = serializers.serialize('json', user)
+    user_editable = json.loads(user_as_json)
+    user_editable[0]["fields"]["password"] = "Password hash redacted for security reasons"
+    user_as_json = json.dumps(user_editable)
     loans_as_json = serializers.serialize('json', loans)
     full_json = f"{user_as_json[:-1]}, {member_as_json[1:-1]}, {loans_as_json[1:]}"
     return HttpResponse(full_json, content_type="application/json")
