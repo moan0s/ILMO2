@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load i18n %}
+<head>
+    {% block title %}<title>ILMO</title>{% endblock %}
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css"
+          integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
+    <!-- Add additional CSS in static file -->
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'library/css/styles.css' %}">
+    <link href="{% static 'library/Font-Awesome/css/all.min.css' %}" rel="stylesheet" type="text/css">
+</head>
+<body>
+    {% block content %}
+        {% if openinghours_list %}
+            <table>
+                <th>{% translate "Weekday" %}</th>
+                <th>{% translate "Open from" %}</th>
+                <th>{% translate "Open until" %}</th>
+                <th>{% translate "Comment" %}</th>
+                {% for openinghour in openinghours_list %}
+                <tr>
+                    <td>{{ openinghour.get_weekday_display }}</td>
+                    <td>{{ openinghour.from_hour }}</td>
+                    <td>{{ openinghour.to_hour }}</td>
+                    <td>{{ openinghour.comment }}</td>
+                </tr>
+                {% endfor %}
+            </table>
+        {% else %}
+            <p>{% translate "No opening hours are available." %}</p>
+        {% endif %}
+    {% endblock %}
+</body>
+</html>

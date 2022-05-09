@@ -22,6 +22,6 @@
         {% endif %}
     {% endif %}
     {% if user.is_staff %}
-        <p class="text-muted"><strong>Id:</strong> {{ bookinstance.id }}</p>
+        <p class="text-muted"><strong>{% translate "Id" %}:</strong> {{ bookinstance.id }}</p>
     {% endif %}
 {% endblock %}
