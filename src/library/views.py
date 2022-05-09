@@ -93,7 +93,8 @@ def metrics(request):
 def show_user(request, user, token=None):
     member = Member.objects.get(user=user)
     context = {"member": member,
-               "token": token, }
+               "token": token,
+               "loan_list": member.loans}
     return render(request, 'library/member.html', context=context)
 
 
@@ -119,10 +120,12 @@ def my_profile(request):
         token = None
     return show_user(request, user, token)
 
+
 class PasswordsChangeView(PasswordChangeView):
     form_class = PasswordChangeForm
     template_name = 'library/change_password.html'
     success_url = reverse_lazy("library:index")
+
 
 class BookListView(generic.ListView):
     model = Book
@@ -228,6 +231,7 @@ def list_loans_unreturned(request):
     }
 
     return render(request, 'library/list_loans.html', context=context)
+
 
 @login_required()
 @permission_required('library.can_see_borrowed', raise_exception=True)
@@ -422,6 +426,7 @@ class OpeningHoursCreateView(PermissionRequiredMixin, CreateView):
 class OpeningHoursListView(generic.ListView):
     model = OpeningHours
     template_name = 'library/openinghours.html'
+
 
 class OpeningHoursListPlainView(generic.ListView):
     model = OpeningHours
