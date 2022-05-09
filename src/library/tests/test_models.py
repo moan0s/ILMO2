@@ -1,4 +1,5 @@
 from django.test import TestCase
+from model_bakery import baker
 
 from library.models import *
 from datetime import timedelta, time
@@ -323,3 +324,12 @@ class MemberModelTest(TestCase):
         u = User.objects.create_user('foo', password='bar')
         u.save()
         self.assertEquals(len(Member.objects.filter(user=u)), 1)
+
+    def test_get_loan(self):
+        test_bookinstance1 = baker.make(BookInstance)
+
+        u = User.objects.create_user('foo', password='bar')
+        u.save()
+        member = Member.objects.get(user=u)
+        test_bookinstance1.borrow(member)
+        self.assertEquals(len(member.loans), 1)

@@ -125,6 +125,10 @@ class Member(models.Model):
     def get_absolute_url(self):
         return reverse("library:user-detail", args=[str(self.user.id)])
 
+    @property
+    def loans(self):
+        return Loan.objects.filter(borrower=self)
+
     class Meta:
         verbose_name = _('Member')
         verbose_name_plural = _('Members')
