@@ -21,5 +21,7 @@
             <a href="{% url 'library:item-borrow' bookinstance.id %}">Borrow</a>
         {% endif %}
     {% endif %}
-    <p class="text-muted"><strong>Id:</strong> {{ bookinstance.id }}</p>
+    {% if user.is_staff %}
+        <p class="text-muted"><strong>{% translate "Id" %}:</strong> {{ bookinstance.id }}</p>
+    {% endif %}
 {% endblock %}
