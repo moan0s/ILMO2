@@ -95,6 +95,7 @@ urlpatterns += [
     path('my-profile/', views.my_profile, name='my-profile'),
     path('accounts/', include('django_registration.backends.activation.urls')),
     path('accounts/', include('django.contrib.auth.urls')),
+    path('my-profile/export/', views.export_own_profile, name='my-profile'),
 ]
 
 """ Metrics """

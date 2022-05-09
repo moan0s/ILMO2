@@ -1,6 +1,8 @@
 from django.contrib.auth import update_session_auth_hash
 from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.auth.views import PasswordChangeView
+from django.core import serializers
+from django.core.serializers import serialize
 from django.shortcuts import render, get_object_or_404, redirect
 from django.http import HttpResponse, HttpResponseRedirect
 from django.views import generic
@@ -438,3 +440,13 @@ class OpeningHourDeleteView(PermissionRequiredMixin, DeleteView):
     model = OpeningHours
     template_name = "library/openinghour_confirm_delete.html"
     success_url = reverse_lazy('library:openinghours')
+
+def export_own_profile(request):
+    member = Member.objects.filter(user=request.user)
+    loans = member[0].loans
+    member_as_json = serializers.serialize('json', member)
+    user = User.objects.filter(username=request.user)
+    user_as_json = serializers.serialize('json', user)
+    loans_as_json = serializers.serialize('json', loans)
+    full_json = f"{user_as_json[:-1]}, {member_as_json[1:-1]}, {loans_as_json[1:]}"
+    return HttpResponse(full_json, content_type="application/json")
