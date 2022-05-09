@@ -889,6 +889,16 @@ class OpeningHoursCreateViewTest(TestCase):
         response = self.client.get(reverse('library:openinghour-create'))
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, "library/openinghours_form.html")
+    def test_logic(self):
+        login = self.client.login(username='testuser2', password='12345')
+        data = {"weekday": "1","from_hour": "11:00", "to_hour": "11:45"}
+        response = self.client.post(reverse('library:openinghour-create'), data=data)
+        self.assertEqual(response.status_code, 302)
+
+        data = {"weekday": "2","from_hour": "12:00", "to_hour": "11:45"}
+        response = self.client.post(reverse('library:openinghour-create'), data=data)
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, "library/openinghours_form.html")
 
 
 class BorrowProcedureTest(TestCase):
