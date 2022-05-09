@@ -6,7 +6,7 @@ from library.models import User
 from library.forms import RenewItemForm, OpeningHoursModelForm
 import datetime
 
-class RenewItemTests(SimpleTestCase):
+class RenewItemTest(SimpleTestCase):
     def test_correct_renew(self):
         renewal_date = datetime.date.today() + datetime.timedelta(days=20)
         form_data = {'renewal_date': str(renewal_date)}
@@ -39,7 +39,7 @@ class RenewItemTests(SimpleTestCase):
         form = RenewItemForm(data={'renewal_date': date})
         self.assertTrue(form.is_valid())
 
-class CreateOpeninghourTests(TestCase):
+class CreateOpeninghourTest(TestCase):
     def test_correct_input(self):
         form_data = {'weekday': 1,
                      'from_hour': "13:12",
@@ -65,11 +65,7 @@ class CreateOpeninghourTests(TestCase):
                      "to_hour": "13:12",
                      "comment": "Only on full moon"}
         form = OpeningHoursModelForm(data=form_data)
-        """
-        I can't really explain the following behaviour, in my understanding this should fail. But Django does some kind
-        of magic and reverses from and to hour (not only in form.cleaned_data). Bug or feature? ^^
-        """
-        self.assertTrue(form.is_valid())
+        self.assertFalse(form.is_valid())
 
 class changePasswordTest(TestCase):
     @classmethod
