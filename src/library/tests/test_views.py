@@ -331,13 +331,18 @@ class AllLoanView(TestCase):
         self.assertContains(response, "A 1")
 
     def test_renew_is_not_shown_when_returned(self):
+        login = self.client.login(username='testuser3', password='12345')
         material = baker.make(Material)
         materialInstance = MaterialInstance.objects.create(material=material)
         materialInstance.save()
         materialInstance.borrow(Member.objects.get(user=self.test_user2))
+        response = self.client.get(reverse('library:loans'))
+
+        # Make sure renew is contained when unreturne
+        self.assertContains(response, 'renew/">Renew</a>')
+
         materialInstance.return_item()
 
-        login = self.client.login(username='testuser3', password='12345')
         response = self.client.get(reverse('library:loans'))
         # Check that we got a response "success"
         self.assertEqual(response.status_code, 200)
@@ -345,7 +350,8 @@ class AllLoanView(TestCase):
         # Check our user is logged in
         self.assertEqual(str(response.context['user']), 'testuser3')
 
-        self.assertNotContains(response, "Renew")
+        # Searches for renew/">Renew</a> as Renew is allowed in the table header
+        self.assertNotContains(response, 'renew/">Renew</a>')
 
 
 class AuthorViewTest(TestCase):
