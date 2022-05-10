@@ -1,6 +1,8 @@
 from django.contrib.auth import update_session_auth_hash
 from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.auth.views import PasswordChangeView
+from django.core import serializers
+from django.core.serializers import serialize
 from django.shortcuts import render, get_object_or_404, redirect
 from django.http import HttpResponse, HttpResponseRedirect
 from django.views import generic
@@ -14,6 +16,7 @@ from django.utils import timezone
 from rest_framework.authtoken.models import Token
 
 from django.contrib import messages
+import json
 
 from .forms import RenewItemForm, UserSearchForm, OpeningHoursModelForm
 from .models import Book, Author, BookInstance, Loan, Material, MaterialInstance, OpeningHours, Item, Member, \
@@ -438,3 +441,16 @@ class OpeningHourDeleteView(PermissionRequiredMixin, DeleteView):
     model = OpeningHours
     template_name = "library/openinghour_confirm_delete.html"
     success_url = reverse_lazy('library:openinghours')
+
+def export_own_profile(request):
+    member = Member.objects.filter(user=request.user)
+    loans = member[0].loans
+    member_as_json = serializers.serialize('json', member)
+    user = User.objects.filter(username=request.user)
+    user_as_json = serializers.serialize('json', user)
+    user_editable = json.loads(user_as_json)
+    user_editable[0]["fields"]["password"] = "Password hash redacted for security reasons"
+    user_as_json = json.dumps(user_editable)
+    loans_as_json = serializers.serialize('json', loans)
+    full_json = f"{user_as_json[:-1]}, {member_as_json[1:-1]}, {loans_as_json[1:]}"
+    return HttpResponse(full_json, content_type="application/json")
