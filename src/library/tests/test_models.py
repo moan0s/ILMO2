@@ -1,4 +1,5 @@
 from django.test import TestCase
+from model_bakery import baker
 
 from library.models import *
 from datetime import timedelta, time
@@ -266,7 +267,7 @@ class LoanModelTest(TestCase):
     def test_str(self):
         loan = Loan.objects.filter(item=self.bookInstanceA)[0]
         string_representation = str(loan)
-        self.assertEquals(string_representation, f"{loan.item} borrowed until {loan.due_back}")
+        self.assertEquals(string_representation, f"{loan.item}")
 
     def test_default(self):
         bookInstance = Loan.objects.all()[0]
@@ -296,6 +297,15 @@ class LoanModelTest(TestCase):
             loan.remind()
         self.assertEquals(loan.num_reminders, num_reminders_expected)
 
+    def test_return(self):
+        loan = self.bookInstanceA.borrow(self.m1)
+        loan.return_loan()
+        self.assertTrue(loan.returned)
+        loan = self.bookInstanceA.borrow(self.m1)
+        loan.return_loan(timezone.now().date()-timezone.timedelta(days=-30))
+        self.assertTrue(loan.returned)
+        self.assertEquals(loan.returned_on, timezone.now().date()-timezone.timedelta(days=-30))
+
 
 class OpeningHourModelTest(TestCase):
     @classmethod
@@ -314,3 +324,12 @@ class MemberModelTest(TestCase):
         u = User.objects.create_user('foo', password='bar')
         u.save()
         self.assertEquals(len(Member.objects.filter(user=u)), 1)
+
+    def test_get_loan(self):
+        test_bookinstance1 = baker.make(BookInstance)
+
+        u = User.objects.create_user('foo', password='bar')
+        u.save()
+        member = Member.objects.get(user=u)
+        test_bookinstance1.borrow(member)
+        self.assertEquals(len(member.loans), 1)

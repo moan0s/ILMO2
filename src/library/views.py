@@ -1,6 +1,8 @@
 from django.contrib.auth import update_session_auth_hash
 from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.auth.views import PasswordChangeView
+from django.core import serializers
+from django.core.serializers import serialize
 from django.shortcuts import render, get_object_or_404, redirect
 from django.http import HttpResponse, HttpResponseRedirect
 from django.views import generic
@@ -14,8 +16,9 @@ from django.utils import timezone
 from rest_framework.authtoken.models import Token
 
 from django.contrib import messages
+import json
 
-from .forms import RenewItemForm, UserSearchForm
+from .forms import RenewItemForm, UserSearchForm, OpeningHoursModelForm
 from .models import Book, Author, BookInstance, Loan, Material, MaterialInstance, OpeningHours, Item, Member, \
     LoanReminder
 from django.contrib.auth.models import User
@@ -93,7 +96,8 @@ def metrics(request):
 def show_user(request, user, token=None):
     member = Member.objects.get(user=user)
     context = {"member": member,
-               "token": token, }
+               "token": token,
+               "loan_list": member.loans}
     return render(request, 'library/member.html', context=context)
 
 
@@ -119,10 +123,12 @@ def my_profile(request):
         token = None
     return show_user(request, user, token)
 
+
 class PasswordsChangeView(PasswordChangeView):
     form_class = PasswordChangeForm
     template_name = 'library/change_password.html'
     success_url = reverse_lazy("library:index")
+
 
 class BookListView(generic.ListView):
     model = Book
@@ -228,6 +234,7 @@ def list_loans_unreturned(request):
     }
 
     return render(request, 'library/list_loans.html', context=context)
+
 
 @login_required()
 @permission_required('library.can_see_borrowed', raise_exception=True)
@@ -412,8 +419,8 @@ class LoanDetailView(generic.DetailView):
 
 class OpeningHoursCreateView(PermissionRequiredMixin, CreateView):
     permission_required = "library.change_opening_hours"
-    model = OpeningHours
-    fields = ['weekday', 'from_hour', 'to_hour', 'comment']
+    form_class = OpeningHoursModelForm
+    template_name = "library/openinghours_form.html"
 
     def get_success_url(self):
         return reverse('library:openinghours')
@@ -424,8 +431,26 @@ class OpeningHoursListView(generic.ListView):
     template_name = 'library/openinghours.html'
 
 
+class OpeningHoursListPlainView(generic.ListView):
+    model = OpeningHours
+    template_name = 'library/openinghours_plain.html'
+
+
 class OpeningHourDeleteView(PermissionRequiredMixin, DeleteView):
     permission_required = "library.change_opening_hours"
     model = OpeningHours
     template_name = "library/openinghour_confirm_delete.html"
     success_url = reverse_lazy('library:openinghours')
+
+def export_own_profile(request):
+    member = Member.objects.filter(user=request.user)
+    loans = member[0].loans
+    member_as_json = serializers.serialize('json', member)
+    user = User.objects.filter(username=request.user)
+    user_as_json = serializers.serialize('json', user)
+    user_editable = json.loads(user_as_json)
+    user_editable[0]["fields"]["password"] = "Password hash redacted for security reasons"
+    user_as_json = json.dumps(user_editable)
+    loans_as_json = serializers.serialize('json', loans)
+    full_json = f"{user_as_json[:-1]}, {member_as_json[1:-1]}, {loans_as_json[1:]}"
+    return HttpResponse(full_json, content_type="application/json")

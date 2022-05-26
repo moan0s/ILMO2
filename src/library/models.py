@@ -109,7 +109,7 @@ class Language(models.Model):
 
 class Member(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, verbose_name=_('User'))
-    preferred_language = models.ForeignKey(Language, on_delete=models.PROTECT, null=True,
+    preferred_language = models.ForeignKey(Language, on_delete=models.PROTECT, null=True, blank=True,
                                            verbose_name=_('Preferred language'))
     UID = models.CharField(max_length=50, blank=True, help_text=_("The UID of a NFC chip (e.g. in a student id)."),
                            verbose_name=_('UID'))
@@ -124,6 +124,10 @@ class Member(models.Model):
 
     def get_absolute_url(self):
         return reverse("library:user-detail", args=[str(self.user.id)])
+
+    @property
+    def loans(self):
+        return Loan.objects.filter(borrower=self)
 
     class Meta:
         verbose_name = _('Member')
@@ -307,8 +311,7 @@ class Loan(models.Model):
 
     def __str__(self):
         """String representation."""
-        borrowed = _('borrowed until')
-        return f"{self.item} {borrowed} {self.due_back}"
+        return f"{self.item}"
 
     def get_absolute_url(self):
         """Returns the url to access a detail record for this loan."""
@@ -316,6 +319,10 @@ class Loan(models.Model):
 
     def remind(self):
         LoanReminder.objects.create(loan=self, sent_on=timezone.now().date())
+
+    def return_loan(self, return_date=timezone.now()):
+        self.item.status = "a"
+        self.returned_on = return_date
 
     @property
     def is_overdue(self):
