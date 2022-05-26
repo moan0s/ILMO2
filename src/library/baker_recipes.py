@@ -1,6 +1,6 @@
 from django.contrib.auth.models import User
 from model_bakery.recipe import Recipe, seq
-from library.models import Book, Author
+from library.models import Book, Author, Material
 
 book = Recipe(
     Book,
@@ -16,4 +16,9 @@ author = Recipe(
     Author,
     first_name=seq('Mia_'),
     last_name=seq('Maigold_'),
+)
+
+material = Recipe(
+    Material,
+    title=seq('Material_'),
 )

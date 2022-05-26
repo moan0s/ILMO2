@@ -45,6 +45,7 @@ class SearchTest(TestCase):
                                                   first_name="Mia-Mo Michael",
                                                   last_name="Müller",
                                                   password='12345')
+
     def test_author_search(self):
         authors = get_authors("Jane")
         books = get_books_of_authors(authors)
@@ -249,9 +250,14 @@ class AllLoanView(TestCase):
         b.author.add(test_author)
         cls.test_user1 = User.objects.create_user(username='testuser1', password='12345')
         cls.test_user2 = User.objects.create_user(username='testuser2', password='12345')
-        permission = Permission.objects.get(name__iexact="See all borrowed items")
-        cls.test_user2.user_permissions.add(permission)
+        cls.test_user3 = User.objects.create_user(username='testuser3', password='12345')
+        permission_see = Permission.objects.get(name__iexact="See all borrowed items")
+        permission_return = Permission.objects.get(name__iexact="Set item as returned")
+        cls.test_user2.user_permissions.add(permission_see)
         cls.test_user2.save()
+        cls.test_user3.user_permissions.add(permission_see)
+        cls.test_user3.user_permissions.add(permission_return)
+        cls.test_user3.save()
         # Create 30 BookInstance objects
         number_of_book_copies = 30
         for book_copy in range(number_of_book_copies):
@@ -323,6 +329,29 @@ class AllLoanView(TestCase):
         self.assertContains(response, self.test_user1.username)
         self.assertContains(response, self.test_user2.username)
         self.assertContains(response, "A 1")
+
+    def test_renew_is_not_shown_when_returned(self):
+        login = self.client.login(username='testuser3', password='12345')
+        material = baker.make(Material)
+        materialInstance = MaterialInstance.objects.create(material=material)
+        materialInstance.save()
+        materialInstance.borrow(Member.objects.get(user=self.test_user2))
+        response = self.client.get(reverse('library:loans'))
+
+        # Make sure renew is contained when unreturne
+        self.assertContains(response, 'renew/">Renew</a>')
+
+        materialInstance.return_item()
+
+        response = self.client.get(reverse('library:loans'))
+        # Check that we got a response "success"
+        self.assertEqual(response.status_code, 200)
+
+        # Check our user is logged in
+        self.assertEqual(str(response.context['user']), 'testuser3')
+
+        # Searches for renew/">Renew</a> as Renew is allowed in the table header
+        self.assertNotContains(response, 'renew/">Renew</a>')
 
 
 class AuthorViewTest(TestCase):
@@ -889,13 +918,14 @@ class OpeningHoursCreateViewTest(TestCase):
         response = self.client.get(reverse('library:openinghour-create'))
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, "library/openinghours_form.html")
+
     def test_logic(self):
         login = self.client.login(username='testuser2', password='12345')
-        data = {"weekday": "1","from_hour": "11:00", "to_hour": "11:45"}
+        data = {"weekday": "1", "from_hour": "11:00", "to_hour": "11:45"}
         response = self.client.post(reverse('library:openinghour-create'), data=data)
         self.assertEqual(response.status_code, 302)
 
-        data = {"weekday": "2","from_hour": "12:00", "to_hour": "11:45"}
+        data = {"weekday": "2", "from_hour": "12:00", "to_hour": "11:45"}
         response = self.client.post(reverse('library:openinghour-create'), data=data)
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, "library/openinghours_form.html")
