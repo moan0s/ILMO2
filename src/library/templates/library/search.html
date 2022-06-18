@@ -5,7 +5,7 @@
     <h1>{% translate "Search for any item or user" %}</h1>
     <form action="" method="post">
         {% csrf_token %}
-        <input type="text" name="q" autofocus>
+        <input type="search" name="q" autofocus>
         <input type="submit" value={% translate "Search" %}>
     </form>
     {% if user_list %}
