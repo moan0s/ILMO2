@@ -2,6 +2,8 @@ Translation
 ===========
 Translate HTML-files
 ____________________
+First you have to add the text "{% load i18n %}" in every html file at the top.
+
 Write the string in your html file beetween these two tags: {% translate "String" %}
 
 Translate python-files
