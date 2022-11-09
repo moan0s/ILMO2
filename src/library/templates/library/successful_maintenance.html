@@ -1,0 +1,17 @@
+{% extends "library/base_generic.html" %}
+{% load i18n %}
+
+{% block content %}
+    <h1>Repaired items</h1>
+    {% if item_list %}
+		<ul>
+		{% for item in item_list %}
+		<li><b><a href="{{ item.get_absolute_url }}">{{ item.label }}</a></b>
+		</li>
+		{% endfor %}
+		</ul>
+	{% else %}
+		<p>{% translate "No items repaired." %}</p>
+	{% endif %}
+
+{% endblock %}

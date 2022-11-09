@@ -108,3 +108,9 @@ urlpatterns += [
 urlpatterns += [
     path('api/', include('library.api.urls')),
 ]
+
+
+""" MAINTANANCE """
+urlpatterns += [
+    path('maintanance/item_status_clean/', views.clean_item_status, name='item_status_clean'),
+]

@@ -222,6 +222,33 @@ class Item(PolymorphicModel):
         self.save()
         return True
 
+    @staticmethod
+    def repair_item_status() -> list:
+        """
+        Repairs the availability of items if necessary.
+
+        It checks whether there is an unreturned loan of an item that is marked as on loan. If not, it will be marked
+        as available
+
+        Parameters
+        ----------
+
+        Returns
+        -------
+        list of repaired items
+        """
+        repaired_items = []
+        all_items = Item.objects.all()
+        for item in all_items:
+            if item.status == 'o' and item.label =="AA5 a":
+                loans = Loan.objects.filter(item=item)
+                if len([loan for loan in loans if not loan.returned]) == 0:
+                    # All loans are returned
+                    item.status = 'a'
+                    item.save()
+                    repaired_items.append(item)
+        return repaired_items
+
     @property
     def borrower(self):
         """ Returns the current borrower or 'Not borrowed'"""
