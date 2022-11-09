@@ -240,7 +240,7 @@ class Item(PolymorphicModel):
         repaired_items = []
         all_items = Item.objects.all()
         for item in all_items:
-            if item.status == 'o' and item.label =="AA5 a":
+            if item.status == 'o':
                 loans = Loan.objects.filter(item=item)
                 if len([loan for loan in loans if not loan.returned]) == 0:
                     # All loans are returned
