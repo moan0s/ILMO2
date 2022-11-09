@@ -240,7 +240,7 @@ def list_loans_unreturned(request):
 @permission_required('library.can_see_borrowed', raise_exception=True)
 def list_loans(request):
     """View all unreturned items"""
-    loans = Loan.objects.all()
+    loans = Loan.objects.order_by("lent_on")
     context = {
         'loan_list': loans,
     }
@@ -442,6 +442,7 @@ class OpeningHourDeleteView(PermissionRequiredMixin, DeleteView):
     template_name = "library/openinghour_confirm_delete.html"
     success_url = reverse_lazy('library:openinghours')
 
+
 def export_own_profile(request):
     member = Member.objects.filter(user=request.user)
     loans = member[0].loans
@@ -454,3 +455,8 @@ def export_own_profile(request):
     loans_as_json = serializers.serialize('json', loans)
     full_json = f"{user_as_json[:-1]}, {member_as_json[1:-1]}, {loans_as_json[1:]}"
     return HttpResponse(full_json, content_type="application/json")
+
+
+def clean_item_status(request):
+    repaired_items = Item.repair_item_status()
+    return render(request, 'library/successful_maintenance.html', context={"item_list": repaired_items})
