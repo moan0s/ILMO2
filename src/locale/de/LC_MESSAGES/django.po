@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-11-09 15:14+0100\n"
+"POT-Creation-Date: 2022-11-09 15:57+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -324,6 +324,7 @@ msgstr "Materialinstanz"
 
 #: .\library\models.py:306
 #: .\library\templates\library\item_renew_librarian.html:6
+#: .\library\templates\library\loan_list_table.html:6
 msgid "Borrower"
 msgstr "Ausleihender"
 
@@ -331,11 +332,12 @@ msgstr "Ausleihender"
 msgid "Lent on"
 msgstr "Ausgeliehen am"
 
-#: .\library\models.py:309
+#: .\library\models.py:309 .\library\templates\library\loan_list_table.html:7
 msgid "Due back"
 msgstr "Zurück bis"
 
 #: .\library\models.py:310 .\library\templates\library\loan-detail.html:10
+#: .\library\templates\library\loan_list_table.html:27
 msgid "Returned on"
 msgstr "Zurückgegeben am"
 
@@ -534,6 +536,7 @@ msgid "Borrow"
 msgstr "Ausleihen"
 
 #: .\library\templates\library\bookInstanceTable.html:20
+#: .\library\templates\library\loan_list_table.html:11
 #: .\library\templates\library\materialInstance-detail.html:17
 msgid "Return"
 msgstr "Zurückgeben"
@@ -611,6 +614,7 @@ msgid "Search for an item by label"
 msgstr "Suche nach einem Item nach Bezeichnung"
 
 #: .\library\templates\library\item_renew_librarian.html:5
+#: .\library\templates\library\loan_list_table.html:10
 #: .\library\templates\library\materialInstance-detail.html:16
 msgid "Renew"
 msgstr "Verlängern"
@@ -620,28 +624,36 @@ msgid "Due date"
 msgstr "Bis"
 
 #: .\library\templates\library\list_loans_user.html:5
-#, fuzzy
-#| msgid "Your unreturned loans"
 msgid "Unreturned loans"
-msgstr "Deine nicht zurückgegebenen Ausleihen"
+msgstr "Nicht zurückgegebenen Ausleihen"
 
 #: .\library\templates\library\list_loans_user.html:18
-#, fuzzy
-#| msgid "Your unreturned loans"
 msgid "You have no unreturned loans."
 msgstr "Deine nicht zurückgegebenen Ausleihen"
 
 #: .\library\templates\library\list_loans_user.html:21
-#, fuzzy
-#| msgid "Returned on"
 msgid "Returned loans"
-msgstr "Zurückgegeben am"
+msgstr "Zurückgegebene Ausleihen"
 
 #: .\library\templates\library\list_loans_user.html:34
-#, fuzzy
-#| msgid "Your unreturned loans"
 msgid "You have no returned loans."
-msgstr "Deine nicht zurückgegebenen Ausleihen"
+msgstr "Du hast keine nicht zurückgegebenen Ausleihen"
+
+#: .\library\templates\library\loan_list_table.html:4
+msgid "Loan ID"
+msgstr "Ausleihenummer"
+
+#: .\library\templates\library\loan_list_table.html:5
+msgid "Item Description"
+msgstr "Item Beschreibung"
+
+#: .\library\templates\library\loan_list_table.html:8
+msgid "Reminder"
+msgstr "Erinnerung"
+
+#: .\library\templates\library\loan_list_table.html:26
+msgid "Already returned"
+msgstr "Bereits zurückgegeben"
 
 #: .\library\templates\library\materials.html:13
 msgid "No materials are available."
