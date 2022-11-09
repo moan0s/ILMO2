@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-03-17 13:16+0100\n"
+"POT-Creation-Date: 2022-11-09 15:57+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,11 +17,11 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: .\ilmo\settings.py:181
+#: .\ilmo\settings.py:197
 msgid "English"
 msgstr "Englisch"
 
-#: .\ilmo\settings.py:182
+#: .\ilmo\settings.py:198
 msgid "German"
 msgstr "Deutsch"
 
@@ -29,36 +29,38 @@ msgstr "Deutsch"
 msgid "Library"
 msgstr "Bibliothek"
 
-#: .\library\forms.py:12
+#: .\library\forms.py:13
 msgid "Enter a date between now and 4 weeks (default 3)."
 msgstr "Gebe ein Datum zwischen jetzt und 4 Wochen ein (Standard 3)."
 
-#: .\library\forms.py:19
+#: .\library\forms.py:20
 msgid "Invalid date - renewal in past"
 msgstr "Ungültiges Datum - Verlängerung in der Vergangenheit"
 
-#: .\library\forms.py:23
+#: .\library\forms.py:24
 msgid "Invalid date - renewal more than 4 weeks ahead"
 msgstr "Ungültiges datum - Verlängerung mehr als 4 Wochen voraus"
 
-#: .\library\forms.py:33 .\library\templates\library\openinghours.html:8
+#: .\library\forms.py:34 .\library\templates\library\openinghours.html:8
+#: .\library\templates\library\openinghours_plain.html:20
 msgid "Open from"
 msgstr "Offen von"
 
-#: .\library\forms.py:34 .\library\templates\library\openinghours.html:9
+#: .\library\forms.py:35 .\library\templates\library\openinghours.html:9
+#: .\library\templates\library\openinghours_plain.html:21
 msgid "Open until"
 msgstr "Offen bis"
 
-#: .\library\forms.py:41
+#: .\library\forms.py:45
 msgid "Library must be open before closing 😉"
 msgstr "Bibliothek muss öffnen bevor sie schließt 😉"
 
-#: .\library\mail.py:12
+#: .\library\mail.py:14
 #, python-format
 msgid "%(item)s is due back on %(due_day)s.%(due_month)s.%(due_year)s"
 msgstr "%(item)s ist zurück am %(due_day)s.%(due_month)s.%(due_year)s"
 
-#: .\library\mail.py:45
+#: .\library\mail.py:47
 msgid ""
 "Your loans that are past their due date:\n"
 "\r"
@@ -66,7 +68,7 @@ msgstr ""
 "Deine Ausleihen sind fällig am: \n"
 "\r"
 
-#: .\library\mail.py:49
+#: .\library\mail.py:51
 msgid ""
 "Loans that will become due:\n"
 "\r"
@@ -74,140 +76,130 @@ msgstr ""
 "Ausleihen werden fällig am:\n"
 "\r"
 
-#: .\library\mail.py:73
+#: .\library\mail.py:75
 msgid "Your unreturned loans"
 msgstr "Deine nicht zurückgegebenen Ausleihen"
 
-#: .\library\mail.py:74
+#: .\library\mail.py:76
 #, python-format
 msgid "Hello %(first_name)s %(lastname)s,\r\n"
 msgstr "Hallo %(first_name)s %(lastname)s,\r\n"
 
-#: .\library\models.py:16
+#: .\library\models.py:17
 msgid "Enter a book genre (e.g. Science Fiction)"
 msgstr "Gebe ein Büchergenre ein (z.B. Science Fiction)"
 
-#: .\library\models.py:17 .\library\models.py:386
-#: .\library\models.py:16 .\library\models.py:363
+#: .\library\models.py:18 .\library\models.py:407
 #: .\library\templates\library\materialInstanceTable.html:5
 #: .\library\templates\library\materialTable.html:4
 msgid "Name"
 msgstr "Name"
 
-#: .\library\models.py:23 .\library\models.py:24 .\library\models.py:70
+#: .\library\models.py:25 .\library\models.py:26 .\library\models.py:72
 #: .\library\templates\library\book.html:11
 msgid "Genre"
 msgstr "Genre"
 
-#: .\library\models.py:39 .\library\models.py:285
-#: .\library\models.py:38 .\library\models.py:265
+#: .\library\models.py:40 .\library\models.py:294
 #: .\library\templates\library\material.html:5
 #: .\library\templates\library\materialInstance-detail.html:5
 #: .\library\templates\library\nav_sidebar.html:8
 msgid "Material"
 msgstr "Material"
 
-#: .\library\models.py:39 .\library\templates\library\index.html:14
+#: .\library\models.py:41 .\library\templates\library\index.html:14
 #: .\library\templates\library\search.html:34
 msgid "Materials"
 msgstr "Materialien"
 
-#: .\library\models.py:44
+#: .\library\models.py:46
 #: .\library\templates\library\borrow-user-search.html:25
 #: .\library\templates\library\userTable.html:5
 msgid "First name"
 msgstr "Vorname"
 
-#: .\library\models.py:45
+#: .\library\models.py:47
 #: .\library\templates\library\borrow-user-search.html:26
 #: .\library\templates\library\userTable.html:6
 msgid "Last name"
 msgstr "Nachname"
 
-#: .\library\models.py:46 .\library\templates\library\author.html:6
+#: .\library\models.py:48 .\library\templates\library\author.html:6
 msgid "Date of birth"
 msgstr "Geburtsdatum"
 
-#: .\library\models.py:47
+#: .\library\models.py:49
 msgid "Date of death"
 msgstr "Todesdatum"
 
-#: .\library\models.py:62
+#: .\library\models.py:64
 msgid "Can add, update or delete an author"
 msgstr "Kann Autor hinzufügen, ändern oder löschen"
 
-#: .\library\models.py:63 .\library\models.py:69
+#: .\library\models.py:65 .\library\models.py:71
 #: .\library\templates\library\author.html:5
 #: .\library\templates\library\bookTable.html:6
 msgid "Author"
 msgstr "Autor"
 
-#: .\library\models.py:64 .\library\templates\library\index.html:13
+#: .\library\models.py:66 .\library\templates\library\index.html:13
 #: .\library\templates\library\nav_sidebar.html:9
 msgid "Authors"
 msgstr "Autoren"
 
-#: .\library\models.py:68
+#: .\library\models.py:70
 msgid "Titel"
 msgstr "Titel"
 
-#: .\library\models.py:69
+#: .\library\models.py:71
 msgid "Select the autor(s) of this book."
 msgstr "Wähle den/die Autor(en) für dieses Buch aus."
 
-#: .\library\models.py:70
+#: .\library\models.py:72
 msgid "Select a genre for this book."
 msgstr "Wähle das Genre für dieses Buch aus."
 
-#: .\library\models.py:71
+#: .\library\models.py:73
 msgid "Enter a brief description of the book."
 msgstr "Gebe eine kurze Beschreibung für dieses Buch ein."
 
-#: .\library\models.py:71 .\library\templates\library\book.html:8
+#: .\library\models.py:73 .\library\templates\library\book.html:8
 msgid "Summary"
 msgstr "Zusammenfassung"
 
-#: .\library\models.py:72
+#: .\library\models.py:74
 msgid "ISBN number (13 Characters)"
 msgstr "ISBN Nummer (13 Zeichen)"
 
-#: .\library\models.py:72 .\library\templates\library\book.html:9
+#: .\library\models.py:74 .\library\templates\library\book.html:9
 msgid "ISBN"
 msgstr "ISBN"
 
-#: .\library\models.py:74 .\library\models.py:104
-#: .\library\models.py:73 .\library\models.py:104
+#: .\library\models.py:75 .\library\models.py:106
 #: .\library\templates\library\book.html:10
 #: .\library\templates\library\member.html:11
 msgid "Language"
 msgstr "Sprache"
 
-#: .\library\models.py:84 .\library\models.py:263
-#: .\library\models.py:76 .\library\models.py:240
-#: .\library\templates\library\books.html:10
-msgid "by"
-msgstr "von"
-
-#: .\library\models.py:84 .\library\models.py:247
+#: .\library\models.py:85 .\library\models.py:272
 #: .\library\templates\library\bookInstance-detail.html:5
 #, fuzzy
 #| msgid "Books"
 msgid "Book"
 msgstr "Bücher"
 
-#: .\library\models.py:85 .\library\templates\library\index.html:10
+#: .\library\models.py:86 .\library\templates\library\index.html:10
 #: .\library\templates\library\nav_sidebar.html:7
 #: .\library\templates\library\search.html:23
 msgid "Books"
 msgstr "Bücher"
 
-#: .\library\models.py:90
+#: .\library\models.py:92
 msgid "Enter a natural languages name (e.g. English, French, Japanese etc.)."
 msgstr ""
 "Gib eine natürliche Sprache (z.B. Deutsch, Englisch, Französisch etc.) ein."
 
-#. Translators: This helptext includes an URL
-#: .\library\models.py:95
+#: .\library\models.py:98
 msgid ""
 "Enter the language code for this language. For further information see  "
 "http://www.i18nguy.com/unicode/language-identifiers.html"
@@ -215,241 +207,242 @@ msgstr ""
 "Gib den Sprachcode für diese Sprache ein. Für weitere Informationen siehe  "
 "http://www.i18nguy.com/unicode/language-identifiers.html"
 
-#: .\library\models.py:96
+#: .\library\models.py:99
 msgid "Language code"
 msgstr "Sprachcode"
 
-#: .\library\models.py:105
+#: .\library\models.py:107
 msgid "Languages"
 msgstr "Sprachen"
 
-#: .\library\models.py:109 .\library\templates\library\search.html:13
+#: .\library\models.py:111 .\library\templates\library\search.html:13
 msgid "User"
 msgstr "Benutzer"
 
-#: .\library\models.py:110
-msgid "Preffered language"
+#: .\library\models.py:113
+#, fuzzy
+#| msgid "Preffered language"
+msgid "Preferred language"
 msgstr "Keine bevorzugte Sprache gesetzt."
 
-#: .\library\models.py:111
+#: .\library\models.py:114
 msgid "The UID of a NFC chip (e.g. in a student id)."
 msgstr "Die UID eines NFC chips (z.B. eines Studierendenausweis)."
 
-#: .\library\models.py:111 .\library\templates\library\member.html:16
+#: .\library\models.py:115 .\library\templates\library\member.html:16
 msgid "UID"
 msgstr "UID"
 
-#: .\library\models.py:125
+#: .\library\models.py:133
 msgid "Member"
 msgstr "Mitglied"
 
-#: .\library\models.py:126
+#: .\library\models.py:134
 msgid "Members"
 msgstr "Mitglieder"
 
-#: .\library\models.py:133
+#: .\library\models.py:141
 msgid "Unique ID for this particular item across whole library."
 msgstr "Eindeutige ID für dieses Item in der gesamten Bibliothek."
 
-#: .\library\models.py:134 .\library\models.py:385
-#: .\library\models.py:134 .\library\models.py:362
-#: .\library\templates\library\book.html:26
-#: .\library\templates\library\loan-detail.html:21
+#: .\library\models.py:142 .\library\models.py:406
+#: .\library\templates\library\book.html:27
+#: .\library\templates\library\bookInstance-detail.html:25
+#: .\library\templates\library\loan-detail.html:24
 #: .\library\templates\library\material.html:18
 #: .\library\templates\library\materialInstance-detail.html:24
 msgid "Id"
 msgstr "Id"
 
-#: .\library\models.py:135 .\library\templates\library\bookInstanceTable.html:4
+#: .\library\models.py:143 .\library\templates\library\bookInstanceTable.html:4
 #: .\library\templates\library\item-search.html:14
 #: .\library\templates\library\materialInstanceTable.html:4
 msgid "Label"
 msgstr "Label"
 
-#: .\library\models.py:138
+#: .\library\models.py:146
 msgid "Maintenance"
 msgstr "Wartung"
 
-#: .\library\models.py:139
+#: .\library\models.py:147
 msgid "On loan"
 msgstr "Ausgeliehen"
 
-#: .\library\models.py:140
+#: .\library\models.py:148
 msgid "Available"
 msgstr "Verfügbar"
 
-#: .\library\models.py:141
+#: .\library\models.py:149
 msgid "Reserved"
 msgstr "Reserviert"
 
-#: .\library\models.py:149
+#: .\library\models.py:157
 msgid "Item availability"
 msgstr "Item Verfügbarkeit"
 
-#: .\library\models.py:153
+#: .\library\models.py:161
 msgid "Set item as returned"
 msgstr "Markiere Item als zurückgegeben"
 
-#: .\library\models.py:154
+#: .\library\models.py:162
 msgid "See all borrowed items"
 msgstr "Sehe alle ausgeliehene Items"
 
-#: .\library\models.py:155 .\library\models.py:297
-#: .\library\models.py:155 .\library\models.py:274
+#: .\library\models.py:163 .\library\models.py:307
 msgid "Item"
 msgstr "Item"
 
-#: .\library\models.py:156 .\library\templates\library\material.html:8
+#: .\library\models.py:164 .\library\templates\library\material.html:8
 msgid "Items"
 msgstr "Items"
 
 #. Translators: Is shown instead of a person that borrowed the item
-#: .\library\models.py:227 .\library\models.py:240
-#: .\library\tests\test_models.py:292
+#: .\library\models.py:236 .\library\models.py:249
+#: .\library\tests\test_models.py:291
 msgid "Not borrowed"
 msgstr "Nicht ausgeliehen"
 
-#: .\library\models.py:264 .\library\templates\library\book.html:25
+#: .\library\models.py:273 .\library\templates\library\book.html:25
 msgid "Imprint"
 msgstr "Impressum"
 
-#: .\library\models.py:267
+#: .\library\models.py:276
 msgid "Book instance"
 msgstr "Bücherinstanze"
 
-#: .\library\models.py:268 .\library\templates\library\search.html:45
+#: .\library\models.py:277 .\library\templates\library\search.html:45
 msgid "Book instances"
 msgstr "Bücherinstanzen"
 
-#: .\library\models.py:288
+#: .\library\models.py:297
 msgid "Material instance"
 msgstr "Materialinstanz"
 
-#: .\library\models.py:289 .\library\templates\library\search.html:56
+#: .\library\models.py:298 .\library\templates\library\search.html:56
 msgid "Material instances"
 msgstr "Materialinstanz"
 
-#: .\library\models.py:273
+#: .\library\models.py:306
 #: .\library\templates\library\item_renew_librarian.html:6
+#: .\library\templates\library\loan_list_table.html:6
 msgid "Borrower"
 msgstr "Ausleihender"
 
-#: .\library\models.py:298
+#: .\library\models.py:308
 msgid "Lent on"
 msgstr "Ausgeliehen am"
 
-#: .\library\models.py:299
+#: .\library\models.py:309 .\library\templates\library\loan_list_table.html:7
 msgid "Due back"
 msgstr "Zurück bis"
 
-#: .\library\models.py:300 .\library\templates\library\loan-detail.html:10
+#: .\library\models.py:310 .\library\templates\library\loan-detail.html:10
+#: .\library\templates\library\loan_list_table.html:27
 msgid "Returned on"
 msgstr "Zurückgegeben am"
-#: .\library\models.py:281
-#: .\library\models.py:304
-msgid "borrowed until"
-msgstr "Ausgeliehen bis"
 
-#: .\library\models.py:342
+#: .\library\models.py:359
 msgid "Can add a loan for all user"
 msgstr "Kann allen Bentuzer eine Ausleihe hinzufügen"
 
-#: .\library\models.py:320 .\library\models.py:353
-#: .\library\models.py:343 .\library\models.py:376
+#: .\library\models.py:360 .\library\models.py:393
 #: .\library\templates\library\loan-detail.html:5
 msgid "Loan"
 msgstr "Ausleihe"
 
-#: .\library\models.py:344
+#: .\library\models.py:361 .\library\templates\library\list_loans.html:7
+#: .\library\templates\library\member.html:39
+#: .\library\templates\library\nav_sidebar.html:12
 msgid "Loans"
 msgstr "Ausleihen"
 
-#: .\library\models.py:348
+#: .\library\models.py:365
 msgid "Monday"
 msgstr "Montag"
 
-#: .\library\models.py:349
+#: .\library\models.py:366
 msgid "Tuesday"
 msgstr "Dienstag"
 
-#: .\library\models.py:350
+#: .\library\models.py:367
 msgid "Wednesday"
 msgstr "Mittwoch"
 
-#: .\library\models.py:351
+#: .\library\models.py:368
 msgid "Thursday"
 msgstr "Donnerstag"
 
-#: .\library\models.py:352
+#: .\library\models.py:369
 msgid "Friday"
 msgstr "Freitag"
 
-#: .\library\models.py:353
+#: .\library\models.py:370
 msgid "Saturday"
 msgstr "Samstag"
 
-#: .\library\models.py:354
+#: .\library\models.py:371
 msgid "Sunday"
 msgstr "Sonntag"
 
-#: .\library\models.py:359 .\library\templates\library\openinghours.html:7
+#: .\library\models.py:376 .\library\templates\library\openinghours.html:7
+#: .\library\templates\library\openinghours_plain.html:19
 msgid "Weekday"
 msgstr "Wochentag"
 
-#: .\library\models.py:360
+#: .\library\models.py:377
 msgid "From hour"
 msgstr "Von Stunde"
 
-#: .\library\models.py:375
-#: .\library\models.py:361
+#: .\library\models.py:378
 msgid "To hour"
 msgstr "Bis Stunde"
 
-#: .\library\models.py:362 .\library\templates\library\openinghours.html:10
+#: .\library\models.py:379 .\library\templates\library\openinghours.html:10
+#: .\library\templates\library\openinghours_plain.html:22
 msgid "Comment"
 msgstr "Kommentar"
 
-#: .\library\models.py:367
+#: .\library\models.py:384
 msgid "Can change opening hours"
 msgstr "Kann Öffnungszeiten ändern"
 
-#: .\library\models.py:368
+#: .\library\models.py:385
 msgid "Opening hour"
 msgstr "Öffnungszeit"
 
-#: .\library\models.py:369 .\library\templates\library\nav_sidebar.html:10
+#: .\library\models.py:386 .\library\templates\library\nav_sidebar.html:10
 msgid "Opening hours"
 msgstr "Öffnungszeiten"
 
-#: .\library\models.py:377
+#: .\library\models.py:394
 msgid "Sent on"
 msgstr "Gesendet an"
 
-#: .\library\models.py:380
+#: .\library\models.py:400
 msgid "Loan Reminder"
 msgstr "Ausleiheerinnerung"
 
-#: .\library\models.py:381
+#: .\library\models.py:401
 msgid "Loan Reminders"
 msgstr "Ausheiheerinnerungen"
 
-#: .\library\models.py:385
+#: .\library\models.py:405
 msgid "Unique Id for this room"
 msgstr "Eindeutige ID für diesen Raum"
 
-#: .\library\models.py:387
+#: .\library\models.py:408
 msgid "Users that are allowed to access this room."
 msgstr "Benutzer, die eine Zutrittsberechtigung für diesen Raum haben."
 
-#: .\library\models.py:387
+#: .\library\models.py:409
 msgid "Allowed user"
 msgstr "Erlaubte Benutzer"
 
-#: .\library\models.py:397
+#: .\library\models.py:419
 msgid "Room"
 msgstr "Raum"
 
-#: .\library\models.py:398
+#: .\library\models.py:420
 msgid "Rooms"
 msgstr "Räume"
 
@@ -482,7 +475,7 @@ msgstr "Ja, löschen."
 #: .\library\templates\library\author_form.html:10
 #: .\library\templates\library\item_renew_librarian.html:14
 #: .\library\templates\library\openinghours_form.html:10
-#: .\templates\django_registration\registration_form.html:9
+#: .\templates\django_registration\registration_form.html:10
 msgid "Submit"
 msgstr "Bestätigen"
 
@@ -543,6 +536,7 @@ msgid "Borrow"
 msgstr "Ausleihen"
 
 #: .\library\templates\library\bookInstanceTable.html:20
+#: .\library\templates\library\loan_list_table.html:11
 #: .\library\templates\library\materialInstance-detail.html:17
 msgid "Return"
 msgstr "Zurückgeben"
@@ -573,6 +567,12 @@ msgstr "Suche"
 msgid "Username"
 msgstr "Benutzername"
 
+#: .\library\templates\library\change_password.html:4
+#, fuzzy
+#| msgid "Change passsword"
+msgid "Change password"
+msgstr "Passwort ändern"
+
 #: .\library\templates\library\change_password.html:9
 msgid "Change passsword"
 msgstr "Passwort ändern"
@@ -580,6 +580,10 @@ msgstr "Passwort ändern"
 #: .\library\templates\library\header.html:6
 msgid "About the software"
 msgstr "Über die Software"
+
+#: .\library\templates\library\header.html:21
+msgid "change"
+msgstr ""
 
 #: .\library\templates\library\index.html:5
 msgid "ILMO - Intelligent Library Management Online"
@@ -610,8 +614,7 @@ msgid "Search for an item by label"
 msgstr "Suche nach einem Item nach Bezeichnung"
 
 #: .\library\templates\library\item_renew_librarian.html:5
-#: .\library\templates\library\list_loans_all.html:13
-#: .\library\templates\library\list_loans_all.html:30
+#: .\library\templates\library\loan_list_table.html:10
 #: .\library\templates\library\materialInstance-detail.html:16
 msgid "Renew"
 msgstr "Verlängern"
@@ -620,25 +623,37 @@ msgstr "Verlängern"
 msgid "Due date"
 msgstr "Bis"
 
-#: .\library\templates\library\list_loans_all.html:5
 #: .\library\templates\library\list_loans_user.html:5
-msgid "Borrowed books"
-msgstr "Ausgeliehene Bücher"
+msgid "Unreturned loans"
+msgstr "Nicht zurückgegebenen Ausleihen"
 
-#: .\library\templates\library\list_loans_all.html:19
 #: .\library\templates\library\list_loans_user.html:18
-msgid "There are no books borrowed."
-msgstr "Es sind keine Bücher ausgeliehen."
+msgid "You have no unreturned loans."
+msgstr "Deine nicht zurückgegebenen Ausleihen"
 
-#: .\library\templates\library\list_loans_all.html:22
 #: .\library\templates\library\list_loans_user.html:21
-msgid "Borrowed material"
-msgstr "Ausgeliehene Materialien"
+msgid "Returned loans"
+msgstr "Zurückgegebene Ausleihen"
 
-#: .\library\templates\library\list_loans_all.html:36
 #: .\library\templates\library\list_loans_user.html:34
-msgid "There are no materials borrowed."
-msgstr "Es sind keine Materialien ausgeliehen."
+msgid "You have no returned loans."
+msgstr "Du hast keine nicht zurückgegebenen Ausleihen"
+
+#: .\library\templates\library\loan_list_table.html:4
+msgid "Loan ID"
+msgstr "Ausleihenummer"
+
+#: .\library\templates\library\loan_list_table.html:5
+msgid "Item Description"
+msgstr "Item Beschreibung"
+
+#: .\library\templates\library\loan_list_table.html:8
+msgid "Reminder"
+msgstr "Erinnerung"
+
+#: .\library\templates\library\loan_list_table.html:26
+msgid "Already returned"
+msgstr "Bereits zurückgegeben"
 
 #: .\library\templates\library\materials.html:13
 msgid "No materials are available."
@@ -672,19 +687,19 @@ msgstr "Kein Token gesetzt."
 msgid "Create API token"
 msgstr "Erstelle API token"
 
-#: .\library\templates\library\member.html:33
+#: .\library\templates\library\member.html:35
 #, fuzzy
 #| msgid "Change my password"
 msgid "Change password here."
 msgstr "Mein Passwort ändern"
 
+#: .\library\templates\library\member.html:36
+msgid "Export your data."
+msgstr ""
+
 #: .\library\templates\library\nav_sidebar.html:5
 msgid "Home"
 msgstr "Start"
-
-#: .\library\templates\library\nav_sidebar.html:12
-msgid "All loans"
-msgstr "Alle Ausleihen"
 
 #: .\library\templates\library\nav_sidebar.html:16
 msgid "My Loans"
@@ -698,20 +713,21 @@ msgstr "Ausloggen"
 msgid "Login"
 msgstr "Einloggen"
 
-#: .\library\templates\library\nav_sidebar.html:24
-#: .\library\templates\library\nav_sidebar.html:22
+#: .\library\templates\library\nav_sidebar.html:21
 msgid "Register"
 msgstr "Registrieren"
 
-#: .\library\templates\library\nav_sidebar.html:25
+#: .\library\templates\library\nav_sidebar.html:24
 msgid "Admin"
 msgstr "Admin"
 
 #: .\library\templates\library\openinghours.html:12
+#: .\library\templates\library\openinghours.html:21
 msgid "Delete"
 msgstr "Löschen"
 
 #: .\library\templates\library\openinghours.html:27
+#: .\library\templates\library\openinghours_plain.html:33
 msgid "No opening hours are available."
 msgstr "Keine Öffnungszeiten verfügbar."
 
@@ -743,11 +759,7 @@ msgstr "Keine Bücherinstanz gefunden."
 msgid "No material instances found."
 msgstr "Keine Materialinstanz gefunden."
 
-#: .\library\views.py:114
-msgid "Creating API token"
-msgstr "Erstelle API token"
-
-#: .\library\views.py:142
+#: .\library\views.py:146
 #, python-format
 msgid "You're looking at the loans of book %s."
 msgstr "Du suchst nach der Ausleihe des Buches %s."
@@ -764,7 +776,15 @@ msgstr "Du bist nun aktiviert. Hab Spaß."
 msgid "Activate account at"
 msgstr "Aktiviere deinen Account bei"
 
-#: .\templates\django_registration\activation_email_body.txt:6
+#: .\templates\django_registration\activation_email_body.txt:4
+msgid "Activate by clicking this link"
+msgstr "Aktiviere deinen Account indem du auf diesen Link clickst"
+
+#: .\templates\django_registration\activation_email_body.txt:5
+msgid "or open the following link in your browser"
+msgstr "oder indem du den folgenden Link in deinem Browser öffnest"
+
+#: .\templates\django_registration\activation_email_body.txt:8
 #, python-format
 msgid "Link is valid for %(expiration_days)s days."
 msgstr "Link ist gültig für %(expiration_days)s Tage."
@@ -781,6 +801,11 @@ msgstr "Registrierung ist aktuell nicht möglich."
 msgid "You are now registered. Activation email sent."
 msgstr "Du bist nun registriert. Aktivierungsmail wurde verschickt."
 
+#: .\templates\django_registration\registration_form.html:13
+#: .\templates\registration\login.html:11
+msgid "You're already logged in."
+msgstr "Du bist bereits eingeloggt."
+
 #: .\templates\registration\logged_out.html:5
 msgid "Logged out"
 msgstr "Ausgeloggt"
@@ -792,10 +817,6 @@ msgstr "Klicke hier um dich wieder einzuloggen."
 #: .\templates\registration\login.html:7
 msgid "Your username and password didn't match. Please try again."
 msgstr "Dein Benutzername und Passwort passen nicht. Versuche es bitte erneut."
-
-#: .\templates\registration\login.html:11
-msgid "You're already logged in."
-msgstr "Du bist bereits eingeloggt."
 
 #: .\templates\registration\login.html:13
 msgid "Please login to see this page."
@@ -838,8 +859,8 @@ msgid ""
 "The password reset link was invalid, possibly because it has already been "
 "used. Please request a new password reset."
 msgstr ""
-"Der Passwortresetlink war ungültig, wahrscheinlich weil er bereits "
-"genutztwurde. Bitte fordere ein neues Passwort an."
+"Der Passwortresetlink war ungültig, wahrscheinlich weil er bereits genutzt "
+"wurde. Bitte fordere ein neues Passwort an."
 
 #: .\templates\registration\password_reset_done.html:5
 msgid ""
@@ -852,8 +873,8 @@ msgstr ""
 #: .\templates\registration\password_reset_email.html:2
 msgid "Someone asked for password reset for your email. Follow the link below:"
 msgstr ""
-"Jemand hat für die deine E-Mailadresse ein Passwortreset angefragt."
-"Rufe den nachfolgenden Link auf:"
+"Jemand hat für die deine E-Mailadresse ein Passwortreset angefragt. Rufe den "
+"nachfolgenden Link auf:"
 
 #: .\templates\registration\password_reset_form.html:10
 msgid "Password reset"
@@ -866,3 +887,24 @@ msgstr "Gib die Mailadresse ein, die mit diesem Account verbunden ist"
 #: .\templates\registration\password_reset_form.html:13
 msgid "Reset"
 msgstr "Zurücksetzen"
+
+#~ msgid "borrowed until"
+#~ msgstr "Ausgeliehen bis"
+
+#~ msgid "Borrowed books"
+#~ msgstr "Ausgeliehene Bücher"
+
+#~ msgid "There are no books borrowed."
+#~ msgstr "Es sind keine Bücher ausgeliehen."
+
+#~ msgid "Borrowed material"
+#~ msgstr "Ausgeliehene Materialien"
+
+#~ msgid "There are no materials borrowed."
+#~ msgstr "Es sind keine Materialien ausgeliehen."
+
+#~ msgid "All loans"
+#~ msgstr "Alle Ausleihen"
+
+#~ msgid "Creating API token"
+#~ msgstr "Erstelle API token"

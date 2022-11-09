@@ -1,13 +1,14 @@
+{% load i18n %}
 <table>
     <tr>
-        <th>Loan ID</th>
-        <th>Item Description</th>
-        <th>Borrower</th>
-        <th>Due back</th>
-        <th>Reminder</th>
+        <th>{% translate "Loan ID" %}</th>
+        <th>{% translate "Item Description" %}</th>
+        <th>{% translate "Borrower" %}</th>
+        <th>{% translate "Due back" %}</th>
+        <th>{% translate "Reminder" %}</th>
         {% if perms.library.can_mark_returned %}
-            <th>Renew</th>
-            <th>Return</th>
+            <th>{% trans "Renew" %}</th>
+            <th>{% trans "Return"%}</th>
         {% endif %}
     </tr>
     {% for loan in loan_list %}
@@ -22,8 +23,8 @@
                     <td><a href="{% url 'library:renew-item-librarian' loan.item.pk %}">Renew</a></td>
                     <td><a href="{% url 'library:item-return' loan.item.pk %}">Return</a></td>
                 {% else %}
-                    <td>Already returned</td>
-                    <td>Returned on {{ loan.returned_on }}</td>
+                    <td>{% translate "Already returned" %}</td>
+                    <td>{% translate "Returned on" %} {{ loan.returned_on }}</td>
                 {% endif %}
             {% endif %}
         </tr>
