@@ -390,7 +390,7 @@ class OpeningHours(models.Model):
 
 
 class LoanReminder(models.Model):
-    loan = models.ForeignKey(Loan, on_delete=models.PROTECT, verbose_name=_('Loan'))
+    loan = models.ForeignKey(Loan, on_delete=models.CASCADE, verbose_name=_('Loan'))
     sent_on = models.DateField(verbose_name=_('Sent on'))
 
     def __str__(self):
