@@ -1,6 +1,8 @@
 {% load i18n %}
 {% trans "Activate account at" %} {{ site.name }}:
 
+<a href="{{ site.domain }}{% url 'django_registration_activate' activation_key%}">{% trans "Activate by clicking this link" %}</a>
+{% trans "or open the following link in your browser" %}:
 {{ site.domain }}{% url 'django_registration_activate' activation_key%}
 
 {% blocktrans %}Link is valid for {{ expiration_days }} days.{% endblocktrans %}
