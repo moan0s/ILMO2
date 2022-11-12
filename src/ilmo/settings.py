@@ -36,7 +36,7 @@ DB_BACKEND = config.get("database", "backend", fallback="sqlite3")
 DB_NAME = config.get("database", "name", fallback="ilmo.sqlite3")
 DB_USER = config.get("database", "user", fallback='')
 DB_PASSWORD = config.get("database", "password", fallback='')
-DB_HOST = config.get("database", "host", fallback="localhost")
+DB_HOST = config.get("database", "host", fallback='')
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 LOCALE_PATHS = [os.path.join(BASE_DIR, 'locale')]
