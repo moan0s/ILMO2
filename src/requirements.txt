@@ -12,3 +12,4 @@ fontawesomefree
 django-modeltranslation
 django-registration
 django-polymorphic
+psycopg2-binary
