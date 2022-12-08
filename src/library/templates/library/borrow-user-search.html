@@ -2,7 +2,7 @@
 {% load i18n %}
 
 {% block content %}
-    <h1>Item: {{ item }}</h1>
+    <h1>Borrowing: <i>{{ item }}</i></h1>
     <!---
     <form action="" method="POST">
         <input name="name" type="text" placeholder="Search user">
@@ -10,28 +10,37 @@
     </form>
     <p class="text-muted"><strong>Id:</strong> {{ item.id }}</p>
     --->
-    <form action="" method="post">
-        {% csrf_token %}
-        {{ errors }}
-        <input type="search" name="q" autofocus>
-        <input type="submit" value={% translate "Search" %}>
-    </form>
-    <div class="user_search_result">
-    <table>
-        <tr>
-            <th>{% translate "Username" %}</th>
-            <th>{% translate "First name" %}</th>
-            <th>{% translate "Last name" %}</th>
-            <th>{% translate "Borrow" %}</th>
-        </tr>
-        {% for user in users %}
-            <tr>
-                <td>{{ user.username }}</td>
-                <td>{{ user.first_name }}</td>
-                <td>{{ user.last_name }}</td>
-                <td><a href="{% url 'library:user-borrow' ik=item.id uk=user.id %}">{% translate "Borrow" %}</a></td>
-            </tr>
-        {% endfor %}
-    </table>
+    <div>
+        <h2>Search and select a user to borrow to</h2>
+        <form action="" method="post">
+            {% csrf_token %}
+            {{ errors }}
+            <input type="search" name="q" autofocus>
+            <input type="submit" value={% translate "Search" %}>
+        </form>
+    </div>
+
+    <div class="search_result">
+        {% if users %}
+            <table>
+                <tr>
+                    <th>{% translate "Username" %}</th>
+                    <th>{% translate "First name" %}</th>
+                    <th>{% translate "Last name" %}</th>
+                    <th>{% translate "Borrow" %}</th>
+                </tr>
+                {% for user in users %}
+                    <tr>
+                        <td>{{ user.username }}</td>
+                        <td>{{ user.first_name }}</td>
+                        <td>{{ user.last_name }}</td>
+                        <td><a href="{% url 'library:user-borrow' ik=item.id uk=user.id %}">{% translate "Borrow" %}</a>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </table>
+        {% else %}
+            {% translate "No user found." %}
+        {% endif %}
     </div>
 {% endblock %}
