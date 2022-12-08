@@ -156,19 +156,14 @@ def borrow_item(request, pk):
 
     # If this is a POST request then process the Form data
     if request.method == 'POST':
+        q = request.POST['q']
+        if request.user.has_perm('library.view_member'):
+            context['users'] = get_user(q)
 
-        # Create a form instance and populate it with data from the request (binding):
-        form = UserSearchForm(request.POST)
-        # Check if the form is valid:
-        first_name = form.data['first_name']
-        last_name = form.data['last_name']
-        queryset = User.objects.filter(Q(last_name__iexact=last_name) | Q(first_name__iexact=first_name))
-        context['users'] = queryset
     # If this is a GET (or any other method) create the default form.
     else:
         form = UserSearchForm()
 
-    context['form'] = form
     context['item'] = item
 
     return render(request, 'library/borrow-user-search.html', context=context)
