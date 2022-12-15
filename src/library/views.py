@@ -369,6 +369,29 @@ from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.urls import reverse_lazy
 
 
+def add_books_via_template(request):
+    """
+    Add a book and book instances via a template
+    """
+    context = {}
+
+    # If this is a POST request then process the Form data
+    if request.method == 'POST':
+        book_prefix = helpers.validate_book_prefix(request.POST["book_prefix"])
+        authors = helpers.get_author(request.POST["author_name"])
+        book = Book.objects.create(title=request.POST["title"])
+        for author in authors:
+            print(f"Adding author {author} to book")
+            book.author.add(author)
+        for i in range(0, request.POST["number"]):
+            label_end = helpers.get_label_end(i)
+            label = f"{book_prefix} {label_end}"
+            BookInstance.objects.create(book=book,
+                                        status="a",
+                                        label=label)
+
+    return render(request, 'library/book_add_template.html', context=context)
+
 class AuthorCreate(PermissionRequiredMixin, CreateView):
     permission_required = "library.can_modify_author"
     model = Author
