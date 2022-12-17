@@ -1,3 +1,5 @@
+import logging
+
 from django.contrib.auth import update_session_auth_hash
 from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.auth.views import PasswordChangeView
@@ -369,7 +371,7 @@ from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.urls import reverse_lazy
 
 
-def add_books_via_template(request):
+def book_add_via_template(request):
     """
     Add a book and book instances via a template
     """
@@ -381,7 +383,7 @@ def add_books_via_template(request):
         authors = helpers.get_author(request.POST["author_name"])
         book = Book.objects.create(title=request.POST["title"])
         for author in authors:
-            print(f"Adding author {author} to book")
+            logging.debug(f"Adding author {author} to book")
             book.author.add(author)
         for i in range(0, request.POST["number"]):
             label_end = helpers.get_label_end(i)

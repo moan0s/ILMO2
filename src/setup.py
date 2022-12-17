@@ -12,7 +12,7 @@ from os import environ
 
 setup(
     name="ILMO",
-    version="0.0.3",
+    version="0.0.4",
     description="A library management tool.",
     long_description=long_description,
     long_description_content_type="text/markdown",

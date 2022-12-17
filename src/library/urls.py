@@ -13,6 +13,8 @@ urlpatterns = [
     path('books/', views.BookListView.as_view(), name='books'),
     # ex: /library/book/5/
     path('book/<int:pk>', views.BookDetailView.as_view(), name='book-detail'),
+    # ex: /library/book_add_via_template
+    path('book/add-via-template/', views.book_add_via_template, name='book-add-via-template'),
     # ex: /library/books/5/loans/
     path('books/<int:pk>/loans/', views.loans_of_book),
     # ex: /library/bookInstance/a6c3b3ae-b254-4480-8573-95868068a9c3/
