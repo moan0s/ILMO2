@@ -46,7 +46,7 @@ def get_author_from_string(name: str):
         return authors
 
     splitted_author = author_strings[0].split(" ")
-    first_name = splitted_author[0:-1]
+    first_name = " ".join(splitted_author[0:-1])
     last_name = splitted_author[-1]
 
     # This will fail for authors with more than one name, multiple authors etc..

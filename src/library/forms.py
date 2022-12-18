@@ -1,12 +1,13 @@
 import datetime
 
 from django import forms
-from django.forms import ModelForm
+from django.forms import ModelForm, Form
 from django.core.exceptions import ValidationError
 from django.utils.translation import gettext_lazy as _
 from library.models import OpeningHours
 from django.urls import reverse
 from django.contrib.auth.models import User
+from django.core.validators import RegexValidator
 
 
 class RenewItemForm(forms.Form):
@@ -51,3 +52,14 @@ class UserSearchForm(ModelForm):
         fields = ['first_name', 'last_name']
 
     use_required_attribute = False
+
+
+class BookAddViaTemplateForm(Form):
+    book_prefix = forms.CharField(label='Book prefix',
+                                  max_length=10,
+                                  validators=[RegexValidator(regex="[A-Z][A-Z][0-9]+",
+                                                             message=_("Not a valid book prefix"))])
+    title = forms.CharField(label='Title of the book', max_length=200)
+    author_name = forms.CharField(label='Author name(s)', max_length=100)
+    number_of_instances = forms.IntegerField(label="Number of book instances to create",
+                                             validators=[])

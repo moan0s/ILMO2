@@ -5,11 +5,7 @@
     <form action="" method="post">
         {% csrf_token %}
         <table>
-            <input type="text" name="book_prefix" value="">
-            <input type="text" name="number">
-            <input type="text" name="title" value="">
-            <input type="text" name="author_name" value="">
-            <input type="text" name="location" value="">
+           {{ form.as_table }}
         </table>
         <input type="submit" value={% translate "Submit" %}>
     </form>

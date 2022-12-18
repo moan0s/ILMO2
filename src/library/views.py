@@ -17,11 +17,13 @@ import datetime
 from django.utils import timezone
 from rest_framework.authtoken.models import Token
 import library.helpers as helpers
+from django.views.generic.edit import CreateView, UpdateView, DeleteView
+from django.urls import reverse_lazy
 
 from django.contrib import messages
 import json
 
-from .forms import RenewItemForm, UserSearchForm, OpeningHoursModelForm
+from .forms import RenewItemForm, UserSearchForm, OpeningHoursModelForm, BookAddViaTemplateForm
 from .models import Book, Author, BookInstance, Loan, Material, MaterialInstance, OpeningHours, Item, Member, \
     LoanReminder
 from django.contrib.auth.models import User
@@ -367,32 +369,37 @@ def search(request):
     return render(request, 'library/search.html', context=context)
 
 
-from django.views.generic.edit import CreateView, UpdateView, DeleteView
-from django.urls import reverse_lazy
+
 
 
 def book_add_via_template(request):
     """
     Add a book and book instances via a template
     """
-    context = {}
-
-    # If this is a POST request then process the Form data
     if request.method == 'POST':
-        book_prefix = helpers.validate_book_prefix(request.POST["book_prefix"])
-        authors = helpers.get_author(request.POST["author_name"])
-        book = Book.objects.create(title=request.POST["title"])
-        for author in authors:
-            logging.debug(f"Adding author {author} to book")
-            book.author.add(author)
-        for i in range(0, request.POST["number"]):
-            label_end = helpers.get_label_end(i)
-            label = f"{book_prefix} {label_end}"
-            BookInstance.objects.create(book=book,
-                                        status="a",
-                                        label=label)
+        # create a form instance and populate it with data from the request:
+        form = BookAddViaTemplateForm(request.POST)
+        # check whether it's valid:
+        if form.is_valid():
+            book_prefix = helpers.validate_book_prefix(form.cleaned_data["book_prefix"])
+            authors = helpers.get_author_from_string(form.cleaned_data["author_name"])
+            book = Book.objects.create(title=form.cleaned_data["title"])
+            for author in authors:
+                logging.debug(f"Adding author {author} to book")
+                book.author.add(author)
+            for i in range(0, form.cleaned_data["number_of_instances"]):
+                label_end = helpers.get_label_end(i)
+                label = f"{book_prefix} {label_end}"
+                BookInstance.objects.create(book=book,
+                                            status="a",
+                                            label=label)
+            return HttpResponseRedirect(book.get_absolute_url())
 
-    return render(request, 'library/book_add_template.html', context=context)
+        # if a GET (or any other method) we'll create a blank form
+    else:
+        form = BookAddViaTemplateForm()
+
+    return render(request, 'library/book_add_template.html', {'form': form})
 
 class AuthorCreate(PermissionRequiredMixin, CreateView):
     permission_required = "library.can_modify_author"
