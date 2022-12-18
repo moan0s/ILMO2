@@ -21,7 +21,7 @@
                 <li><a href="{% url 'django_registration_register' %}?next={{ request.path }}"><i class="fas"></i> {% translate "Register" %}</a></li>
             {% endif %}
             {% if user.is_staff %}
-                <a href="{% url 'admin:index' %}">{% translate "Admin" %}</a>
+                <li><a href="{% url 'library:administration' %}"><i class="fas fa-toolbox"></i> {% translate "Administration" %}</a></li>
             {% endif %}
 
         </ul>

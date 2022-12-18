@@ -100,6 +100,12 @@ urlpatterns += [
     path('my-profile/export/', views.export_own_profile, name='my-profile-export'),
 ]
 
+""" administration """
+urlpatterns += [
+    # ex: /library/metrics
+    path('administration/', views.administration, name="administration"),
+]
+
 """ Metrics """
 urlpatterns += [
     # ex: /library/metrics
@@ -114,5 +120,5 @@ urlpatterns += [
 
 """ MAINTANANCE """
 urlpatterns += [
-    path('maintanance/item_status_clean/', views.clean_item_status, name='item_status_clean'),
+    path('maintanance/item_status_clean/', views.clean_item_status, name='item-status-clean'),
 ]

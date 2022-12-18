@@ -90,7 +90,12 @@ def index(request):
         mail_reminder.send()
 
     return render(request, 'library/index.html', context=context)
+@login_required()
+@permission_required("library.is_staff")
+def administration(request):
+    """View function for home page of site."""
 
+    return render(request, 'library/administration.html')
 
 def metrics(request):
     data = gather_metrics_data()
