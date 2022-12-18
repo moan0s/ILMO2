@@ -1,3 +1,4 @@
+.django-static/
 *django.mo
 *ilmo.cfg
 *.json
