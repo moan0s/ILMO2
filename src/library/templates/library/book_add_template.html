@@ -2,10 +2,23 @@
 {% load i18n %}
 
 {% block content %}
+    <h1>Add multiple books with a template</h1>
+
+    <details>
+        <summary><strong>{% translate "How it works" %}</strong></summary>
+        <p>
+            {% blocktranslate %}
+                This form is useful to you if you have a new book with multiple copies.
+                You can add the title of the book, the author(s) (seperated by a comma) and the number of copies.
+                you also have to add a book prefix in the format EX1 (so two capital letters followed by a number).
+                It must not be the same as another book that already is in the library
+            {% endblocktranslate %}</p>
+
+    </details>
     <form action="" method="post">
         {% csrf_token %}
         <table>
-           {{ form.as_table }}
+            {{ form.as_table }}
         </table>
         <input type="submit" value={% translate "Submit" %}>
     </form>
