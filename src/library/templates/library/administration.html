@@ -7,8 +7,7 @@
         <a href="{% url 'admin:index' %}"><li><i class="fas fa-hammer"></i> {% translate "Django Admin" %}</li></a>
         <a href="{% url 'library:book-add-via-template' %}"><li><i class="fas fa-book"></i> {% translate "Add books" %}</li></a>
         <a href="{% url 'library:item-status-clean' %}"><li><i class="fas fa-tools"></i> {% translate "Maintanance" %}</li></a>
-        <li><a href="https://ilmo2.readthedocs.io"><i class="fas fa-book"></i> {% translate "Documentation" %}</a>
-        </li>
+        <a href="https://ilmo2.readthedocs.io"><li><i class="fas fa-book"></i> {% translate "Documentation" %}</li></a>
 
     </ul>
 {% endblock %}
