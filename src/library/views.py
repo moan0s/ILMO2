@@ -308,7 +308,7 @@ def get_books(query):
     return books
 
 
-def get_book_intances(query):
+def get_book_instances(query):
     book_instances = BookInstance.objects.filter(Q(label__iexact=query))
     return book_instances
 
@@ -368,7 +368,7 @@ def search(request):
         books.extend(books_by_author)
         context['books'] = books
         context['materials'] = get_materials(q)
-        context['book_instances'] = get_book_intances(q)
+        context['book_instances'] = get_book_instances(q)
         context['material_instances'] = get_material_instances(q)
 
     return render(request, 'library/search.html', context=context)
