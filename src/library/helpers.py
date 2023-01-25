@@ -32,8 +32,9 @@ def get_author_from_string(name: str):
     author_strings = name.split(",")
     if len(author_strings) > 1:
         for author_string in author_strings:
+            author_string = author_string.lstrip().rstrip()
             splitted_author = author_string.split(" ")
-            first_name = splitted_author[0:-1]
+            first_name = " ".join(splitted_author[0:-1])
             last_name = splitted_author[-1]
             try:
                 # Creating the author
