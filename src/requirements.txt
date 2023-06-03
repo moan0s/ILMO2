@@ -1,6 +1,5 @@
 Django
 python-decouple
-mysqlclient
 coverage
 codecov
 sphinx
