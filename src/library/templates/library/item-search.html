@@ -9,32 +9,6 @@
         <input type="submit" value={% translate "Search" %}>
     </form>
     <div class="item_search_result">
-        <table>
-            <tr>
-                <th>{% translate "Label" %}</th>
-                <th>{% translate "Status" %}</th>
-                <th>
-                    Borrower
-                </th>
-            </tr>
-            {% for item in items %}
-                <tr>
-                    <td>{{ item.label }}</td>
-                    <td class="{% if item.status == 'a' %}text-success{% elif item.status == 'm' %}text-danger{% else %}text-warning{% endif %}">
-                        {{ item.get_status_display }}
-                    </td>
-                    <td>
-                        {% if item.status == 'a' %}
-                            {% translate "None" %}.
-                            <a href="{% url 'library:item-borrow' item.id %}">
-                                {% translate "Borrow" %}?</a>
-                        {% elif item.status == 'm' %}
-                            {% translate "Not possible - Maintanance" %}
-                        {% else %}
-                            Borrowed by: <a href="{% url 'library:user-detail' item.borrower.id %}">{{ item.borrower }}</a>
-                        {% endif %}</td>
-                </tr>
-            {% endfor %}
-        </table>
+         {% include "library/item_table.html" %}
     </div>
 {% endblock %}

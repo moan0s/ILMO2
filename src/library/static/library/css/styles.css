@@ -233,6 +233,40 @@ h1 {
     transform: translateY(4px);
 }
 
+.action-button ul {
+    display: flex;
+    width: 100%;
+    height: 80vh;
+    margin: auto;
+    max-width: 1000px;
+    justify-content: space-between;
+    text-align: center;
+}
+
+.action-button li {
+    text-decoration: none;
+    padding: 1rem 2rem 1.15rem;
+    text-transform: uppercase;
+    cursor: pointer;
+    color: #ebebeb;
+    min-width: 80px;
+    margin: 10px;
+    font-weight: bold;
+    list-style-type: none;
+    background-color: #4ba3cd;
+    border-radius: 5px;
+}
+
+.action-button li:hover {
+    background-color: #4090b6;
+    animation: spring 300ms ease-out;
+}
+
+.action-button li:active {
+    transform: translateY(4px);
+}
+
+
 @keyframes spring {
     15% {
         -webkit-transform-origin: center center;
