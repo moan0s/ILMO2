@@ -1,0 +1,61 @@
+[build-system]
+requires = ["setuptools", "wheel"]
+build-backend = "setuptools.build_meta"
+
+
+
+[project]
+name = "ILMO"
+description = "A library management tool."
+authors = [
+  {name = "moanos", email = "julian-samuel@gebuehr.net"},
+]
+maintainers = [
+  {name = "moanos", email = "julian-samuel@gebuehr.net"},
+]
+keywords = ["matrix", "registration", "bot", "user", "registration", "API"  ]
+license = {text = "AGPL-3.0-or-later"}
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "Environment :: Web",
+    "Intended Audience :: System Administrators",
+    "License :: OSI Approved :: GNU Affero General Public License v3",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Framework :: Django",
+]
+dependencies = [
+    "Django",
+    "python-decouple",
+    "coverage",
+    "codecov",
+    "sphinx",
+    "sphinx-rtd-theme",
+    "gunicorn",
+    "djangorestframework",
+    "model_bakery",
+    "fontawesomefree",
+    "django-modeltranslation",
+    "django-registration",
+    "django-polymorphic",
+    "psycopg2-binary"
+]
+dynamic = ["version", "readme"]
+
+[project.urls]
+homepage = "https://hyteck.de"
+documentation = "https://ilmo2.readthedocs.io/en/latest/"
+repository = "https://github.com/moan0s/ILMO2/"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+include = ["ilmo", "library"]
+
+[project.scripts]
+ilmo-manage = 'ilmo.main:main'
+
+[tool.setuptools.dynamic]
+version = {attr = "ilmo.__version__"}
+readme = {file = "README.rst"}
+

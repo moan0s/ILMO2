@@ -1,11 +1,18 @@
 FROM python:3-slim
 MAINTAINER Julian-Samuel Gebühr
 
-RUN python -m venv /var/ilmo/venv
+ENV VIRTUAL_ENV=/var/ilmo/venv
+RUN python -m venv $VIRTUAL_ENV
+ENV PATH="$VIRTUAL_ENV/bin:$PATH"
 COPY src/requirements.txt requirements.txt
-RUN /var/ilmo/venv/bin/pip install -r requirements.txt
+RUN pip install -r requirements.txt
 WORKDIR /var/ilmo
 COPY . .
-RUN /var/ilmo/venv/bin/pip install .
+RUN pip install .
 
-CMD ["/var/ilmo/venv/bin/gunicorn", "ilmo.wsgi", "--bind=0.0.0.0:8345"]
+COPY docker/ilmo.bash $VIRTUAL_ENV/bin/ilmo
+
+RUN ilmo-manage collectstatic --noinput
+
+EXPOSE 8345
+CMD ["ilmo"]
