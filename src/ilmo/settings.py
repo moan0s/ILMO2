@@ -79,7 +79,7 @@ ALLOWED_HOSTS = ['*']
 # Application definition
 
 INSTALLED_APPS = [
-    'library.apps.LibraryConfig',
+    'library',
     'modeltranslation',
     'django.contrib.admin',
     'django.contrib.auth',

@@ -50,7 +50,6 @@ repository = "https://github.com/moan0s/ILMO2/"
 
 [tool.setuptools.packages.find]
 where = ["src"]
-include = ["ilmo", "library"]
 
 [project.scripts]
 ilmo-manage = 'ilmo.main:main'
