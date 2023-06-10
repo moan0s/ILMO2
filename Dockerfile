@@ -12,7 +12,5 @@ RUN pip install .
 
 COPY docker/ilmo.bash $VIRTUAL_ENV/bin/ilmo
 
-RUN ilmo-manage collectstatic --noinput
-
 EXPOSE 8345
 CMD ["ilmo"]

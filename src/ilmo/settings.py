@@ -102,6 +102,8 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django.middleware.locale.LocaleMiddleware',
+    # Static file serving & caching
+    'whitenoise.middleware.WhiteNoiseMiddleware',
 ]
 
 ROOT_URLCONF = 'ilmo.urls'
@@ -200,7 +202,10 @@ LANGUAGES = (
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
-
+# This is adjusted based on this guide https://testdriven.io/blog/django-docker-traefik/
+STATIC_ROOT = BASE_DIR / 'staticfiles'
+# compression and caching support (see https://whitenoise.readthedocs.io/en/latest/#quickstart-for-django-apps)
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 STATIC_URL = '/static/'
 
 # Default primary key field type

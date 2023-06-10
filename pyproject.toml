@@ -39,7 +39,8 @@ dependencies = [
     "django-modeltranslation",
     "django-registration",
     "django-polymorphic",
-    "psycopg2-binary"
+    "psycopg2-binary",
+    "whitenoise"
 ]
 dynamic = ["version", "readme"]
 
