@@ -9,6 +9,12 @@ A software to manage a library, especially books, other material, users, emails 
 
 This software is Open-Source, so you are invited to use it for free. But perhaps you need some help to adjust the software to your library or want some new features? Feel free to contact me!
 
+# Development
+
+The easiest way is to get the source, run `pip install -e .` and finally `ilmo-manage runserver`.
+
+More in the [dev documentation](https://ilmo2.readthedocs.io/en/latest/dev).
+
 # Bugs and Security
 
 You found an error in the code, want to suggest an improvement etc…? Just put it on the Issue Tracker, I will read it! For security issues please contact me directly, address see below.
