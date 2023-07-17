@@ -69,12 +69,11 @@ SEC_POLICY = config.get("security", "Policy",
                                  "without being asked to do so.")
 
 """ LOCATIONS """
-STATIC_ROOT = config.get("locations", "static", fallback=".django-static/")
+STATIC_ROOT = config.get("locations", "static")
 
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
-
-ALLOWED_HOSTS = ['*']
+# see https://docs.djangoproject.com/en/3.2/ref/settings/#std-setting-ALLOWED_HOSTS
+ALLOWED_HOSTS = [config.get("ilmo", "host")]
+CSRF_TRUSTED_ORIGINS = [f"https://{config.get('ilmo', 'host')}"]
 
 # Application definition
 
@@ -203,7 +202,6 @@ LANGUAGES = (
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 # This is adjusted based on this guide https://testdriven.io/blog/django-docker-traefik/
-STATIC_ROOT = BASE_DIR / 'staticfiles'
 # compression and caching support (see https://whitenoise.readthedocs.io/en/latest/#quickstart-for-django-apps)
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 STATIC_URL = '/static/'
