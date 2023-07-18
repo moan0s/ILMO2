@@ -11,9 +11,6 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 """
 
 from pathlib import Path
-
-import django.core.mail.backends.base
-from decouple import config
 import os
 import configparser
 from django.utils.translation import gettext_lazy as _
@@ -22,10 +19,34 @@ from django.utils.translation import gettext_lazy as _
 config = configparser.RawConfigParser()
 if 'ILMO_CONFIG_FILE' in os.environ:
     config.read_file(open(os.environ.get('ILMO_CONFIG_FILE'), encoding='utf-8'))
+if 'DOCKER_BUILD' in os.environ and os.environ.get('DOCKER_BUILD'):
+    config.read("docker/build.cfg", encoding='utf-8')
 else:
     config.read(['/etc/ilmo/ilmo.cfg', os.path.expanduser('~/.ilmo.cfg'), 'ilmo.cfg'],
                 encoding='utf-8')
 CONFIG_FILE = config
+
+"""LOGGING"""
+LOGGING = {
+    "version": 1,
+    "disable_existing_loggers": False,
+    "handlers": {
+        "console": {
+            "class": "logging.StreamHandler",
+        },
+    },
+    "root": {
+        "handlers": ["console"],
+        "level": "WARNING",
+    },
+    "loggers": {
+        "django": {
+            "handlers": ["console"],
+            "level": os.getenv("DJANGO_LOG_LEVEL", "DEBUG"),
+            "propagate": False,
+        },
+    },
+}
 
 """ DJANGO """
 SECRET_KEY = config.get('django', 'secret')
@@ -135,24 +156,8 @@ WSGI_APPLICATION = 'ilmo.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
-import os
 
-# Use the following live settings to build on Travis CI
-if os.getenv('BUILD_ON_TRAVIS', None):
-    SECRET_KEY = "SecretKeyForUseOnTravis"
-    DEBUG = False
-    TEMPLATE_DEBUG = True
-
-    DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.mysql',
-            'NAME': 'travis_ci_db',
-            'USER': 'travis',
-            'PASSWORD': '',
-            'HOST': '127.0.0.1',
-        }
-    }
-elif (DB_BACKEND == "sqlite3"):
+if (DB_BACKEND == "sqlite3"):
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.sqlite3',
