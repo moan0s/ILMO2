@@ -69,13 +69,21 @@ SEC_POLICY = config.get("security", "Policy",
                                  "without being asked to do so.")
 
 """ LOCATIONS """
-STATIC_ROOT = config.get("locations", "static")
+STATIC_ROOT = config.get("locations", "static", fallback="/ilmo/static")
 
 # see https://docs.djangoproject.com/en/3.2/ref/settings/#std-setting-ALLOWED_HOSTS
-ALLOWED_HOSTS = [config.get("ilmo", "host")]
-CSRF_TRUSTED_ORIGINS = [f"https://{config.get('ilmo', 'host')}"]
+ALLOWED_HOSTS = [config.get("ilmo", "host", fallback='*')]
+CSRF_TRUSTED_ORIGINS = [f"https://{config.get('ilmo', 'host', fallback='')}"]
+print(f"Allowed hosts: {ALLOWED_HOSTS}")
 
-# Application definition
+# Static files (CSS, JavaScript, Images)
+# https://docs.djangoproject.com/en/3.2/howto/static-files/
+# This is adjusted based on this guide https://testdriven.io/blog/django-docker-traefik/
+# compression and caching support (see https://whitenoise.readthedocs.io/en/latest/#quickstart-for-django-apps)
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+STATIC_URL = '/static/'
+
+"""Application definition"""
 
 INSTALLED_APPS = [
     'library',
@@ -94,6 +102,8 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    # Static file serving & caching
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -101,8 +111,6 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django.middleware.locale.LocaleMiddleware',
-    # Static file serving & caching
-    'whitenoise.middleware.WhiteNoiseMiddleware',
 ]
 
 ROOT_URLCONF = 'ilmo.urls'
@@ -198,13 +206,6 @@ LANGUAGES = (
     ('en-us', _('English')),
     ('de', _('German')),
 )
-
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/3.2/howto/static-files/
-# This is adjusted based on this guide https://testdriven.io/blog/django-docker-traefik/
-# compression and caching support (see https://whitenoise.readthedocs.io/en/latest/#quickstart-for-django-apps)
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
-STATIC_URL = '/static/'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field

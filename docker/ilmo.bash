@@ -10,8 +10,6 @@ AUTOMIGRATE=${AUTOMIGRATE:-yes}
 NUM_WORKERS_DEFAULT=$((2 * $(nproc --all)))
 export NUM_WORKERS=${NUM_WORKERS:-$NUM_WORKERS_DEFAULT}
 
-ilmo-manage collectstatic --noinput
-
 if [ "$AUTOMIGRATE" != "skip" ]; then
   ilmo-manage migrate --noinput
 fi

@@ -2,14 +2,15 @@ from django.contrib import admin
 from django.urls import include, path
 from django.views.generic import RedirectView
 from django.conf.urls.i18n import i18n_patterns
-from . import views
+from django.conf.urls.static import static
+from django.conf import settings
 from .views import *
 
 urlpatterns = [
     path('change_language/',
          change_language,
          name='change_language')
-]
+]+static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 
 urlpatterns += i18n_patterns(
     path('', RedirectView.as_view(url='library/', permanent=True)),
