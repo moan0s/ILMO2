@@ -13,7 +13,7 @@ COPY . .
 RUN pip install -e .  # Without the -e the library static folder will not be copied by collectstatic!
 RUN mkdir /ilmo
 RUN mkdir /ilmo/static
-RUN ilmo-manage collectstatic --noinput -v 2
+RUN ilmo-manage collectstatic --noinput
 
 COPY docker/ilmo.bash $VIRTUAL_ENV/bin/ilmo
 
