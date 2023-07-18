@@ -1,6 +1,6 @@
 .django-static/
 *django.mo
-*ilmo.cfg
+ilmo.cfg
 *.json
 .idea/*
 # SQLite database
