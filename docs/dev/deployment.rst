@@ -1,14 +1,31 @@
 .. highlight:: none
 
-Manual deployment
+**********
+Deployment
+**********
+
+There are different ways to deploy ILMO. We support an ansible+docker based deployment and manual installation.
+
+Ansible deployment
+==================
+
+ILMO can be deployed with the `ilmo-ansible-role <https://github.com/moan0s/ansible-role-ilmo>`_ that is based on the
+official ILMO docker image. This role will only install ilmo itself. If you want a complete setup that includes a
+database and a webserver with minimal configuration you can use the
+`mash-playbook <https://github.com/mother-of-all-self-hosting/mash-playbook>`_ by following `it's documentation
+on ILMO <https://github.com/mother-of-all-self-hosting/mash-playbook/blob/main/docs/services/ilmo.md>`_.
+
+
+
+Manual Deployment
 =================
 
 
 This guide describes the installation of a installation of ILMO from source. It is inspired by this great guide from
-pretix pretix_guide_.
+pretix_.
 
 .. warning:: Even though this guide tries to make it as straightforward to run ILMO, it still requires some Linux experience to
-             get it right. If you're not feeling comfortable managing a Linux server, check out a managed service services_.
+             get it right. If you're not feeling comfortable managing a Linux server, check out a managed service_.
 
 This guide is tested on **Ubuntu20.04** but it should work very similar on other modern systemd based distributions.
 
@@ -19,7 +36,7 @@ Please set up the following systems beforehand, it will not be explained here in
 installation guides):
 
 * A SMTP server to send out mails, e.g. `Postfix`_ on your machine or some third-party server you have credentials for
-* A HTTP reverse proxy, e.g. `nginx`_ or Apache to allow HTTPS connections
+* A HTTP reverse proxy, e.g. `nginx`_ or Traefik to allow HTTPS connections
 * A `PostgreSQL`_ database server
 
 Also recommended is, that you use a firewall, although this is not a ILMO-specific recommendation. If you're new to
@@ -239,6 +256,6 @@ To upgrade to a new ilmo release, pull the latest code changes and run the follo
 .. _redis: https://blog.programster.org/debian-8-install-redis-server/
 .. _ufw: https://en.wikipedia.org/wiki/Uncomplicated_Firewall
 .. _strong encryption settings: https://mozilla.github.io/server-side-tls/ssl-config-generator/
-.. _services: hyteck.de/services
-.. _pretix_guide: https://docs.pretix.eu/en/latest/admin/installation/manual_smallscale.html
+.. _service: hyteck.de/services
+.. _pretix: https://docs.pretix.eu/en/latest/admin/installation/manual_smallscale.html
 
