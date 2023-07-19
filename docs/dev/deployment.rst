@@ -1,7 +1,8 @@
 .. highlight:: none
 
 Manual deployment
-=============================
+=================
+
 
 This guide describes the installation of a installation of ILMO from source. It is inspired by this great guide from
 pretix pretix_guide_.
@@ -9,8 +10,7 @@ pretix pretix_guide_.
 .. warning:: Even though this guide tries to make it as straightforward to run ILMO, it still requires some Linux experience to
              get it right. If you're not feeling comfortable managing a Linux server, check out a managed service services_.
 
-This guide is tested on **Ubuntu20.04** but it should work very similar on other
-modern distributions, especially on all systemd-based ones.
+This guide is tested on **Ubuntu20.04** but it should work very similar on other modern systemd based distributions.
 
 Requirements
 ------------
@@ -166,7 +166,7 @@ You can now run the following commands to enable and start the services::
 SSL
 ---
 
-The following snippet is an example on how to configure a nginx proxy for pretix::
+The following snippet is an example on how to configure a nginx proxy for ilmo::
 
         server {
                 listen 80;

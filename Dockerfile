@@ -3,6 +3,8 @@ MAINTAINER Julian-Samuel Gebühr
 
 ENV DOCKER_BUILD=true
 
+RUN apt update
+RUN apt install gettext -y
 ENV VIRTUAL_ENV=/var/ilmo/venv
 RUN python -m venv $VIRTUAL_ENV
 ENV PATH="$VIRTUAL_ENV/bin:$PATH"
@@ -14,6 +16,7 @@ RUN pip install -e .  # Without the -e the library static folder will not be cop
 RUN mkdir /ilmo
 RUN mkdir /ilmo/static
 RUN ilmo-manage collectstatic --noinput
+RUN ilmo-manage compilemessages --ignore venv
 
 COPY docker/ilmo.bash $VIRTUAL_ENV/bin/ilmo
 
