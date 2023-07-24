@@ -3,6 +3,7 @@
 [![Build Status](https://app.travis-ci.com/moan0s/ILMO2.svg?branch=main)](https://app.travis-ci.com/moan0s/ILMO2)
 [![codecov](https://codecov.io/gh/moan0s/ILMO2/branch/main/graph/badge.svg?token=MIY8NRBNAU)](https://codecov.io/gh/moan0s/ILMO2)
 
+![ILMO logo](src/library/static/library/img/logo.svg)
 A software to manage a library, especially books, other material, users, emails and opening hours.
 
 # Using the software
