@@ -101,7 +101,12 @@ print(f"Allowed hosts: {ALLOWED_HOSTS}")
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 # This is adjusted based on this guide https://testdriven.io/blog/django-docker-traefik/
 # compression and caching support (see https://whitenoise.readthedocs.io/en/latest/#quickstart-for-django-apps)
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+STORAGES = {
+    "staticfiles": {
+        "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
+    },
+}
+
 STATIC_URL = '/static/'
 
 """Application definition"""
