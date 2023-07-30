@@ -8,7 +8,8 @@ A software to manage a library, especially books, other material, users, emails 
 
 # Using the software
 
-This software is Open-Source, so you are invited to use it for free. But perhaps you need some help to adjust the software to your library or want some new features? Feel free to contact me!
+This software is Open-Source, so you are invited to use it for free. We have a[great documentation that gets you started](https://ilmo2.readthedocs.io/en/latest/).
+But perhaps you need some help to adjust the software to your library or want some new features? Feel free to contact me!
 
 # Development
 
