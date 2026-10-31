@@ -1,4 +1,5 @@
 .django-static/
+static/
 *django.mo
 ilmo.cfg
 *.json
@@ -7,6 +8,17 @@ ilmo.cfg
 *.sq3
 *.sqlite3
 *tmp
+
+src/library/static/library/webfonts/
+
+src/library/static/library/css/main.css.map
+src/library/static/library/css/main.css
+
+
+node_modules/
+
+
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]

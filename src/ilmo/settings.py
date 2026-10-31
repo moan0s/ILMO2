@@ -14,17 +14,93 @@ from pathlib import Path
 import os
 import configparser
 from django.utils.translation import gettext_lazy as _
+import json
 
 """CONFIG PARSER """
-config = configparser.RawConfigParser()
-if 'ILMO_CONFIG_FILE' in os.environ:
-    config.read_file(open(os.environ.get('ILMO_CONFIG_FILE'), encoding='utf-8'))
-if 'DOCKER_BUILD' in os.environ and os.environ.get('DOCKER_BUILD'):
-    config.read("docker/build.cfg", encoding='utf-8')
-else:
-    config.read(['/etc/ilmo/ilmo.cfg', os.path.expanduser('~/.ilmo.cfg'), 'ilmo.cfg'],
-                encoding='utf-8')
-CONFIG_FILE = config
+
+
+class ConfigGetter:
+    def __init__(self):
+        try:
+            self.config_file = configparser.RawConfigParser()
+
+            self.config_file_location = os.environ.get("ILMO_CONFIG_FILE")
+
+            if self.config_file_location:
+                self.config_file.read_file(open(self.config_file_location, encoding="utf-8"))
+            elif os.environ.get("DOCKER_BUILD"):
+                self.config_file_location = "docker/build.cfg"
+                self.config_file.read(self.config_file_location, encoding="utf-8")
+            else:
+                self.config_file_location = [
+                    "/etc/ilmo/ilmo.cfg",
+                    os.path.expanduser("~/.ilmo.cfg"),
+                    "ilmo.cfg",
+                ]
+                self.config_file.read(
+                    self.config_file_location,
+                    encoding="utf-8",
+                )
+        except (FileNotFoundError, PermissionError):
+            self.config_file = None
+
+    @staticmethod
+    def env_variable_name(section: str, option: str) -> str:
+        """
+        Return the environment variable name in the format ILMO_<SECTION>_<OPTION>
+        """
+        return f"ILMO_{section}_{option}".upper()
+
+    def get(self, section, option, fallback=None, cast=None):
+        """
+        Priority:
+        1. Environment variable
+        2. Config file
+        3. Fallback
+        """
+        print_used_config_keys = "print_used_config_keys" in os.environ and os.environ[
+            "print_used_config_keys"] == "True"
+        print_used_config = "print_used_config" in os.environ and os.environ[
+            "print_used_config"] == "True"
+
+        env_var_name = self.env_variable_name(section, option)
+        if print_used_config_keys:
+            print(f"| {env_var_name} | {section}.{option} | {fallback} | |")
+        if env_var_name and env_var_name in os.environ:
+            value = os.environ[env_var_name]
+            if print_used_config:
+                print(f"Environment variable {env_var_name} used with {value=}")
+        elif self.config_file and self.config_file.has_option(section, option):
+            value = self.config_file.get(section, option)
+            if print_used_config:
+                print(f"Config used for {section}:{option} used with {value=}")
+        elif fallback is not None:
+            if print_used_config:
+                print(f"Fallback is used for {section}:{option} used with {fallback=}")
+            return fallback
+        else:
+            if self.config_file is not None:
+                raise ValueError(
+                    f"Required configuration {section}.{option} not set. It was not in the config "
+                    f"file at {self.config_file_location} ")
+            else:
+                raise ValueError(f"Required configuration {env_var_name} not set. No config file was loaded.")
+
+        # Cast into correct type
+        # list and dict assumes values in json
+        if cast == bool:
+            return str(value).lower() in ("1", "true", "yes", "on")
+        elif cast == int:
+            return int(value)
+        elif cast == dict:
+            return json.loads(value)
+        elif cast == list:
+            return json.loads(value)
+
+        return value
+
+
+cg = ConfigGetter()
 
 """LOGGING"""
 LOGGING = {
@@ -49,64 +125,112 @@ LOGGING = {
 }
 
 """ DJANGO """
-SECRET_KEY = config.get('django', 'secret')
-DEBUG = config.getboolean('django', 'debug', fallback=False)
+SECRET_KEY = cg.get(
+    "django",
+    "secret",
+    fallback=None,
+)
 
-""" DATABASE """
-DB_BACKEND = config.get("database", "backend", fallback="sqlite3")
-DB_NAME = config.get("database", "name", fallback="ilmo.sqlite3")
-DB_USER = config.get("database", "user", fallback='')
-DB_PASSWORD = config.get("database", "password", fallback='')
-DB_HOST = config.get("database", "host", fallback='')
+if not SECRET_KEY:
+    raise RuntimeError("No Django SECRET_KEY configured!")
+
+DEBUG = cg.get(
+    "django",
+    "debug",
+    fallback=False,
+    cast=bool,
+)
+
+DB_BACKEND = cg.get("database", "backend", fallback="sqlite3")
+DB_NAME = cg.get("database", "name", fallback="ilmo.sqlite3")
+DB_USER = cg.get("database", "user", fallback="")
+DB_PASSWORD = cg.get("database", "password", fallback="")
+DB_HOST = cg.get("database", "host", fallback="")
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 LOCALE_PATHS = [os.path.join(BASE_DIR, 'locale')]
 
 """ E-MAIL  """
-console_only = config.getboolean("mail", "console_only", fallback="true")
-EMAIL_SUBJECT_PREFIX = config.get("mail", "prefix", fallback="[ILMO]]")
-if console_only:
-    EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
-else:
-    EMAIL_HOST = config.get('mail', 'host', fallback='localhost')
-    EMAIL_PORT = config.getint('mail', 'port', fallback=25)
-    EMAIL_HOST_USER = config.get('mail', 'user', fallback='')
-    DEFAULT_FROM_EMAIL = config.get('mail', 'from', fallback='ilmo@localhost')
-    EMAIL_HOST_PASSWORD = config.get('mail', 'password', fallback='')
-    EMAIL_USE_TLS = config.getboolean('mail', 'tls', fallback=False)
-    EMAIL_USE_SSL = config.getboolean('mail', 'ssl', fallback=False)
+email_backend = cg.get(
+    "email",
+    "backend",
+    fallback="console",
+)
 
+EMAIL_SUBJECT_PREFIX = cg.get(
+    "email",
+    "prefix",
+    fallback="[ILMO]",
+)
+
+DEFAULT_FROM_EMAIL = cg.get(
+    "email",
+    "from",
+    fallback="ilmo@localhost",
+)
+
+if email_backend == "console":
+    EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
+elif email_backend == "smtp":
+    EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+    EMAIL_HOST = cg.get("email", "host", fallback="localhost")
+    EMAIL_PORT = cg.get("email", "port", fallback=25, cast=int)
+    EMAIL_HOST_USER = cg.get("email", "user", fallback="")
+    EMAIL_HOST_PASSWORD = cg.get("email", "password", fallback="")
+    EMAIL_USE_TLS = cg.get("email", "tls", fallback=False, cast=bool)
+    EMAIL_USE_SSL = cg.get("email", "ssl", fallback=False, cast=bool)
+else:
+    raise ValueError(f"Unknown email backend: {email_backend}")
 
 """ SECURITY.TXT """
-SEC_CONTACT = config.get("security", "Contact", fallback="julian-samuel@gebuehr.net")
-SEC_EXPIRES = config.get("security", "Expires", fallback="2022-11-28T07:00:00.000Z")
-SEC_ENCRYPTION = config.get("security", "Encryption", fallback="https://hyteck.de/julian-samuel@gebuehr.net.pub.asc")
-SEC_LANG = config.get("security", "Preferred-Languages", fallback="en, de")
-SEC_SCOPE = config.get("security", "Scope",
-                       fallback="The provided contact is the main developer of the application and NOT necessarily the "
-                                "instance")
-SEC_POLICY = config.get("security", "Policy",
-                        fallback="Do NOT include user data or detailed reports (especially public or unencrypted) "
-                                 "without being asked to do so.")
+SEC_CONTACT = cg.get("security", "Contact", fallback="julian-samuel@gebuehr.net")
+SEC_EXPIRES = cg.get("security", "Expires", fallback="2028-12-3100:00:00.000Z")
+SEC_LANG = cg.get("security", "Preferred-Languages", fallback="en, de")
+SEC_SCOPE = cg.get("security", "Scope",
+                   fallback="The provided contact is the main developer of the application and NOT necessarily the "
+                            "instance")
+SEC_POLICY = cg.get("security", "Policy",
+                    fallback="Do NOT include user data or detailed reports (especially public or unencrypted) "
+                             "without being asked to do so.")
 
 """ LOCATIONS """
-STATIC_ROOT = config.get("locations", "static", fallback="/ilmo/static")
+STATIC_ROOT = cg.get(
+    "locations",
+    "static",
+    fallback=BASE_DIR / "static",
+)
+
+# Host will be used for allowed hosts but also for canonical URLs and CSRF settings!
+# Take all three into account when modifying
+host = cg.get(
+    "ilmo",
+    "host",
+    fallback="*",
+)
+
+base_url = cg.get(
+    "ilmo",
+    "base_url",
+    fallback=f"https://{host}",
+)
 
 # see https://docs.djangoproject.com/en/3.2/ref/settings/#std-setting-ALLOWED_HOSTS
-ALLOWED_HOSTS = [config.get("ilmo", "host", fallback='*')]
-CSRF_TRUSTED_ORIGINS = [f"https://{config.get('ilmo', 'host', fallback='')}"]
-print(f"Allowed hosts: {ALLOWED_HOSTS}")
+ALLOWED_HOSTS = [host]
+CSRF_TRUSTED_ORIGINS = [f"https://{host}"]
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 # This is adjusted based on this guide https://testdriven.io/blog/django-docker-traefik/
 # compression and caching support (see https://whitenoise.readthedocs.io/en/latest/#quickstart-for-django-apps)
 STORAGES = {
+    "default": {
+        "BACKEND": "django.core.files.storage.FileSystemStorage",
+    },
     "staticfiles": {
         "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
     },
 }
-
 STATIC_URL = '/static/'
 
 """Application definition"""
@@ -120,10 +244,10 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'fontawesomefree',
     'rest_framework',
     'rest_framework.authtoken',
     'polymorphic',
+    "django_registration"
 ]
 
 MIDDLEWARE = [
@@ -203,8 +327,8 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/3.2/topics/i18n/
 
-LANGUAGE_CODE = config.get('locale', 'default', fallback='en')
-TIME_ZONE = config.get('locale', 'timezone', fallback='UTC')
+LANGUAGE_CODE = cg.get('locale', 'default', fallback='en')
+TIME_ZONE = cg.get('locale', 'timezone', fallback='UTC')
 
 USE_I18N = True
 
@@ -225,7 +349,6 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # Redirect to home URL after login (Default redirects to /accounts/profile/)
 LOGIN_REDIRECT_URL = '/'
 
-
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
         'rest_framework.authentication.TokenAuthentication',
@@ -233,4 +356,4 @@ REST_FRAMEWORK = {
     ]
 }
 
-ACCOUNT_ACTIVATION_DAYS = 7 # One-week activation window
+ACCOUNT_ACTIVATION_DAYS = 7  # One-week activation window

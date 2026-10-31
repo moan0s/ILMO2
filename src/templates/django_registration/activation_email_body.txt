@@ -1,8 +1,10 @@
 {% load i18n %}
 {% trans "Activate account at" %} {{ site.name }}:
 
-<a href="{{ site.domain }}{% url 'django_registration_activate' activation_key%}">{% trans "Activate by clicking this link" %}</a>
-{% trans "or open the following link in your browser" %}:
-{{ site.domain }}{% url 'django_registration_activate' activation_key%}
+Rufe die folgende Internetseite auf
+{{ site.domain }}{% url 'django_registration_activate'%}?activation_key={{ activation_key }}
 
-{% blocktrans %}Link is valid for {{ expiration_days }} days.{% endblocktrans %}
+Der Link ist für {{ expiration_days }} Tage gültig.
+
+
+Alternativ: Gehe auf {{ site.domain }}{% url 'django_registration_activate'%} und gib dort folgenden Schlüssel ein: {{ activation_key }}

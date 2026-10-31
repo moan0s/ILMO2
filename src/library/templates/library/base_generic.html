@@ -1,3 +1,4 @@
+{% load custom_tags %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -8,12 +9,12 @@
           integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
     <!-- Add additional CSS in static file -->
     {% load static %}
-    <link rel="stylesheet" href="{% static 'library/css/styles.css' %}">
-    <link href="{% static 'library/Font-Awesome/css/all.min.css' %}" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="{% static 'library/css/main.css' %}">
 </head>
 <body>
 {% block header %}
     {% include "library/header.html" %}
+
 {% endblock %}
 <div class="container-fluid">
     <div class="row">
@@ -22,9 +23,12 @@
                 {% include "library/nav_sidebar.html" %}
             {% endblock %}
         </div>
-        <div class="col-sm-10 content-box">{% block content %}{% endblock %}{% block pagination %}
-            {% if is_paginated %}
-                <div class="pagination">
+        <div class="col-sm-10 content-box">
+            {% block content %}{% endblock %}
+            {% block pagination %}
+                {% var_exists 'is_paginated' as is_paginated_exists %}
+                {% if is_paginated_exists and is_paginated %}
+                    <div class="pagination">
 				<span class="page-links">
 					{% if page_obj.has_previous %}
                         <a href="{{ request.path }}?page={{ page_obj.previous_page_number }}">previous</a>
@@ -36,9 +40,9 @@
                         <a href="{{ request.path }}?page={{ page_obj.next_page_number }}">next</a>
                     {% endif %}
 				</span>
-                </div>
-            {% endif %}
-        {% endblock %}</div>
+                    </div>
+                {% endif %}
+            {% endblock %}</div>
 
     </div>
 </div>

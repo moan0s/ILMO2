@@ -13,7 +13,7 @@ authors = [
 maintainers = [
   {name = "moanos", email = "julian-samuel@gebuehr.net"},
 ]
-keywords = ["matrix", "registration", "bot", "user", "registration", "API"  ]
+keywords = ["library", "ERP", "django", ]
 license = {text = "AGPL-3.0-or-later"}
 classifiers = [
     "Development Status :: 5 - Production/Stable",
@@ -28,21 +28,30 @@ classifiers = [
 dependencies = [
     "Django",
     "python-decouple",
-    "coverage",
-    "codecov",
-    "sphinx",
-    "sphinx-rtd-theme",
     "gunicorn",
     "djangorestframework",
-    "model_bakery",
-    "fontawesomefree",
     "django-modeltranslation",
     "django-registration",
     "django-polymorphic",
     "psycopg2-binary",
     "whitenoise"
 ]
+
 dynamic = ["version", "readme"]
+
+
+[dependency-groups]
+dev = [
+    "pytest",
+    "coverage",
+    "model_bakery",
+    "coverage",
+    "codecov",
+]
+docs = [
+    "sphinx",
+    "sphinx-rtd-theme"
+]
 
 [project.urls]
 homepage = "https://hyteck.de"

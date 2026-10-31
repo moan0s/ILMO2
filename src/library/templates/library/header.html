@@ -13,12 +13,8 @@
         <option value="{{ language.0 }}" {% if language.0 == LANGUAGE_CODE_CURRENT %} selected{% endif %}>
             {{ language.0|language_name_local }}
         </option>
-        <!--<option value="{{ language.0 }}" {% if language.0 == LANGUAGE_CODE %} selected{% endif %}>
-            {{ language.0|language_name_local }} ({{ language.0 }})
-        </option>-->
         {% endfor %}
     </select>
-     <!--<input type="submit" value={% translate "change" %}>-->
   </form>
   </div>
 </div>

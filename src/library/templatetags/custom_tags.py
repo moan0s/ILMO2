@@ -36,3 +36,12 @@ def is_bookinstance(value):
 @register.filter
 def is_materialinstance(value):
     return type(value) == MaterialInstance
+
+@register.simple_tag(takes_context=True)
+def var_exists(context, name):
+    dicts = context.dicts  # array of dicts
+    if dicts:
+        for d in dicts:
+            if name in d:
+                return True
+    return False

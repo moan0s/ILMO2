@@ -1,6 +1,6 @@
 from django.test import TestCase
 from library.models import *
-from django.contrib.auth.models import Permission
+from django.contrib.auth.models import User, Permission
 import uuid
 
 from library.views import *
