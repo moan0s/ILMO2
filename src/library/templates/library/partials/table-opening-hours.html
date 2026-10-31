@@ -1,0 +1,30 @@
+{% load i18n %}
+{% if openinghours_list %}
+    <table>
+        <th>{% translate "Weekday" %}</th>
+        <th>{% translate "Open from" %}</th>
+        <th>{% translate "Open until" %}</th>
+        <th>{% translate "Comment" %}</th>
+        {% if perms.library.change_opening_hours %}
+            <th>{% translate "Delete" %}</th>
+        {% endif %}
+        {% for openinghour in openinghours_list %}
+            <tr>
+                <td>{{ openinghour.get_weekday_display }}</td>
+                <td>{{ openinghour.from_hour }}</td>
+                <td>{{ openinghour.to_hour }}</td>
+                <td>{{ openinghour.comment }}</td>
+                {% if perms.library.change_opening_hours %}
+                    <td><a href="{% url "library:openinghour-delete" openinghour.id %} ">{% translate "Delete" %}</a>
+                    </td>
+                {% endif %}
+            </tr>
+        {% endfor %}
+    </table>
+{% else %}
+    <p>{% translate "No opening hours are available." %}</p>
+{% endif %}
+{% if perms.library.change_opening_hours %}
+    <div class="link-button"><a
+            href="{% url "library:openinghour-create" %}">{% translate "Create new opening hour" %}</a></div>
+{% endif %}

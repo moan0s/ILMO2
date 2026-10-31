@@ -2,16 +2,17 @@
 {% load i18n %}
 
 {% block content %}
-  <h1>{% translate "ILMO - Intelligent Library Management Online" %}</h1>
-  <p>{% translate "Welcome to ILMO, developed by " %}<em><a href="https://hyteck.de">Moanos</a></em>!</p>
-  <h2>{% translate "Statistics" %}</h2>
-  <p>{% translate "The library has the following record counts:" %}</p>
-  <ul>
-    <li><strong>{% translate "Books" %}:</strong> {{ books }}</li>
-    <li><strong>{% translate "Copies" %}</strong> {{ book_instances }}</li>
-    <li><strong>{% translate "Copies available" %}:</strong> {{ book_instances_available }}</li>
-    <li><strong>{% translate "Authors" %}:</strong> {{ authors }}</li>
-    <li><strong>{% translate "Materials" %}:</strong> {{ material_instances}}</li>
-  <li><strong>{% translate "Materials available" %}:</strong> {{ material_instances_available}}</li>
-  </ul>
+    <h1>{% translate "ILMO - Intelligent Library Management Online" %}</h1>
+    <p>{% translate "Welcome to ILMO, developed by " %}<em><a href="https://hyteck.de">Moanos</a></em>!</p>
+    <h2>{% translate "Statistics" %}</h2>
+    <p>{% translate "The library has the following record counts:" %}</p>
+    <ul>
+        <li><strong>{% translate "Books" %}:</strong> {{ books }}</li>
+        <li><strong>{% translate "Copies" %}</strong> {{ book_instances }}</li>
+        <li><strong>{% translate "Copies available" %}:</strong> {{ book_instances_available }}</li>
+        <li><strong>{% translate "Authors" %}:</strong> {{ authors }}</li>
+        <li><strong>{% translate "Materials" %}:</strong> {{ material_instances }}</li>
+        <li><strong>{% translate "Materials available" %}:</strong> {{ material_instances_available }}</li>
+    </ul>
+    {% include 'library/partials/table-opening-hours.html' %}
 {% endblock %}

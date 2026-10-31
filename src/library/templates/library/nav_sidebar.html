@@ -7,7 +7,6 @@
             <li><a href="{% url 'library:books' %}"><i class="fas fa-book"></i> {% translate "Books" %}</a></li>
             <li><a href="{% url 'library:materials' %}"><i class="fas fa-glasses"></i> {% translate "Material" %}</a></li>
             <li><a href="{% url 'library:authors' %}"><i class="fas fa-feather-alt"></i> {% translate "Authors" %}</a></li>
-            <li><a href="{% url 'library:openinghours' %}"><i class="fas fa-clock"></i> {% translate "Opening hours" %}</a></li>
             {% if perms.library.can_see_borrowed %}
                 <li><a href="{% url 'library:loans' %}"><i class="fas fa-list"></i> {% translate "Loans" %}</a></li>
             {% endif %}

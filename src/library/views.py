@@ -89,7 +89,11 @@ def index(request):
         mail_reminder = MailReminder()
         mail_reminder.send()
 
+    openinghours = OpeningHours.objects.all()
+    context["openinghours_list"] = openinghours
+
     return render(request, 'library/index.html', context=context)
+
 
 @login_required()
 @permission_required("library.is_staff")
@@ -97,6 +101,7 @@ def administration(request):
     """View function for home page of site."""
 
     return render(request, 'library/administration.html')
+
 
 def metrics(request):
     data = gather_metrics_data()
@@ -375,9 +380,6 @@ def search(request):
     return render(request, 'library/search.html', context=context)
 
 
-
-
-
 def book_add_via_template(request):
     """
     Add a book and book instances via a template
@@ -406,6 +408,7 @@ def book_add_via_template(request):
         form = BookAddViaTemplateForm()
 
     return render(request, 'library/book_add_template.html', {'form': form})
+
 
 class AuthorCreate(PermissionRequiredMixin, CreateView):
     permission_required = "library.can_modify_author"
