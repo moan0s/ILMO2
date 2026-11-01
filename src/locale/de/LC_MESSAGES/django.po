@@ -583,7 +583,7 @@ msgstr "Über die Software"
 
 #: .\library\templates\library\header.html:21
 msgid "change"
-msgstr ""
+msgstr "Ändern"
 
 #: .\library\templates\library\index.html:5
 msgid "ILMO - Intelligent Library Management Online"
@@ -695,7 +695,7 @@ msgstr "Mein Passwort ändern"
 
 #: .\library\templates\library\member.html:36
 msgid "Export your data."
-msgstr ""
+msgstr "Meine Daten exportieren"
 
 #: .\library\templates\library\nav_sidebar.html:5
 msgid "Home"

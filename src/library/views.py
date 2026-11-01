@@ -100,7 +100,7 @@ def index(request):
 def administration(request):
     """View function for home page of site."""
 
-    return render(request, 'library/administration.html')
+    return render(request, 'library/pages/administration.html')
 
 
 def metrics(request):
@@ -114,7 +114,7 @@ def show_user(request, user, token=None):
     context = {"member": member,
                "token": token,
                "loan_list": member.loans}
-    return render(request, 'library/member.html', context=context)
+    return render(request, 'library/list_and_details/member.html', context=context)
 
 
 @login_required()
@@ -142,19 +142,19 @@ def my_profile(request):
 
 class PasswordsChangeView(PasswordChangeView):
     form_class = PasswordChangeForm
-    template_name = 'library/change_password.html'
+    template_name = 'library/pages/change_password.html'
     success_url = reverse_lazy("library:index")
 
 
 class BookListView(generic.ListView):
     model = Book
-    template_name = 'library/books.html'
+    template_name = 'library/list_and_details/books.html'
     paginate_by = 10
 
 
 class BookDetailView(generic.DetailView):
     model = Book
-    template_name = 'library/book.html'
+    template_name = 'library/list_and_details/book.html'
 
 
 # TODO
@@ -194,7 +194,7 @@ def borrow_user(request, ik, uk):
     item.borrow(borrower=Member.objects.get(user=user))
     loan = Loan.objects.filter(item=item).latest("lent_on")
     context = {"loan": loan}
-    return render(request, 'library/loan-detail.html', context=context)
+    return render(request, 'library/list_and_details/loan-detail.html', context=context)
 
 
 @login_required()
@@ -205,18 +205,18 @@ def return_item(request, ik):
     item.return_item()
     loan = Loan.objects.filter(item=item).latest("lent_on")
     context = {"loan": loan}
-    return render(request, 'library/loan-detail.html', context=context)
+    return render(request, 'library/list_and_details/loan-detail.html', context=context)
 
 
 class AuthorListView(generic.ListView):
     model = Author
-    template_name = 'library/authors.html'
+    template_name = 'library/list_and_details/authors.html'
     paginate_by = 10
 
 
 class AuthorDetailView(generic.DetailView):
     model = Author
-    template_name = 'library/author.html'
+    template_name = 'library/list_and_details/author.html'
     paginate_by = 10
 
 
@@ -231,7 +231,7 @@ def list_loans_of_user(request):
         'unreturned_loans': unreturned_loans_by_user,
     }
 
-    return render(request, 'library/list_loans_user.html', context=context)
+    return render(request, 'library/list_and_details/list_loans_user.html', context=context)
 
 
 @login_required()
@@ -244,7 +244,7 @@ def list_loans_unreturned(request):
         'loan_list': unreturned_loans,
     }
 
-    return render(request, 'library/list_loans.html', context=context)
+    return render(request, 'library/list_and_details/list_loans.html', context=context)
 
 
 @login_required()
@@ -255,7 +255,7 @@ def list_loans(request):
     context = {
         'loan_list': loans,
     }
-    return render(request, 'library/list_loans.html', context=context)
+    return render(request, 'library/list_and_details/list_loans.html', context=context)
 
 
 @login_required
@@ -305,7 +305,7 @@ def item_search(request):
         queryset = Item.objects.filter(Q(label__iexact=q))
         context['items'] = queryset
 
-    return render(request, 'library/item-search.html', context=context)
+    return render(request, 'library/pages/item-search.html', context=context)
 
 
 def get_books(query):
@@ -377,7 +377,7 @@ def search(request):
         context['book_instances'] = get_book_instances(q)
         context['material_instances'] = get_material_instances(q)
 
-    return render(request, 'library/search.html', context=context)
+    return render(request, 'library/pages/search.html', context=context)
 
 
 def book_add_via_template(request):
@@ -407,13 +407,14 @@ def book_add_via_template(request):
     else:
         form = BookAddViaTemplateForm()
 
-    return render(request, 'library/book_add_template.html', {'form': form})
+    return render(request, 'library/forms/book_add_template.html', {'form': form})
 
 
 class AuthorCreate(PermissionRequiredMixin, CreateView):
     permission_required = "library.can_modify_author"
     model = Author
     fields = ['first_name', 'last_name', 'date_of_birth', 'date_of_death']
+    template_name = 'library/forms/author_form.html'
 
 
 class AuthorUpdate(PermissionRequiredMixin, UpdateView):
@@ -430,34 +431,34 @@ class AuthorDelete(PermissionRequiredMixin, DeleteView):
 
 class MaterialListView(generic.ListView):
     model = Material
-    template_name = 'library/materials.html'
+    template_name = 'library/list_and_details/materials.html'
     paginate_by = 10
 
 
 class MaterialDetailView(generic.DetailView):
     model = Material
-    template_name = 'library/material.html'
+    template_name = 'library/list_and_details/material.html'
 
 
 class BookInstanceDetailView(generic.DetailView):
     model = BookInstance
-    template_name = 'library/bookInstance-detail.html'
+    template_name = 'library/list_and_details/bookInstance-detail.html'
 
 
 class MaterialInstanceDetailView(generic.DetailView):
     model = MaterialInstance
-    template_name = 'library/materialInstance-detail.html'
+    template_name = 'library/list_and_details/materialInstance-detail.html'
 
 
 class LoanDetailView(generic.DetailView):
     model = Loan
-    template_name = 'library/loan-detail.html'
+    template_name = 'library/list_and_details/loan-detail.html'
 
 
 class OpeningHoursCreateView(PermissionRequiredMixin, CreateView):
     permission_required = "library.change_opening_hours"
     form_class = OpeningHoursModelForm
-    template_name = "library/openinghours_form.html"
+    template_name = "library/forms/openinghours_form.html"
 
     def get_success_url(self):
         return reverse('library:openinghours')
@@ -465,18 +466,18 @@ class OpeningHoursCreateView(PermissionRequiredMixin, CreateView):
 
 class OpeningHoursListView(generic.ListView):
     model = OpeningHours
-    template_name = 'library/openinghours.html'
+    template_name = 'library/pages/openinghours.html'
 
 
 class OpeningHoursListPlainView(generic.ListView):
     model = OpeningHours
-    template_name = 'library/openinghours_plain.html'
+    template_name = 'library/pages/openinghours_plain.html'
 
 
 class OpeningHourDeleteView(PermissionRequiredMixin, DeleteView):
     permission_required = "library.change_opening_hours"
     model = OpeningHours
-    template_name = "library/openinghour_confirm_delete.html"
+    template_name = "library/forms/openinghour_confirm_delete.html"
     success_url = reverse_lazy('library:openinghours')
 
 
@@ -496,4 +497,4 @@ def export_own_profile(request):
 
 def clean_item_status(request):
     repaired_items = Item.repair_item_status()
-    return render(request, 'library/successful_maintenance.html', context={"item_list": repaired_items})
+    return render(request, 'library/pages/successful_maintenance.html', context={"item_list": repaired_items})

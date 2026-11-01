@@ -1,20 +1,91 @@
 {% load static %}
 {% load i18n %}
-<div class="header">
-  <a href="{% url 'library:index' %}" class="logo"><img src={% static 'library/img/logo.svg' %}></a>
-  <div class="header-right">
-    <a href="https://github.com/moan0s/ILMO2">{% translate "About the software" %}</a>
-    <form action="{% url 'change_language' %}" method="post" onchange='this.form.submit()'>
-    {% csrf_token %}
-    <select name="language" onchange='this.form.submit()'>
-        {% get_current_language as LANGUAGE_CODE_CURRENT %}
-        {% get_available_languages as LANGUAGES %}
-        {% for language in LANGUAGES %}
-        <option value="{{ language.0 }}" {% if language.0 == LANGUAGE_CODE_CURRENT %} selected{% endif %}>
-            {{ language.0|language_name_local }}
-        </option>
-        {% endfor %}
-    </select>
-  </form>
-  </div>
-</div>
+
+
+<nav class="navbar" role="navigation" aria-label="main navigation">
+    <div class="navbar-brand">
+        <a class="navbar-item" tabindex="0" href="{% url 'library:index' %}">
+            <div class="button is-primary">
+                <div class="h-block">
+                    <img src={% static 'library/img/logo.svg' %}
+                                 alt="{% trans 'ILMO Logo' %}">
+                </div>
+            </div>
+        </a>
+
+        <a role="button" class="navbar-burger" aria-label="{% trans 'Hauptmenü' %}" tabindex="0" aria-expanded="false"
+           data-target="navbarBasicExample">
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+        </a>
+    </div>
+
+    <div id="navbarBasicExample" class="navbar-menu">
+        <div class="navbar-start">
+            <div class="navbar-item">
+                <a href="{% url 'library:search' %}">
+                    <div class="button is-primary is-light">
+                            <span class="icon-text">
+                              <span class="icon">
+                                <i class="fas fa-search"></i>
+                              </span>
+                              <span>{% translate "Search" %}</span>
+                            </span>
+                    </div>
+                </a>
+            </div>
+        </div>
+
+        {% if user.is_authenticated %}
+            {% if user.is_staff %}
+                <div class="navbar-item">
+                    <div class="buttons">
+                        <a class="button is-light" href="{% url 'library:administration' %}">
+                            <i class="fas fa-gear"></i> <strong>{% translate "Administration" %}</strong>
+                        </a>
+                    </div>
+                </div>
+            {% endif %}
+            <div class="navbar-item">
+                <a href="{% url 'library:my-profile' %}">
+                    <div class="button is-primary is-light">
+                            <span class="icon-text">
+                              <span class="icon">
+                                <i class="fas fa-user"></i>
+                              </span>
+                              <span>{{ request.user }}</span>
+                            </span>
+                    </div>
+                </a>
+            </div>
+        {% else %}
+            <div class="navbar-item">
+                <div class="buttons">
+                    <a class="button is-light" href="{% url 'login' %}?next={{ request.path }}">
+                        <i class="fas fa-sign-in-alt"></i> <strong>{% translate "Login" %}</strong>
+                    </a>
+                </div>
+            </div>
+        {% endif %}
+        <div class="navbar-item">
+            <form action="{% url 'change_language' %}" method="post" onchange='this.form.submit()'>
+                <div class="control">
+                    <div class="select">
+                        {% csrf_token %}
+                        <select name="language" onchange='this.form.submit()'>
+                            {% get_current_language as LANGUAGE_CODE_CURRENT %}
+                            {% get_available_languages as LANGUAGES %}
+                            {% for language in LANGUAGES %}
+                                <option value="{{ language.0 }}" {% if language.0 == LANGUAGE_CODE_CURRENT %}
+                                        selected{% endif %}>
+                                    {{ language.0|language_name_local }}
+                                </option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</nav>

@@ -1,0 +1,63 @@
+{% extends "library/base_generic.html" %}
+{% load i18n %}
+{% block title %}
+    {{ member.user.username }}
+{% endblock %}
+
+{% block content %}
+    <h1 class="title is-1">{{ member.user.get_full_name }}</h1>
+
+    <div class="block">
+        <p><strong>{% translate "Username" %}:</strong> {{ member.user.username }}</p>
+        <p><strong>{% translate "E-Mail" %}:</strong> {{ member.user.email }}</p>
+
+        {% if member.preferred_language %}
+            <p><strong>{% translate "Language" %}:</strong> {{ member.preferred_language }}</p>
+        {% else %}
+            <p>{% translate "No preferred language set." %}</p>
+        {% endif %}
+    </div>
+    <div class="block">
+        {% if member.UID %}
+            <p><strong>{% translate "UID" %}:</strong> {{ member.UID }}</p>
+        {% else %}
+            <p>{% translate "No UID set." %}</p>
+        {% endif %}
+    </div>
+    <div class="block">
+        {% if token %}
+            <form action="" method="POST">
+                {% csrf_token %}
+                <p class="text-muted"><strong>{% translate "API token:" %}</strong> {{ token }}</p>
+                <input class="button is-danger" type="submit" name="delete_token"
+                       value={% translate "Delete API token" %}>
+            </form>
+        {% else %}
+            <div class="block">
+                <p>{% translate "No token set." %}</p>
+                <form action="" method="POST">
+                    {% csrf_token %}
+                    <input class="button is-primary is-light" type="submit" name="create_token"
+                           value={% translate "Create API token" %}>
+                </form>
+            </div>
+        {% endif %}
+    </div>
+    <div class="block">
+        {% if member.user.id is request.user.id %}
+            <p><a href="{% url 'library:password' %}">{% translate "Change password here." %}</a></p>
+            <p><a href="{% url 'library:my-profile-export' %}">{% translate "Export your data." %}</a></p>
+            <a class="button is-danger" href="{% url 'logout' %}?next={{ request.path }}"><i
+                    class="fas fa-sign-out-alt"></i> {% translate "Logout" %}</a>
+        {% endif %}
+    </div>
+
+    <div class="block">
+        <h1 class="title is-1">{% translate "Loans" %}</h1>
+        {% block loanTable %}
+            {% include "library/list_and_details/loan_list_table.html" %}
+        {% endblock %}
+    </div>
+
+
+{% endblock %}

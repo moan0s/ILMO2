@@ -12,7 +12,7 @@
         <div class="search_result">
             <h1>{% translate "User" %}</h1>
             {% block userTable %}
-                {% include "library/userTable.html" %}
+                {% include "library/list_and_details/userTable.html" %}
             {% endblock %}
         </div>
     {% else %}
@@ -22,7 +22,7 @@
         <div class="search_result">
             <h1>{% translate "Books" %}</h1>
             {% block bookTable %}
-                {% include "library/bookTable.html" %}
+                {% include "library/list_and_details/bookTable.html" %}
             {% endblock %}
         </div>
     {% else %}
@@ -33,7 +33,7 @@
 
             <h1>{% translate "Materials" %}</h1>
             {% block materialTable %}
-                {% include "library/materialTable.html" %}
+                {% include "library/list_and_details/materialTable.html" %}
             {% endblock %}
         </div>
     {% else %}
@@ -44,7 +44,7 @@
 
             <h1>{% translate "Book instances" %}</h1>
             {% block bookInstanceTable %}
-                {% include "library/bookInstanceTable.html" %}
+                {% include "library/list_and_details/bookInstanceTable.html" %}
             {% endblock %}
         </div>
     {% else %}
@@ -55,7 +55,7 @@
         <div class="search_result">
             <h1>{% translate "Material instances" %}</h1>
             {% block materialInstanceTable %}
-                {% include "library/materialInstanceTable.html" %}
+                {% include "library/list_and_details/materialInstanceTable.html" %}
             {% endblock %}
         </div>
     {% else %}

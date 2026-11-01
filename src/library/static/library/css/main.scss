@@ -1,16 +1,43 @@
+$primary: #4ba3cd;
+$primary-dark: #183442;
+$secondary: #aa8b15;
+$link: #648bd6;
+$grey-light: #c4c6ce;
+$grey-dark: #262728;
+$confirm: hsl(133deg, 100%, calc(41% + 0%));
+
+// Path to Bulma's sass folder
+@use "bulma/sass" with (
+  $family-primary: '"Nunito", sans-serif',
+  $grey-dark: $grey-dark,
+  $grey-light: $grey-light,
+  $primary: $primary,
+  $link: $link,
+  $control-border-width: 2px,
+  $input-shadow: none
+);
+
+@use "bulma/sass/utilities/css-variables" as cv;
 
 @import "@fortawesome/fontawesome-free/scss/fontawesome";
 @import "@fortawesome/fontawesome-free/scss/solid";
-.content-box {
-    margin-top: 25px;
+
+
+// General Styles
+
+.main-content {
+  margin: auto;
+  max-width: 80em;
+  padding: 10px;
 }
 
-.sidebar-nav {
-    margin-top: 20px;
+p > a {
+  text-decoration: underline;
+  word-break: break-all;
 }
 
-.col-sm-2 {
-    padding-left: 0;
+p > a.button {
+  text-decoration: none;
 }
 
 table {
@@ -31,149 +58,6 @@ th {
     background-color: #ECECEC;
 }
 
-h1 {
-    padding-top: 10px;
-}
-
-* {
-    box-sizing: border-box;
-}
-
-.header {
-    overflow: hidden;
-    background-color: #4ba3cd;
-}
-
-.header a, .sidebar-nav a {
-    color: black;
-    text-align: center;
-    text-decoration: none;
-    border-radius: 4px;
-}
-
-.header a {
-    float: left;
-    padding: 12px;
-    font-size: 20px;
-    line-height: 25px;
-}
-
-.header a:hover {
-    background-color: #4090b6;
-    color: black;
-}
-
-.header a.active {
-    background-color: dodgerblue;
-    color: white;
-}
-
-.header-right select {
-    width: 75%;
-    padding: 8px 10px;
-    border: none;
-    border-radius: 4px;
-    opacity: 1;
-    background-color: #4ba3cd;
-}
-
-.header-right select.option {
-    color: #000;
-    background-color: #4ba3cd;
-    padding: 0 10px;
-    border: 1px;
-}
-
-.header-right {
-    float: right;
-}
-
-@media screen and (max-width: 500px) {
-    .header a {
-        float: none;
-        display: block;
-        text-align: left;
-    }
-
-    .header-right {
-        float: none;
-    }
-}
-
-.logo {
-}
-
-.logo img {
-    height: 120px;
-}
-
-.sidebar-nav {
-    z-index: 1;
-    top: 20px;
-    left: 10px;
-    background-color: #4ba3cd;
-    overflow-x: hidden;
-    padding: 8px 0;
-    border-top-right-radius: 5px;
-    border-bottom-right-radius: 5px;
-}
-
-.sidebar-nav-top {
-    padding-left: 0;
-    float: left;
-}
-
-
-.sidebar-nav a {
-    padding: 6px 8px 6px 16px;
-    text-decoration: none;
-    font-size: 25px;
-    color: black;
-    display: block;
-}
-
-.sidebar-nav a:hover {
-    background-color: #4090b6;
-}
-
-.main {
-    margin-left: 160px; /* Same as the width of the sidenav */
-    font-size: 28px; /* Increased text to enable scrolling */
-    padding: 0 10px;
-}
-
-@media screen and (max-height: 450px) {
-    .sidebar-nav {
-        padding-top: 15px;
-    }
-
-    .sidebar-nav a {
-        font-size: 18px;
-    }
-}
-
-.sidebar-nav li {
-    list-style-type: none;
-    margin: 0;
-    padding: 0;
-}
-
-.btn {
-    border: 2px solid #4090b6;
-    background-color: #4ba3cd;
-}
-
-.form-button, .link-button a:link, .link-button a:visited {
-    background-color: #4ba3cd;
-    color: white;
-    padding: 14px 25px;
-    text-align: center;
-    text-decoration: none;
-    display: block;
-    margin: 10px;
-    border-radius: 4px;
-    border: none;
-}
 
 .form-button:hover, .link-button a:hover, .link-button a:active {
     background-color: #4090b6;
@@ -194,10 +78,7 @@ h1 {
     display: block;
 }
 
-.search_result {
-    margin-top: 10px;
-    margin-bottom: 10px;
-}
+// Action Menu
 
 .action-menu a {
     text-decoration: none;

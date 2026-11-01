@@ -1,18 +1,51 @@
 {% extends "library/base_generic.html" %}
 {% load i18n %}
+{% block title %}
+    ILMO - Bibliotheksverwaltung
+{% endblock %}
 
 {% block content %}
-    <h1>{% translate "ILMO - Intelligent Library Management Online" %}</h1>
-    <p>{% translate "Welcome to ILMO, developed by " %}<em><a href="https://hyteck.de">Moanos</a></em>!</p>
-    <h2>{% translate "Statistics" %}</h2>
-    <p>{% translate "The library has the following record counts:" %}</p>
-    <ul>
-        <li><strong>{% translate "Books" %}:</strong> {{ books }}</li>
-        <li><strong>{% translate "Copies" %}</strong> {{ book_instances }}</li>
-        <li><strong>{% translate "Copies available" %}:</strong> {{ book_instances_available }}</li>
-        <li><strong>{% translate "Authors" %}:</strong> {{ authors }}</li>
-        <li><strong>{% translate "Materials" %}:</strong> {{ material_instances }}</li>
-        <li><strong>{% translate "Materials available" %}:</strong> {{ material_instances_available }}</li>
-    </ul>
-    {% include 'library/partials/table-opening-hours.html' %}
+    <div class="block">
+        <h1 class="title is-1">{% translate "ILMO - Intelligent Library Management Online" %}</h1>
+        <p>{% translate "Welcome to ILMO, developed by " %}<em><a href="https://hyteck.de">Moanos</a></em>!</p>
+    </div>
+    <div class="block">
+        <h2 class="title is-2">{% translate "Ausleihen" %}</h2>
+
+        <div class="action-menu">
+            <div class="buttons">
+                <a class="button is-primary" href="{% url 'library:books' %}">
+                    <i class="fas fa-book"></i> {% translate "Books" %}
+                </a>
+                <a class="button is-primary" href="{% url 'library:materials' %}">
+                    <i class="fas fa-glasses"></i> {% translate "Material" %}
+                </a>
+                <a class="button is-primary" href="{% url 'library:authors' %}">
+                    <i class="fas fa-feather-alt"></i> {% translate "Authors" %}
+                </a>
+                {% if perms.library.can_see_borrowed %}
+                    <a class="button is-primary" href="{% url 'library:loans' %}">
+                        <i class="fas fa-list"></i> {% translate "Loans" %}
+                    </a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    <div class="block">
+        <h2 class="title is-2">{% translate "Statistics" %}</h2>
+        <div class="content">
+            <p>{% translate "The library has the following record counts:" %}</p>
+            <ul>
+                <li><strong>{% translate "Books" %}:</strong> {{ books }}</li>
+                <li><strong>{% translate "Copies" %}</strong> {{ book_instances }}</li>
+                <li><strong>{% translate "Copies available" %}:</strong> {{ book_instances_available }}</li>
+                <li><strong>{% translate "Authors" %}:</strong> {{ authors }}</li>
+                <li><strong>{% translate "Materials" %}:</strong> {{ material_instances }}</li>
+                <li><strong>{% translate "Materials available" %}:</strong> {{ material_instances_available }}</li>
+            </ul>
+        </div>
+    </div>
+    <div class="block">
+        {% include 'library/partials/table-opening-hours.html' %}
+    </div>
 {% endblock %}
