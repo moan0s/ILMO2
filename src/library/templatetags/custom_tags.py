@@ -60,3 +60,9 @@ def url_replace(request, field, value):
     dict_[field] = value
 
     return dict_.urlencode()
+
+
+
+@register.filter
+def ellided_range(page_obj, page_number):
+    return page_obj.paginator.get_elided_page_range(page_number, on_each_side=2, on_ends=1)

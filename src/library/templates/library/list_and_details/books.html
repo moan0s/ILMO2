@@ -4,12 +4,14 @@
 {% load custom_tags %}
 {% block content %}
     {% if book_list %}
-        <div class="grid">
-            {% for book in book_list %}
-                <div class="cell">
-                    {% include 'library/partials/book-card.html' %}
-                </div>  
-            {% endfor %}
+        <div class="fixed-grid has-1-cols-mobile has-2-cols-tablet">
+            <div class="grid">
+                {% for book in book_list %}
+                    <div class="cell">
+                        {% include 'library/partials/book-card.html' %}
+                    </div>
+                {% endfor %}
+            </div>
         </div>
     {% else %}
         <p>{% translate "No books are available." %}</p>
