@@ -87,13 +87,23 @@
     <div class="block">
         <h3 class="title is-3">{% translate 'Duplicate Loans for the same item' %}</h3>
         {% if erroneous_data.multiple_open_loans_for_same_item|length > 0 %}
-            <div class="content">
-                <ul>
-                    {% for loan in erroneous_data.multiple_open_loans_for_same_item %}
-                        <li><a href="{{ loan.get_absolute_url }}">{{ loan }}</a></li>
-                    {% endfor %}
-                </ul>
-            </div>
+
+            {% for item, loans in erroneous_data.multiple_open_loans_for_same_item %}
+                <div class="message is-danger">
+                    <div class="message-header">
+                        <a href="{{ item.get_absolute_url }}">{{ item }}</a>
+                    </div>
+                    <div class="message-body">
+                        <div class="content">
+                            <ul>
+                                {% for loan in loans %}
+                                    <li><a href="{% url 'library:loan-detail' loan.pk %}">{{ loan }}</a></li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
         {% else %}
             <div class="message is-success">
                 <div class="message-body">

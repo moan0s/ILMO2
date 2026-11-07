@@ -1,7 +1,8 @@
 import logging
 import string
 import re
-from typing import List, Set
+from typing import List, Tuple
+
 
 from library.models import Author, Loan, LoanStatusChoice, Item
 
@@ -107,10 +108,15 @@ def items_on_loan_without_loan() -> List[Item]:
     return items
 
 
-def multiple_open_loans_for_same_item() -> Set[Loan]:
-    loans: Set[Loan] = set()
-    for open_loan in Loan.objects.filter(returned_on__isnull=True):
-        additional_loans = Loan.objects.filter(item=open_loan.item, returned_on__isnull=True)
-        if Loan.objects.filter(item=open_loan.item, returned_on__isnull=True).exists():
-            loans.update(additional_loans)
+def multiple_open_loans_for_same_item() -> List[Tuple[Item, List[Loan]]]:
+    loans: List[Tuple[Item, List[Loan]]] = []
+    items_with_multiple_open_loans: List[Item] = []
+    open_loans = Loan.objects.filter(returned_on__isnull=True)
+    for open_loan in open_loans:
+        if open_loan.item in items_with_multiple_open_loans:
+            continue
+        open_loans_of_this_item = Loan.objects.filter(item=open_loan.item, returned_on__isnull=True)
+        if open_loans_of_this_item.exists():
+            items_with_multiple_open_loans.append(open_loan.item)
+            loans.append((open_loan.item, list(open_loans_of_this_item)))
     return loans
