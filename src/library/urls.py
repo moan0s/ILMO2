@@ -57,6 +57,7 @@ urlpatterns += [
 """ ITEM """
 urlpatterns += [
     path('item/<uuid:pk>/renew/', views.renew_item_librarian, name='renew-item-librarian'),
+    path('item/<uuid:pk>/', views.item_detail, name='item-detail'),
     path('item/search/', views.item_search, name='item-search'),
 ]
 

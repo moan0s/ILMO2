@@ -273,6 +273,11 @@ def list_loans(request):
     return render(request, 'library/list_and_details/list_loans.html', context=context)
 
 
+def item_detail(request, pk):
+    item = get_object_or_404(Item, id=pk)
+    return HttpResponseRedirect(item.get_absolute_url())
+
+
 @login_required
 @permission_required('library.can_mark_returned', raise_exception=True)
 def renew_item_librarian(request, pk):

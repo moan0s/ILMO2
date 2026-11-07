@@ -59,7 +59,7 @@
             <h3 class="title is-3">{% translate 'Items in Status "On Loan" without a loan' %}</h3>
             {% if erroneous_data.items_on_loan_without_loan|length > 0 %}
                 {% for item in erroneous_data.items_on_loan_without_loan %}
-                    {{ item }}
+                    <a href="{% url 'library:item-detail' item.pk %}">{{ item }}</a>
                 {% endfor %}
             {% else %}
                 <div class="message is-success">
@@ -72,9 +72,13 @@
         <div class="block">
             <h3 class="title is-3">{% translate 'Open Loans without the items in Status "On Loan"' %}</h3>
             {% if erroneous_data.open_loans_with_item_in_wrong_status|length > 0 %}
-                {% for loan in erroneous_data.open_loans_with_item_in_wrong_status %}
-                    {{ loan }}
-                {% endfor %}
+                <div class="content">
+                    <ul>
+                        {% for loan in erroneous_data.open_loans_with_item_in_wrong_status %}
+                            <li><a href="{% url 'library:loan-detail' loan.pk %}">{{ loan }}</a></li>
+                        {% endfor %}
+                    </ul>
+                </div>
             {% else %}
                 <div class="message is-success">
                     <div class="message-body">
