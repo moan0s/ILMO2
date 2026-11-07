@@ -203,8 +203,7 @@ def borrow_user(request, ik, uk):
     item = get_object_or_404(Item, pk=ik)
     user = get_object_or_404(User, pk=uk)
 
-    item.borrow(borrower=Member.objects.get(user=user))
-    loan = Loan.objects.filter(item=item).latest("lent_on")
+    loan = item.borrow(borrower=Member.objects.get(user=user))
     context = {"loan": loan}
     return render(request, 'library/list_and_details/loan-detail.html', context=context)
 

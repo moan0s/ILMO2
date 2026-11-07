@@ -1,25 +1,38 @@
 {% extends "library/base_generic.html" %}
 {% load i18n %}
 
+{% block title %}
+    {{ loan }}
+{% endblock %}
+
+
 {% block content %}
-  <h1>{% translate "Loan" %}: {{ loan }}</h1>
-    <p class="{% if loan.is_overdue is False %}text-success{% else %}text-warning{% endif %}">
-        {{ loan.due_back }}
-    </p>
-    {% if loan.returned %}
-        <p><strong>{% translate "Returned on" %}:</strong> {{ loan.returned_on }}</p>
-    {% else %}
-        <p><strong{% translate "Due to be returned" %}:</strong> {{ loan.due_back }}</p>
-    {% endif %}
-    {% if perms.library.can_see_borrowed %}
-        <p><strong>{% translate "Borrowed by" %}: </strong>
-            <a href="{{ loan.borrower.get_absolute_url }}"> {{ loan.borrower}} </a></p>
-    {% endif %}
-    {% if not loan.returned and perms.library.can_mark_returned %}
-        <p><a href="{% url 'library:renew-item-librarian' loan.item.id %}">Renew</a></p>
-    {% endif %}
-    {% if not loan.returned and perms.library.can_mark_returned %}
-        <p><a href="{% url 'library:item-return' loan.item.id %}">Return</a></p>
-    {% endif %}
-  <p class="text-muted"><strong>{% translate "Id" %}:</strong> {{ loan.id }}</p>
+    <h1 class="title is-1">{% translate "Loan" %}: {{ loan }}</h1>
+    <div class="block">
+        <div class="{% if loan.is_overdue is False %}text-success{% else %}text-warning{% endif %}">
+            <strong>{% translate "Due back" %}:</strong> {{ loan.due_back }}
+        </div>
+        {% if loan.returned %}
+            <strong>{% translate "Returned on" %}:</strong> {{ loan.returned_on }}
+        {% else %}
+            <strong>{% translate "Due to be returned" %}:</strong> {{ loan.due_back }}
+        {% endif %}
+        {% if perms.library.can_see_borrowed %}
+            <p><strong>{% translate "Borrowed by" %}: </strong>
+                <a href="{{ loan.borrower.get_absolute_url }}"> {{ loan.borrower }} </a></p>
+        {% endif %}
+    </div>
+    <div class="block">
+        <div class="buttons">
+            {% if not loan.returned and perms.library.can_mark_returned %}
+                <a class="button is-primary" href="{% url 'library:renew-item-librarian' loan.item.id %}">Renew</a>
+            {% endif %}
+            {% if not loan.returned and perms.library.can_mark_returned %}
+                <a class="button is-warning" href="{% url 'library:item-return' loan.item.id %}">Return</a>
+            {% endif %}
+        </div>
+    </div>
+    <div class="block">
+        <p class="text-muted"><strong>{% translate "Id" %}:</strong> {{ loan.id }}</p>
+    </div>
 {% endblock %}
