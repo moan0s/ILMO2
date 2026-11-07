@@ -13,9 +13,9 @@
             {{ errors }}
             <input type="hidden" name="action" value="search">
             <div class="field">
-                <label for="seach_query" class="label">{% translate 'Suche' %}</label>
+                <label for="search_query" class="label">{% translate 'Suche' %}</label>
                 <div class="control has-icons-left">
-                    <input class="input" id="seach_query" type="search" name="q" autofocus>
+                    <input class="input" id="search_query" type="search" name="q" autofocus>
                     <span class="icon is-small is-left">
                       <i class="fas fa-search"></i>
                     </span>
@@ -23,7 +23,7 @@
             </div>
             <div class="field">
                 <div class="control">
-                    <input class="button" type="submit" value={% translate "Search" %}>
+                    <input class="button is-primary" type="submit" value={% translate "Search" %}>
                 </div>
             </div>
         </form>
@@ -52,7 +52,7 @@
                                 <input type="hidden" name="user_id" value="{{ user.pk }}">
                                 <div class="field">
                                     <div class="control">
-                                        <input class="button" type="submit" value={% translate "Borrow" %}>
+                                        <input class="button is-primary is-light" type="submit" value={% translate "Borrow" %}>
                                     </div>
                                 </div>
                             </form>
