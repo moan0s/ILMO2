@@ -15,7 +15,7 @@ run_app() {
     python ilmo/main.py collectstatic --noinput
 
     exec python -m gunicorn ilmo.wsgi \
-        --name tbav_training \
+        --name ilmo \
         --workers $NUM_WORKERS \
         --max-requests 1200 \
         --max-requests-jitter 50 \
@@ -23,7 +23,7 @@ run_app() {
         --bind 0.0.0.0:8000
 }
 
-TARGET_UID="${TBAVT_LOCAL_USER_ID:-0}"
+TARGET_UID="${ILMO_LOCAL_USER_ID:-0}"
 
 # Get current UID
 CURRENT_UID="$(id -u)"
