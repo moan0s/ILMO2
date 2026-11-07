@@ -203,18 +203,6 @@ def borrow_item(request, pk):
 
     return render(request, 'library/borrow-user-search.html', context=context)
 
-
-@login_required()
-@permission_required("library.can_add_loan", raise_exception=True)
-def borrow_user(request, ik, uk):
-    item = get_object_or_404(Item, pk=ik)
-    user = get_object_or_404(User, pk=uk)
-
-    loan = item.borrow(borrower=Member.objects.get(user=user))
-    context = {"loan": loan}
-    return render(request, 'library/list_and_details/loan-detail.html', context=context)
-
-
 @login_required()
 @permission_required("library.can_mark_returned", raise_exception=True)
 def return_item(request, ik):
