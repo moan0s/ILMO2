@@ -2,27 +2,36 @@
 {% load i18n %}
 
 {% block content %}
-    <h1>{% translate "Author" %}: {{ author }}</h1>
-    <p><strong>{% translate "Date of birth" %}: </strong> {{ author.date_of_birth }}</p>
-
-    <div style="margin-left:20px;margin-top:20px">
-        {% if author.book_set.all %}
-            <h4>{% translate "Books by this author" %}</h4>
-
-            {% for book in author.book_set.all %}
-                <hr>
-                <p><strong><a href="{{ book.get_absolute_url }}">{{ book.title }}</a></strong></p>
-            {% endfor %}
-
-        {% else %}
-            <p>{% translate "No books by this author." %}</p>
-        {% endif %}
+    <div class="block">
+        <h1 class="title is-2">{% translate "Author" %}: {{ author }}</h1>
+        <p><strong>{% translate "Date of birth" %}: </strong> {{ author.date_of_birth }}</p>
     </div>
-    {% if perms.author.can_change %}
-        <div class="link-button"><a href="{% url "library:author-update" author.id %}">{% translate "Change Author" %}</a></div>
-    {% endif %}
-    {% if perms.author.can_delete %}
-        <div class="link-button delete-button"><a href="{% url "library:author-delete" author.id %}">{% translate "Delete Author" %}</a>
+    <div class="block">
+        <div class="buttons">
+            {% if perms.author.can_change %}
+                <a class="button is-primary" href="{% url "library:author-update" author.id %}">
+                    {% translate "Change Author" %}
+                </a>
+            {% endif %}
+            {% if perms.author.can_delete %}
+                <a class="button is-primary" href="{% url "library:author-delete" author.id %}">
+                    {% translate "Delete Author" %}
+                </a>
+                </div>
+            {% endif %}
+    </div>
+    {% if author.book_set.all %}
+        <h2 class="title is-3">{% translate "Books by this author" %}</h2>
+        <div class="grid">
+            {% for book in author.book_set.all %}
+                <div class="cell">
+                    {% include 'library/partials/book-card.html' %}
+                </div>
+            {% endfor %}
         </div>
+
+    {% else %}
+        <p>{% translate "No books by this author." %}</p>
     {% endif %}
+    </div>
 {% endblock %}

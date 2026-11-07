@@ -37,6 +37,7 @@ def is_bookinstance(value):
 def is_materialinstance(value):
     return type(value) == MaterialInstance
 
+
 @register.simple_tag(takes_context=True)
 def var_exists(context, name):
     dicts = context.dicts  # array of dicts
@@ -46,6 +47,16 @@ def var_exists(context, name):
                 return True
     return False
 
+
 @register.filter
 def dir(value):
     return value.__dir__()
+
+
+@register.simple_tag
+def url_replace(request, field, value):
+    dict_ = request.GET.copy()
+
+    dict_[field] = value
+
+    return dict_.urlencode()

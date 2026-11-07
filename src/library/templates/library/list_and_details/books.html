@@ -4,13 +4,13 @@
 {% load custom_tags %}
 {% block content %}
     {% if book_list %}
-        <ul>
+        <div class="grid">
             {% for book in book_list %}
-                <li><b><a href="{{ book.get_absolute_url }}">{{ book.title }}</a></b><br>
-                    {% translate "by" %} {{ book.author.all|join_link:", " | safe }}
-                </li>
+                <div class="cell">
+                    {% include 'library/partials/book-card.html' %}
+                </div>  
             {% endfor %}
-        </ul>
+        </div>
     {% else %}
         <p>{% translate "No books are available." %}</p>
     {% endif %}
