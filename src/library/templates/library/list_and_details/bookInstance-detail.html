@@ -1,27 +1,35 @@
 {% extends "library/base_generic.html" %}
 {% load i18n %}
 
+{% block title %}
+	{{ bookinstance }}
+{% endblock %}
+
 {% block content %}
-    <h1>{% translate "Book" %}: {{ bookinstance }}</h1>
-    <p class="{% if bookinstance.status == 'a' %}text-success{% elif bookinstance.status == 'm' %}text-danger{% else %}text-warning{% endif %}">
-        {{ bookinstance.get_status_display }}
-    </p>
-    {% if bookinstance.status != 'a' %}
-        <p><strong>{% translate "Due to be returned" %}:</strong> {{ bookinstance.due_back }}</p>
-        {% if perms.library.can_see_borrowed %}
-            <p><strong>{% translate "Borrowed by" %}:</strong>
-                <a href="{{ bookinstance.borrower.get_absolute_url }}"> {{ bookinstance.borrower }} </a></p>
+    <h1 class="title is-2">{% translate "Book" %}: {{ bookinstance }}</h1>
+    <div class="block">
+        <p class="{% if bookinstance.status == 'a' %}text-success{% elif bookinstance.status == 'm' %}text-danger{% else %}text-warning{% endif %}">
+            <strong>{% translate 'Status:' %}</strong> {{ bookinstance.get_status_display }}
+        </p>
+        {% if bookinstance.status != 'a' %}
+            <p><strong>{% translate "Due to be returned" %}:</strong> {{ bookinstance.due_back }}</p>
+            {% if perms.library.can_see_borrowed %}
+                <p><strong>{% translate "Borrowed by" %}:</strong>
+                    <a href="{{ bookinstance.borrower.get_absolute_url }}"> {{ bookinstance.borrower }} </a></p>
+            {% endif %}
+            {% if perms.library.can_mark_returned %}
+                <p><a href="{% url 'library:renew-item-librarian' bookinstance.id %}">Renew</a></p>
+                <p><a href="{% url 'library:item-return' bookinstance.id %}">Return</a></p>
+            {% endif %}
+        {% else %}
+            {% if perms.loan.can_add %}
+                <a class="button is-primary" href="{% url 'library:item-borrow' bookinstance.id %}">Borrow</a>
+            {% endif %}
         {% endif %}
-        {% if perms.library.can_mark_returned %}
-            <p><a href="{% url 'library:renew-item-librarian' bookinstance.id %}">Renew</a></p>
-            <p><a href="{% url 'library:item-return' bookinstance.id %}">Return</a></p>
+    </div>
+    <div class="block">
+        {% if user.is_staff %}
+            <p class="text-muted"><strong>{% translate "Id" %}:</strong> {{ bookinstance.id }}</p>
         {% endif %}
-    {% else %}
-        {% if perms.loan.can_add %}
-            <a href="{% url 'library:item-borrow' bookinstance.id %}">Borrow</a>
-        {% endif %}
-    {% endif %}
-    {% if user.is_staff %}
-        <p class="text-muted"><strong>{% translate "Id" %}:</strong> {{ bookinstance.id }}</p>
-    {% endif %}
+    </div>
 {% endblock %}
