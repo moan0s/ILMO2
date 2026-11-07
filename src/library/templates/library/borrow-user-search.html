@@ -1,26 +1,35 @@
 {% extends "library/base_generic.html" %}
 {% load i18n %}
 
+{% block title %}
+    {% translate 'Borrowing' %}{{ item }}
+{% endblock %}
 {% block content %}
-    <h1>Borrowing: <i>{{ item }}</i></h1>
-    <!---
-    <form action="" method="POST">
-        <input name="name" type="text" placeholder="Search user">
-        <input type="submit" class="btn" value="Search">
-    </form>
-    <p class="text-muted"><strong>Id:</strong> {{ item.id }}</p>
-    --->
-    <div>
-        <h2>Search and select a user to borrow to</h2>
+    <h1 class="title is-2">Borrowing: <i>{{ item }}</i></h1>
+    <div class="block">
+        <h2 class="title is-2">{% translate 'Search and select a user to borrow to' %}</h2>
         <form action="" method="post">
             {% csrf_token %}
             {{ errors }}
-            <input type="search" name="q" autofocus>
-            <input type="submit" value={% translate "Search" %}>
+            <div class="field">
+                <label for="seach_query" class="label">{% translate 'Suche' %}</label>
+                <div class="control has-icons-left">
+                    <input class="input" id="seach_query" type="search" name="q" autofocus>
+                    <span class="icon is-small is-left">
+                      <i class="fas fa-search"></i>
+                    </span>
+                </div>
+            </div>
+            <div class="field">
+                <div class="control">
+                    <input class="button" type="submit" value={% translate "Search" %}>
+                </div>
+            </div>
         </form>
     </div>
 
-    <div class="search_result">
+
+    <div class="block">
         {% if users %}
             <table>
                 <tr>
