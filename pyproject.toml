@@ -5,7 +5,7 @@ build-backend = "setuptools.build_meta"
 
 
 [project]
-name = "ILMO"
+name = "ilmo"
 description = "A library management tool."
 authors = [
   {name = "moanos", email = "julian-samuel@gebuehr.net"},
@@ -35,7 +35,7 @@ dependencies = [
     "django-polymorphic",
     "psycopg2-binary",
     "whitenoise",
-    "simple_history"
+    "django-simple_history"
 ]
 
 dynamic = ["version", "readme"]
