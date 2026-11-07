@@ -11,6 +11,7 @@
         <form action="" method="post">
             {% csrf_token %}
             {{ errors }}
+            <input type="hidden" name="action" value="search">
             <div class="field">
                 <label for="seach_query" class="label">{% translate 'Suche' %}</label>
                 <div class="control has-icons-left">
@@ -43,7 +44,18 @@
                         <td>{{ user.username }}</td>
                         <td>{{ user.first_name }}</td>
                         <td>{{ user.last_name }}</td>
-                        <td><a href="{% url 'library:user-borrow' ik=item.id uk=user.id %}">{% translate "Borrow" %}</a>
+                        <td>
+                            <form action="" method="post">
+                                {% csrf_token %}
+                                {{ errors }}
+                                <input type="hidden" name="action" value="borrow">
+                                <input type="hidden" name="user_id" value="{{ user.pk }}">
+                                <div class="field">
+                                    <div class="control">
+                                        <input class="button" type="submit" value={% translate "Borrow" %}>
+                                    </div>
+                                </div>
+                            </form>
                         </td>
                     </tr>
                 {% endfor %}

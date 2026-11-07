@@ -184,9 +184,16 @@ def borrow_item(request, pk):
 
     # If this is a POST request then process the Form data
     if request.method == 'POST':
-        q = request.POST['q']
-        if request.user.has_perm('library.view_member'):
-            context['users'] = get_user(q)
+        action = request.POST["action"]
+        if action == "search":
+            q = request.POST['q']
+            if request.user.has_perm('library.view_member'):
+                context['users'] = get_user(q)
+        elif action == "borrow":
+            user = get_object_or_404(User, id=request.POST['user_id'])
+            loan = item.borrow(borrower=Member.objects.get(user=user))
+            return redirect("library:loan-detail", pk=loan.pk)
+
 
     # If this is a GET (or any other method) create the default form.
     else:
