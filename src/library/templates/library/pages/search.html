@@ -2,64 +2,80 @@
 {% load i18n %}
 
 {% block content %}
-    <h1>{% translate "Search for any item or user" %}</h1>
-    <form action="" method="post">
-        {% csrf_token %}
-        <input type="search" name="q" autofocus>
-        <input type="submit" value={% translate "Search" %}>
-    </form>
-    {% if user_list %}
-        <div class="search_result">
-            <h1>{% translate "User" %}</h1>
-            {% block userTable %}
-                {% include "library/list_and_details/userTable.html" %}
-            {% endblock %}
-        </div>
-    {% else %}
-        {% translate "No user found." %}
-    {% endif %}
-    {% if books %}
-        <div class="search_result">
-            <h1>{% translate "Books" %}</h1>
-            {% block bookTable %}
-                {% include "library/list_and_details/bookTable.html" %}
-            {% endblock %}
-        </div>
-    {% else %}
-        {% translate "No books found." %}
-    {% endif %}
-    {% if materials %}
-        <div class="search_result">
+    <h1 class="title is-2">{% translate "Search for any item or user" %}</h1>
 
-            <h1>{% translate "Materials" %}</h1>
-            {% block materialTable %}
-                {% include "library/list_and_details/materialTable.html" %}
-            {% endblock %}
-        </div>
-    {% else %}
-        {% translate "No materials found." %}
-    {% endif %}
-    {% if book_instances %}
-        <div class="search_result">
+    <div class="block">
+        <form action="" method="post">
+            {% csrf_token %}
 
-            <h1>{% translate "Book instances" %}</h1>
-            {% block bookInstanceTable %}
-                {% include "library/list_and_details/bookInstanceTable.html" %}
-            {% endblock %}
-        </div>
-    {% else %}
-        {% translate "No book instances found." %}
-    {% endif %}
+            <div class="field">
+                <div class="control has-icons-left">
+                    <input class="input" type="text" name="q" placeholder="Einstein"/>
+                    <span class="icon is-small is-left">
+                    <i class="fas fa-search"></i>
+                </span>
+                </div>
+            </div>
+            <div class="field is-grouped">
+                <div class="control">
+                    <input class="button is-primary" type="submit" value={% translate "Search" %}>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="block">
+        {% if user_list %}
+            <div class="search_result">
+                <h2 class="title is-2">{% translate "User" %}</h2>
+                {% block userTable %}
+                    {% include "library/list_and_details/userTable.html" %}
+                {% endblock %}
+            </div>
+        {% else %}
+            {% translate "No user found." %}
+        {% endif %}
+        {% if books %}
+            <div class="search_result">
+                <h2 class="title is-2">{% translate "Books" %}</h2>
+                {% block bookTable %}
+                    {% include "library/list_and_details/bookTable.html" %}
+                {% endblock %}
+            </div>
+        {% else %}
+            {% translate "No books found." %}
+        {% endif %}
+        {% if materials %}
+            <div class="search_result">
 
-    {% if material_instances %}
-        <div class="search_result">
-            <h1>{% translate "Material instances" %}</h1>
-            {% block materialInstanceTable %}
-                {% include "library/list_and_details/materialInstanceTable.html" %}
-            {% endblock %}
-        </div>
-    {% else %}
-        {% translate "No material instances found." %}
-    {% endif %}
+                <h2 class="title is-2">{% translate "Materials" %}</h2>
+                {% block materialTable %}
+                    {% include "library/list_and_details/materialTable.html" %}
+                {% endblock %}
+            </div>
+        {% else %}
+            {% translate "No materials found." %}
+        {% endif %}
+        {% if book_instances %}
+            <div class="search_result">
 
+                <h2 class="title is-2">{% translate "Book instances" %}</h2>
+                {% block bookInstanceTable %}
+                    {% include "library/list_and_details/bookInstanceTable.html" %}
+                {% endblock %}
+            </div>
+        {% else %}
+            {% translate "No book instances found." %}
+        {% endif %}
+
+        {% if material_instances %}
+            <div class="search_result">
+                <h2 class="title is-2">{% translate "Material instances" %}</h2>
+                {% block materialInstanceTable %}
+                    {% include "library/list_and_details/materialInstanceTable.html" %}
+                {% endblock %}
+            </div>
+        {% else %}
+            {% translate "No material instances found." %}
+        {% endif %}
+    </div>
 {% endblock %}
