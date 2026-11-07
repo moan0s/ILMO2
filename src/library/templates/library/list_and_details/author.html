@@ -20,18 +20,21 @@
                 </div>
             {% endif %}
     </div>
-    {% if author.book_set.all %}
-        <h2 class="title is-3">{% translate "Books by this author" %}</h2>
-        <div class="grid">
-            {% for book in author.book_set.all %}
-                <div class="cell">
-                    {% include 'library/partials/book-card.html' %}
+    <div class="block">
+        {% if author.book_set.all %}
+            <h2 class="title is-3">{% translate "Books by this author" %}</h2>
+            <div class="fixed-grid has-1-cols-mobile has-2-cols-tablet">
+                <div class="grid">
+                    {% for book in author.book_set.all %}
+                        <div class="cell">
+                            {% include 'library/partials/book-card.html' %}
+                        </div>
+                    {% endfor %}
                 </div>
-            {% endfor %}
-        </div>
+            </div>
 
-    {% else %}
-        <p>{% translate "No books by this author." %}</p>
-    {% endif %}
+        {% else %}
+            <p>{% translate "No books by this author." %}</p>
+        {% endif %}
     </div>
 {% endblock %}

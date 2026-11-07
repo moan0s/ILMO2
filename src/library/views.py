@@ -160,6 +160,7 @@ class PasswordsChangeView(PasswordChangeView):
 class BookListView(generic.ListView):
     model = Book
     template_name = 'library/list_and_details/books.html'
+    ordering = "title"
     paginate_by = 10
 
 
@@ -221,6 +222,7 @@ def return_item(request, ik):
 
 class AuthorListView(generic.ListView):
     model = Author
+    ordering = 'last_name'
     template_name = 'library/list_and_details/authors.html'
     paginate_by = 10
 
@@ -442,6 +444,7 @@ class AuthorDelete(PermissionRequiredMixin, DeleteView):
 
 class MaterialListView(generic.ListView):
     model = Material
+    ordering = 'name'
     template_name = 'library/list_and_details/materials.html'
     paginate_by = 10
 
@@ -477,6 +480,7 @@ class OpeningHoursCreateView(PermissionRequiredMixin, CreateView):
 
 class OpeningHoursListView(generic.ListView):
     model = OpeningHours
+    ordering = "weekday"
     template_name = 'library/pages/openinghours.html'
 
 
