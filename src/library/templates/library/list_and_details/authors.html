@@ -2,7 +2,7 @@
 {% load i18n %}
 
 {% block content %}
-    <p>
+    <div class="block content">
         {% if author_list %}
             <ul>
                 {% for author in author_list %}
@@ -13,9 +13,11 @@
         {% else %}
             <p>{% translate "No authors are known to this library." %}</p>
         {% endif %}
-    </p>
+    </div>
+    <div class="block">
     {% if perms.library.can_add_author %}
-        <div class="link-button"><a href="{% url "library:author-create" %}">{% translate "Add Author" %}</a></div>
+        <div class="button is-primary"><a href="{% url "library:author-create" %}">{% translate "Add Author" %}</a></div>
     {% endif %}
+    </div>
 
 {% endblock %}

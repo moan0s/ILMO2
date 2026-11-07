@@ -24,37 +24,49 @@
             <p>{% translate "No UID set." %}</p>
         {% endif %}
     </div>
+
     <div class="block">
-        {% if token %}
-            <form action="" method="POST">
-                {% csrf_token %}
-                <p class="text-muted"><strong>{% translate "API token:" %}</strong> {{ token }}</p>
-                <input class="button is-danger" type="submit" name="delete_token"
-                       value={% translate "Delete API token" %}>
-            </form>
-        {% else %}
+        <div class="message">
+            <div class="message-header">
+                {% translate 'API-Token' %}
+            </div>
+            <div class="message-body">
+                {% if token %}
+                    <form action="" method="POST">
+                        {% csrf_token %}
+                        <p class="text-muted"><strong>{% translate "API token:" %}</strong> {{ token }}</p>
+                        <input class="button is-danger" type="submit" name="delete_token"
+                               value={% translate "Delete API token" %}>
+                    </form>
+                {% else %}
+                    <p>{% translate "No token set." %}</p>
+                    <form action="" method="POST">
+                        {% csrf_token %}
+                        <input class="button is-primary" type="submit" name="create_token"
+                               value={% translate "Create API token" %}>
+                    </form>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    {% if member.user.id is request.user.id %}
+        <div class="block">
+            <div class="buttons">
+                <a class="button is-warning"
+                   href="{% url 'library:password' %}">{% translate "Change password here." %}</a>
+                <a class="button is-warning"
+                   href="{% url 'library:my-profile-export' %}">{% translate "Export your data." %}</a>
+            </div>
             <div class="block">
-                <p>{% translate "No token set." %}</p>
-                <form action="" method="POST">
+                <form method="post" action="{% url 'logout' %}">
                     {% csrf_token %}
-                    <input class="button is-primary is-light" type="submit" name="create_token"
-                           value={% translate "Create API token" %}>
+                    <button class="button is-danger is-fullwidth" type="submit">
+                        <i class="fas fa-sign-out-alt"></i> {% translate "Logout" %}
+                    </button>
                 </form>
             </div>
-        {% endif %}
-    </div>
-    <div class="block">
-        {% if member.user.id is request.user.id %}
-            <p><a href="{% url 'library:password' %}">{% translate "Change password here." %}</a></p>
-            <p><a href="{% url 'library:my-profile-export' %}">{% translate "Export your data." %}</a></p>
-            <form method="post" action="{% url 'logout' %}">
-                {% csrf_token %}
-                <button class="button is-danger" type="submit">
-                    <i class="fas fa-sign-out-alt"></i> {% translate "Logout" %}
-                </button>
-            </form>
-        {% endif %}
-    </div>
+        </div>
+    {% endif %}
 
     <div class="block">
         <h1 class="title is-1">{% translate "Loans" %}</h1>

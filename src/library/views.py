@@ -434,6 +434,7 @@ class AuthorUpdate(PermissionRequiredMixin, UpdateView):
     permission_required = "library.can_modify_author"
     model = Author
     fields = ['first_name', 'last_name', 'date_of_birth', 'date_of_death']
+    template_name = 'library/forms/author_form.html'
 
 
 class AuthorDelete(PermissionRequiredMixin, DeleteView):

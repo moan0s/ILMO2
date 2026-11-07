@@ -2,11 +2,15 @@
 {% load i18n %}
 {% load custom_tags %}
 
+{% block title %}
+	{% translate "Loans" %}
+{% endblock %}
+
 {% block content %}
 
-    <h1>{% translate "Loans" %}</h1>
+    <h1 class="title is-1">{% translate "Loans" %}</h1>
     {% block loanTable %}
-                    {% include "library/list_and_details/loan_list_table.html" %}
+        {% include "library/list_and_details/loan_list_table.html" %}
     {% endblock %}
 
 {% endblock %}
