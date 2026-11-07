@@ -1,36 +1,61 @@
 {% extends "library/base_generic.html" %}
 {% load i18n %}
+{% load custom_tags %}
 
 {% block content %}
 
-  {% if form.errors %}
-    <p>{% translate "Your username and password didn't match. Please try again." %}</p>
-  {% endif %}
+    {% if form.errors %}
+        {% for error in form.non_field_errors %}
+            <article class="message is-danger">
+                <div class="message-header">
+                    <p>{% translate 'Login Error' %}</p>
+                </div>
+                <div class="message-body">
+                    {{ error }}
+                </div>
+            </article>
+        {% endfor %}
+    {% endif %}
 
-{% if user.is_authenticated %}
-  <p>{% translate "You're already logged in." %}</p>
-  {% else %} {% if next %}
-    <p>{% translate "Please login to see this page." %}</p>
-  {% endif %}
-{% endif %}
+    {% if user.is_authenticated %}
+        <p>{% translate "You're already logged in." %}</p>
+    {% else %}
+        {% if next %}
+            <p>{% translate "You don't have permission to see this page." %}</p>
+        {% endif %}
+    {% endif %}
+    <div class="block">
+        {% if not user.is_authenticated %}
+            <form method="post" action="{% url 'login' %}">
+                {% csrf_token %}
+                <div class="field">
+                    <label class="label" for="id_username">{{ form.username.label_tag }}</label>
+                    <div class="control has-icons-left">
+                        <input id="id_username" name="username" class="input" type="text"
+                               placeholder="{% translate 'Username' %}">
+                        <span class="icon is-small is-left">
+                      <i class="fas fa-user"></i>
+                    </span>
+                    </div>
+                    <div class="help is-danger">{{ form.username.errors }}</div>
+                </div>
 
-{% if not user.is_authenticated %}
-  <form method="post" action="{% url 'login' %}">
-    {% csrf_token %}
-    <table>
-      <tr>
-        <td>{{ form.username.label_tag }}</td>
-        <td>{{ form.username }}</td>
-      </tr>
-      <tr>
-        <td>{{ form.password.label_tag }}</td>
-        <td>{{ form.password }}</td>
-      </tr>
-    </table>
-    <input type="submit" value={% translate "login" %} />
-    <input type="hidden" name="next" value="{{ next }}" />
-  </form>
-
-  <p><a href="{% url 'password_reset' %}">{% translate "Lost password?" %}</a></p>
-{% endif %}
+                <div class="field">
+                    <label class="label" for="id_password">{{ form.password.label_tag }}</label>
+                    <div class="control has-icons-left">
+                        <input id="id_password" name="password" class="input" type="password">
+                        <span class="icon is-small is-left">
+                      <i class="fas fa-lock"></i>
+                    </span>
+                    </div>
+                    <div class="help is-danger">{{ form.password.errors }}</div>
+                </div>
+                <input class="button is-primary" type="submit" value={% translate "Login" %}>
+                <input type="hidden" name="next" value="{{ next }}"/>
+            </form>
+            </div>
+            <div class="block">
+                <a href="{% url 'password_reset' %}">{% translate "Lost password?" %}</a>
+            </div>
+        {% endif %}
 {% endblock %}

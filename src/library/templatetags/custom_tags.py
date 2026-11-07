@@ -45,3 +45,7 @@ def var_exists(context, name):
             if name in d:
                 return True
     return False
+
+@register.filter
+def dir(value):
+    return value.__dir__()
