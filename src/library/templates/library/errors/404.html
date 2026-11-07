@@ -1,0 +1,18 @@
+{% extends "blackboard/base.html" %}
+{% load i18n %}
+{% load custom_tags %}
+
+{% block title %}<title>{% translate "404 Not Found" %}</title>{% endblock %}
+
+{% block content %}
+    <h1 class="title is-1">404 Not Found</h1>
+    <p>
+        {% if error_message %}
+            {{ error_message }}
+        {% else %}
+            {% blocktranslate %}
+                Hier wurde etwas nicht gefunden. Wenn du denkst, dass hier ein Fehler vorliegt, kontaktiere das Team!
+            {% endblocktranslate %}
+        {% endif %}
+    </p>
+{% endblock %}

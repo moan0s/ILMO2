@@ -1,8 +1,10 @@
 import logging
 import string
 import re
+from typing import List, Set
 
-from library.models import Author
+from library.models import Author, Loan, LoanStatusChoice, Item
+
 
 def get_author_from_string(name: str):
     """
@@ -24,8 +26,7 @@ def get_author_from_string(name: str):
     name = name.replace("&", ",")
     name = name.replace("/", ",")
     if name.strip() == "":
-       raise ValueError("Author must be a non-empty string")
-
+        raise ValueError("Author must be a non-empty string")
 
     authors = []
     # Case for Multiple authors such as "Schreiner, Müller"
@@ -58,6 +59,7 @@ def get_author_from_string(name: str):
     else:
         return authors
 
+
 def get_label_end(index) -> str:
     """
     Returns a one to two character long label e.g. `bf`
@@ -65,7 +67,7 @@ def get_label_end(index) -> str:
     The labels will follow with `a`, `b`, ... `z`, `aa`, `ab`, ...
     An index above 676 will raise a value error
     """
-    if index > 26*26:
+    if index > 26 * 26:
         raise ValueError("Index > 676 not supported")
     label_end = ""
     if int(index / 26) > 0:
@@ -73,7 +75,8 @@ def get_label_end(index) -> str:
     label_end += string.ascii_lowercase[index % 26]
     return label_end
 
-def validate_book_prefix(prefix:str) -> str:
+
+def validate_book_prefix(prefix: str) -> str:
     """
     Will check if the book prefix is valid
 
@@ -84,3 +87,30 @@ def validate_book_prefix(prefix:str) -> str:
     if not match:
         raise ValueError("Book prefix not in a valid format")
     return stripped_prefix
+
+
+def open_loans_with_item_in_wrong_status() -> List[Loan]:
+    open_loans = Loan.objects.filter(returned_on__isnull=True)
+    open_loans_with_item_in_wrong_status_list = []
+    for loan in open_loans:
+        if loan.item.status != LoanStatusChoice.ON_LOAN:
+            open_loans_with_item_in_wrong_status_list.append(loan)
+    return open_loans_with_item_in_wrong_status_list
+
+
+def items_on_loan_without_loan() -> List[Item]:
+    items: List[Item] = []
+    for item in Item.objects.filter(status=LoanStatusChoice.ON_LOAN):
+        open_loans = Loan.objects.filter(item=item, returned_on__isnull=True)
+        if not open_loans.exists():
+            items.append(item)
+    return items
+
+
+def multiple_open_loans_for_same_item() -> Set[Loan]:
+    loans: Set[Loan] = set()
+    for open_loan in Loan.objects.filter(returned_on__isnull=True):
+        additional_loans = Loan.objects.filter(item=open_loan.item, returned_on__isnull=True)
+        if Loan.objects.filter(item=open_loan.item, returned_on__isnull=True).exists():
+            loans.update(additional_loans)
+    return loans

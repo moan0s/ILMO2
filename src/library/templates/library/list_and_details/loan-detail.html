@@ -32,7 +32,16 @@
             {% endif %}
         </div>
     </div>
-    <div class="block">
-        <p class="text-muted"><strong>{% translate "Id" %}:</strong> {{ loan.id }}</p>
-    </div>
+    {% if request.user.is_superuser %}
+        <div class="block">
+            <h2 class="title is-2">{% translate 'For admins' %}</h2>
+            <p class="text-muted"><strong>{% translate "Id" %}:</strong> {{ loan.id }}</p>
+            <div class="buttons">
+                <a class="button is-warning"
+                   href="/admin/library/loan/{{ loan.pk }}/change">
+                    <i class="fa-solid fa-tools fa-fw"></i> Show in admin interface
+                </a>
+            </div>
+        </div>
+    {% endif %}
 {% endblock %}

@@ -1,4 +1,5 @@
 from django.db import models
+from django.shortcuts import render
 from django.urls import reverse
 from django.contrib.auth.models import User
 import uuid
@@ -139,6 +140,13 @@ class Member(models.Model):
         verbose_name_plural = _('Members')
 
 
+class LoanStatusChoice(models.TextChoices):
+    MAINTENANCE = 'm', _('Maintenance')
+    ON_LOAN = 'o', _('On loan')
+    AVAILABLE = 'a', _('Available')
+    RESERVED = 'r', _('Reserved')
+
+
 class Item(PolymorphicModel):
     """Represents an item that is physically in the library"""
 
@@ -147,16 +155,9 @@ class Item(PolymorphicModel):
                           verbose_name=_('Id'))
     label = models.CharField(max_length=20, unique=True, verbose_name=_('Label'))
 
-    LOAN_STATUS = (
-        ('m', _('Maintenance')),
-        ('o', _('On loan')),
-        ('a', _('Available')),
-        ('r', _('Reserved')),
-    )
-
     status = models.CharField(
         max_length=1,
-        choices=LOAN_STATUS,
+        choices=LoanStatusChoice.choices,
         blank=True,
         default='m',
         help_text=_('Item availability'),
@@ -188,6 +189,11 @@ class Item(PolymorphicModel):
         -------
         Loan: The created loan object
         """
+
+        # Ensure that the item is available
+        assert self.status != LoanStatusChoice.AVAILABLE
+        # Ensure no unreturned loan for this item exists
+        assert not Loan.objects.filter(item=self, returned_on=None).exists()
         loan = Loan.objects.create(
             item=self,
             lent_on=lent_on,
@@ -196,7 +202,7 @@ class Item(PolymorphicModel):
         )
         loan.save()
         # Set status to on loan
-        self.status = "o"
+        self.status = LoanStatusChoice.ON_LOAN
         self.save()
         return loan
 
@@ -476,7 +482,8 @@ class TransactionalEmail(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True, related_name="transactional_emails")
     member = models.ForeignKey(Member, on_delete=models.CASCADE, blank=True, null=True,
                                related_name="transactional_emails")
-    loan_reminder = models.ForeignKey(LoanReminder, on_delete=models.CASCADE, blank=True, null=True,related_name="transactional_emails")
+    loan_reminder = models.ForeignKey(LoanReminder, on_delete=models.CASCADE, blank=True, null=True,
+                                      related_name="transactional_emails")
     subject = models.CharField(verbose_name=_("E-Mail"), max_length=200)
     text = models.TextField(verbose_name=_("Text"))
     html = models.TextField(verbose_name=_("HTML"))

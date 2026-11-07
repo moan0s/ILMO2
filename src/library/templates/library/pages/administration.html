@@ -1,9 +1,12 @@
 {% extends "library/base_generic.html" %}
 {% load i18n %}
+{% block title %}
+    {% translate 'Administration' %}
+{% endblock %}
 
 {% block content %}
     <div class="block">
-        <h1>{% translate "ILMO - Administration" %}</h1>
+        <h1 class="title is-1">{% translate "ILMO - Administration" %}</h1>
         <ul class="action-menu">
             <a href="{% url 'admin:index' %}">
                 <li>
@@ -48,5 +51,55 @@
                 </p>
             </div>
         </form>
+    </div>
+
+    <div class="block">
+        <h2 class="title is-2">{% translate 'Data with error' %}</h2>
+        <div class="block">
+            <h3 class="title is-3">{% translate 'Items in Status "On Loan" without a loan' %}</h3>
+            {% if erroneous_data.items_on_loan_without_loan|length > 0 %}
+                {% for item in erroneous_data.items_on_loan_without_loan %}
+                    {{ item }}
+                {% endfor %}
+            {% else %}
+                <div class="message is-success">
+                    <div class="message-body">
+                        {% translate 'No errors in this category' %}
+                    </div>
+                </div>
+            {% endif %}
+        </div>
+        <div class="block">
+            <h3 class="title is-3">{% translate 'Open Loans without the items in Status "On Loan"' %}</h3>
+            {% if erroneous_data.open_loans_with_item_in_wrong_status|length > 0 %}
+                {% for loan in erroneous_data.open_loans_with_item_in_wrong_status %}
+                    {{ loan }}
+                {% endfor %}
+            {% else %}
+                <div class="message is-success">
+                    <div class="message-body">
+                        {% translate 'No errors in this category' %}
+                    </div>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+    <div class="block">
+        <h3 class="title is-3">{% translate 'Duplicate Loans for the same item' %}</h3>
+        {% if erroneous_data.multiple_open_loans_for_same_item|length > 0 %}
+            <div class="content">
+                <ul>
+                    {% for loan in erroneous_data.multiple_open_loans_for_same_item %}
+                        <li><a href="{{ loan.get_absolute_url }}">{{ loan }}</a></li>
+                    {% endfor %}
+                </ul>
+            </div>
+        {% else %}
+            <div class="message is-success">
+                <div class="message-body">
+                    {% translate 'No errors in this category' %}
+                </div>
+            </div>
+        {% endif %}
     </div>
 {% endblock %}

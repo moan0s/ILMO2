@@ -1,6 +1,5 @@
 import logging
 
-from django.contrib.auth import update_session_auth_hash
 from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.auth.views import PasswordChangeView
 from django.core import serializers
@@ -17,11 +16,12 @@ import datetime
 from django.utils import timezone
 from rest_framework.authtoken.models import Token
 import library.helpers as helpers
+from library.helpers import open_loans_with_item_in_wrong_status, items_on_loan_without_loan, \
+    multiple_open_loans_for_same_item
 from library.email import send_notification_email, NotificationTypeChoices
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.urls import reverse_lazy
 
-from django.contrib import messages
 import json
 
 from .forms import RenewItemForm, UserSearchForm, OpeningHoursModelForm, BookAddViaTemplateForm
@@ -111,7 +111,14 @@ def administration(request):
                           }
             send_notification_email(NotificationTypeChoices.TEST_MAIL, email_data)
 
-    return render(request, 'library/pages/administration.html')
+    context = {"erroneous_data":
+                   {"items_on_loan_without_loan": items_on_loan_without_loan(),
+                    "open_loans_with_item_in_wrong_status": open_loans_with_item_in_wrong_status(),
+                    "multiple_open_loans_for_same_item": multiple_open_loans_for_same_item()
+                    }
+               }
+
+    return render(request, 'library/pages/administration.html', context=context)
 
 
 def metrics(request):
@@ -202,6 +209,7 @@ def borrow_item(request, pk):
     context['item'] = item
 
     return render(request, 'library/borrow-user-search.html', context=context)
+
 
 @login_required()
 @permission_required("library.can_mark_returned", raise_exception=True)
