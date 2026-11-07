@@ -116,7 +116,7 @@ def multiple_open_loans_for_same_item() -> List[Tuple[Item, List[Loan]]]:
         if open_loan.item in items_with_multiple_open_loans:
             continue
         open_loans_of_this_item = Loan.objects.filter(item=open_loan.item, returned_on__isnull=True)
-        if open_loans_of_this_item.exists():
+        if len(open_loans_of_this_item) > 1:
             items_with_multiple_open_loans.append(open_loan.item)
             loans.append((open_loan.item, list(open_loans_of_this_item)))
     return loans
