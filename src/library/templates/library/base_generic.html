@@ -1,4 +1,6 @@
 {% load custom_tags %}
+{% load i18n %}
+{% load custom_tags %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -23,19 +25,33 @@
     {% block pagination %}
         {% var_exists 'is_paginated' as is_paginated_exists %}
         {% if is_paginated_exists and is_paginated %}
-            <div class="pagination">
-				<span class="page-links">
-					{% if page_obj.has_previous %}
-                        <a href="{{ request.path }}?page={{ page_obj.previous_page_number }}">previous</a>
-                    {% endif %}
-                    <span class="page-current">
-						Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
-					</span>
-                    {% if page_obj.has_next %}
-                        <a href="{{ request.path }}?page={{ page_obj.next_page_number }}">next</a>
-                    {% endif %}
-				</span>
-            </div>
+            <nav class="pagination" role="navigation" aria-label="{% trans 'Paginierung' %}">
+                {% if pps.has_previous %}
+                    <a class="pagination-previous"
+                       href="?page={% url_replace request 'page' pps.previous_page_number %}">{% trans 'Vorherige' %}</a>
+                {% endif %}
+                {% if pps.has_next %}
+                    <a class="pagination-next"
+                       href="?{% url_replace request 'page' pps.next_page_number %}">{% trans 'Nächste' %}</a>
+                {% endif %}
+                <ul class="pagination-list">
+                    {% for page in elided_page_range %}
+                        {% if page != "…" %}
+                            <li>
+                                <a href="?{% url_replace request 'page' page %}"
+                                   class="pagination-link {% if page == pps.number %} is-current{% endif %}"
+                                   aria-label="{% blocktranslate %}Gehe zu Seite {{ page }}.{% endblocktranslate %}">
+                                    {{ page }}
+                                </a>
+                            </li>
+                        {% else %}
+                            <li>
+                                <span aria-hidden="true" class="pagination-ellipsis">&hellip;</span>
+                            </li>
+                        {% endif %}
+                    {% endfor %}
+                </ul>
+            </nav>
         {% endif %}
     {% endblock %}
 </div>
