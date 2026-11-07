@@ -47,8 +47,12 @@
         {% if member.user.id is request.user.id %}
             <p><a href="{% url 'library:password' %}">{% translate "Change password here." %}</a></p>
             <p><a href="{% url 'library:my-profile-export' %}">{% translate "Export your data." %}</a></p>
-            <a class="button is-danger" href="{% url 'logout' %}?next={{ request.path }}"><i
-                    class="fas fa-sign-out-alt"></i> {% translate "Logout" %}</a>
+            <form method="post" action="{% url 'logout' %}">
+                {% csrf_token %}
+                <button class="button is-danger" type="submit">
+                    <i class="fas fa-sign-out-alt"></i> {% translate "Logout" %}
+                </button>
+            </form>
         {% endif %}
     </div>
 
