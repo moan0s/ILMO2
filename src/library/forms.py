@@ -11,6 +11,7 @@ from django.core.validators import RegexValidator
 
 
 class RenewItemForm(forms.Form):
+    template_name = 'library/forms/form_snippets.html'
     renewal_date = forms.DateField(help_text=_("Enter a date between now and 4 weeks (default 3)."))
 
     def clean_renewal_date(self):

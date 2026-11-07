@@ -247,7 +247,8 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework.authtoken',
     'polymorphic',
-    "django_registration"
+    "django_registration",
+    'widget_tweaks',
 ]
 
 MIDDLEWARE = [

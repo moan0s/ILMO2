@@ -1,16 +1,23 @@
 {% extends "library/base_generic.html" %}
 {% load i18n %}
 
-{% block content %}
-  <h1>{% translate "Renew" %}: {{ item }}</h1>
-  <p><strong>{% translate "Borrower" %}:</strong> {{ item.borrower }}</p>
-  <p{% if item.is_overdue %} class="text-danger"{% endif %}><strong>{% translate "Due date" %}:</strong> {{ item.due_back }}</p>
+{% block title %}
+    {% translate 'Renew' %} {{ item }}
+{% endblock %}
 
-  <form action="" method="post">
-    {% csrf_token %}
-    <table>
-    {{ form.as_table }}
-    </table>
-    <input type="submit" value={% translate "Submit" %}>
-  </form>
+{% block content %}
+    <h1 class="title is-2">{% translate "Renew" %}: {{ item }}</h1>
+    <p><strong>{% translate "Borrower" %}:</strong> {{ item.borrower }}</p>
+    <p{% if item.is_overdue %} class="text-danger"{% endif %}>
+        <strong>{% translate "Due date" %}:</strong> {{ item.due_back }}</p>
+
+    <form action="" method="post">
+        {% csrf_token %}
+        {{ form }}
+        <div class="field">
+            <div class="control">
+                <input class="button is-primary" type="submit" value={% translate "Submit" %}>
+            </div>
+        </div>
+    </form>
 {% endblock %}

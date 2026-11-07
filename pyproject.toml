@@ -35,7 +35,8 @@ dependencies = [
     "django-polymorphic",
     "psycopg2-binary",
     "whitenoise",
-    "django-simple_history"
+    "django-simple_history",
+    "django-widget-tweaks",
 ]
 
 dynamic = ["version", "readme"]
