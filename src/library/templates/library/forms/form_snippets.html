@@ -1,0 +1,42 @@
+<!--- See https://docs.djangoproject.com/en/5.2/topics/forms/#reusable-form-templates -->
+
+{% load custom_tags %}
+{% load widget_tweaks %}
+
+{% for field in form %}
+    <div class="field">
+        <label class="label">
+            {{ field.label }}
+        </label>
+        <div class="control">
+            {% if field|widget_type == 'Select' %}
+                <div class="select">
+                    {{ field }}
+                </div>
+            {% elif field|widget_type == 'selectmultiple' %}
+                <div class="select is-multiple is-fullwidth">
+                    {{ field }}
+                </div>
+            {% elif field|widget_type == 'dateinput' %}
+                {{ field|add_class:"input"|attr:"type:date" }}
+            {% elif field|widget_type == 'textarea' %}
+                {{ field|add_class:"input textarea"|attr:"rows:3" }}
+            {% elif field|widget_type == 'checkboxinput' %}
+                {{ field|add_class:"checkbox" }}
+            {% else %}
+                {{ field|add_class:"input" }}
+            {% endif %}
+        </div>
+        <div class="help content">
+            {{ field.help_text }}
+        </div>
+        <div class="help is-danger">
+            {{ field.errors }}
+        </div>
+    </div>
+
+{% endfor %}
+
+<div class="help is-danger">
+    {{ form.errors }}
+</div>

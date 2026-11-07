@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="DE">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>{% block title %}{% endblock %}</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #f6f6f6;
+            font-family: Arial, sans-serif;
+        }
+
+        .email-wrapper {
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: #ffffff;
+            border: 1px solid #e0e0e0;
+        }
+
+        .header {
+            {% if priority == "critical" %}
+                background-color: #f93e4a;
+            {% elif priority == "important" %}
+                background-color: #f9cd3e;
+            {% elif priority == "normal" %}
+                background-color: #5df93e;
+            {% else %}
+                background-color: #66b2de;
+            {% endif %}
+            color: #393939;
+            padding: 20px;
+            text-align: center;
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .content {
+            padding: 30px 20px;
+            color: #262728; /* $grey-dark */
+            font-size: 16px;
+            line-height: 1.5;
+        }
+
+        .block:not(:last-child) {
+            margin-bottom: 1.5rem;
+        }
+
+        .cta-button {
+            display: inline-block;
+            padding: 12px 20px;
+            background-color: #66b2de;
+            color: #171717;
+            text-decoration: none;
+            border-radius: 4px;
+            margin-top: 20px;
+            font-weight: bold;
+        }
+
+        .footer {
+            background-color: #66b2de;
+            color: #171717;
+            text-align: center;
+            padding: 15px 10px;
+            font-size: 14px;
+        }
+
+
+        table {
+          table-layout: fixed;
+          width: 90%;
+          margin: 10px auto;
+          border-collapse: collapse;
+          border-top: 1px solid #999999;
+          border-bottom: 1px solid #999999;
+        }
+        th, td {
+          padding: 0.6em;
+        }
+        thead {
+          background: #333333;
+          color: #fff;
+        }
+        tbody tr:nth-child(odd) {
+          background-color: #eeeeee;
+        }
+
+
+        .setting-info {
+            font-size: 10px;
+        }
+
+        @media (max-width: 600px) {
+            .content, .header, .footer {
+                padding: 20px 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="email-wrapper">
+
+{% block header %}
+    {% include "library/mail/header.html" %}
+{% endblock %}
+    <div class="content">
+        {% block content %}{% endblock %}
+    </div>
+{% include "library/mail/footer.html" %}
+</div>
+</body>
+</html>

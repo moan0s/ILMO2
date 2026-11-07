@@ -17,6 +17,7 @@ import datetime
 from django.utils import timezone
 from rest_framework.authtoken.models import Token
 import library.helpers as helpers
+from library.email import send_notification_email, NotificationTypeChoices
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.urls import reverse_lazy
 
@@ -99,6 +100,16 @@ def index(request):
 @permission_required("library.is_staff")
 def administration(request):
     """View function for home page of site."""
+    if request.method == "POST":
+        action = request.POST.get("action")
+
+        if action == "send_test_email":
+            target_email = request.POST.get("test_email_address")
+            email_data = {"target_email": target_email,
+                          "subject": f"Testmail ILMO",
+                          "context": {}
+                          }
+            send_notification_email(NotificationTypeChoices.TEST_MAIL, email_data)
 
     return render(request, 'library/pages/administration.html')
 

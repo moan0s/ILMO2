@@ -2,12 +2,51 @@
 {% load i18n %}
 
 {% block content %}
-    <h1>{% translate "ILMO - Administration" %}</h1>
-    <ul class="action-menu">
-        <a href="{% url 'admin:index' %}"><li><i class="fas fa-hammer"></i> {% translate "Django Admin" %}</li></a>
-        <a href="{% url 'library:book-add-via-template' %}"><li><i class="fas fa-book"></i> {% translate "Add books" %}</li></a>
-        <a href="{% url 'library:item-status-clean' %}"><li><i class="fas fa-tools"></i> {% translate "Maintanance" %}</li></a>
-        <a href="https://ilmo2.readthedocs.io"><li><i class="fas fa-book"></i> {% translate "Documentation" %}</li></a>
+    <div class="block">
+        <h1>{% translate "ILMO - Administration" %}</h1>
+        <ul class="action-menu">
+            <a href="{% url 'admin:index' %}">
+                <li>
+                    <i class="fas fa-hammer"></i> {% translate "Django Admin" %}
+                </li>
+            </a>
+            <a href="{% url 'library:book-add-via-template' %}">
+                <li>
+                    <i class="fas fa-book"></i> {% translate "Add books" %}
+                </li>
+            </a>
+            <a href="{% url 'library:item-status-clean' %}">
+                <li>
+                    <i class="fas fa-tools"></i> {% translate "Maintanance" %}
+                </li>
+            </a>
+            <a href="https://ilmo2.readthedocs.io">
+                <li>
+                    <i class="fas fa-book"></i> {% translate "Documentation" %}
+                </li>
+            </a>
+        </ul>
+    </div>
 
-    </ul>
+
+    <div class="block">
+        <h2 class="title is-2">{% translate 'Testemail versenden' %}</h2>
+        <form method="post">
+            {% csrf_token %}
+            <input type="hidden" name="action" value="send_test_email">
+            <div class="field has-addons">
+                <p class="control">
+                    {% trans 'E-Mail Adresse an die die Test E-Mail gesendet werden soll' as target_email %}
+                    <label hidden="hidden" aria-hidden="false" for="test_email_address">{{ target_email }}</label>
+                    <input class="input" id="test_email_address" name="test_email_address" type="text"
+                           placeholder="me@example.org">
+                </p>
+                <p class="control">
+                    <button type="submit" class="button is-primary">
+                        {% translate 'E-Mail senden testen' %}
+                    </button>
+                </p>
+            </div>
+        </form>
+    </div>
 {% endblock %}

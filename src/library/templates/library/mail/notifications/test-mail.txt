@@ -1,0 +1,7 @@
+{% extends "library/mail/base.txt" %}
+{% load i18n %}
+{% block content %}{% blocktranslate %}Das ist eine Test-E-Mail
+{% endblocktranslate %}
+{% endblock %}
+
+{% url "library:administration" %}

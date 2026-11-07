@@ -1,0 +1,4 @@
+{% block content %}{% endblock %}
+
+---
+{% include "library/mail/footer.txt" %}

@@ -10,6 +10,7 @@ from django.db import models
 from django.dispatch import receiver
 from datetime import datetime, timedelta
 from polymorphic.models import PolymorphicModel
+from simple_history.models import HistoricalRecords
 
 
 class Genre(models.Model):
@@ -69,10 +70,14 @@ class Author(models.Model):
 class Book(models.Model):
     title = models.CharField(max_length=200, verbose_name=_('Titel'))
     author = models.ManyToManyField(Author, help_text=_('Select the autor(s) of this book.'), verbose_name=_('Author'))
-    genre = models.ManyToManyField(Genre, help_text=_('Select a genre for this book.'), blank=True, verbose_name=_('Genre'))
-    summary = models.TextField(max_length=1000, help_text=_('Enter a brief description of the book.'), blank=True, verbose_name=_('Summary'))
-    isbn = models.CharField(max_length=13, null=True, help_text=_('ISBN number (13 Characters)'), blank=True, verbose_name=_('ISBN'))
-    language = models.ForeignKey('Language', on_delete=models.SET_NULL, null=True, blank=True, verbose_name=_('Language'))
+    genre = models.ManyToManyField(Genre, help_text=_('Select a genre for this book.'), blank=True,
+                                   verbose_name=_('Genre'))
+    summary = models.TextField(max_length=1000, help_text=_('Enter a brief description of the book.'), blank=True,
+                               verbose_name=_('Summary'))
+    isbn = models.CharField(max_length=13, null=True, help_text=_('ISBN number (13 Characters)'), blank=True,
+                            verbose_name=_('ISBN'))
+    language = models.ForeignKey('Language', on_delete=models.SET_NULL, null=True, blank=True,
+                                 verbose_name=_('Language'))
 
     def __str__(self):
         return f"{self.title} by {', '.join([str(author) for author in self.author.all()])}"
@@ -445,3 +450,38 @@ class Room(models.Model):
     class Meta:
         verbose_name = _('Room')
         verbose_name_plural = _('Rooms')
+
+
+class SentStatusChoices(models.TextChoices):
+    NOT_YET_SENT = "not_yet_sent", _("Noch nicht gesendet")
+    SENT = "sent", _("Versendet")
+    FAILED = "failed", _("Fehlgeschlagen")
+
+
+class EmailBackendChoices(models.TextChoices):
+    SMTP = "smtp", _("SMTP")
+    CONSOLE = "console", _("Konsole")
+
+
+class TransactionalEmail(models.Model):
+    class Meta:
+        verbose_name = _("Transaktionale E-Mail")
+        verbose_name_plural = _("Transaktionale E-Mails")
+
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name=_("Erstellt am"))
+    updated_at = models.DateTimeField(auto_now=True)
+    history = HistoricalRecords()
+
+    email = models.EmailField(verbose_name=_("E-Mail"))
+    user = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True, related_name="transactional_emails")
+    member = models.ForeignKey(Member, on_delete=models.CASCADE, blank=True, null=True,
+                               related_name="transactional_emails")
+    loan_reminder = models.ForeignKey(LoanReminder, on_delete=models.CASCADE, blank=True, null=True,related_name="transactional_emails")
+    subject = models.CharField(verbose_name=_("E-Mail"), max_length=200)
+    text = models.TextField(verbose_name=_("Text"))
+    html = models.TextField(verbose_name=_("HTML"))
+    backend = models.CharField(max_length=50, choices=EmailBackendChoices.choices)
+    status = models.CharField(max_length=20, choices=SentStatusChoices.choices, default=SentStatusChoices.NOT_YET_SENT)
+
+    def __str__(self):
+        return self.subject

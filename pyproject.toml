@@ -34,7 +34,8 @@ dependencies = [
     "django-registration",
     "django-polymorphic",
     "psycopg2-binary",
-    "whitenoise"
+    "whitenoise",
+    "simple_history"
 ]
 
 dynamic = ["version", "readme"]
