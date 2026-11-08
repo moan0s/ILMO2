@@ -5,10 +5,10 @@
 {% endblock %}
 
 {% block content %}
-  <h1>{% translate "Material" %}: {{ material.name }}</h1>
+  <h1 class="title is-1">{% translate "Material" %}: {{ material.name }}</h1>
 
   <div style="margin-left:20px;margin-top:20px">
-    <h4>{% translate "Items" %}</h4>
+    <h2 class="title is-3">{% translate "Items" %}</h2>
 
     {% for item in material.materialinstance_set.all %}
       <hr><p><strong><a href="{{  item.get_absolute_url }}">{{ item.label }}</a></strong> </p>
