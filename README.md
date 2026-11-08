@@ -17,9 +17,18 @@ The easiest way is to get the source, run `pip install -e .`, `npm install`, `np
 
 More in the [dev documentation](https://ilmo2.readthedocs.io/en/latest/dev).
 
-# Bugs and Security
+
+# Contributing
 
 You found an error in the code, want to suggest an improvement etc…? Just put it on the Issue Tracker, I will read it! For security issues please contact me directly, address see below.
+
+You are also welcome to send in patches yourself.
+
+Please note that any use of genAI/LLMs is not accepted for contributions to this project including but not limited to
+
+* Pull Requests
+* Bug Reports
+* Discussions
 
 # Contact
 
