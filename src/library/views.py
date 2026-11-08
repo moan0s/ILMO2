@@ -158,8 +158,12 @@ def my_profile(request):
     return show_user(request, user, token)
 
 
+class CustomPasswordChangeForm(PasswordChangeForm):
+    template_name = "library/forms/form_snippets.html"
+
+
 class PasswordsChangeView(PasswordChangeView):
-    form_class = PasswordChangeForm
+    form_class = CustomPasswordChangeForm
     template_name = 'library/pages/change_password.html'
     success_url = reverse_lazy("library:index")
 
