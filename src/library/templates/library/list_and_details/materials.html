@@ -1,5 +1,8 @@
 {% extends "library/base_generic.html" %}
 {% load i18n %}
+{% block title %}
+	{% translate 'Materials' %}
+{% endblock %}
 
 {% block content %}
 	{% if material_list %}

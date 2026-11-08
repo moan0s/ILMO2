@@ -1,5 +1,8 @@
 {% extends "library/base_generic.html" %}
 {% load i18n %}
+{% block title %}
+	{% translate 'Opening Hours' %}
+{% endblock %}
 
 {% block content %}
     {% include 'library/partials/table-opening-hours.html' %}

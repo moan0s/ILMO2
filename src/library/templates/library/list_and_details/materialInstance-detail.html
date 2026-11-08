@@ -1,5 +1,8 @@
 {% extends "library/base_generic.html" %}
 {% load i18n %}
+{% block title %}
+	{{ materialinstance }}
+{% endblock %}
 
 {% block content %}
   <h1>{% translate "Material" %}: {{ materialinstance }}</h1>

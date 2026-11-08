@@ -1,8 +1,12 @@
 {% extends "library/base_generic.html" %}
 {% load i18n %}
 
+{% block title %}
+	{% translate "Search for an item" %}
+{% endblock %}
+
 {% block content %}
-    <h1>{% translate "Search for an item by label" %}</h1>
+    <h1 class="title is-1">{% translate "Search for an item by label" %}</h1>
     <form action="" method="post">
         {% csrf_token %}
         <input type="search" name="q">
