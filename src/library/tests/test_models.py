@@ -2,7 +2,8 @@ from django.test import TestCase
 from model_bakery import baker
 
 from library.models import *
-from datetime import timedelta, time
+from datetime import timedelta, time, date, datetime
+from unittest import mock
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 
@@ -305,6 +306,33 @@ class LoanModelTest(TestCase):
         loan.return_loan(timezone.now().date()-timezone.timedelta(days=-30))
         self.assertTrue(loan.returned)
         self.assertEquals(loan.returned_on, timezone.now().date()-timezone.timedelta(days=-30))
+
+
+class ReturnItemDateTest(TestCase):
+
+    def setUp(self):
+        b = Book.objects.create(title="How to Test",
+                                summary="How to write better tests than you do",
+                                isbn="1234567890123")
+        self.item = BookInstance.objects.create(book=b, label="T 2 a", status="a")
+        u = User.objects.create_user('baz', password='qux')
+        self.member = Member.objects.get(user=u)
+        self.item.borrow(self.member)
+
+    def test_return_item_defaults_to_current_date(self):
+        loan = Loan.objects.get(item=self.item, returned_on=None)
+        fixed_now = datetime(2030, 1, 2, 12, 0)
+        with mock.patch('django.utils.timezone.now', return_value=fixed_now):
+            self.item.return_item()
+        loan.refresh_from_db()
+        self.assertEqual(loan.returned_on, date(2030, 1, 2))
+
+    def test_return_loan_defaults_to_current_date(self):
+        loan = Loan.objects.get(item=self.item, returned_on=None)
+        fixed_now = datetime(2030, 1, 2, 12, 0)
+        with mock.patch('django.utils.timezone.now', return_value=fixed_now):
+            loan.return_loan()
+        self.assertEqual(loan.returned_on, fixed_now)
 
 
 class OpeningHourModelTest(TestCase):
