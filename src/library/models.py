@@ -147,6 +147,11 @@ class LoanStatusChoice(models.TextChoices):
     RESERVED = 'r', _('Reserved')
 
 
+# Sentinel for "no return date given": resolved to timezone.now() at call time.
+# Keeps an explicit return_date=None storing NULL, as before.
+_NOW = object()
+
+
 class Item(PolymorphicModel):
     """Represents an item that is physically in the library"""
 
@@ -207,7 +212,7 @@ class Item(PolymorphicModel):
         return loan
 
     def return_item(self,
-                    return_date=timezone.now()) -> bool:
+                    return_date=_NOW) -> bool:
         """
         Sets the item as available and mark the loan as returned
 
@@ -221,6 +226,8 @@ class Item(PolymorphicModel):
         -------
         bool True if successful, else false
         """
+        if return_date is _NOW:
+            return_date = timezone.now()
         try:
             unreturned_loan_of_item = Loan.objects.filter(item=self,
                                                           returned_on=None)[0]
@@ -362,7 +369,9 @@ class Loan(models.Model):
     def remind(self):
         LoanReminder.objects.create(loan=self, sent_on=timezone.now().date())
 
-    def return_loan(self, return_date=timezone.now()):
+    def return_loan(self, return_date=_NOW):
+        if return_date is _NOW:
+            return_date = timezone.now()
         self.item.status = "a"
         self.returned_on = return_date
 
