@@ -1,0 +1,20 @@
+{% load i18n %}
+<div id="message-successful-loan" class="message is-success">
+    <div class="message-header">
+        {% trans 'Successfully borrowed' %}
+    </div>
+    <div class="message-body">
+        <div class="block">
+            {{ item }} {% trans 'is now borrowed to' %} {{ user }}
+        </div>
+        <div class="block">
+            <button class="button is-primary"
+                    hx-get="{% url 'library:htmx-loan-search' %}"
+                    hx-trigger="click"
+                    hx-target="#message-successful-loan"
+                    hx-swap="outerHTML">
+                {% trans 'New loan' %}
+            </button>
+        </div>
+    </div>
+</div>

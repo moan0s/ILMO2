@@ -121,3 +121,12 @@ urlpatterns += [
 urlpatterns += [
     path('maintanance/item_status_clean/', views.clean_item_status, name='item-status-clean'),
 ]
+
+""" HTMX """
+urlpatterns += [
+    path('htmx/borrow/search-item/form', views.htmx_new_loan_form, name='htmx-loan-search'),
+    path('htmx/borrow/search-item/result', views.htmx_loan_result, name='htmx-loan-result'),
+    path('htmx/borrow/search-user/form/', views.htmx_loan_user_search_form, name='htmx-search-user-form'),
+    path('htmx/borrow/search-user/result/', views.htmx_loan_user_search_result, name='htmx-search-user-result'),
+    path('htmx/borrow/', views.htmx_borrow_item, name='htmx-borrow'),
+]

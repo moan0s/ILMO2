@@ -1,5 +1,5 @@
 .django-static/
-static/
+/static
 *django.mo
 ilmo.cfg
 *.json
@@ -158,3 +158,4 @@ dmypy.json
 # Cython debug symbols
 cython_debug/
 
+/src/library/static/library/js/htmx.min.js

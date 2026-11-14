@@ -14,21 +14,14 @@
                 {{ item.get_status_display }}
             </td>
             <td>
-                <ul class="action-menu">
                     {% if item.status == 'a' %}
-                        {% translate "None" %}.
-                        <a href="{% url 'library:item-borrow' item.id %}">
-                            <li>{% translate "Borrow" %}?</li></a>
-                    {% elif item.status == 6'm' %}
-                        <li>{% translate "Not possible - Maintanance" %}</li>
+                            <a class="button is-primary" href="{% url 'library:item-borrow' item.id %}">{% translate "Borrow" %}?</a>
+                    {% elif item.status == 'm' %}
+                        {% translate "Not possible - Maintanance" %}
                     {% else %}
-                        <li>
                             Borrowed by: <a
                                 href="{% url 'library:user-detail' item.borrower.id %}">{{ item.borrower }}</a>
-                        </li>
-                        <li class="action-button">
-                            <a href="{% url 'library:item-return' item.id %}">Return</a>
-                        </li>
+                            <a class="button is-primary" href="{% url 'library:item-return' item.id %}">Return</a>
 
                     {% endif %}
                 </ul>

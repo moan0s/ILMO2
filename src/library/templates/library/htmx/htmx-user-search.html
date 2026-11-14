@@ -1,0 +1,14 @@
+{% load i18n %}
+<div class="message is-info">
+    <form hx-post="{% url 'library:htmx-search-user-result' %}" hx-swap="outerHTML">
+        {% csrf_token %}
+        <div class="message-header">
+            {% trans 'Search user to borrow to' %}
+        </div>
+        <div class="message-body">
+            <input type="hidden" name="item_id" value="{{ item_id }}">
+            {{ borrow_user_search_form }}
+            <input class="button" type="submit" value="{% trans 'Suchen' %}">
+        </div>
+    </form>
+</div>

@@ -1,0 +1,13 @@
+{% load i18n %}
+<div class="message is-info">
+    <form hx-post="{% url 'library:htmx-loan-result' %}" hx-swap="outerHTML">
+        {% csrf_token %}
+        <div class="message-header">
+            {% trans 'Enter a new loan' %}
+        </div>
+        <div class="message-body">
+            {{ borrow_item_search_form }}
+            <input class="button" type="submit" value="Submit">
+        </div>
+    </form>
+</div>

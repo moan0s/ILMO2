@@ -191,7 +191,7 @@ class Item(PolymorphicModel):
         """
 
         # Ensure that the item is available
-        assert self.status != LoanStatusChoice.AVAILABLE
+        assert self.status == LoanStatusChoice.AVAILABLE
         # Ensure no unreturned loan for this item exists
         assert not Loan.objects.filter(item=self, returned_on=None).exists()
         loan = Loan.objects.create(
@@ -295,6 +295,10 @@ class Item(PolymorphicModel):
     @property
     def description(self) -> str:
         raise NotImplementedError
+
+    @property
+    def is_available(self):
+        return self.status == LoanStatusChoice.AVAILABLE
 
 
 class BookInstance(Item):

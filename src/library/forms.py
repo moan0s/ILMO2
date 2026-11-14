@@ -4,6 +4,8 @@ from django import forms
 from django.forms import ModelForm, Form
 from django.core.exceptions import ValidationError
 from django.utils.translation import gettext_lazy as _
+
+from library.helpers import validate_book_prefix
 from library.models import OpeningHours
 from django.urls import reverse
 from django.contrib.auth.models import User
@@ -64,3 +66,26 @@ class BookAddViaTemplateForm(Form):
     author_name = forms.CharField(label='Author name(s)', max_length=100)
     number_of_instances = forms.IntegerField(label="Number of book instances to create",
                                              validators=[])
+
+
+class UserFreeSearchForm(forms.Form):
+    query = forms.CharField(max_length=100)
+
+    def clean_message(self):
+        # Accept any message, unless it contains the word 'chimera'
+        message = self.cleaned_data['message']
+        if 'chimera' in message.lower():
+            raise forms.ValidationError('What did I tell you about chimeras?!')
+        return message
+
+
+class ItemSearchForm(forms.Form):
+    template_name = 'library/forms/form_snippets.html'
+
+    query = forms.CharField(max_length=100, label=_('Item Label'))
+
+
+class UserSearchForm(forms.Form):
+    template_name = 'library/forms/form_snippets.html'
+
+    query = forms.CharField(max_length=100, label=_("User"), help_text=_("Search by name, email or username"))

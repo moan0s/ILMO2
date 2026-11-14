@@ -24,7 +24,7 @@ from django.urls import reverse_lazy
 
 import json
 
-from .forms import RenewItemForm, UserSearchForm, OpeningHoursModelForm, BookAddViaTemplateForm
+from .forms import RenewItemForm, UserSearchForm, OpeningHoursModelForm, BookAddViaTemplateForm, ItemSearchForm
 from .models import Book, Author, BookInstance, Loan, Material, MaterialInstance, OpeningHours, Item, Member, \
     LoanReminder
 from django.contrib.auth.models import User
@@ -92,6 +92,9 @@ def index(request):
 
     openinghours = OpeningHours.objects.all()
     context["openinghours_list"] = openinghours
+
+    if request.user.is_superuser:
+        context["borrow_item_search_form"] = ItemSearchForm()
 
     return render(request, 'library/index.html', context=context)
 
@@ -525,3 +528,71 @@ def export_own_profile(request):
 def clean_item_status(request):
     repaired_items = Item.repair_item_status()
     return render(request, 'library/pages/successful_maintenance.html', context={"item_list": repaired_items})
+
+
+@login_required()
+def htmx_new_loan_form(request):
+    context = {"borrow_item_search_form": ItemSearchForm()}
+    return render(request, 'library/htmx/htmx-item-search.html', context=context)
+
+
+@login_required()
+def htmx_loan_result(request):
+    if request.method == 'POST':
+        form = ItemSearchForm(request.POST)
+        if form.is_valid():
+            query = form.cleaned_data["query"]
+            items = Item.objects.filter(label__icontains=query)
+            context = {"items": items}
+            return render(request, 'library/htmx/htmx-item-result.html', context=context)
+    else:
+        form = ItemSearchForm()
+    return render(request, 'library/htmx/htmx-item-result.html', {
+        'borrow_item_search_form': form,
+    })
+
+
+@login_required()
+def htmx_loan_user_search_form(request):
+    assert request.method == 'POST'
+    item_id = request.POST.get("item")
+
+    form = UserSearchForm()
+    return render(request, 'library/htmx/htmx-user-search.html', {
+        'borrow_user_search_form': form,
+        'item_id': item_id,
+    })
+
+
+@login_required()
+def htmx_loan_user_search_result(request):
+    if request.method == 'POST':
+        form = UserSearchForm(request.POST)
+        item_id = request.POST.get("item_id")
+        item = get_object_or_404(Item, id=item_id)
+        if form.is_valid():
+            query = form.cleaned_data["query"]
+            users = User.objects.filter(
+                Q(username__icontains=query) | Q(email__icontains=query) | Q(first_name__icontains=query) | Q(
+                    last_name__icontains=query))
+            context = {"users": users, "item": item}
+            return render(request, 'library/htmx/htmx-user-result.html', context=context)
+    else:
+        form = UserSearchForm()
+    return render(request, 'library/htmx/htmx-user-result.html', {
+        'borrow_user_search_form': form,
+    })
+
+
+@login_required()
+@permission_required("library.can_add_loan", raise_exception=True)
+def htmx_borrow_item(request):
+    assert request.method == 'POST'
+    item_id = request.POST.get("item_id")
+    user_id = request.POST.get("user_id")
+    item = get_object_or_404(Item, pk=item_id)
+    user = get_object_or_404(User, pk=user_id)
+    loan = item.borrow(borrower=Member.objects.get(user=user))
+
+    context = {"user": user, "item": item}
+    return render(request, 'library/htmx/successful-borrow.html', context=context)

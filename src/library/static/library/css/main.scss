@@ -78,6 +78,14 @@ th {
     display: block;
 }
 
+// Card
+.card.item-available .card-header {
+    background-color: #bdf34f;
+}
+.card.item-unavailable .card-header {
+    background-color: #f3754f;
+}
+
 // Action Menu
 
 .action-menu a {

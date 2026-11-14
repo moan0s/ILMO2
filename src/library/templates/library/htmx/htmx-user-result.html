@@ -1,0 +1,33 @@
+<div id="item-search-result-message" class="message is-info">
+    <div class="message-header">
+        User Search Result
+    </div>
+    <div class="message-body content">
+
+        <div class="fixed-grid has-1-cols-mobile has-2-cols-tablet">
+            <div class="grid">
+                {% for user in users %}
+                    <form hx-post="{% url "library:htmx-borrow" %}"
+                          hx-trigger="click"
+                          hx-target="#item-search-result-message"
+                          hx-swap="outerHTML">
+                        {% csrf_token %}
+                        <input type="hidden" name="item_id" value="{{ item.pk }}">
+                        <input type="hidden" name="user_id" value="{{ user.pk }}">
+                        <div class="card">
+                            <div class="card-header">
+                                <div class="card-header-title">
+                                    {{ user }}
+                                </div>
+                            </div>
+
+                            <div class="card-content">
+                                {{ user.email }}
+                            </div>
+                        </div>
+                    </form>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>

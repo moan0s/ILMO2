@@ -1,0 +1,44 @@
+<div id="item-search-result-message" class="message is-info">
+    <div class="message-header">
+        Search Result
+    </div>
+    <div class="message-body content">
+
+        <div class="fixed-grid has-1-cols-mobile has-2-cols-tablet">
+            <div class="grid">
+                {% for item in items %}
+                    {% if item.is_available %}
+                        <form hx-post="{% url 'library:htmx-search-user-form' %} "
+                              hx-trigger="click"
+                              hx-target="#item-search-result-message"
+                              hx-swap="outerHTML">
+                            {% csrf_token %}
+                            <input type="hidden" name="item" value="{{ item.pk }}">
+                            <div class="card item-available">
+                                <div class="card-header">
+                                    <div class="card-header-title">
+                                        {{ item }}
+                                    </div>
+                                </div>
+                                <div class="card-content">
+                                    {{ item.description }}
+                                </div>
+                            </div>
+                        </form>
+                    {% else %}
+                        <div class="card item-unavailable">
+                            <div class="card-header">
+                                <div class="card-header-title">
+                                    {{ item }}
+                                </div>
+                            </div>
+                            <div class="card-content">
+                                {{ item.description }}
+                            </div>
+                        </div>
+                    {% endif %}
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
